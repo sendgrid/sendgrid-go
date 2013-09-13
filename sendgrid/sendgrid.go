@@ -1,9 +1,10 @@
-package sendgridgo
+package sendgrid
 
 import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 )
@@ -40,12 +41,16 @@ func (sg *SGClient) Send(m Mail) error {
 				values.Set("toname[]", m.toname[i])
 			}
 		}
-		fmt.Println(reqUrl.String(), values)
 		reqUrl.WriteString(values.Encode())
-		fmt.Println(reqUrl)
 		r, e := http.Get(reqUrl.String())
-		fmt.Println(r, e)
-		return nil
+		defer r.Body.Close()
+		if r.StatusCode == 200 {
+			return nil
+		} else {
+			body, e := ioutil.ReadAll(r.Body)
+			return errors.New(string(body))
+		}
+
 	}
 	return errors.New(`The total names of receipients must be equal
 	to the email addresses. Unless there is only one receipient.`)
