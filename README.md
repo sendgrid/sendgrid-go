@@ -1,5 +1,4 @@
 #SendGrid-Go
-==========
 
 SendGrid Helper Library to send emails very easily, brah. **Still ALPHA.**
 
@@ -36,3 +35,11 @@ func main() {
 
 ```
 
+###TODO
+
+* Add support for SMTP
+* Write Tests
+
+##MIT License
+===
+Enjoy. Feel free to make pull requests and stuff since I'm learning Go while I write this.
