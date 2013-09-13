@@ -3,7 +3,6 @@ package sendgrid
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -44,10 +43,10 @@ func (sg *SGClient) Send(m Mail) error {
 		reqUrl.WriteString(values.Encode())
 		r, e := http.Get(reqUrl.String())
 		defer r.Body.Close()
-		if r.StatusCode == 200 {
+		if r.StatusCode == 200 && e == nil {
 			return nil
 		} else {
-			body, e := ioutil.ReadAll(r.Body)
+			body, _ := ioutil.ReadAll(r.Body)
 			return errors.New(string(body))
 		}
 
