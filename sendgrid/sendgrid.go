@@ -5,20 +5,40 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"net/smtp"
 	"net/url"
 )
 
 type SGClient struct {
-	apiUser string
-	apiPwd  string
-	apiUrl  string
+	apiUser  string
+	apiPwd   string
+	apiUrl   string
+	smptUrl  string
+	smtpPort int
+	smtpAuth smtp.Auth
 }
 
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
-	return SGClient{apiUser, apiPwd, "https://sendgrid.com/api/mail.send.json?"}
+	smptUrl := "smtp.sendgrid.net"
+	smtpPort := 587
+	apiUrl := "https://sendgrid.com/api/mail.send.json?"
+	auth := smtp.PlainAuth("", apiUser, apiPwd, smptUrl)
+	return SGClient{apiUser, apiPwd, apiUrl, smptUrl, smtpPort, auth}
 }
 
 func (sg *SGClient) Send(m Mail) error {
+	if sg.SendAPI(m) != nil {
+		return sg.SendSMTP(m)
+	} else {
+		return nil //sucess
+	}
+}
+
+func (sg *SGClient) SendSMTP(m Mail) error {
+	return smtp.SendMail(sg.smptUrl+string(sg.smtpPort), sg.smtpAuth, m.from, m.to, []byte(m.html))
+}
+
+func (sg *SGClient) SendAPI(m Mail) error {
 	if total := len(m.to); total == len(m.toname) || total == 1 {
 		var reqUrl bytes.Buffer
 		reqUrl.WriteString(sg.apiUrl)
