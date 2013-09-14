@@ -14,13 +14,17 @@ type SGClient struct {
 	apiPwd   string
 	apiUrl   string
 	smptUrl  string
-	smtpPort int
+	smtpPort string
 	smtpAuth smtp.Auth
 }
 
+/*
+apiUser - SG username
+apiPwd - SG password
+*/
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	smptUrl := "smtp.sendgrid.net"
-	smtpPort := 587
+	smtpPort := "587"
 	apiUrl := "https://sendgrid.com/api/mail.send.json?"
 	auth := smtp.PlainAuth("", apiUser, apiPwd, smptUrl)
 	return SGClient{apiUser, apiPwd, apiUrl, smptUrl, smtpPort, auth}
@@ -35,7 +39,7 @@ func (sg *SGClient) Send(m Mail) error {
 }
 
 func (sg *SGClient) SendSMTP(m Mail) error {
-	return smtp.SendMail(sg.smptUrl+string(sg.smtpPort), sg.smtpAuth, m.from, m.to, []byte(m.html))
+	return smtp.SendMail(sg.smptUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, []byte(m.html))
 }
 
 func (sg *SGClient) SendAPI(m Mail) error {
