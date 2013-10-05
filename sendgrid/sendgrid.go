@@ -43,40 +43,32 @@ func (sg *SGClient) SendSMTP(m Mail) error {
 }
 
 func (sg *SGClient) SendAPI(m Mail) error {
-	if total := len(m.to); total == len(m.toname) || total == 1 {
-		var reqUrl bytes.Buffer
-		reqUrl.WriteString(sg.apiUrl)
-		values := url.Values{}
-		values.Set("api_user", sg.apiUser)
-		values.Set("api_key", sg.apiPwd)
-		values.Set("subject", m.subject)
-		values.Set("html", m.html)
-		values.Set("from", m.from)
-		switch {
-		case total == 1:
-			values.Set("to", m.to[0])
-			if len(m.toname) == 1 {
-				values.Set("toname", m.toname[0])
-			}
-		case total > 1:
-			for i := 0; i < total; i++ {
-				values.Set("to[]", m.to[i])
-				values.Set("toname[]", m.toname[i])
-			}
-		}
-		reqUrl.WriteString(values.Encode())
-		r, e := http.Get(reqUrl.String())
-		defer r.Body.Close()
-		if r.StatusCode == 200 && e == nil {
-			return nil
-		} else {
-			body, _ := ioutil.ReadAll(r.Body)
-			return errors.New(string(body))
-		}
-
+	var reqUrl bytes.Buffer
+	reqUrl.WriteString(sg.apiUrl)
+	values := url.Values{}
+	values.Set("api_user", sg.apiUser)
+	values.Set("api_key", sg.apiPwd)
+	values.Set("subject", m.subject)
+	values.Set("html", m.html)
+	values.Set("from", m.from)
+	for i := 0; i < len(m.to); i++ {
+		values.Set("to[]", m.to[i])
 	}
-	return errors.New(`The total names of receipients must be equal
-	to the email addresses. Unless there is only one receipient.`)
+	for i := 0; i < len(m.bcc); i++ {
+		values.Set("bcc[]", m.bcc[i])
+	}
+	for i := 0; i < len(m.toname); i++ {
+		values.Set("toname[]", m.toname[i])
+	}
+	reqUrl.WriteString(values.Encode())
+	r, e := http.Get(reqUrl.String())
+	defer r.Body.Close()
+	if r.StatusCode == 200 && e == nil {
+		return nil
+	} else {
+		body, _ := ioutil.ReadAll(r.Body)
+		return errors.New(string(body))
+	}
 }
 
 type Mail struct {
