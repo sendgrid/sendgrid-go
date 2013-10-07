@@ -43,6 +43,38 @@ func main() {
 
 ```
 
+##AppEngine Example
+
+```Go
+package main
+
+import (
+	"fmt"
+	"appengine/urlfetch"
+	"github.com/elbuo8/sendgrid-go/sendgrid"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
+	c := appengine.NewContext(r)
+	// set http.Client to use the appengine client
+	sg.Client = urlfetch.Client(c)
+	message := sendgrid.NewMail()
+	message.AddTo("ya@adcade.com")
+	message.AddToName("Yamil Asusta")
+	message.AddSubject("Go Lib is alive")
+	message.AddHTML("Still needs work and SMTP")
+	message.AddFrom("ya@adcade.com")
+	// use sendAPI instead of SMTP
+	if r := sg.SendAPI(message); r == nil {
+		fmt.Println("Email sent!")
+	} else {
+		c.Errorf("Unable to send mail %v",r)
+	}
+}
+
+```
+
 ###TODO
 
 * Write Tests
