@@ -2,7 +2,7 @@ package sendgrid
 
 import (
 	"bytes"
-	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/smtp"
@@ -13,9 +13,12 @@ type SGClient struct {
 	apiUser  string
 	apiPwd   string
 	apiUrl   string
-	smptUrl  string
+	smtpUrl  string
 	smtpPort string
 	smtpAuth smtp.Auth
+	// Client is the HTTP transport to use when making requests.
+	// It will default to http.DefaultClient if nil.
+	Client *http.Client
 }
 
 /*
@@ -23,11 +26,18 @@ apiUser - SG username
 apiPwd - SG password
 */
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
-	smptUrl := "smtp.sendgrid.net"
+	smtpUrl := "smtp.sendgrid.net"
 	smtpPort := "587"
 	apiUrl := "https://sendgrid.com/api/mail.send.json?"
-	auth := smtp.PlainAuth("", apiUser, apiPwd, smptUrl)
-	return SGClient{apiUser, apiPwd, apiUrl, smptUrl, smtpPort, auth}
+	smtpAuth := smtp.PlainAuth("", apiUser, apiPwd, smtpUrl)
+	return SGClient{
+		apiUser:  apiUser,
+		apiPwd:   apiPwd,
+		apiUrl:   apiUrl,
+		smtpUrl:  smtpUrl,
+		smtpPort: smtpPort,
+		smtpAuth: smtpAuth,
+	}
 }
 
 /*
@@ -51,7 +61,7 @@ func (sg *SGClient) Send(m Mail) []error {
 }
 
 func (sg *SGClient) SendSMTP(m Mail) error {
-	return smtp.SendMail(sg.smptUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, []byte(m.html))
+	return smtp.SendMail(sg.smtpUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, []byte(m.html))
 }
 
 func (sg *SGClient) SendAPI(m Mail) error {
@@ -62,6 +72,7 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	values.Set("api_key", sg.apiPwd)
 	values.Set("subject", m.subject)
 	values.Set("html", m.html)
+	values.Set("text", m.text)
 	values.Set("from", m.from)
 	for i := 0; i < len(m.to); i++ {
 		values.Set("to[]", m.to[i])
@@ -73,13 +84,16 @@ func (sg *SGClient) SendAPI(m Mail) error {
 		values.Set("toname[]", m.toname[i])
 	}
 	reqUrl.WriteString(values.Encode())
-	r, e := http.Get(reqUrl.String())
+	if sg.Client == nil {
+		sg.Client = http.DefaultClient
+	}
+	r, e := sg.Client.Get(reqUrl.String())
 	defer r.Body.Close()
 	if r.StatusCode == 200 && e == nil {
 		return nil
 	} else {
 		body, _ := ioutil.ReadAll(r.Body)
-		return errors.New(string(body))
+		return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", r.StatusCode, e, body)
 	}
 }
 
@@ -88,6 +102,7 @@ type Mail struct {
 	toname   []string
 	subject  string
 	html     string
+	text     string
 	from     string
 	bcc      []string
 	fromname string
@@ -117,6 +132,10 @@ func (m *Mail) AddSubject(s string) {
 
 func (m *Mail) AddHTML(html string) {
 	m.html = html
+}
+
+func (m *Mail) AddText(text string) {
+	m.text = text
 }
 
 func (m *Mail) AddFrom(from string) {
