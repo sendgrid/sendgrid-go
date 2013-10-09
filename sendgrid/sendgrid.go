@@ -30,9 +30,21 @@ func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	return SGClient{apiUser, apiPwd, apiUrl, smptUrl, smtpPort, auth}
 }
 
-func (sg *SGClient) Send(m Mail) error {
-	if sg.SendAPI(m) != nil {
-		return sg.SendSMTP(m)
+/*
+Send will try to use the WebAPI first. If it's a success then a nill will be returned.
+Else, the SMTP API will be used as a fail over. If this happens regardless of what is the result
+of the SMTP attempt, you will receive an array of errors.
+If the length of the array is 1, then SMTP succeeded, else it also failed.
+*/
+func (sg *SGClient) Send(m Mail) []error {
+	if apiError := sg.SendAPI(m); apiError != nil {
+		var errors []error
+		errors = append(errors, apiError)
+		if smtpError := sg.SendSMTP(m); smtpError != nil {
+			return append(errors, smtpError)
+		} else {
+			return errors
+		}
 	} else {
 		return nil //sucess
 	}
