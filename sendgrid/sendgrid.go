@@ -1,12 +1,14 @@
 package sendgrid
 
 import (
-	"bytes"
+	//"bytes"
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/smtp"
 	"net/url"
+	"path/filepath"
 )
 
 type SGClient struct {
@@ -65,8 +67,6 @@ func (sg *SGClient) SendSMTP(m Mail) error {
 }
 
 func (sg *SGClient) SendAPI(m Mail) error {
-	var reqUrl bytes.Buffer
-	reqUrl.WriteString(sg.apiUrl)
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
 	values.Set("api_key", sg.apiPwd)
@@ -83,11 +83,13 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	for i := 0; i < len(m.toname); i++ {
 		values.Set("toname[]", m.toname[i])
 	}
-	reqUrl.WriteString(values.Encode())
+	for k, v := range m.files {
+		values.Set("files["+k+"]", v)
+	}
 	if sg.Client == nil {
 		sg.Client = http.DefaultClient
 	}
-	r, e := sg.Client.Get(reqUrl.String())
+	r, e := sg.Client.PostForm(sg.apiUrl, values)
 	defer r.Body.Close()
 	if r.StatusCode == 200 && e == nil {
 		return nil
@@ -108,6 +110,7 @@ type Mail struct {
 	fromname string
 	replyto  string
 	date     string
+	files    map[string]string
 	//still missing some stuff
 }
 
@@ -156,4 +159,17 @@ func (m *Mail) AddReplyTo(reply string) {
 
 func (m *Mail) AddDate(date string) {
 	m.date = date
+}
+
+func (m *Mail) AddAttachment(filePath string) error {
+	if m.files == nil {
+		m.files = make(map[string]string)
+	}
+	buf, e := ioutil.ReadFile(filePath)
+	if e != nil {
+		return e
+	}
+	_, filename := filepath.Split(filePath)
+	m.files[filename] = base64.StdEncoding.EncodeToString(buf)
+	return nil
 }
