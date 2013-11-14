@@ -62,10 +62,16 @@ func (sg *SGClient) Send(m Mail) []error {
 	}
 }
 
+/*
+SMTP interface. Still being developed. Use API instead.
+*/
 func (sg *SGClient) SendSMTP(m Mail) error {
 	return smtp.SendMail(sg.smtpUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, []byte(m.html))
 }
 
+/*
+Sends email using SG web API
+*/
 func (sg *SGClient) SendAPI(m Mail) error {
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
@@ -118,16 +124,12 @@ type Mail struct {
 	date     string
 	files    map[string]string
 	headers  map[string]string
-	//still missing some stuff
 }
 
 func NewMail() Mail {
 	return Mail{}
 }
 
-/*
-TODO: Validate email addressed with RegExp.
-*/
 func (m *Mail) AddTo(email string) {
 	m.to = append(m.to, email)
 }
