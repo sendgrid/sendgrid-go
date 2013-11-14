@@ -1,8 +1,8 @@
 package sendgrid
 
 import (
-	//"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -74,6 +74,11 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	values.Set("html", m.html)
 	values.Set("text", m.text)
 	values.Set("from", m.from)
+	headers, e := json.Marshal(m.headers)
+	if e != nil {
+		return fmt.Errorf("sendgrid.go: Error parsing JSON headers")
+	}
+	values.Set("headers", string(headers[:]))
 	for i := 0; i < len(m.to); i++ {
 		values.Set("to[]", m.to[i])
 	}
@@ -89,6 +94,7 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	if sg.Client == nil {
 		sg.Client = http.DefaultClient
 	}
+	fmt.Print(values)
 	r, e := sg.Client.PostForm(sg.apiUrl, values)
 	defer r.Body.Close()
 	if r.StatusCode == 200 && e == nil {
@@ -111,6 +117,7 @@ type Mail struct {
 	replyto  string
 	date     string
 	files    map[string]string
+	headers  map[string]string
 	//still missing some stuff
 }
 
@@ -159,6 +166,13 @@ func (m *Mail) AddReplyTo(reply string) {
 
 func (m *Mail) AddDate(date string) {
 	m.date = date
+}
+
+func (m *Mail) AddHeader(header, value string) {
+	if m.headers == nil {
+		m.headers = make(map[string]string)
+	}
+	m.headers[header] = value
 }
 
 func (m *Mail) AddAttachment(filePath string) error {
