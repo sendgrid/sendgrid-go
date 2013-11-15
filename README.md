@@ -1,9 +1,6 @@
 #SendGrid-Go
 
-SendGrid Helper Library to send emails very easily, brah. 
-SMTP has been added has a fallback. Basically invoking **Send** will call **SendAPI**. If that fails, **SendSMTP** will be invoked as a fallback.
- 
-**Still ALPHA.**
+SendGrid Helper Library to send emails very easily using Go.
 
 ##Installation
 
@@ -24,11 +21,11 @@ import (
 func main() {
 	sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
 	message := sendgrid.NewMail()
-	message.AddTo("ya@adcade.com")
+	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
-	message.AddSubject("Go Lib is alive")
-	message.AddHTML("Still needs work and SMTP")
-	message.AddFrom("ya@adcade.com")
+	message.AddSubject("SendGrid is Baller")
+	message.AddHTML("Simple Text")
+	message.AddFrom("kunal@sendgrid.com")
 	if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
@@ -60,11 +57,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// set http.Client to use the appengine client
 	sg.Client = urlfetch.Client(c)
 	message := sendgrid.NewMail()
-	message.AddTo("ya@adcade.com")
+	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
-	message.AddSubject("Go Lib is alive")
-	message.AddHTML("Still needs work and SMTP")
-	message.AddFrom("ya@adcade.com")
+	message.AddSubject("SendGrid is Baller")
+	message.AddHTML("Simple Text")
+	message.AddFrom("kunal@sendgrid.com")
 	// use sendAPI instead of SMTP
 	if r := sg.SendAPI(message); r == nil {
 		fmt.Println("Email sent!")
@@ -75,13 +72,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 ```
 
+
+###Notes
+
+SMTP has been added has a fallback. Basically invoking **Send** will call **SendAPI**. If that fails, **SendSMTP** will be invoked as a fallback. SMTP is still missing a few features; therefore it is recommended that **SendAPI** & **Send** are the primary methods.
+
+
 ###TODO
 
 * Write Tests
-* More robust documentation
-* Implement missing Mail API parameters
+* Finish implementing SMTP
 * Implement additional API endpoints
 
 ##MIT License
 
-Enjoy. Feel free to make pull requests and stuff since I'm learning Go while I write this.
+Enjoy. Feel free to make pull requests :)
