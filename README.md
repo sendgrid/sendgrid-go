@@ -27,6 +27,8 @@ func main() {
 	message.AddTo("Yamil Asusta <yamil.asusta@sendgrid.com>")
 	address, _ := mail.ParseAddress("Yamil Asusta <yamil.asusta@upr.edu>")
 	message.AddReceipient(address)
+	message.AddReceipientBCC(address)
+	message.AddBCC("yamil@sendgrid.com")
 	message.AddSubject("SendGrid Testing")
 	message.AddHTML("WIN")
 	message.AddFrom("yamil@sendgrid.com")
@@ -77,6 +79,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+```
+
+###Tests
+
+Please run it before sending pull requests
+
+```bash
+go test
 ```
 
 
