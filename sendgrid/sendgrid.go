@@ -100,7 +100,6 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	if sg.Client == nil {
 		sg.Client = http.DefaultClient
 	}
-	fmt.Print(values)
 	r, e := sg.Client.PostForm(sg.apiUrl, values)
 	defer r.Body.Close()
 	if r.StatusCode == 200 && e == nil {
