@@ -15,6 +15,7 @@ package main
 
 import (
 	"fmt"
+	"net/mail"
 	"github.com/elbuo8/sendgrid-go/sendgrid"
 )
 
@@ -23,11 +24,16 @@ func main() {
 	message := sendgrid.NewMail()
 	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
-	message.AddSubject("SendGrid is Baller")
-	message.AddHTML("Simple Text")
-	message.AddFrom("yamill@sendgrid.com")
-        message.AddHeader("X-Mailer", "Test")
-        if r := sg.Send(message); r == nil {
+	message.AddTo("Yamil Asusta <yamil.asusta@sendgrid.com>")
+	address, _ := mail.ParseAddress("Yamil Asusta <yamil.asusta@upr.edu>")
+	message.AddReceipient(address)
+	message.AddSubject("SendGrid Testing")
+	message.AddHTML("WIN")
+	message.AddFrom("yamil@sendgrid.com")
+	message.AddHeader("X-Mailer", "Test")
+	message.AddAttachment("filepath]")
+    message.AddHeader("X-Mailer", "Test")
+    if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
 		fmt.Println(r)
