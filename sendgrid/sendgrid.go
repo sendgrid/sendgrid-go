@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/mail"
 	"net/smtp"
 	"net/url"
 	"path/filepath"
@@ -129,12 +130,27 @@ func NewMail() Mail {
 	return Mail{}
 }
 
-func (m *Mail) AddTo(email string) {
-	m.to = append(m.to, email)
+func (m *Mail) AddTo(email string) error {
+	if parsedAddess, e := mail.ParseAddress(email); e != nil {
+		return e
+	} else {
+		m.to = append(m.to, parsedAddess.Address)
+		if parsedAddess.Name != "" {
+			m.toname = append(m.toname, parsedAddess.Name)
+		}
+		return nil
+	}
 }
 
 func (m *Mail) AddToName(name string) {
 	m.toname = append(m.toname, name)
+}
+
+func (m *Mail) AddReceipient(receipient *mail.Address) {
+	m.to = append(m.to, receipient.Address)
+	if receipient.Name != "" {
+		m.toname = append(m.toname, receipient.Name)
+	}
 }
 
 func (m *Mail) AddSubject(s string) {
