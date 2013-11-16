@@ -25,8 +25,9 @@ func main() {
 	message.AddToName("Yamil Asusta")
 	message.AddSubject("SendGrid is Baller")
 	message.AddHTML("Simple Text")
-	message.AddFrom("kunal@sendgrid.com")
-	if r := sg.Send(message); r == nil {
+	message.AddFrom("yamill@sendgrid.com")
+        message.AddHeader("X-Mailer", "Test")
+        if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
 		fmt.Println(r)
@@ -80,7 +81,6 @@ SMTP has been added has a fallback. Basically invoking **Send** will call **Send
 
 ###TODO
 
-* Write Tests
 * Finish implementing SMTP
 * Implement additional API endpoints
 
