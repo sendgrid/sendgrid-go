@@ -1,3 +1,4 @@
+// Package sendgrid provides a simple interface to interact with the SendGrid API
 package sendgrid
 
 import (
@@ -12,6 +13,7 @@ import (
 	"path/filepath"
 )
 
+// SGClient will contain the credentials and default values
 type SGClient struct {
 	apiUser  string
 	apiPwd   string
@@ -19,15 +21,10 @@ type SGClient struct {
 	smtpUrl  string
 	smtpPort string
 	smtpAuth smtp.Auth
-	// Client is the HTTP transport to use when making requests.
-	// It will default to http.DefaultClient if nil.
-	Client *http.Client
+	Client   *http.Client
 }
 
-/*
-apiUser - SG username
-apiPwd - SG password
-*/
+// NewSendGridClient will return a new SGClient.
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	smtpUrl := "smtp.sendgrid.net"
 	smtpPort := "587"
@@ -43,12 +40,10 @@ func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	}
 }
 
-/*
-Send will try to use the WebAPI first. If it's a success then a nill will be returned.
-Else, the SMTP API will be used as a fail over. If this happens regardless of what is the result
-of the SMTP attempt, you will receive an array of errors.
-If the length of the array is 1, then SMTP succeeded, else it also failed.
-*/
+// Send will try to use the WebAPI first. If it's a success then a nill will be returned.
+// Else, the SMTP API will be used as a fail over. If this happens regardless of what is the result
+// of the SMTP attempt, you will receive an array of errors.
+// If the length of the array is 1, then SMTP succeeded, else it also failed.
 func (sg *SGClient) Send(m Mail) []error {
 	if apiError := sg.SendAPI(m); apiError != nil {
 		var errors []error
@@ -59,20 +54,16 @@ func (sg *SGClient) Send(m Mail) []error {
 			return errors
 		}
 	} else {
-		return nil //sucess
+		return nil
 	}
 }
 
-/*
-SMTP interface. Still being developed. Use API instead.
-*/
+// SendSMTP - SMTP interface. Still being developed. Use API instead.
 func (sg *SGClient) SendSMTP(m Mail) error {
 	return smtp.SendMail(sg.smtpUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, []byte(m.html))
 }
 
-/*
-Sends email using SG web API
-*/
+// SendAPI will send mail using SG web API
 func (sg *SGClient) SendAPI(m Mail) error {
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
@@ -111,6 +102,7 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	}
 }
 
+// Mail will represent a formatted email
 type Mail struct {
 	to       []string
 	toname   []string
@@ -126,10 +118,13 @@ type Mail struct {
 	headers  map[string]string
 }
 
+// NewMail returns a new Mail
 func NewMail() Mail {
 	return Mail{}
 }
 
+// AddTo will take a valid email address and store it in the mail.
+// It will return an error if the email is invalid.
 func (m *Mail) AddTo(email string) error {
 	if parsedAddess, e := mail.ParseAddress(email); e != nil {
 		return e
@@ -142,10 +137,12 @@ func (m *Mail) AddTo(email string) error {
 	}
 }
 
+// AddToName will add a new receipient name to mail
 func (m *Mail) AddToName(name string) {
 	m.toname = append(m.toname, name)
 }
 
+// AddReceipient will take an already parsed mail.Address
 func (m *Mail) AddReceipient(receipient *mail.Address) {
 	m.to = append(m.to, receipient.Address)
 	if receipient.Name != "" {
@@ -153,38 +150,57 @@ func (m *Mail) AddReceipient(receipient *mail.Address) {
 	}
 }
 
+// AddSubject will set the subject of the mail
 func (m *Mail) AddSubject(s string) {
 	m.subject = s
 }
 
+// AddHTML will set the body of the mail
 func (m *Mail) AddHTML(html string) {
 	m.html = html
 }
 
+// AddText will set the body of the email
 func (m *Mail) AddText(text string) {
 	m.text = text
 }
 
+// AddFrom will set the senders email
 func (m *Mail) AddFrom(from string) {
 	m.from = from
 }
 
-func (m *Mail) AddBCC(email string) {
-	m.bcc = append(m.bcc, email)
+// AddBCC works like AddTo but for BCC
+func (m *Mail) AddBCC(email string) error {
+	if parsedAddess, e := mail.ParseAddress(email); e != nil {
+		return e
+	} else {
+		m.bcc = append(m.bcc, parsedAddess.Address)
+		return nil
+	}
 }
 
+// AddReceipientBCC works like AddReceipient but for BCC
+func (m *Mail) AddReceipientBCC(email mail.Address) {
+	m.bcc = append(m.bcc, email.Address)
+}
+
+// AddFromName will set the senders name
 func (m *Mail) AddFromName(name string) {
 	m.fromname = name
 }
 
+// AddReplyTo will set the return address
 func (m *Mail) AddReplyTo(reply string) {
 	m.replyto = reply
 }
 
+// AddDate specifies the date
 func (m *Mail) AddDate(date string) {
 	m.date = date
 }
 
+// AddHeader allows custom headers to be added to mail
 func (m *Mail) AddHeader(header, value string) {
 	if m.headers == nil {
 		m.headers = make(map[string]string)
@@ -192,6 +208,7 @@ func (m *Mail) AddHeader(header, value string) {
 	m.headers[header] = value
 }
 
+// AddAttachment will include file/s in mail
 func (m *Mail) AddAttachment(filePath string) error {
 	if m.files == nil {
 		m.files = make(map[string]string)

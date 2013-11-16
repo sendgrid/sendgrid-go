@@ -12,6 +12,7 @@ func Test_Send(t *testing.T) {
 	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
 	message.AddTo("Yamil Asusta <yamil.asusta@sendgrid.com>")
+	message.AddBCC("yamil.asusta@sendgrid.com")
 	address, _ := mail.ParseAddress("Yamil Asusta <yamil.asusta@upr.edu>")
 	message.AddReceipient(address)
 	message.AddSubject("SendGrid Testing")
