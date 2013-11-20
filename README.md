@@ -16,7 +16,7 @@ package main
 import (
 	"fmt"
 	"net/mail"
-	"github.com/elbuo8/sendgrid-go/sendgrid"
+	"github.com/sendgrid/sendgrid-go"
 )
 
 func main() {
