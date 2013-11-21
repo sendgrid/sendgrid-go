@@ -5,7 +5,7 @@ SendGrid Helper Library to send emails very easily using Go.
 ##Installation
 
 ```bash
-go get github.com/elbuo8/sendgrid-go/sendgrid
+go get github.com/sendgrid/sendgrid-go
 ```
 
 ##Example
@@ -24,30 +24,80 @@ func main() {
 	message := sendgrid.NewMail()
 	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
-	message.AddTo("Yamil Asusta <yamil.asusta@sendgrid.com>")
-	address, _ := mail.ParseAddress("Yamil Asusta <yamil.asusta@upr.edu>")
-	message.AddReceipient(address)
-	message.AddReceipientBCC(address)
-	message.AddBCC("yamil@sendgrid.com")
 	message.AddSubject("SendGrid Testing")
-	message.AddHTML("WIN")
+	message.AddText("WIN")
 	message.AddFrom("yamil@sendgrid.com")
-	message.AddHeader("X-Mailer", "Test")
-	message.AddAttachment("filepath]")
-    message.AddHeader("X-Mailer", "Test")
     if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
 		fmt.Println(r)
 	}
-	/*
-	Additional ways to interface with the client
-	sg.SendAPI(message)
-	sg.SendSMTP(message)
-	*/
 }
 
 ```
+
+### Adding Receipients
+
+```Go
+message := sendgrid.NewMail()
+message.AddTo("example@sendgrid.com") // Returns error if email string is not valid RFC 5322
+ 
+// or
+
+address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
+message.AddReceipient(address) // Receives a vaild mail.Address
+```
+
+### Adding BCC Receipients
+
+Same concept as regular receipients excepts the methods are:
+
+*	AddBCC
+* 	AddReceipientBCC
+
+### Setting the Subject
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddSubject("New email")
+```
+
+### Set Text or HTML
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddText("Body")
+```
+### Set From
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddHTML("<html><body>Stuff, you know?</body></html>")
+```
+### Set Custom Headers
+
+```Go
+message := sendgrid.NewMail()
+message.AddHeader("X-Mailer", "Header")
+```
+### Set File Attachments
+
+```Go
+message := sendgrid.NewMail()
+message.AddAttachment("./stuff.txt")
+```
+### Sending Methods
+
+There are 3 ways to send emails using the library. 
+
+* 	SendAPI
+* 	SendSMTP
+* 	Send 
+
+Send will try to use **SendAPI** first. If this method fails, it will fail silently and will invoke **SendSMTP** has a fallback. If this also fails, an []error will be returned with the feedback.
 
 ##AppEngine Example
 
@@ -88,12 +138,6 @@ Please run it before sending pull requests
 ```bash
 go test
 ```
-
-
-###Notes
-
-SMTP has been added has a fallback. Basically invoking **Send** will call **SendAPI**. If that fails, **SendSMTP** will be invoked as a fallback. SMTP is still missing a few features; therefore it is recommended that **SendAPI** & **Send** are the primary methods.
-
 
 ###TODO
 
