@@ -1,7 +1,9 @@
 // Package sendgrid provides a simple interface to interact with the SendGrid API
+// Special thanks to this gist -> https://gist.github.com/rmulley/6603544
 package sendgrid
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -60,7 +62,36 @@ func (sg *SGClient) Send(m Mail) []error {
 
 // SendSMTP - SMTP interface. Still being developed. Use API instead.
 func (sg *SGClient) SendSMTP(m Mail) error {
-	return smtp.SendMail(sg.smtpUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, []byte(m.html))
+	boundary := "SENDGRIDGOLIB"
+	var message bytes.Buffer
+	message.WriteString(fmt.Sprintf("From: %s <%s>\r\n", m.fromname, m.from))
+	message.WriteString(fmt.Sprintf("To: <%s>", m.to[0]))
+	for i := 1; i < len(m.to); i++ {
+		message.WriteString(fmt.Sprintf(", <%s>", m.to[i]))
+	}
+	//Add BCC
+	message.WriteString("\r\n")
+	message.WriteString(fmt.Sprintf("Subject: %s\r\n", m.subject))
+	message.WriteString("MIME-Version: 1.0\r\n")
+	message.WriteString(fmt.Sprintf("Content-Type: multipart/mixed; boundary=%s\r\n--%s\r\n", boundary, boundary))
+	if len(m.html) > 0 {
+		part := fmt.Sprintf("Content-Type: text/html\r\nContent-Transfer-Encoding:8bit\r\n\r\n%s\r\n\n--%s\r\n", m.html, boundary)
+		message.WriteString(part)
+	}
+	if len(m.text) > 0 {
+		part := fmt.Sprintf("Content-Type: text/plain\r\n\r\n%s\r\n\n--%s\r\n", m.text, boundary)
+		message.WriteString(part)
+	}
+	if m.files != nil {
+		for key, value := range m.files {
+			message.WriteString("Content-Type: application/octect-stream\r\n")
+			message.WriteString("Content-Transfer-Encoding:base64\r\n")
+			message.WriteString(fmt.Sprintf("Content-Disposition: attachment; filename=%s\r\n\r\n%s\r\n--%s\r\n", key, value, boundary))
+		}
+	}
+	message.WriteString(fmt.Sprintf("--%s--", boundary))
+	fmt.Println(message.String())
+	return smtp.SendMail(sg.smtpUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, message.Bytes())
 }
 
 // SendAPI will send mail using SG web API
@@ -213,11 +244,20 @@ func (m *Mail) AddAttachment(filePath string) error {
 	if m.files == nil {
 		m.files = make(map[string]string)
 	}
-	buf, e := ioutil.ReadFile(filePath)
+	file, e := ioutil.ReadFile(filePath)
 	if e != nil {
 		return e
 	}
 	_, filename := filepath.Split(filePath)
-	m.files[filename] = base64.StdEncoding.EncodeToString(buf)
+	encoded := base64.StdEncoding.EncodeToString(file)
+	totalChars := len(encoded)
+	maxLength := 500
+	totalLines := totalChars / maxLength
+	var buf bytes.Buffer
+	for i := 0; i < totalLines; i++ {
+		buf.WriteString(encoded[i*maxLength:(i+1)*maxLength] + "\n")
+	}
+	buf.WriteString(encoded[totalLines*maxLength:])
+	m.files[filename] = buf.String()
 	return nil
 }
