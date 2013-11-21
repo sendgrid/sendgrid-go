@@ -28,7 +28,7 @@ type SGClient struct {
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	smtpUrl := "smtp.sendgrid.net"
 	smtpPort := "587"
-	apiUrl := "https://sendgrid.com/api/mail.send.json?"
+	apiUrl := "https://api.sendgrid.com/api/mail.send.json?"
 	smtpAuth := smtp.PlainAuth("", apiUser, apiPwd, smtpUrl)
 	return SGClient{
 		apiUser:  apiUser,
