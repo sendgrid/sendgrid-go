@@ -75,7 +75,6 @@ message.AddText("Body")
 //or
 
 message.AddHTML("<html><body>Stuff, you know?</body></html>")
-
 ```
 ### Set From
 
