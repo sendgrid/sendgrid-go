@@ -4,15 +4,12 @@ package sendgrid
 
 import (
 	"bytes"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/mail"
 	"net/smtp"
 	"net/url"
-	"path/filepath"
 )
 
 // SGClient will contain the credentials and default values
@@ -60,10 +57,15 @@ func (sg *SGClient) Send(m Mail) []error {
 	}
 }
 
-// SendSMTP - SMTP interface. Still being developed. Use API instead.
+// SendSMTP - It can be used for generic SMTP stuff
 func (sg *SGClient) SendSMTP(m Mail) error {
 	boundary := "SENDGRIDGOLIB"
 	var message bytes.Buffer
+	headers, e := json.Marshal(m.sgheaders)
+	if e != nil {
+		return fmt.Errorf("sendgrid.go: Error parsing JSON headers")
+	}
+	message.WriteString(fmt.Sprintf("X-SMTPAPI: %s\r\n", headers))
 	message.WriteString(fmt.Sprintf("From: %s <%s>\r\n", m.fromname, m.from))
 	message.WriteString(fmt.Sprintf("To: <%s>", m.to[0]))
 	for i := 1; i < len(m.to); i++ {
@@ -109,7 +111,7 @@ func (sg *SGClient) SendAPI(m Mail) error {
 	values.Set("html", m.html)
 	values.Set("text", m.text)
 	values.Set("from", m.from)
-	headers, e := json.Marshal(m.headers)
+	headers, e := json.Marshal(m.sgheaders)
 	if e != nil {
 		return fmt.Errorf("sendgrid.go: Error parsing JSON headers")
 	}
@@ -137,133 +139,4 @@ func (sg *SGClient) SendAPI(m Mail) error {
 		body, _ := ioutil.ReadAll(r.Body)
 		return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", r.StatusCode, e, body)
 	}
-}
-
-// Mail will represent a formatted email
-type Mail struct {
-	to       []string
-	toname   []string
-	subject  string
-	html     string
-	text     string
-	from     string
-	bcc      []string
-	fromname string
-	replyto  string
-	date     string
-	files    map[string]string
-	headers  map[string]string
-}
-
-// NewMail returns a new Mail
-func NewMail() Mail {
-	return Mail{}
-}
-
-// AddTo will take a valid email address and store it in the mail.
-// It will return an error if the email is invalid.
-func (m *Mail) AddTo(email string) error {
-	if parsedAddess, e := mail.ParseAddress(email); e != nil {
-		return e
-	} else {
-		m.to = append(m.to, parsedAddess.Address)
-		if parsedAddess.Name != "" {
-			m.toname = append(m.toname, parsedAddess.Name)
-		}
-		return nil
-	}
-}
-
-// AddToName will add a new receipient name to mail
-func (m *Mail) AddToName(name string) {
-	m.toname = append(m.toname, name)
-}
-
-// AddReceipient will take an already parsed mail.Address
-func (m *Mail) AddReceipient(receipient *mail.Address) {
-	m.to = append(m.to, receipient.Address)
-	if receipient.Name != "" {
-		m.toname = append(m.toname, receipient.Name)
-	}
-}
-
-// AddSubject will set the subject of the mail
-func (m *Mail) AddSubject(s string) {
-	m.subject = s
-}
-
-// AddHTML will set the body of the mail
-func (m *Mail) AddHTML(html string) {
-	m.html = html
-}
-
-// AddText will set the body of the email
-func (m *Mail) AddText(text string) {
-	m.text = text
-}
-
-// AddFrom will set the senders email
-func (m *Mail) AddFrom(from string) {
-	m.from = from
-}
-
-// AddBCC works like AddTo but for BCC
-func (m *Mail) AddBCC(email string) error {
-	if parsedAddess, e := mail.ParseAddress(email); e != nil {
-		return e
-	} else {
-		m.bcc = append(m.bcc, parsedAddess.Address)
-		return nil
-	}
-}
-
-// AddReceipientBCC works like AddReceipient but for BCC
-func (m *Mail) AddReceipientBCC(email mail.Address) {
-	m.bcc = append(m.bcc, email.Address)
-}
-
-// AddFromName will set the senders name
-func (m *Mail) AddFromName(name string) {
-	m.fromname = name
-}
-
-// AddReplyTo will set the return address
-func (m *Mail) AddReplyTo(reply string) {
-	m.replyto = reply
-}
-
-// AddDate specifies the date
-func (m *Mail) AddDate(date string) {
-	m.date = date
-}
-
-// AddHeader allows custom headers to be added to mail
-func (m *Mail) AddHeader(header, value string) {
-	if m.headers == nil {
-		m.headers = make(map[string]string)
-	}
-	m.headers[header] = value
-}
-
-// AddAttachment will include file/s in mail
-func (m *Mail) AddAttachment(filePath string) error {
-	if m.files == nil {
-		m.files = make(map[string]string)
-	}
-	file, e := ioutil.ReadFile(filePath)
-	if e != nil {
-		return e
-	}
-	_, filename := filepath.Split(filePath)
-	encoded := base64.StdEncoding.EncodeToString(file)
-	totalChars := len(encoded)
-	maxLength := 500
-	totalLines := totalChars / maxLength
-	var buf bytes.Buffer
-	for i := 0; i < totalLines; i++ {
-		buf.WriteString(encoded[i*maxLength:(i+1)*maxLength] + "\n")
-	}
-	buf.WriteString(encoded[totalLines*maxLength:])
-	m.files[filename] = buf.String()
-	return nil
 }

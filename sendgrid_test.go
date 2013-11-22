@@ -18,7 +18,6 @@ func Test_Send(t *testing.T) {
 	message.AddSubject("SendGrid Testing")
 	message.AddHTML("WIN")
 	message.AddFrom("yamil@sendgrid.com")
-	message.AddHeader("X-Mailer", "Test")
 	filepath, _ := os.Getwd()
 	message.AddAttachment(filepath + "/sendgrid.go")
 	if r := sg.Send(message); r == nil {
@@ -40,9 +39,8 @@ func Test_SendSMTP(t *testing.T) {
 	message.AddHTML("<html>SMTP :(</html>")
 	message.AddText("Work!")
 	message.AddFrom("yamil@sendgrid.com")
-	message.AddHeader("X-Mailer", "Test")
-	//filepath, _ := os.Getwd()
-	//message.AddAttachment(filepath + "/sendgrid.go")
+	filepath, _ := os.Getwd()
+	message.AddAttachment(filepath + "/sendgrid.go")
 	if r := sg.SendSMTP(message); r == nil {
 		t.Log("Test_SendAPI Passed")
 	} else {
@@ -61,7 +59,6 @@ func Test_SendAPI(t *testing.T) {
 	message.AddSubject("SendGrid Testing")
 	message.AddHTML("WIN")
 	message.AddFrom("yamil@sendgrid.com")
-	message.AddHeader("X-Mailer", "Test")
 	filepath, _ := os.Getwd()
 	message.AddAttachment(filepath + "/sendgrid.go")
 	if r := sg.SendAPI(message); r == nil {
