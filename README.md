@@ -76,7 +76,6 @@ message.AddText("Body")
 
 message.AddHTML("<html><body>Stuff, you know?</body></html>")
 
-
 ```
 ### Set From
 
@@ -152,7 +151,6 @@ transport := sengrid.NewSendGridClient("username", "password")
 transport.smtpUrl = "http://somewhere.com"
 transport.smtpPort = "1337"
 transport.smtpAuth = smtp.PlainAuth("", "username", password, transport.smtpUrl)
-
 ```
 
 Simple as that. Then just invoke SendSMTP.
