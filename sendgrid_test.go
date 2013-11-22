@@ -18,6 +18,7 @@ func Test_Send(t *testing.T) {
 	message.AddSubject("SendGrid Testing")
 	message.AddHTML("WIN")
 	message.AddFrom("yamil@sendgrid.com")
+	message.AddCategory("Testing")
 	filepath, _ := os.Getwd()
 	message.AddAttachment(filepath + "/sendgrid.go")
 	if r := sg.Send(message); r == nil {
@@ -39,6 +40,7 @@ func Test_SendSMTP(t *testing.T) {
 	message.AddHTML("<html>SMTP :(</html>")
 	message.AddText("Work!")
 	message.AddFrom("yamil@sendgrid.com")
+	message.AddCategory("Testing")
 	filepath, _ := os.Getwd()
 	message.AddAttachment(filepath + "/sendgrid.go")
 	if r := sg.SendSMTP(message); r == nil {
