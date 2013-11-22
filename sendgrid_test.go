@@ -37,12 +37,12 @@ func Test_SendSMTP(t *testing.T) {
 	address, _ := mail.ParseAddress("Yamil Asusta <yamil.asusta@upr.edu>")
 	message.AddReceipient(address)
 	message.AddSubject("SendGrid Testing")
-	message.AddHTML("SMTP :(")
+	message.AddHTML("<html>SMTP :(</html>")
 	message.AddText("Work!")
 	message.AddFrom("yamil@sendgrid.com")
 	message.AddHeader("X-Mailer", "Test")
-	filepath, _ := os.Getwd()
-	message.AddAttachment(filepath + "/sendgrid.go")
+	//filepath, _ := os.Getwd()
+	//message.AddAttachment(filepath + "/sendgrid.go")
 	if r := sg.SendSMTP(message); r == nil {
 		t.Log("Test_SendAPI Passed")
 	} else {

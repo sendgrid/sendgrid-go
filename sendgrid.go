@@ -69,28 +69,34 @@ func (sg *SGClient) SendSMTP(m Mail) error {
 	for i := 1; i < len(m.to); i++ {
 		message.WriteString(fmt.Sprintf(", <%s>", m.to[i]))
 	}
-	//Add BCC
+	if len(m.bcc) > 0 {
+		message.WriteString(fmt.Sprintf("Bcc: <%s>", m.bcc[0]))
+		for i := 1; i < len(m.to); i++ {
+			message.WriteString(fmt.Sprintf(", <%s>", m.bcc[i]))
+		}
+	}
 	message.WriteString("\r\n")
 	message.WriteString(fmt.Sprintf("Subject: %s\r\n", m.subject))
 	message.WriteString("MIME-Version: 1.0\r\n")
-	message.WriteString(fmt.Sprintf("Content-Type: multipart/mixed; boundary=%s\r\n--%s\r\n", boundary, boundary))
-	if len(m.html) > 0 {
-		part := fmt.Sprintf("Content-Type: text/html\r\nContent-Transfer-Encoding:8bit\r\n\r\n%s\r\n\n--%s\r\n", m.html, boundary)
-		message.WriteString(part)
+	if m.files != nil {
+		message.WriteString(fmt.Sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n\n--%s\r\n", boundary, boundary))
 	}
-	if len(m.text) > 0 {
-		part := fmt.Sprintf("Content-Type: text/plain\r\n\r\n%s\r\n\n--%s\r\n", m.text, boundary)
+	if m.html != "" {
+		part := fmt.Sprintf("Content-Type: text/html\r\n\n%s\r\n\n", m.html)
+		message.WriteString(part)
+	} else {
+		part := fmt.Sprintf("Content-Type: text/plain\r\n\n%s\r\n\n", m.text)
 		message.WriteString(part)
 	}
 	if m.files != nil {
 		for key, value := range m.files {
+			message.WriteString(fmt.Sprintf("--%s\r\n", boundary))
 			message.WriteString("Content-Type: application/octect-stream\r\n")
 			message.WriteString("Content-Transfer-Encoding:base64\r\n")
-			message.WriteString(fmt.Sprintf("Content-Disposition: attachment; filename=%s\r\n\r\n%s\r\n--%s\r\n", key, value, boundary))
+			message.WriteString(fmt.Sprintf("Content-Disposition: attachment; filename=%s\r\n\r\n%s\r\n\n", key, value))
 		}
+		message.WriteString(fmt.Sprintf("--%s--", boundary))
 	}
-	message.WriteString(fmt.Sprintf("--%s--", boundary))
-	fmt.Println(message.String())
 	return smtp.SendMail(sg.smtpUrl+":"+sg.smtpPort, sg.smtpAuth, m.from, m.to, message.Bytes())
 }
 
