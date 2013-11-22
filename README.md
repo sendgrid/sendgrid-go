@@ -71,13 +71,19 @@ message.AddSubject("New email")
 message := sendgrid.NewMail()
 
 message.AddText("Body")
+
+//or
+
+message.AddHTML("<html><body>Stuff, you know?</body></html>")
+
+
 ```
 ### Set From
 
 ```Go
 message := sendgrid.NewMail()
 
-message.AddHTML("<html><body>Stuff, you know?</body></html>")
+message.addFrom("example@lol.com")
 ```
 ### Set File Attachments
 
