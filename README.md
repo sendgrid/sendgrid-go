@@ -2,6 +2,8 @@
 
 SendGrid Helper Library to send emails very easily using Go.
 
+Need a generic SMTP transport that supports file attachments? Read below
+
 ##Installation
 
 ```bash
@@ -77,18 +79,57 @@ message := sendgrid.NewMail()
 
 message.AddHTML("<html><body>Stuff, you know?</body></html>")
 ```
-### Set Custom Headers
-
-```Go
-message := sendgrid.NewMail()
-message.AddHeader("X-Mailer", "Header")
-```
 ### Set File Attachments
 
 ```Go
 message := sendgrid.NewMail()
+
 message.AddAttachment("./stuff.txt")
 ```
+
+## SendGrid's  [X-SMTPAPI](http://sendgrid.com/docs/API_Reference/SMTP_API/)
+
+### [Substitution](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddSubstitution("key", "value")
+```
+
+### [Section](http://sendgrid.com/docs/API_Reference/SMTP_API/section_tags.html)
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddSection("section", "value")
+```
+
+### [Category](http://sendgrid.com/docs/Delivery_Metrics/categories.html)
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddSubstitution("category")
+```
+
+### [Unique Arguments](http://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html)
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddUniqueArg("key", "value")
+```
+
+### [Filter](http://sendgrid.com/docs/API_Reference/SMTP_API/apps.html)
+
+```Go
+message := sendgrid.NewMail()
+
+message.AddFilter("filter", "setting", "value")
+```
+
+
 ### Sending Methods
 
 There are 3 ways to send emails using the library. 
@@ -97,7 +138,18 @@ There are 3 ways to send emails using the library.
 * 	SendSMTP
 * 	Send 
 
-Send will try to use **SendAPI** first. If this method fails, it will fail silently and will invoke **SendSMTP** has a fallback. If this also fails, an []error will be returned with the feedback.
+
+## Generic SMTP Transport
+
+```Go
+transport := sengrid.NewSendGridClient("username", "password")
+transport.smtpUrl = "http://somewhere.com"
+transport.smtpPort = "1337"
+transport.smtpAuth = smtp.PlainAuth("", "username", password, transport.smtpUrl)
+
+```
+
+Simple as that. Then just invoke SendSMTP.
 
 ##AppEngine Example
 

@@ -158,7 +158,7 @@ func (m *Mail) AddCategory(value string) {
 	m.sgheaders.Category = append(m.sgheaders.Category, value)
 }
 
-func (m *Mail) AddUniqueArgs(arg, value string) {
+func (m *Mail) AddUniqueArg(arg, value string) {
 	if m.sgheaders.Unique_args == nil {
 		m.sgheaders.Unique_args = make(map[string]string)
 	}
