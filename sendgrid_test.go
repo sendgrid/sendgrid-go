@@ -18,6 +18,7 @@ func Test_Send(t *testing.T) {
 	message.AddSubject("SendGrid Testing")
 	message.AddHTML("WIN")
 	message.AddFrom("yamil@sendgrid.com")
+	message.AddCategory("Test")
 	message.AddCategory("Testing")
 	filepath, _ := os.Getwd()
 	message.AddAttachment(filepath + "/sendgrid.go")
