@@ -93,5 +93,5 @@ func (sg *SGClient) SendSMTP(m SGMail) error {
 	if e := m.SetHeaders(); e != nil {
 		return e
 	}
-	return sg.smtpClient.SendSMTP(m.mail)
+	return sg.smtpClient.Send(m.mail)
 }
