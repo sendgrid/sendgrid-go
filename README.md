@@ -143,17 +143,6 @@ There are 3 ways to send emails using the library.
 * 	Send 
 
 
-## Generic SMTP Transport
-
-```Go
-transport := sengrid.NewSendGridClient("username", "password")
-transport.smtpUrl = "http://somewhere.com"
-transport.smtpPort = "1337"
-transport.smtpAuth = smtp.PlainAuth("", "username", password, transport.smtpUrl)
-```
-
-Simple as that. Then just invoke SendSMTP.
-
 ##AppEngine Example
 
 ```Go
@@ -196,7 +185,6 @@ go test
 
 ###TODO
 
-* Finish implementing SMTP
 * Implement additional API endpoints
 
 ##MIT License
