@@ -88,6 +88,7 @@ func (sg *SGClient) SendAPI(m SGMail) error {
 	}
 }
 
+// SendSMTP will send mail using SG smtp API
 func (sg *SGClient) SendSMTP(m SGMail) error {
 	if e := m.SetHeaders(); e != nil {
 		return e
