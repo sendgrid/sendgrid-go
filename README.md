@@ -4,13 +4,13 @@ SendGrid Helper Library to send emails very easily using Go.
 
 This library is built on top of [smtpmail](https://github.com/elbuo8/smtpmail) which provides a simple way to send emails using generic SMTP transport.
 
-##Installation
+## Installation
 
 ```bash
 go get github.com/sendgrid/sendgrid-go
 ```
 
-##Example
+## Example
 
 ```Go
 package main
@@ -143,7 +143,7 @@ There are 3 ways to send emails using the library.
 * 	Send 
 
 
-##AppEngine Example
+## AppEngine Example
 
 ```Go
 package main
@@ -158,7 +158,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
 	c := appengine.NewContext(r)
 	// set http.Client to use the appengine client
-	sg.Client = urlfetch.Client(c)
+	sg.Client = urlfetch.Client(c) //Just perform this swap, and you are good to go.
 	message := sendgrid.NewMail()
 	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
@@ -175,9 +175,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 ```
 
+Kudos to [Matthew Zimmerman](https://github.com/mzimmerman) for this example.
+
 ###Tests
 
-Please run it before sending pull requests
+Please run the test suite in before sending a pull request.
 
 ```bash
 go test
