@@ -1,8 +1,8 @@
-#SendGrid-Go
+# SendGrid-Go
 
 SendGrid Helper Library to send emails very easily using Go.
 
-Need a generic SMTP transport that supports file attachments? Read below
+This library is built on top of [smtpmail](https://github.com/elbuo8/smtpmail) which provides a simple way to send emails using generic SMTP transport.
 
 ##Installation
 
