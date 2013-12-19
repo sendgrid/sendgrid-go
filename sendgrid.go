@@ -4,7 +4,6 @@ package sendgrid
 
 import (
 	"fmt"
-	"github.com/elbuo8/smtpmail"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -14,44 +13,22 @@ import (
 type SGClient struct {
 	apiUser    string
 	apiPwd     string
-	apiUrl     string
+	apiMail     string
 	Client     *http.Client
-	smtpClient smtpmail.SMTPClient
 }
 
 // NewSendGridClient will return a new SGClient.
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
-	smtpUrl := "smtp.sendgrid.net"
-	smtpPort := "587"
-	apiUrl := "https://api.sendgrid.com/api/mail.send.json?"
+	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
 	return SGClient{
 		apiUser:    apiUser,
 		apiPwd:     apiPwd,
-		apiUrl:     apiUrl,
-		smtpClient: smtpmail.NewSMTPClient(apiUser, apiPwd, smtpUrl, smtpPort),
-	}
-}
-
-// Send will try to use the WebAPI first. If it's a success then a nill will be returned.
-// Else, the SMTP API will be used as a fail over. If this happens regardless of what is the result
-// of the SMTP attempt, you will receive an array of errors.
-// If the length of the array is 1, then SMTP succeeded, else it also failed.
-func (sg *SGClient) Send(m SGMail) []error {
-	if apiError := sg.SendAPI(m); apiError != nil {
-		var errors []error
-		errors = append(errors, apiError)
-		if smtpError := sg.SendSMTP(m); smtpError != nil {
-			return append(errors, smtpError)
-		} else {
-			return errors
-		}
-	} else {
-		return nil
+		apiMail:     apiMail,
 	}
 }
 
 // SendAPI will send mail using SG web API
-func (sg *SGClient) SendAPI(m SGMail) error {
+func (sg *SGClient) Send(m SGMail) error {
 	if e := m.SetHeaders(); e != nil {
 		return e
 	}
@@ -78,7 +55,7 @@ func (sg *SGClient) SendAPI(m SGMail) error {
 	if sg.Client == nil {
 		sg.Client = http.DefaultClient
 	}
-	r, e := sg.Client.PostForm(sg.apiUrl, values)
+	r, e := sg.Client.PostForm(sg.apiMail, values)
 	defer r.Body.Close()
 	if r.StatusCode == 200 && e == nil {
 		return nil
@@ -88,10 +65,3 @@ func (sg *SGClient) SendAPI(m SGMail) error {
 	}
 }
 
-// SendSMTP will send mail using SG smtp API
-func (sg *SGClient) SendSMTP(m SGMail) error {
-	if e := m.SetHeaders(); e != nil {
-		return e
-	}
-	return sg.smtpClient.Send(m.mail)
-}
