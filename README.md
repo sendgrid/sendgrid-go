@@ -2,7 +2,9 @@
 
 SendGrid Helper Library to send emails very easily using Go.
 
-This library is built on top of [smtpmail](https://github.com/elbuo8/smtpmail) which provides a simple way to send emails using generic SMTP transport.
+### SMTP Deprecation
+
+SMTP API is going to be deprecated from most of our libraries in favor of just using the Web API. If you still wish to use SMTP as your transport have a look at [this example](https://github.com/elbuo8/smtpmail).
 
 ## Installation
 
@@ -133,16 +135,6 @@ message := sendgrid.NewMail()
 message.AddFilter("filter", "setting", "value")
 ```
 
-
-### Sending Methods
-
-There are 3 ways to send emails using the library. 
-
-* 	SendAPI
-* 	SendSMTP
-* 	Send 
-
-
 ## AppEngine Example
 
 ```Go
@@ -166,7 +158,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	message.AddHTML("Simple Text")
 	message.AddFrom("kunal@sendgrid.com")
 	// use sendAPI instead of SMTP
-	if r := sg.SendAPI(message); r == nil {
+	if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
 		c.Errorf("Unable to send mail %v",r)
@@ -184,10 +176,6 @@ Please run the test suite in before sending a pull request.
 ```bash
 go test
 ```
-
-###TODO
-
-* Implement additional API endpoints
 
 ##MIT License
 
