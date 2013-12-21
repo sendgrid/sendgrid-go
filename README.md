@@ -153,11 +153,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	sg.Client = urlfetch.Client(c) //Just perform this swap, and you are good to go.
 	message := sendgrid.NewMail()
 	message.AddTo("yamil@sendgrid.com")
-	message.AddToName("Yamil Asusta")
 	message.AddSubject("SendGrid is Baller")
 	message.AddHTML("Simple Text")
 	message.AddFrom("kunal@sendgrid.com")
-	// use sendAPI instead of SMTP
 	if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
