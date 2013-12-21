@@ -45,7 +45,7 @@ func main() {
 ```Go
 message := sendgrid.NewMail()
 message.AddTo("example@sendgrid.com") // Returns error if email string is not valid RFC 5322
- 
+
 // or
 
 address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
@@ -56,8 +56,8 @@ message.AddReceipient(address) // Receives a vaild mail.Address
 
 Same concept as regular receipients excepts the methods are:
 
-*	AddBCC
-* 	AddReceipientBCC
+*   AddBCC
+*   AddReceipientBCC
 
 ### Setting the Subject
 
@@ -94,6 +94,8 @@ message.AddAttachment("./stuff.txt")
 ```
 
 ## SendGrid's  [X-SMTPAPI](http://sendgrid.com/docs/API_Reference/SMTP_API/)
+
+If you wish to use the X-SMTPAPI on your own app, you can use the [SMTPAPI Go library](https://github.com/sendgrid/smtpapi-go).
 
 ### [Substitution](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
 

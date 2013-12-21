@@ -11,45 +11,47 @@ import (
 
 // SGClient will contain the credentials and default values
 type SGClient struct {
-	apiUser    string
-	apiPwd     string
-	apiMail     string
-	Client     *http.Client
+	apiUser string
+	apiPwd  string
+	apiMail string
+	Client  *http.Client
 }
 
 // NewSendGridClient will return a new SGClient.
 func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
 	return SGClient{
-		apiUser:    apiUser,
-		apiPwd:     apiPwd,
-		apiMail:     apiMail,
+		apiUser: apiUser,
+		apiPwd:  apiPwd,
+		apiMail: apiMail,
 	}
 }
 
 // SendAPI will send mail using SG web API
 func (sg *SGClient) Send(m SGMail) error {
-	if e := m.SetHeaders(); e != nil {
-		return e
-	}
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
 	values.Set("api_key", sg.apiPwd)
-	values.Set("subject", m.mail.Subject)
-	values.Set("html", m.mail.HTML)
-	values.Set("text", m.mail.Text)
-	values.Set("from", m.mail.From)
-	values.Set("headers", m.mail.Headers)
-	for i := 0; i < len(m.mail.To); i++ {
-		values.Set("to[]", m.mail.To[i])
+	values.Set("subject", m.Subject)
+	values.Set("html", m.HTML)
+	values.Set("text", m.Text)
+	values.Set("from", m.From)
+	apiHeaders, apiError := m.GetHeaders()
+	if apiError != nil {
+		return fmt.Errorf("sendgrid.go: error:%v", apiError)
 	}
-	for i := 0; i < len(m.mail.Bcc); i++ {
-		values.Set("bcc[]", m.mail.Bcc[i])
+	values.Set("x-smtpapi", apiHeaders)
+	values.Set("headers", m.Headers)
+	for i := 0; i < len(m.To); i++ {
+		values.Set("to[]", m.To[i])
 	}
-	for i := 0; i < len(m.mail.ToName); i++ {
-		values.Set("toname[]", m.mail.ToName[i])
+	for i := 0; i < len(m.Bcc); i++ {
+		values.Set("bcc[]", m.Bcc[i])
 	}
-	for k, v := range m.mail.Files {
+	for i := 0; i < len(m.ToName); i++ {
+		values.Set("toname[]", m.ToName[i])
+	}
+	for k, v := range m.Files {
 		values.Set("files["+k+"]", v)
 	}
 	if sg.Client == nil {
@@ -64,4 +66,3 @@ func (sg *SGClient) Send(m SGMail) error {
 		return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", r.StatusCode, e, body)
 	}
 }
-
