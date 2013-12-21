@@ -83,7 +83,7 @@ message.AddHTML("<html><body>Stuff, you know?</body></html>")
 ```Go
 message := sendgrid.NewMail()
 
-message.addFrom("example@lol.com")
+message.AddFrom("example@lol.com")
 ```
 ### Set File Attachments
 
