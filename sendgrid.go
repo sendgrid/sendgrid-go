@@ -43,13 +43,13 @@ func (sg *SGClient) Send(m SGMail) error {
 	values.Set("x-smtpapi", apiHeaders)
 	values.Set("headers", m.Headers)
 	for i := 0; i < len(m.To); i++ {
-		values.Set("to[]", m.To[i])
+		values.Add("to[]", m.To[i])
 	}
 	for i := 0; i < len(m.Bcc); i++ {
-		values.Set("bcc[]", m.Bcc[i])
+		values.Add("bcc[]", m.Bcc[i])
 	}
 	for i := 0; i < len(m.ToName); i++ {
-		values.Set("toname[]", m.ToName[i])
+		values.Add("toname[]", m.ToName[i])
 	}
 	for k, v := range m.Files {
 		values.Set("files["+k+"]", v)
