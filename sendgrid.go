@@ -42,6 +42,9 @@ func (sg *SGClient) Send(m SGMail) error {
 	}
 	values.Set("x-smtpapi", apiHeaders)
 	values.Set("headers", m.Headers)
+	if len(m.FromName) != 0 {
+		values.Set("fromname", m.FromName)
+	}
 	for i := 0; i < len(m.To); i++ {
 		values.Add("to[]", m.To[i])
 	}
