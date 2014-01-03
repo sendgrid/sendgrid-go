@@ -40,7 +40,7 @@ func main() {
 
 ```
 
-### Adding Receipients
+### Adding Recipients
 
 ```Go
 message := sendgrid.NewMail()
@@ -52,9 +52,9 @@ address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
 message.AddReceipient(address) // Receives a vaild mail.Address
 ```
 
-### Adding BCC Receipients
+### Adding BCC Recipients
 
-Same concept as regular receipients excepts the methods are:
+Same concept as regular recipient excepts the methods are:
 
 *   AddBCC
 *   AddReceipientBCC
