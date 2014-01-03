@@ -30,10 +30,3 @@ func (m *SGMail) AddAttachment(filePath string) error {
 	return nil
 }
 
-func (m *SGMail) AddRecipient(email *mail.Address) {
-	m.Mail.AddReceipient(email)
-}
-
-func (m *SGMail) AddRecipientBCC(email *mail.Address) {
-	m.Mail.AddReceipientBCC(email)
-}

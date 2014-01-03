@@ -49,7 +49,7 @@ message.AddTo("example@sendgrid.com") // Returns error if email string is not va
 // or
 
 address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
-message.AddReceipient(address) // Receives a vaild mail.Address
+message.AddRecipient(address) // Receives a vaild mail.Address
 ```
 
 ### Adding BCC Recipients
@@ -57,7 +57,7 @@ message.AddReceipient(address) // Receives a vaild mail.Address
 Same concept as regular recipient excepts the methods are:
 
 *   AddBCC
-*   AddReceipientBCC
+*   AddRecipientBCC
 
 ### Setting the Subject
 
