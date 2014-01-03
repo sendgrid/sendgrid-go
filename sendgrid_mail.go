@@ -4,7 +4,6 @@ import (
 	"github.com/elbuo8/smtpmail"
 	"github.com/sendgrid/smtpapi-go"
 	"io/ioutil"
-	"net/mail"
 	"path/filepath"
 )
 
