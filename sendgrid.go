@@ -36,6 +36,7 @@ func (sg *SGClient) Send(m SGMail) error {
 	values.Set("html", m.HTML)
 	values.Set("text", m.Text)
 	values.Set("from", m.From)
+	values.Set("replyto", m.ReplyTo)
 	apiHeaders, apiError := m.GetHeaders()
 	if apiError != nil {
 		return fmt.Errorf("sendgrid.go: error:%v", apiError)
