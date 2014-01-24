@@ -47,7 +47,7 @@ message.AddTo("example@sendgrid.com") // Returns error if email string is not va
 
 // or
 
-address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
+address, _ := mail.ParseAddress("Example <example@sendgrid.com>") // make sure to import "net/mail" if you wish to use mail.ParseAddress
 message.AddRecipient(address) // Receives a vaild mail.Address
 ```
 
