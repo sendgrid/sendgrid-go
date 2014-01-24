@@ -19,7 +19,6 @@ package main
 
 import (
 	"fmt"
-	"net/mail"
 	"github.com/sendgrid/sendgrid-go"
 )
 
