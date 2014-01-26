@@ -4,6 +4,7 @@ import (
 	"github.com/elbuo8/smtpmail"
 	"github.com/sendgrid/smtpapi-go"
 	"io/ioutil"
+	"net/http"
 	"net/mail"
 	"path/filepath"
 )
@@ -25,6 +26,17 @@ func (m *SGMail) AddAttachment(filePath string) error {
 	_, filename := filepath.Split(filePath)
 	m.AddAttachmentStream(filename, bytes)
 	return nil
+}
+
+func (m *SGMail) AddAttachmentLink(filename, link string) error {
+	if r, e := http.Get(link); e != nil {
+		return e
+	} else {
+		defer r.Body.Close()
+		bytes, _ := ioutil.ReadAll(r.Body)
+		m.AddAttachmentStream(filename, bytes)
+		return nil
+	}
 }
 
 func (m *SGMail) AddAttachmentStream(filename string, stream []byte) {
