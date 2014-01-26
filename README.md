@@ -90,6 +90,15 @@ message.AddFrom("example@lol.com")
 message := sendgrid.NewMail()
 
 message.AddAttachment("./stuff.txt")
+
+//or
+
+message.AddAttachmentLink("filename", "http://example.com/file.zip")
+
+//or
+
+message.AddAttachmentStream("filename", []byte("some file content"))
+
 ```
 
 ## SendGrid's  [X-SMTPAPI](http://sendgrid.com/docs/API_Reference/SMTP_API/)
