@@ -29,3 +29,6 @@ func (m *SGMail) AddAttachment(filePath string) error {
 	return nil
 }
 
+func (m *SGMail) AddTo(email string) {
+	m.SMTPAPIHeader.AddTo(email)
+}
