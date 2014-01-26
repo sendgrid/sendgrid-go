@@ -46,6 +46,9 @@ func (sg *SGClient) Send(m SGMail) error {
 	if len(m.FromName) != 0 {
 		values.Set("fromname", m.FromName)
 	}
+	for i := 0; i < len(m.Mail.To); i++ {
+		values.Add("to[]", m.Mail.To[i])
+	}
 	for i := 0; i < len(m.Bcc); i++ {
 		values.Add("bcc[]", m.Bcc[i])
 	}

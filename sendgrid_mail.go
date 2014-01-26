@@ -31,9 +31,9 @@ func (m *SGMail) AddAttachment(filePath string) error {
 }
 
 func (m *SGMail) AddTo(email string) {
-	m.SMTPAPIHeader.AddTo(email)
+	m.Mail.AddTo(email)
 }
 
 func (m *SGMail) AddRecipient(email *mail.Address) {
-	m.SMTPAPIHeader.AddTo(email)
+	m.Mail.AddRecipient(email)
 }
