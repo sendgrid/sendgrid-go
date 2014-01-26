@@ -18,16 +18,20 @@ func NewMail() SGMail {
 }
 
 func (m *SGMail) AddAttachment(filePath string) error {
-	if m.Files == nil {
-		m.Files = make(map[string]string)
-	}
-	file, e := ioutil.ReadFile(filePath)
+	bytes, e := ioutil.ReadFile(filePath)
 	if e != nil {
 		return e
 	}
 	_, filename := filepath.Split(filePath)
-	m.Files[filename] = string(file)
+	m.AddAttachmentStream(filename, bytes)
 	return nil
+}
+
+func (m *SGMail) AddAttachmentStream(filename string, stream []byte) {
+	if m.Files == nil {
+		m.Files = make(map[string]string)
+	}
+	m.Files[filename] = string(stream)
 }
 
 func (m *SGMail) AddTo(email string) {

@@ -18,9 +18,9 @@ func Test_Send(t *testing.T) {
 	message.AddSubstitution("key", "value")
 	filepath, _ := os.Getwd()
 	message.AddAttachment(filepath + "/sendgrid.go")
-	if r := sg.Send(message); r == nil {
-		t.Log("Test_Send Passed")
+	if url, e := sg.buildUrl(message); e != nil {
+		t.Error(e)
 	} else {
-		t.Error("Test_Send Failed", r)
+		t.Log(url)
 	}
 }

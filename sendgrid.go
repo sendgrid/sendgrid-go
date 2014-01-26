@@ -27,8 +27,7 @@ func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	}
 }
 
-// SendAPI will send mail using SG web API
-func (sg *SGClient) Send(m SGMail) error {
+func (sg *SGClient) buildUrl(m SGMail) (url.Values, error) {
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
 	values.Set("api_key", sg.apiPwd)
@@ -39,7 +38,7 @@ func (sg *SGClient) Send(m SGMail) error {
 	values.Set("replyto", m.ReplyTo)
 	apiHeaders, apiError := m.JsonString()
 	if apiError != nil {
-		return fmt.Errorf("sendgrid.go: error:%v", apiError)
+		return nil, fmt.Errorf("sendgrid.go: error:%v", apiError)
 	}
 	values.Set("x-smtpapi", apiHeaders)
 	values.Set("headers", m.Headers)
@@ -58,8 +57,18 @@ func (sg *SGClient) Send(m SGMail) error {
 	for k, v := range m.Files {
 		values.Set("files["+k+"]", v)
 	}
+	return values, nil
+}
+
+// SendAPI will send mail using SG web API
+func (sg *SGClient) Send(m SGMail) error {
 	if sg.Client == nil {
 		sg.Client = http.DefaultClient
+	}
+	var e error
+	values, e := sg.buildUrl(m)
+	if e != nil {
+		return e
 	}
 	r, e := sg.Client.PostForm(sg.apiMail, values)
 	defer r.Body.Close()
