@@ -4,6 +4,7 @@ import (
 	"github.com/elbuo8/smtpmail"
 	"github.com/sendgrid/smtpapi-go"
 	"io/ioutil"
+	"net/mail"
 	"path/filepath"
 )
 
@@ -30,5 +31,9 @@ func (m *SGMail) AddAttachment(filePath string) error {
 }
 
 func (m *SGMail) AddTo(email string) {
+	m.SMTPAPIHeader.AddTo(email)
+}
+
+func (m *SGMail) AddRecipient(email *mail.Address) {
 	m.SMTPAPIHeader.AddTo(email)
 }
