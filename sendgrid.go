@@ -37,7 +37,7 @@ func (sg *SGClient) Send(m SGMail) error {
 	values.Set("text", m.Text)
 	values.Set("from", m.From)
 	values.Set("replyto", m.ReplyTo)
-	apiHeaders, apiError := m.GetHeaders()
+	apiHeaders, apiError := m.JsonString()
 	if apiError != nil {
 		return fmt.Errorf("sendgrid.go: error:%v", apiError)
 	}
@@ -45,9 +45,6 @@ func (sg *SGClient) Send(m SGMail) error {
 	values.Set("headers", m.Headers)
 	if len(m.FromName) != 0 {
 		values.Set("fromname", m.FromName)
-	}
-	for i := 0; i < len(m.To); i++ {
-		values.Add("to[]", m.To[i])
 	}
 	for i := 0; i < len(m.Bcc); i++ {
 		values.Add("bcc[]", m.Bcc[i])
