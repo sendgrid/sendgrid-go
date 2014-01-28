@@ -126,7 +126,7 @@ message.AddSection("section", "value")
 ```Go
 message := sendgrid.NewMail()
 
-message.AddSubstitution("category")
+message.AddCategory("category")
 ```
 
 ### [Unique Arguments](http://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html)
