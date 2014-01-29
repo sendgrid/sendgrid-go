@@ -71,7 +71,9 @@ func (sg *SGClient) Send(m SGMail) error {
 		return e
 	}
 	r, e := sg.Client.PostForm(sg.apiMail, values)
-	defer r.Body.Close()
+	if e == nil { // errors can contain nil Body responses
+		defer r.Body.Close()
+	}
 	if r.StatusCode == 200 && e == nil {
 		return nil
 	} else {
