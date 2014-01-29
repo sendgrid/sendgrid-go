@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"errors"
+	netmail "net/mail"
 	"strings"
 	"sync"
 	"github.com/elbuo8/smtpmail"
@@ -9,7 +10,7 @@ import (
 	"appengine"
 	"appengine/datastore"
 	"appengine/delay"
-	"appengine/mail"
+	aemail "appengine/mail"
 	"appengine/urlfetch"
 )
 
@@ -20,47 +21,14 @@ var ErrConfig = errors.New("Unable to fetch SendGrid config")
 
 var sendgridDelay = delay.Func("sendgrid", sendMail)
 
-func sendMail(c appengine.Context, m *mail.Message) error {
+func sendMail(c appengine.Context, sgmail SGMail) error {
 	if appengine.IsDevAppServer() {
-		c.Infof("Would have sent e-mail - %#v", m)
+		c.Infof("Would have sent e-mail - %#v", sgmail)
 		return nil
 	}
 	err := loadConfig(c)
 	if err != nil {
 		return err
-	}
-	sgmail := SGMail{
-		Mail: smtpmail.Mail{
-			Subject: m.Subject,
-			HTML:    m.HTMLBody,
-			Text:    m.Body,
-			ReplyTo: m.ReplyTo,
-		},
-	}
-	if res := strings.Split(m.Sender, "<"); len(res) == 2 {
-		sgmail.From = strings.Trim(res[1], "<>\" ")
-		sgmail.FromName = strings.Trim(res[0], "<>\" ")
-	} else {
-		sgmail.From = m.Sender
-	}
-	for _, email := range m.To {
-		res := strings.Split(email, "<")
-		if len(res) == 2 {
-			sgmail.Mail.To = append(sgmail.Mail.To, strings.Trim(res[1], "<>\" "))
-			sgmail.ToName = append(sgmail.ToName, strings.Trim(res[0], "<>\" "))
-		} else {
-			sgmail.Mail.To = append(sgmail.Mail.To, email)
-			sgmail.ToName = append(sgmail.ToName, "")
-		}
-	}
-
-	for _, email := range m.Bcc {
-		res := strings.Split(email, "<")
-		if len(res) == 2 {
-			sgmail.Bcc = append(sgmail.Bcc, strings.Trim(res[1], "<>\" "))
-		} else {
-			sgmail.Bcc = append(sgmail.Bcc, email)
-		}
 	}
 	sgclient := NewSendGridClient(globalConfig.APIUser, globalConfig.APIPassword)
 	sgclient.Client = urlfetch.Client(c)
@@ -102,6 +70,44 @@ func loadConfig(c appengine.Context) error {
 	return nil
 }
 
-func SendMailDelay(c appengine.Context, m *mail.Message) {
-	sendgridDelay.Call(c, m)
+func migrateMail(m *aemail.Message) (*SGMail, error) {
+	sgmail := SGMail{
+		Mail: smtpmail.Mail{
+			Subject: m.Subject,
+			HTML:    m.HTMLBody,
+			Text:    m.Body,
+			ReplyTo: m.ReplyTo,
+		},
+	}
+	if address, err := netmail.ParseAddress(m.Sender); err == nil {
+		sgmail.From = address.Address
+		sgmail.FromName = address.Name
+	} else {
+		return nil, err
+	}
+	if addresses, err := netmail.ParseAddressList(strings.Join(m.To, ",")); err == nil {
+		for _, addr := range addresses {
+			sgmail.Mail.To = append(sgmail.Mail.To, addr.Address)
+			sgmail.Mail.ToName = append(sgmail.Mail.ToName, addr.Name)
+		}
+	} else {
+		return nil, err
+	}
+	if addresses, err := netmail.ParseAddressList(strings.Join(m.Bcc, ",")); err == nil {
+		for _, addr := range addresses {
+			sgmail.Mail.Bcc = append(sgmail.Mail.Bcc, addr.Address)
+		}
+	} else {
+		return nil, err
+	}
+	return &sgmail, nil
+}
+
+func SendMailDelay(c appengine.Context, m *aemail.Message) error {
+	sgmail, err := migrateMail(m)
+	if err != nil {
+		return err
+	}
+	sendgridDelay.Call(c, sgmail)
+	return nil
 }
