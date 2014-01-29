@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"errors"
+	"fmt"
 	netmail "net/mail"
 	"strings"
 	"sync"
@@ -83,7 +84,7 @@ func migrateMail(m *aemail.Message) (*SGMail, error) {
 		sgmail.From = address.Address
 		sgmail.FromName = address.Name
 	} else {
-		return nil, err
+		return nil, fmt.Errorf("Error parsing Sender address - %v", err)
 	}
 	if addresses, err := netmail.ParseAddressList(strings.Join(m.To, ",")); err == nil {
 		for _, addr := range addresses {
@@ -91,14 +92,16 @@ func migrateMail(m *aemail.Message) (*SGMail, error) {
 			sgmail.Mail.ToName = append(sgmail.Mail.ToName, addr.Name)
 		}
 	} else {
-		return nil, err
+		return nil, fmt.Errorf("Error parsing To addresses - %v", err)
 	}
-	if addresses, err := netmail.ParseAddressList(strings.Join(m.Bcc, ",")); err == nil {
-		for _, addr := range addresses {
-			sgmail.Mail.Bcc = append(sgmail.Mail.Bcc, addr.Address)
+	if len(m.Bcc) > 0 {
+		if addresses, err := netmail.ParseAddressList(strings.Join(m.Bcc, ",")); err == nil {
+			for _, addr := range addresses {
+				sgmail.Mail.Bcc = append(sgmail.Mail.Bcc, addr.Address)
+			}
+		} else {
+			return nil, fmt.Errorf("Error parsing BCC - %v", err)
 		}
-	} else {
-		return nil, err
 	}
 	return &sgmail, nil
 }
