@@ -1,12 +1,13 @@
 package sendgrid
 
 import (
-	"github.com/elbuo8/smtpmail"
-	"github.com/sendgrid/smtpapi-go"
 	"io/ioutil"
 	"net/http"
 	"net/mail"
 	"path/filepath"
+
+	"github.com/elbuo8/smtpmail"
+	"github.com/sendgrid/smtpapi-go"
 )
 
 type SGMail struct {

@@ -1,11 +1,10 @@
-// +build appengine
-
 package sendgrid
 
 import (
 	"errors"
 	"strings"
 	"sync"
+	"github.com/elbuo8/smtpmail"
 
 	"appengine"
 	"appengine/datastore"
@@ -30,35 +29,42 @@ func sendMail(c appengine.Context, m *mail.Message) error {
 	if err != nil {
 		return err
 	}
-	sgmail := Mail{
-		subject: m.Subject,
-		html:    m.HTMLBody,
-		text:    m.Body,
-		from:    m.Sender,
-		replyto: m.ReplyTo,
+	sgmail := SGMail{
+		Mail: smtpmail.Mail{
+			Subject: m.Subject,
+			HTML:    m.HTMLBody,
+			Text:    m.Body,
+			ReplyTo: m.ReplyTo,
+		},
+	}
+	if res := strings.Split(m.Sender, "<"); len(res) == 2 {
+		sgmail.From = strings.Trim(res[1], "<>\" ")
+		sgmail.FromName = strings.Trim(res[0], "<>\" ")
+	} else {
+		sgmail.From = m.Sender
 	}
 	for _, email := range m.To {
 		res := strings.Split(email, "<")
 		if len(res) == 2 {
-			sgmail.to = append(sgmail.to, strings.Trim(res[1], "<>\" "))
-			sgmail.toname = append(sgmail.toname, strings.Trim(res[0], "<>\" "))
+			sgmail.Mail.To = append(sgmail.Mail.To, strings.Trim(res[1], "<>\" "))
+			sgmail.ToName = append(sgmail.ToName, strings.Trim(res[0], "<>\" "))
 		} else {
-			sgmail.to = append(sgmail.to, email)
-			sgmail.toname = append(sgmail.toname, "")
+			sgmail.Mail.To = append(sgmail.Mail.To, email)
+			sgmail.ToName = append(sgmail.ToName, "")
 		}
 	}
 
 	for _, email := range m.Bcc {
 		res := strings.Split(email, "<")
 		if len(res) == 2 {
-			sgmail.bcc = append(sgmail.bcc, strings.Trim(res[1], "<>\" "))
+			sgmail.Bcc = append(sgmail.Bcc, strings.Trim(res[1], "<>\" "))
 		} else {
-			sgmail.bcc = append(sgmail.bcc, email)
+			sgmail.Bcc = append(sgmail.Bcc, email)
 		}
 	}
 	sgclient := NewSendGridClient(globalConfig.APIUser, globalConfig.APIPassword)
 	sgclient.Client = urlfetch.Client(c)
-	return sgclient.SendAPI(sgmail)
+	return sgclient.Send(sgmail)
 }
 
 type Config struct {

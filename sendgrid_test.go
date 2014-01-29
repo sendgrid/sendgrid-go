@@ -16,6 +16,7 @@ func Test_Send(t *testing.T) {
 	message.AddHTML("WIN")
 	message.AddText("WIN")
 	message.AddFrom("doe@email.com")
+	message.AddFromName("Doe Email")
 	message.AddSubstitution("subKey", "subValue")
 	message.AddSection("testSection", "sectionValue")
 	message.AddCategory("testCategory")
@@ -36,6 +37,7 @@ func Test_Send(t *testing.T) {
 		testUrl.Set("subject", "test")
 		testUrl.Set("files[testFile]", "fileValue")
 		testUrl.Set("from", "doe@email.com")
+		testUrl.Set("fromname", "Doe Email")
 		testUrl.Set("headers", "")
 		testUrl.Set("replyto", "")
 		if testUrl.Encode() == reqUrl.Encode() {
