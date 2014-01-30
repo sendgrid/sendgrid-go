@@ -1,5 +1,4 @@
 // Package sendgrid provides a simple interface to interact with the SendGrid API
-// Special thanks to this gist -> https://gist.github.com/rmulley/6603544
 package sendgrid
 
 import (
