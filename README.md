@@ -153,7 +153,7 @@ package main
 import (
 	"fmt"
 	"appengine/urlfetch"
-	"github.com/elbuo8/sendgrid-go/sendgrid"
+	"github.com/sendgrid/sendgrid-go"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
