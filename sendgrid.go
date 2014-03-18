@@ -18,7 +18,7 @@ func timeoutHandler(network, address string) (net.Conn, error) {
 type SGClient struct {
 	apiUser string
 	apiPwd  string
-	apiMail string
+	ApiMail string
 	Client  *http.Client
 }
 
@@ -28,7 +28,7 @@ func NewSendGridClient(apiUser, apiPwd string) SGClient {
 	return SGClient{
 		apiUser: apiUser,
 		apiPwd:  apiPwd,
-		apiMail: apiMail,
+		ApiMail: apiMail,
 	}
 }
 
