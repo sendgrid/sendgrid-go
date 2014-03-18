@@ -80,7 +80,7 @@ func (sg *SGClient) Send(m SGMail) error {
 	if e != nil {
 		return e
 	}
-	r, e := sg.Client.PostForm(sg.apiMail, values)
+	r, e := sg.Client.PostForm(sg.ApiMail, values)
 	if e == nil { // errors can contain nil Body responses
 		defer r.Body.Close()
 	}
