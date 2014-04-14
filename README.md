@@ -1,5 +1,5 @@
 # SendGrid-Go
-
+[![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 SendGrid Helper Library to send emails very easily using Go.
 
 ### SMTP Deprecation
