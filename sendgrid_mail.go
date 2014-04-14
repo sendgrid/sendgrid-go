@@ -48,6 +48,7 @@ func (m *SGMail) AddAttachmentStream(filename string, stream []byte) {
 
 func (m *SGMail) AddTo(email string) {
 	m.Mail.AddTo(email)
+    m.SMTPAPIHeader.AddTo(email)
 }
 
 func (m *SGMail) AddRecipient(email *mail.Address) {
