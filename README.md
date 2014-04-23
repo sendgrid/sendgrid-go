@@ -71,7 +71,7 @@ message.AddSubject("New email")
 ```Go
 message := sendgrid.NewMail()
 
-message.AddText("Body")
+message.AddText("Add Text Here..")
 
 //or
 
