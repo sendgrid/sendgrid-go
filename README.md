@@ -185,6 +185,12 @@ Please run the test suite in before sending a pull request.
 go test
 ```
 
+### TODO:
+* CID Support
+* Better Tests
+* Add Versioning
+* Add proper support for BCC
+
 ##MIT License
 
 Enjoy. Feel free to make pull requests :)
