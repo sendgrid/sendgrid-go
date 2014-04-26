@@ -23,16 +23,16 @@ type SGClient struct {
 }
 
 // NewSendGridClient will return a new SGClient.
-func NewSendGridClient(apiUser, apiPwd string) SGClient {
+func NewSendGridClient(apiUser, apiPwd string) *SGClient {
 	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
-	return SGClient{
+	return &SGClient{
 		apiUser: apiUser,
 		apiPwd:  apiPwd,
 		ApiMail: apiMail,
 	}
 }
 
-func (sg *SGClient) buildUrl(m SGMail) (url.Values, error) {
+func (sg *SGClient) buildUrl(m *SGMail) (url.Values, error) {
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
 	values.Set("api_key", sg.apiPwd)
@@ -66,7 +66,7 @@ func (sg *SGClient) buildUrl(m SGMail) (url.Values, error) {
 }
 
 // SendAPI will send mail using SG web API
-func (sg *SGClient) Send(m SGMail) error {
+func (sg *SGClient) Send(m *SGMail) error {
 	if sg.Client == nil {
 		transport := http.Transport{
 			Dial: timeoutHandler,
