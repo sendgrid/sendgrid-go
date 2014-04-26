@@ -1,56 +1,63 @@
 package sendgrid
 
 import (
-	"github.com/elbuo8/smtpmail"
 	"github.com/sendgrid/smtpapi-go"
-	"io/ioutil"
-	"net/http"
+	//"io/ioutil"
+	//"net/http"
 	"net/mail"
-	"path/filepath"
+	//"path/filepath"
 )
 
 type SGMail struct {
-	smtpmail.Mail
+	To       []string
+	ToName   []string
+	Subject  string
+	Text     string
+	Html     string
+	From     string
+	Bcc      []string
+	FromName string
+	ReplyTo  string
+	Date     string
+	Files    map[string]string
+	Content  map[string]string
+	Headers  map[string]string
 	smtpapi.SMTPAPIHeader
 }
 
-func NewMail() SGMail {
-	return SGMail{}
+func NewMail() *SGMail {
+	return &SGMail{}
 }
 
-func (m *SGMail) AddAttachment(filePath string) error {
-	bytes, e := ioutil.ReadFile(filePath)
-	if e != nil {
-		return e
-	}
-	_, filename := filepath.Split(filePath)
-	m.AddAttachmentStream(filename, bytes)
-	return nil
-}
-
-func (m *SGMail) AddAttachmentLink(filename, link string) error {
-	if r, e := http.Get(link); e != nil {
-		return e
+func (m *SGMail) AddTo(email string) error {
+	m.SMTPAPIHeader.AddTo(email)
+	if address, err := mail.ParseAddress(email); err != nil {
+		return err
 	} else {
-		defer r.Body.Close()
-		bytes, _ := ioutil.ReadAll(r.Body)
-		m.AddAttachmentStream(filename, bytes)
+		m.AddRecipient(address)
 		return nil
 	}
 }
 
-func (m *SGMail) AddAttachmentStream(filename string, stream []byte) {
-	if m.Files == nil {
-		m.Files = make(map[string]string)
+func (m *SGMail) AddTos(emails []string) error {
+	for i := 0; i < len(emails); i++ {
+		m.SMTPAPIHeader.AddTo(emails[i])
 	}
-	m.Files[filename] = string(stream)
+	if addresses, err := mail.ParseAddressList(emails); err != nil {
+		return err
+		m.AddRecipients(addresses)
+	}
 }
 
-func (m *SGMail) AddTo(email string) {
-	m.Mail.AddTo(email)
-    m.SMTPAPIHeader.AddTo(email)
+func (m *SGMail) AddRecipient(recipient *mail.Address) {
+	m.To = append(m.To, recipient.Address)
+	if recipient.Name != "" {
+		m.ToName = append(m.ToName, recipient)
+	}
 }
 
-func (m *SGMail) AddRecipient(email *mail.Address) {
-	m.Mail.AddRecipient(email)
+func (m *SGMail) AddRecipients(recipients *mail.Address) {
+	for i := 0; i < len(recipients); i++ {
+		m.AddRecipient(recipients[i])
+	}
 }
