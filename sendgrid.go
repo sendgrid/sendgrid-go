@@ -18,7 +18,7 @@ func timeoutHandler(network, address string) (net.Conn, error) {
 type SGClient struct {
 	apiUser string
 	apiPwd  string
-	ApiMail string
+	APIMail string
 	Client  *http.Client
 }
 
@@ -28,11 +28,11 @@ func NewSendGridClient(apiUser, apiPwd string) *SGClient {
 	return &SGClient{
 		apiUser: apiUser,
 		apiPwd:  apiPwd,
-		ApiMail: apiMail,
+		APIMail: apiMail,
 	}
 }
 
-func (sg *SGClient) buildUrl(m *SGMail) (url.Values, error) {
+func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	values := url.Values{}
 	values.Set("api_user", sg.apiUser)
 	values.Set("api_key", sg.apiPwd)
@@ -65,7 +65,7 @@ func (sg *SGClient) buildUrl(m *SGMail) (url.Values, error) {
 	return values, nil
 }
 
-// SendAPI will send mail using SG web API
+// Send will send mail using SG web API
 func (sg *SGClient) Send(m *SGMail) error {
 	if sg.Client == nil {
 		transport := http.Transport{
@@ -80,14 +80,13 @@ func (sg *SGClient) Send(m *SGMail) error {
 	if e != nil {
 		return e
 	}
-	r, e := sg.Client.PostForm(sg.ApiMail, values)
+	r, e := sg.Client.PostForm(sg.APIMail, values)
 	if e == nil { // errors can contain nil Body responses
 		defer r.Body.Close()
 	}
 	if r.StatusCode == http.StatusOK && e == nil {
 		return nil
-	} else {
-		body, _ := ioutil.ReadAll(r.Body)
-		return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", r.StatusCode, e, body)
 	}
+	body, _ := ioutil.ReadAll(r.Body)
+	return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", r.StatusCode, e, body)
 }
