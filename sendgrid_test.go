@@ -30,6 +30,5 @@ func TestSend(t *testing.T) {
 	m.AddTo("Test! <test@email.com>")
 	m.SetSubject("Test")
 	m.SetText("Text")
-
 	client.Send(m)
 }
