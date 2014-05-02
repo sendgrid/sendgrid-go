@@ -1,0 +1,15 @@
+{
+	"ImportPath": "github.com/sendgrid/sendgrid-go",
+	"GoVersion": "go1.2.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/elbuo8/smtpmail",
+			"Rev": "f8a8e80ad932f3ad49f8cd1d68bd68fbf71ef1d3"
+		},
+		{
+			"ImportPath": "github.com/sendgrid/smtpapi-go",
+			"Comment": "v0.2.1",
+			"Rev": "d1a8c04976015ce583d2dc705c9ccdd5240a7715"
+		}
+	]
+}
