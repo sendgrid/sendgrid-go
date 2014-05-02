@@ -273,48 +273,10 @@ func TestAddHeaders(t *testing.T) {
 	}
 }
 
-func TestAddCc(t *testing.T) {
+func TestHeaderString(t *testing.T) {
 	m := NewMail()
-	email := "email@email.com"
-	err := m.AddCc(email)
-	if err != nil {
-		t.Errorf("Failed to add CC: %v", err)
-	}
-}
-
-func TestAddCcFail(t *testing.T) {
-	m := NewMail()
-	email := ".com"
-	err := m.AddCc(email)
-	if err == nil {
-		t.Errorf("Must fail to add CC: %v", err)
-	}
-}
-
-func TestAddCcs(t *testing.T) {
-	m := NewMail()
-	emails := []string{"email+1@email.com", "email+2@email.com"}
-	err := m.AddCcs(emails)
-	if err != nil {
-		t.Errorf("Failed to add CC: %v", err)
-	}
-}
-
-func TestAddCcsFail(t *testing.T) {
-	m := NewMail()
-	emails := []string{".com"}
-	err := m.AddCcs(emails)
-	if err == nil {
-		t.Errorf("Must fail to add CC: %v", err)
-	}
-}
-
-func TestAddCcRecipients(t *testing.T) {
-	m := NewMail()
-	addressList := "email+1@email.com, email+2@email.com"
-	emails, _ := mail.ParseAddressList(addressList)
-	m.AddCcRecipients(emails)
-	if m.Headers["Cc"] != addressList {
-		t.Errorf("Incorrect CC format")
+	m.AddHeader("Cc", "hello@test.com")
+	if _, err := m.HeadersString(); err != nil {
+		t.Errorf("Error parsing headers: %v", err)
 	}
 }
