@@ -2,10 +2,6 @@
 [![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 SendGrid Helper Library to send emails very easily using Go.
 
-### SMTP Deprecation
-
-SMTP API is going to be deprecated from most of our libraries in favor of just using the Web API. If you still wish to use SMTP as your transport have a look at [this example](https://github.com/elbuo8/smtpmail).
-
 ## Installation
 
 ```bash
@@ -14,7 +10,7 @@ go get github.com/sendgrid/sendgrid-go
 
 ## Example
 
-```Go
+```go
 package main
 
 import (
@@ -27,9 +23,9 @@ func main() {
 	message := sendgrid.NewMail()
 	message.AddTo("yamil@sendgrid.com")
 	message.AddToName("Yamil Asusta")
-	message.AddSubject("SendGrid Testing")
-	message.AddText("WIN")
-	message.AddFrom("yamil@sendgrid.com")
+	message.SetSubject("SendGrid Testing")
+	message.SetText("WIN")
+	message.SetFrom("yamil@sendgrid.com")
     if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
@@ -39,15 +35,23 @@ func main() {
 
 ```
 
+### Creating a Client
+
+```go
+sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
+```
+
+### Creating a Mail
+```go
+message := sendgrid.NewMail()
+```
+
 ### Adding Recipients
 
-```Go
-message := sendgrid.NewMail()
+```go
 message.AddTo("example@sendgrid.com") // Returns error if email string is not valid RFC 5322
-
 // or
-
-address, _ := mail.ParseAddress("Example <example@sendgrid.com>") // make sure to import "net/mail" if you wish to use mail.ParseAddress
+address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
 message.AddRecipient(address) // Receives a vaild mail.Address
 ```
 
@@ -60,94 +64,117 @@ Same concept as regular recipient excepts the methods are:
 
 ### Setting the Subject
 
-```Go
-message := sendgrid.NewMail()
-
-message.AddSubject("New email")
+```go
+message.SetSubject("New email")
 ```
 
 ### Set Text or HTML
 
-```Go
-message := sendgrid.NewMail()
-
-message.AddText("Add Text Here..")
-
+```go
+message.SetText("Add Text Here..")
 //or
-
-message.AddHTML("<html><body>Stuff, you know?</body></html>")
+message.SetHTML("<html><body>Stuff, you know?</body></html>")
 ```
 ### Set From
 
-```Go
-message := sendgrid.NewMail()
-
-message.AddFrom("example@lol.com")
+```go
+message.SetFrom("example@lol.com")
 ```
 ### Set File Attachments
 
-```Go
-message := sendgrid.NewMail()
-
-message.AddAttachment("./stuff.txt")
-
+```go
+message.AddAttachment("text.txt", file) // file needs to implement the io.Reader interface
 //or
-
-message.AddAttachmentLink("filename", "http://example.com/file.zip")
-
-//or
-
 message.AddAttachmentStream("filename", []byte("some file content"))
+```
+### Adding ContentIDs
 
+```go
+message.AddContentID("id", "content")
 ```
 
 ## SendGrid's  [X-SMTPAPI](http://sendgrid.com/docs/API_Reference/SMTP_API/)
 
 If you wish to use the X-SMTPAPI on your own app, you can use the [SMTPAPI Go library](https://github.com/sendgrid/smtpapi-go).
 
-### [Substitution](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
 
-```Go
-message := sendgrid.NewMail()
+### Recipients
 
+```go
+message.AddTo("addTo@mailinator.com")
+// or
+tos := []string{"test@test.com", "test@email.com"}
+message.AddTos(tos)
+// or
+message.SetTos(tos)
+```
+
+### [Substitutions](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
+
+```go
 message.AddSubstitution("key", "value")
+// or
+values := []string{"value1", "value2"}
+message.AddSubstitutions("key", values)
+//or
+sub := make(map[string][]string)
+sub["key"] = values
+message.SetSubstitutions(sub)
 ```
 
 ### [Section](http://sendgrid.com/docs/API_Reference/SMTP_API/section_tags.html)
 
-```Go
-message := sendgrid.NewMail()
-
+```go
 message.AddSection("section", "value")
+// or
+sections := make(map[string]string)
+sections["section"] = "value"
+message.SetSections(sections)
 ```
 
 ### [Category](http://sendgrid.com/docs/Delivery_Metrics/categories.html)
 
-```Go
-message := sendgrid.NewMail()
-
+```go
 message.AddCategory("category")
+// or
+categories := []string{"setCategories"}
+message.AddCategories(categories)
+// or
+message.SetCategories(categories)
 ```
 
 ### [Unique Arguments](http://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html)
 
-```Go
-message := sendgrid.NewMail()
-
+```go
 message.AddUniqueArg("key", "value")
+// or
+args := make(map[string]string)
+args["key"] = "value"
+message.SetUniqueArgs(args)
 ```
 
-### [Filter](http://sendgrid.com/docs/API_Reference/SMTP_API/apps.html)
+### [Filters](http://sendgrid.com/docs/API_Reference/SMTP_API/apps.html)
 
-```Go
-message := sendgrid.NewMail()
-
+```go
 message.AddFilter("filter", "setting", "value")
+// or
+filter := &Filter{
+  Settings: make(map[string]string),
+}
+filter.Settings["enable"] = "1"
+filter.Settings["text/plain"] = "You can haz footers!"
+message.SetFilter("footer", filter)
+```
+
+### JSONString
+
+```go
+message.JSONString() //returns a JSON string representation of the headers
 ```
 
 ## AppEngine Example
 
-```Go
+```go
 package main
 
 import (
@@ -163,9 +190,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	sg.Client = urlfetch.Client(c) //Just perform this swap, and you are good to go.
 	message := sendgrid.NewMail()
 	message.AddTo("yamil@sendgrid.com")
-	message.AddSubject("SendGrid is Baller")
-	message.AddHTML("Simple Text")
-	message.AddFrom("kunal@sendgrid.com")
+	message.SetSubject("SendGrid is Baller")
+	message.SetHTML("Simple Text")
+	message.SetFrom("kunal@sendgrid.com")
 	if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
@@ -182,12 +209,10 @@ Kudos to [Matthew Zimmerman](https://github.com/mzimmerman) for this example.
 Please run the test suite in before sending a pull request.
 
 ```bash
-go test
+go test -v
 ```
 
 ### TODO:
-* CID Support
-* Better Tests
 * Add Versioning
 * Add proper support for BCC
 
