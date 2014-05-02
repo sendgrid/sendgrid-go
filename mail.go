@@ -1,6 +1,7 @@
-package mail
+package sendgrid
 
 import (
+	"encoding/json"
 	"github.com/sendgrid/smtpapi-go"
 	"io"
 	"io/ioutil"
@@ -207,41 +208,7 @@ func (m *SGMail) AddHeader(header, value string) {
 	m.Headers[header] = value
 }
 
-// AddCc ...
-func (m *SGMail) AddCc(email string) error {
-	address, err := mail.ParseAddress(email)
-	if err != nil {
-		return err
-	}
-	m.AddCcRecipient(address)
-	return nil
-}
-
-// AddCcs ...
-func (m *SGMail) AddCcs(emails []string) error {
-	for i := 0; i < len(emails); i++ {
-		if err := m.AddCc(emails[i]); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// AddCcRecipient ...
-func (m *SGMail) AddCcRecipient(recipient *mail.Address) {
-	if m.Headers == nil {
-		m.Headers = make(map[string]string)
-	}
-	if m.Headers["Cc"] == "" {
-		m.Headers["Cc"] += recipient.Address
-	} else {
-		m.Headers["Cc"] += ", " + recipient.Address
-	}
-}
-
-// AddCcRecipients ...
-func (m *SGMail) AddCcRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddCcRecipient(recipients[i])
-	}
+func (m *SGMail) HeadersString() (string, error) {
+	headers, e := json.Marshal(m.Headers)
+	return string(headers), e
 }
