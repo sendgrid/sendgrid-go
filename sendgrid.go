@@ -66,6 +66,9 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	for k, v := range m.Files {
 		values.Set("files["+k+"]", v)
 	}
+	for k, v := range m.Content {
+		values.Set("content["+k+"]", v)
+	}
 	return values, nil
 }
 
