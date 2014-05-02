@@ -41,17 +41,21 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	values.Set("text", m.Text)
 	values.Set("from", m.From)
 	values.Set("replyto", m.ReplyTo)
-	apiHeaders, apiError := m.JsonString()
-	if apiError != nil {
-		return nil, fmt.Errorf("sendgrid.go: error:%v", apiError)
+	apiHeaders, err := m.SMTPAPIHeader.JSONString()
+	if err != nil {
+		return nil, fmt.Errorf("sendgrid.go: error:%v", err)
 	}
 	values.Set("x-smtpapi", apiHeaders)
-	values.Set("headers", m.Headers)
+	headers, err := m.HeadersString()
+	if err != nil {
+		return nil, fmt.Errorf("sendgrid.go: error: %v", err)
+	}
+	values.Set("headers", headers)
 	if len(m.FromName) != 0 {
 		values.Set("fromname", m.FromName)
 	}
-	for i := 0; i < len(m.Mail.To); i++ {
-		values.Add("to[]", m.Mail.To[i])
+	for i := 0; i < len(m.To); i++ {
+		values.Add("to[]", m.To[i])
 	}
 	for i := 0; i < len(m.Bcc); i++ {
 		values.Add("bcc[]", m.Bcc[i])
@@ -76,7 +80,7 @@ func (sg *SGClient) Send(m *SGMail) error {
 		}
 	}
 	var e error
-	values, e := sg.buildUrl(m)
+	values, e := sg.buildURL(m)
 	if e != nil {
 		return e
 	}
