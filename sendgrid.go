@@ -91,10 +91,14 @@ func (sg *SGClient) Send(m *SGMail) error {
 	if e != nil {
 		return fmt.Errorf("sendgrid.go: error:%v; response:%v", e, r)
 	}
+	
+	defer r.Body.Close()
+	
 	if r.StatusCode == http.StatusOK {
 		return nil
 	}
+	
 	body, _ := ioutil.ReadAll(r.Body)
-	r.Body.Close()
+	
 	return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", r.StatusCode, e, body)
 }
