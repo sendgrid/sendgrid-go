@@ -1,14 +1,12 @@
 language: go
-
 go:
-  - tip
-
+- tip
 notifications:
   hipchat:
     rooms:
-      secure: U4oMQRXVm23/KtPWJ7FRohyP+2OR7hZKLhZmaqCLuT+Al3UCiniX6fJtS+7tCg/2igERV2PN22HZS9fAhv34tNzTjSvpAk/2T5Exhg0B/FMQZmjxPIcalNL5nmgaY4c1D1Z0teKJrzayOgQEfkEi4SZ8ePiVQUmFMsnV8BmjKRE=
+      secure: gmVyRwBovK6CxlMe1oR2gbgS5esz86D/dU0NHHE1jqzrkWiGsR+PjEupcHVhlCmZqO5zm3hTrgCUgIKz+OvYrgxX7DbnL57H6ycwqNY1K2bFC4EwYfoIA/1yNkYE94R0M4uMNAL/h4lCl0uSYrhW8RbzYkUeUx/2Z8hdlyqKvbo=
     template:
-    - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository} Build
-      %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
+    - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository}
+      Build %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
       <a href="https://github.com/sendgrid/docs/commits/%{commit}">View on GitHub</a>'
     format: html
