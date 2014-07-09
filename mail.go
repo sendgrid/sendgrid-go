@@ -1,6 +1,7 @@
 package sendgrid
 
 import (
+	"bytes"
 	"encoding/json"
 	"github.com/sendgrid/smtpapi-go"
 	"io"
