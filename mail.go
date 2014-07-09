@@ -1,12 +1,14 @@
 package sendgrid
 
 import (
+	"bytes"
 	"encoding/json"
 	"github.com/sendgrid/smtpapi-go"
 	"io"
 	"io/ioutil"
 	"net/mail"
 	"time"
+	"text/template"
 )
 
 // SGMail is representation of a valid SendGrid Mail
@@ -91,6 +93,24 @@ func (m *SGMail) SetText(text string) {
 // SetHTML sets the email's HTML
 func (m *SGMail) SetHTML(html string) {
 	m.HTML = html
+}
+
+// SetTemplate sets the email'HTML using text/template
+// package and the string given as input
+func (m *SGMail) SetTemplate(html string, data interface{}) {
+	t := template.Must(template.New("email").Parse(html))
+	var buf bytes.Buffer
+	t.Execute(&buf, data)
+	m.HTML = buf.String()
+}
+
+// SetTemplate sets the email'HTML using text/template
+// package and a file path given as input
+func (m *SGMail) SetTemplateFile(file string, data interface{}) {
+	t := template.Must(template.New("email").ParseFiles(file))
+	var buf bytes.Buffer
+	t.ExecuteTemplate(&buf, file, data)
+	m.HTML = buf.String()
 }
 
 // SetFrom will set the senders email property

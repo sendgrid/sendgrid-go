@@ -113,6 +113,15 @@ func TestSetHTML(t *testing.T) {
 	}
 }
 
+func TestSetTemplate(t *testing.T) {
+	m := NewMail()
+	const letter = "Dear {{.Name}}"
+	m.SetTemplate(letter, map[string]interface{}{"Name": "SendGrid"})
+	if m.HTML != "Dear SendGrid" {
+		t.Errorf("SetTemplate should modify SGMail.HTML")
+	}
+}
+
 func TestSetFrom(t *testing.T) {
 	m := NewMail()
 	testFrom, _ := mail.ParseAddress("Joe <email@email.com>")
