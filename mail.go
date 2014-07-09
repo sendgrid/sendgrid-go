@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/mail"
 	"time"
+	"text/template"
 )
 
 // SGMail is representation of a valid SendGrid Mail
