@@ -86,6 +86,47 @@ func TestAddToNames(t *testing.T) {
 	}
 }
 
+func TestAddCc(t *testing.T) {
+	m := NewMail()
+	m.AddCc("Email Name<email@email.com>")
+	if len(m.Cc) != 1 {
+		t.Errorf("AddCc should append to SGMail.Cc")
+	}
+}
+
+func TestAddCcFail(t *testing.T) {
+	m := NewMail()
+	err := m.AddCc(".com")
+	if err == nil {
+		t.Errorf("AddCc should fail on invalid email addresses")
+	}
+}
+
+func TestAddCcs(t *testing.T) {
+	m := NewMail()
+	m.AddCcs([]string{"Email Name <email+1@email.com>", "email+2@email.com"})
+	if len(m.Cc) != 2 {
+		t.Errorf("AddCcs should append to SGMail.Cc")
+	}
+}
+
+func TestAddCcsFail(t *testing.T) {
+	m := NewMail()
+	err := m.AddCcs([]string{".co", "email+2@email.com"})
+	if err == nil {
+		t.Errorf("AddCcs should fail in invalid email address")
+	}
+}
+
+func TestAddCcRecipients(t *testing.T) {
+	m := NewMail()
+	emails, _ := mail.ParseAddressList("Joe <email+1@email.com>, Doe <email+2@email.com>")
+	m.AddCcRecipients(emails)
+	if len(m.Cc) != 2 {
+		t.Errorf("AddCcRecipients should append to SGMail.Cc")
+	}
+}
+
 func TestSetSubject(t *testing.T) {
 	m := NewMail()
 	testSubject := "Subject"

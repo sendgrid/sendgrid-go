@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const Version = "0.5.1"
+const Version = "1.0.0"
 
 func timeoutHandler(network, address string) (net.Conn, error) {
 	return net.DialTimeout(network, address, time.Duration(5*time.Second))
@@ -59,6 +59,9 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	}
 	for i := 0; i < len(m.To); i++ {
 		values.Add("to[]", m.To[i])
+	}
+	for i := 0; i < len(m.Cc); i++ {
+		values.Add("cc[]", m.Cc[i])
 	}
 	for i := 0; i < len(m.Bcc); i++ {
 		values.Add("bcc[]", m.Bcc[i])
