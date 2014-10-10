@@ -98,7 +98,7 @@ func (sg *SGClient) Send(m *SGMail) error {
 		return e
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("User-Agent", "sendgrid-go/"+Version+";go")
+	req.Header.Set("User-Agent", "sendgrid/"+Version+";go")
 	res, e := sg.Client.Do(req)
 	if e != nil {
 		return fmt.Errorf("sendgrid.go: error:%v; response:%v", e, res)
