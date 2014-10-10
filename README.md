@@ -60,7 +60,7 @@ message.AddRecipient(address) // Receives a vaild mail.Address
 Same concept as regular recipient excepts the methods are:
 
 *   AddBCC
-*   AddRecipientBCC
+*   AddBccRecipient
 
 ### Setting the Subject
 
