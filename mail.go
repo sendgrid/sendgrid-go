@@ -101,6 +101,7 @@ func (m *SGMail) AddCcs(ccs []string) error {
 
 // AddCcRecipient ...
 func (m *SGMail) AddCcRecipient(recipient *mail.Address) {
+	m.SMTPAPIHeader.AddTo(recipient.String())
 	m.Cc = append(m.Cc, recipient.Address)
 }
 
@@ -166,6 +167,7 @@ func (m *SGMail) AddBccs(bccs []string) error {
 
 // AddBccRecipient ...
 func (m *SGMail) AddBccRecipient(recipient *mail.Address) {
+	m.SMTPAPIHeader.AddTo(recipient.String())
 	m.Bcc = append(m.Bcc, recipient.Address)
 }
 
