@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 SendGrid Helper Library to send emails very easily using Go.
 
+### Warning
+
+Version ``1.1.x``, behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
+
 ## Installation
 
 ```bash
@@ -101,12 +105,12 @@ If you wish to use the X-SMTPAPI on your own app, you can use the [SMTPAPI Go li
 ### Recipients
 
 ```go
-message.AddTo("addTo@mailinator.com")
+message.SMTPAPIHeader.AddTo("addTo@mailinator.com")
 // or
 tos := []string{"test@test.com", "test@email.com"}
-message.AddTos(tos)
+message.SMTPAPIHeader.AddTos(tos)
 // or
-message.SetTos(tos)
+message.SMTPAPIHeader.SetTos(tos)
 ```
 
 ### [Substitutions](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)

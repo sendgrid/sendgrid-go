@@ -2,11 +2,12 @@ package sendgrid
 
 import (
 	"encoding/json"
-	"github.com/sendgrid/smtpapi-go"
 	"io"
 	"io/ioutil"
 	"net/mail"
 	"time"
+
+	"github.com/sendgrid/smtpapi-go"
 )
 
 // SGMail is representation of a valid SendGrid Mail
@@ -55,7 +56,6 @@ func (m *SGMail) AddTos(emails []string) error {
 
 // AddRecipient will add mail.Address emails to recipients.
 func (m *SGMail) AddRecipient(recipient *mail.Address) {
-	m.SMTPAPIHeader.AddTo(recipient.String())
 	m.To = append(m.To, recipient.Address)
 	if recipient.Name != "" {
 		m.ToName = append(m.ToName, recipient.Name)

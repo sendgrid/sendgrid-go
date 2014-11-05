@@ -24,8 +24,6 @@ func TestAddTo(t *testing.T) {
 		t.Errorf("AddTo should append to SGMail.To")
 	case len(m.ToName) != 1:
 		t.Errorf("AddTo should append to SGMail.ToName on a valid email")
-	case len(m.SMTPAPIHeader.To) != 1:
-		t.Errorf("AddTo should also modify the SMTPAPIHeader.To")
 	}
 }
 
@@ -65,8 +63,6 @@ func TestAddRecipients(t *testing.T) {
 		t.Errorf("AddRecipients should append to SGMail.To")
 	case len(m.ToName) != 2:
 		t.Errorf("AddRecipients should append to SGMail.ToName if a valid email is supplied")
-	case len(m.SMTPAPIHeader.To) != 2:
-		t.Errorf("AddRecipients should append to SMTPAPIHeader.To")
 	}
 }
 
@@ -319,5 +315,13 @@ func TestHeaderString(t *testing.T) {
 	m.AddHeader("Cc", "hello@test.com")
 	if _, err := m.HeadersString(); err != nil {
 		t.Errorf("Error parsing headers: %v", err)
+	}
+}
+
+func TestAddToSMTPAPI(t *testing.T) {
+	m := NewMail()
+	m.SMTPAPIHeader.AddTo("example@email.com")
+	if len(m.SMTPAPIHeader.To) != 1 {
+		t.Error("SMTPAPIHeader To should be len of 1")
 	}
 }
