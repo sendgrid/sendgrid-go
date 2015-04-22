@@ -26,19 +26,38 @@ type SGClient struct {
 }
 
 // NewSendGridClient will return a new SGClient.
-func NewSendGridClient(apiUser, apiPwd string) *SGClient {
+func NewSendGridClient(apiUserOrKey string, apiKey ...string) *SGClient {
 	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
-	return &SGClient{
-		apiUser: apiUser,
-		apiPwd:  apiPwd,
-		APIMail: apiMail,
+
+	var Client *SGClient
+
+	// Detect if given username and password or an api key
+	if len(apiKey) == 1 {
+		// Username and password
+		Client = &SGClient{
+			apiUser: apiUserOrKey,
+			apiPwd:  apiKey[0],
+			APIMail: apiMail,
+		}
+	} else if len(apiKey) == 0 {
+		// API key
+		Client = &SGClient{
+			apiPwd:  apiUserOrKey,
+			APIMail: apiMail,
+		}
+	} else {
+		panic("Arguments error in NewSendGridClient")
 	}
+
+	return Client
 }
 
 func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	values := url.Values{}
-	values.Set("api_user", sg.apiUser)
-	values.Set("api_key", sg.apiPwd)
+	if sg.apiUser != "" {
+		values.Set("api_user", sg.apiUser)
+		values.Set("api_key", sg.apiPwd)
+	}
 	values.Set("subject", m.Subject)
 	values.Set("html", m.HTML)
 	values.Set("text", m.Text)
@@ -99,6 +118,12 @@ func (sg *SGClient) Send(m *SGMail) error {
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("User-Agent", "sendgrid/"+Version+";go")
+
+	// Using API key
+	if sg.apiUser == "" {
+		req.Header.Set("Authorization", "Bearer "+sg.apiPwd)
+	}
+
 	res, e := sg.Client.Do(req)
 	if e != nil {
 		return fmt.Errorf("sendgrid.go: error:%v; response:%v", e, res)
