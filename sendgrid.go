@@ -25,28 +25,26 @@ type SGClient struct {
 	Client  *http.Client
 }
 
-// NewSendGridClient will return a new SGClient.
-func NewSendGridClient(apiUserOrKey string, apiKey ...string) *SGClient {
+// NewSendGridClient will return a new SGClient. Used for username and password
+func NewSendGridClient(apiUser, apiKey string) *SGClient {
 	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
 
-	var Client *SGClient
+	Client := &SGClient{
+		apiUser: apiUser,
+		apiPwd:  apiKey,
+		APIMail: apiMail,
+	}
 
-	// Detect if given username and password or an api key
-	if len(apiKey) == 1 {
-		// Username and password
-		Client = &SGClient{
-			apiUser: apiUserOrKey,
-			apiPwd:  apiKey[0],
-			APIMail: apiMail,
-		}
-	} else if len(apiKey) == 0 {
-		// API key
-		Client = &SGClient{
-			apiPwd:  apiUserOrKey,
-			APIMail: apiMail,
-		}
-	} else {
-		panic("Arguments error in NewSendGridClient")
+	return Client
+}
+
+// NewSendGridClient will return a new SGClient. Used for api key
+func NewSendGridClientWithApiKey(apiKey string) *SGClient {
+	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
+
+	Client := &SGClient{
+		apiPwd:  apiKey,
+		APIMail: apiMail,
 	}
 
 	return Client

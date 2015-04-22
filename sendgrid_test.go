@@ -27,7 +27,7 @@ func TestNewSendGridClientUsernamePassword(t *testing.T) {
 }
 
 func TestNewSendGridClientApiKey(t *testing.T) {
-	client := NewSendGridClient(APIPassword)
+	client := NewSendGridClientWithApiKey(APIPassword)
 	if client.apiUser != "" && client.apiPwd == APIPassword {
 		t.Error("NewSendGridClient should have api ket set")
 	}
@@ -59,7 +59,7 @@ func TestSendForAuthorizationHeader(t *testing.T) {
 	}))
 	defer fakeServer.Close()
 	m := NewMail()
-	client := NewSendGridClient(APIPassword)
+	client := NewSendGridClientWithApiKey(APIPassword)
 	client.APIMail = fakeServer.URL
 	m.AddTo("Test! <test@email.com>")
 	m.SetSubject("Test")
