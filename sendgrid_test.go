@@ -12,6 +12,12 @@ const (
 	APIPassword = "API_PASSWORD"
 )
 
+func TestSendGridVersion(t *testing.T) {
+	if Version != "1.2.0" {
+		t.Error("SendGrid version does not match")
+	}
+}
+
 func TestNewSendGridClient(t *testing.T) {
 	client := NewSendGridClient(APIUser, APIPassword)
 	if client == nil {

@@ -4,7 +4,7 @@ SendGrid Helper Library to send emails very easily using Go.
 
 ### Warning
 
-Version ``1.1.x``, behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
+Version ``1.2.x``, behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
 
 ## Installation
 
@@ -39,10 +39,16 @@ func main() {
 
 ```
 
+## Usage
+
+To begin using this library, call `NewSendGridClient` with your SendGrid credentials OR `NewSendGridClientWithApiKey` with a SendGrid API Key. API Key is the preferred method. API Keys are in beta. To configure API keys, visit https://sendgrid.com/beta/settings/api_key.
+
 ### Creating a Client
 
 ```go
 sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
+// or
+sg := sendgrid.NewSendGridClientWithApiKey("sendgrid_api_key")
 ```
 
 ### Creating a Mail
