@@ -12,7 +12,7 @@ Version ``1.2.x``, behaves differently in the ``AddTo`` method. In the past this
 ## Installation
 
 ```bash
-go get github.com/sendgrid/sendgrid-go
+go get gopkg.in/sendgrid/sendgrid-go.v1
 ```
 
 ## Example
