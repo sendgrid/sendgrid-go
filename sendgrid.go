@@ -4,7 +4,6 @@ package sendgrid
 import (
 	"fmt"
 	"io/ioutil"
-	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -12,10 +11,6 @@ import (
 )
 
 const Version = "1.2.0"
-
-func timeoutHandler(network, address string) (net.Conn, error) {
-	return net.DialTimeout(network, address, time.Duration(5*time.Second))
-}
 
 // SGClient will contain the credentials and default values
 type SGClient struct {
@@ -98,11 +93,9 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 // Send will send mail using SG web API
 func (sg *SGClient) Send(m *SGMail) error {
 	if sg.Client == nil {
-		transport := http.Transport{
-			Dial: timeoutHandler,
-		}
 		sg.Client = &http.Client{
-			Transport: &transport,
+			Transport: http.DefaultTransport,
+			Timeout:   5 * time.Second,
 		}
 	}
 	var e error
