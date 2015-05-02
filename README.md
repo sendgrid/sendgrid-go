@@ -1,4 +1,7 @@
 # SendGrid-Go
+[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.png)](http://godoc.org/github.com/sendgrid/sendgrid-go) 
+Visit the GoDoc.
+
 [![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 SendGrid Helper Library to send emails very easily using Go.
 
