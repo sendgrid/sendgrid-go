@@ -7,11 +7,15 @@ SendGrid Helper Library to send emails very easily using Go.
 
 ### Warning
 
-Version ``1.2.x``, behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
+Version ``2.x.x`` drops support for Go versions < 1.3.
+Version ``1.2.x`` behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
 
 ## Installation
 
 ```bash
+go get github.com/sendgrid/sendgrid-go
+
+// Or pin the version with gopkg
 go get gopkg.in/sendgrid/sendgrid-go.v1
 ```
 

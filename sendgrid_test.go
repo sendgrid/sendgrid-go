@@ -13,7 +13,7 @@ const (
 )
 
 func TestSendGridVersion(t *testing.T) {
-	if Version != "1.2.0" {
+	if Version != "2.0.0" {
 		t.Error("SendGrid version does not match")
 	}
 }
