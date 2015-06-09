@@ -35,38 +35,37 @@ func NewMail() *SGMail {
 }
 
 // AddTo adds a valid email address
-func (m *SGMail) AddTo(email string) error {
-	address, err := mail.ParseAddress(email)
-	if err != nil {
-		return err
+func (m *SGMail) AddTo(emails ...string) error {
+	for i := 0; i < len(emails); i++ {
+		address, err := mail.ParseAddress(emails[i])
+		if err != nil {
+			return err
+		}
+		m.AddRecipient(address)
 	}
-	m.AddRecipient(address)
 	return nil
 }
 
 // AddTos adds multiple email addresses
+// Deprecated
 func (m *SGMail) AddTos(emails []string) error {
-	for i := 0; i < len(emails); i++ {
-		if err := m.AddTo(emails[i]); err != nil {
-			return err
-		}
-	}
-	return nil
+	return m.AddTo(emails...)
 }
 
 // AddRecipient will add mail.Address emails to recipients.
-func (m *SGMail) AddRecipient(recipient *mail.Address) {
-	m.To = append(m.To, recipient.Address)
-	if recipient.Name != "" {
-		m.ToName = append(m.ToName, recipient.Name)
+func (m *SGMail) AddRecipient(recipients ...*mail.Address) {
+	for i := 0; i < len(recipients); i++ {
+		m.To = append(m.To, recipients[i].Address)
+		if recipients[i].Name != "" {
+			m.ToName = append(m.ToName, recipients[i].Name)
+		}
 	}
 }
 
 // AddRecipients calls AddRecipient per email
+// Deprecated
 func (m *SGMail) AddRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddRecipient(recipients[i])
-	}
+	m.AddRecipient(recipients...)
 }
 
 // AddToName sets the "pretty" name for a recipient
@@ -80,35 +79,34 @@ func (m *SGMail) AddToNames(names []string) {
 }
 
 // AddCc ...
-func (m *SGMail) AddCc(cc string) error {
-	address, err := mail.ParseAddress(cc)
-	if err != nil {
-		return err
+func (m *SGMail) AddCc(ccs ...string) error {
+	for i := 0; i < len(ccs); i++ {
+		address, err := mail.ParseAddress(ccs[i])
+		if err != nil {
+			return err
+		}
+		m.AddCcRecipient(address)
 	}
-	m.AddCcRecipient(address)
 	return nil
 }
 
 // AddCcs ...
+// Deprecated
 func (m *SGMail) AddCcs(ccs []string) error {
-	for i := 0; i < len(ccs); i++ {
-		if err := m.AddCc(ccs[i]); err != nil {
-			return err
-		}
-	}
-	return nil
+	return m.AddCc(ccs...)
 }
 
 // AddCcRecipient ...
-func (m *SGMail) AddCcRecipient(recipient *mail.Address) {
-	m.Cc = append(m.Cc, recipient.Address)
+func (m *SGMail) AddCcRecipient(recipients ...*mail.Address) {
+	for i := 0; i < len(recipients); i++ {
+		m.Cc = append(m.Cc, recipients[i].Address)
+	}
 }
 
 // AddCcRecipients ...
+// Deprecated
 func (m *SGMail) AddCcRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddCcRecipient(recipients[i])
-	}
+	m.AddCcRecipient(recipients...)
 }
 
 // SetSubject sets the email's subject
@@ -145,35 +143,35 @@ func (m *SGMail) SetFromEmail(address *mail.Address) {
 }
 
 // AddBcc ...
-func (m *SGMail) AddBcc(bcc string) error {
-	address, err := mail.ParseAddress(bcc)
-	if err != nil {
-		return err
+func (m *SGMail) AddBcc(bccs ...string) error {
+	for i := 0; i < len(bccs); i++ {
+		address, err := mail.ParseAddress(bccs[i])
+		if err != nil {
+			return err
+		}
+		m.AddBccRecipient(address)
 	}
-	m.AddBccRecipient(address)
 	return nil
 }
 
 // AddBccs ...
+// Deprecated
 func (m *SGMail) AddBccs(bccs []string) error {
-	for i := 0; i < len(bccs); i++ {
-		if err := m.AddBcc(bccs[i]); err != nil {
-			return err
-		}
-	}
-	return nil
+	return m.AddBcc(bccs...)
 }
 
 // AddBccRecipient ...
-func (m *SGMail) AddBccRecipient(recipient *mail.Address) {
-	m.Bcc = append(m.Bcc, recipient.Address)
+func (m *SGMail) AddBccRecipient(recipients ...*mail.Address) {
+	for i := 0; i < len(recipients); i++ {
+		m.Bcc = append(m.Bcc, recipients[i].Address)
+	}
+
 }
 
 // AddBccRecipients ...
+// Deprecated
 func (m *SGMail) AddBccRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddBccRecipient(recipients[i])
-	}
+	m.AddBccRecipient(recipients...)
 }
 
 // SetFromName ...
