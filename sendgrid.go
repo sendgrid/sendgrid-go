@@ -96,7 +96,7 @@ func (sg *SGClient) Send(m *SGMail) error {
 	return sg.SendWithTimeout(m, defaultTimeout)
 }
 
-// Send will send mail using SG web API and a custom timeout
+// SendWithTimeout will send mail using SG web API and a custom timeout
 func (sg *SGClient) SendWithTimeout(m *SGMail, timeout time.Duration) error {
 	if sg.Client == nil {
 		sg.Client = &http.Client{
