@@ -103,7 +103,7 @@ message.SetFrom("example@lol.com")
 ```go
 message.AddAttachment("text.txt", file) // file needs to implement the io.Reader interface
 //or
-message.AddAttachmentFromStream("filename", []byte("some file content"))
+message.AddAttachmentFromStream("filename", "some file content")
 ```
 ### Adding ContentIDs
 
