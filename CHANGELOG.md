@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2015-8.X
+
+- Complete API changes.
+
+
 ## [2.0.0] - 2015-5-02
 ### Changed
 - Fixed a nasty bug with orphaned connections but drops support for Go versions < 1.3. Thanks [trinchan](https://github.com/sendgrid/sendgrid-go/pull/24)

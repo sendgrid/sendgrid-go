@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/mail"
@@ -16,226 +17,132 @@ func TestNewMail(t *testing.T) {
 	}
 }
 
-func TestAddTo(t *testing.T) {
+func TestTo(t *testing.T) {
+	addr, err := mail.ParseAddress("Email Name<inbox@domain.tld>")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	m.AddTo("Email Name<email@email.com>")
-	switch {
-	case len(m.To) != 1:
-		t.Errorf("AddTo should append to SGMail.To")
-	case len(m.ToName) != 1:
-		t.Errorf("AddTo should append to SGMail.ToName on a valid email")
+	m.To(addr)
+	if len(m.to) != 1 {
+		t.Fatalf("To should append to Mail.to")
 	}
 }
 
-func TestAddToFail(t *testing.T) {
+func TestToMultiple(t *testing.T) {
+
+	addrs, err := mail.ParseAddressList("Email Name <email+1@email.com>, email+2@email.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	err := m.AddTo(".com")
-	if err == nil {
-		t.Errorf("AddTo should fail on invalid email addresses")
+	m.To(addrs...)
+	if len(m.to) != 2 {
+		t.Errorf("AddTos should append to Mail.to")
 	}
 }
 
-func TestAddTos(t *testing.T) {
+func TestCc(t *testing.T) {
+	addr, err := mail.ParseAddress("Email Name<inbox@domain.tld>")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	m.AddTos([]string{"Email Name <email+1@email.com>", "email+2@email.com"})
-	switch {
-	case len(m.To) != 2:
-		t.Errorf("AddTos should append to SGMail.To")
-	case len(m.ToName) != 1:
-		t.Errorf("AddTos should append to SGMail.ToName if a valid email was supplied")
+	m.Cc(addr)
+	if len(m.cc) != 1 {
+		t.Fatalf("To should append to Mail.to")
 	}
 }
 
-func TestAddTosFail(t *testing.T) {
+func TestCcMultiple(t *testing.T) {
+	addrs, err := mail.ParseAddressList("Email Name <email+1@email.com>, email+2@email.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	err := m.AddTos([]string{".co", "email+2@email.com"})
-	if err == nil {
-		t.Errorf("AddTos should fail in invalid email address")
+	m.Cc(addrs...)
+	if len(m.cc) != 2 {
+		t.Errorf("AddTos should append to Mail.to")
 	}
 }
 
-func TestAddRecipients(t *testing.T) {
+func TestBcc(t *testing.T) {
+	addr, err := mail.ParseAddress("Email Name<inbox@domain.tld>")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	emails, _ := mail.ParseAddressList("Joe <email+1@email.com>, Doe <email+2@email.com>")
-	m.AddRecipients(emails)
-	switch {
-	case len(m.To) != 2:
-		t.Errorf("AddRecipients should append to SGMail.To")
-	case len(m.ToName) != 2:
-		t.Errorf("AddRecipients should append to SGMail.ToName if a valid email is supplied")
+	m.Bcc(addr)
+	if len(m.bcc) != 1 {
+		t.Fatalf("To should append to Mail.to")
 	}
 }
 
-func TestAddToName(t *testing.T) {
+func TestBccMultiple(t *testing.T) {
+	addrs, err := mail.ParseAddressList("Email Name <email+1@email.com>, email+2@email.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	m.AddToName("Name")
-	if len(m.ToName) != 1 {
-		t.Errorf("AddToName should append to SG.ToName")
+	m.Bcc(addrs...)
+	if len(m.bcc) != 2 {
+		t.Errorf("AddTos should append to Mail.to")
 	}
 }
 
-func TestAddToNames(t *testing.T) {
-	m := NewMail()
-	m.AddToNames([]string{"Name", "Name2"})
-	if len(m.ToName) != 2 {
-		t.Errorf("AddToNames should append to SG.ToName")
-	}
-}
-
-func TestAddCc(t *testing.T) {
-	m := NewMail()
-	m.AddCc("Email Name<email@email.com>")
-	if len(m.Cc) != 1 {
-		t.Errorf("AddCc should append to SGMail.Cc")
-	}
-}
-
-func TestAddCcFail(t *testing.T) {
-	m := NewMail()
-	err := m.AddCc(".com")
-	if err == nil {
-		t.Errorf("AddCc should fail on invalid email addresses")
-	}
-}
-
-func TestAddCcs(t *testing.T) {
-	m := NewMail()
-	m.AddCcs([]string{"Email Name <email+1@email.com>", "email+2@email.com"})
-	if len(m.Cc) != 2 {
-		t.Errorf("AddCcs should append to SGMail.Cc")
-	}
-}
-
-func TestAddCcsFail(t *testing.T) {
-	m := NewMail()
-	err := m.AddCcs([]string{".co", "email+2@email.com"})
-	if err == nil {
-		t.Errorf("AddCcs should fail in invalid email address")
-	}
-}
-
-func TestAddCcRecipients(t *testing.T) {
-	m := NewMail()
-	emails, _ := mail.ParseAddressList("Joe <email+1@email.com>, Doe <email+2@email.com>")
-	m.AddCcRecipients(emails)
-	if len(m.Cc) != 2 {
-		t.Errorf("AddCcRecipients should append to SGMail.Cc")
-	}
-}
-
-func TestSetSubject(t *testing.T) {
+func TestSubject(t *testing.T) {
 	m := NewMail()
 	testSubject := "Subject"
-	m.SetSubject(testSubject)
-	if m.Subject != testSubject {
-		t.Errorf("SetSubject should modify SGMail.Subject")
+	m.Subject(testSubject)
+	if m.subject != testSubject {
+		t.Errorf("SetSubject should modify Mail.Subject")
 	}
 }
 
 func TestSetText(t *testing.T) {
 	m := NewMail()
 	testText := "Text"
-	m.SetText(testText)
-	if m.Text != testText {
-		t.Errorf("SetText should modify SGMail.Text")
+	m.Text(testText)
+	if m.text != testText {
+		t.Errorf("SetText should modify Mail.Text")
 	}
 }
 
 func TestSetHTML(t *testing.T) {
 	m := NewMail()
 	testHTML := "<html></html>"
-	m.SetHTML(testHTML)
-	if m.HTML != testHTML {
-		t.Errorf("SetHTML should modify SGMail.HTML")
+	m.HTML(testHTML)
+	if m.html != testHTML {
+		t.Errorf("SetHTML should modify Mail.HTML")
 	}
 }
 
 func TestSetFrom(t *testing.T) {
 	m := NewMail()
 	testFrom, _ := mail.ParseAddress("Joe <email@email.com>")
-	m.SetFrom(testFrom.String())
-	switch {
-	case m.From != testFrom.Address:
-		t.Errorf("SetFrom should modify SGMail.From")
-	case m.FromName != testFrom.Name:
-		t.Errorf("SetFromName should modify SGMail.FromName")
-	}
-}
-
-func TestSetFromFail(t *testing.T) {
-	m := NewMail()
-	testFrom := ".com"
-	err := m.SetFrom(testFrom)
-	if err == nil {
-		t.Errorf("SetFrom should fail if an invalid email address is provided")
-	}
-}
-
-func TestAddBcc(t *testing.T) {
-	m := NewMail()
-	m.AddBcc("Email Name<email@email.com>")
-	if len(m.Bcc) != 1 {
-		t.Errorf("AddBcc should append to SGMail.Bcc")
-	}
-}
-
-func TestAddBccFail(t *testing.T) {
-	m := NewMail()
-	err := m.AddBcc(".com")
-	if err == nil {
-		t.Errorf("AddBcc should fail on invalid email addresses")
-	}
-}
-
-func TestAddBccs(t *testing.T) {
-	m := NewMail()
-	m.AddBccs([]string{"Email Name <email+1@email.com>", "email+2@email.com"})
-	if len(m.Bcc) != 2 {
-		t.Errorf("AddBccs should append to SGMail.Bcc")
-	}
-}
-
-func TestAddBccsFail(t *testing.T) {
-	m := NewMail()
-	err := m.AddBccs([]string{".co", "email+2@email.com"})
-	if err == nil {
-		t.Errorf("AddBccs should fail in invalid email address")
-	}
-}
-
-func TestAddBccRecipients(t *testing.T) {
-	m := NewMail()
-	emails, _ := mail.ParseAddressList("Joe <email+1@email.com>, Doe <email+2@email.com>")
-	m.AddBccRecipients(emails)
-	if len(m.Bcc) != 2 {
-		t.Errorf("AddBccRecipients should append to SGMail.Bcc")
-	}
-}
-
-func TestSetFromName(t *testing.T) {
-	m := NewMail()
-	testFromName := "Joe"
-	m.SetFromName(testFromName)
-	if m.FromName != testFromName {
-		t.Errorf("SetFromName should modify SGMail.FromName")
+	m.From(testFrom)
+	if m.from == nil {
+		t.Fatalf("From must set m.from")
 	}
 }
 
 func TestSetReplyTo(t *testing.T) {
-	m := NewMail()
-	testReplyTo := "email@email.com"
-	m.SetReplyTo(testReplyTo)
-	if m.ReplyTo != testReplyTo {
-		t.Errorf("SetReplyTo should modify SGMail.ReplyTo")
-	}
-}
 
-func TestSetReplyToFail(t *testing.T) {
+	addr, err := mail.ParseAddress("Email Name<inbox@domain.tld>")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := NewMail()
-	testReplyTo := ".com"
-	err := m.SetReplyTo(testReplyTo)
-	if err == nil {
-		t.Errorf("SetReplyTo should fail with an invalid address")
+	m.ReplyTo(addr)
+	if m.replyTo == nil {
+		t.Fatalf("ReplyTo should append to Mail.to")
 	}
 }
 
@@ -243,8 +150,8 @@ func TestSetDate(t *testing.T) {
 	m := NewMail()
 	date := "Today"
 	m.SetDate(date)
-	if m.Date != date {
-		t.Errorf("SetDate should modify SGMail.Date")
+	if m.date != date {
+		t.Errorf("SetDate should modify Mail.Date")
 	}
 }
 
@@ -252,12 +159,12 @@ func TestSetRFCDate(t *testing.T) {
 	m := NewMail()
 	date := time.Now()
 	m.SetRFCDate(date)
-	if m.Date == "" {
+	if m.date == "" {
 		t.Errorf("SetDate should fail if date is invalid RFC822")
 	}
 }
 
-func TestAddAttachment(t *testing.T) {
+func TestAttach(t *testing.T) {
 	m := NewMail()
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "THIS IS A TEST!")
@@ -268,8 +175,8 @@ func TestAddAttachment(t *testing.T) {
 		t.Errorf("Fake server could'nt be reached")
 	}
 	defer res.Body.Close()
-	err = m.AddAttachment("Test", res.Body)
-	if _, ok := m.Files["Test"]; !ok {
+	err = m.Attach("Test", res.Body)
+	if _, ok := m.files["Test"]; !ok {
 		t.Errorf("Attachment not added")
 	}
 }
@@ -286,8 +193,8 @@ func TestAddAttachmentFail(t *testing.T) {
 		t.Errorf("Fake server could'nt be reached")
 	}
 
-	err = m.AddAttachment("Test", res.Body)
-	if _, ok := m.Files["Test"]; ok {
+	err = m.Attach("Test", res.Body)
+	if _, ok := m.files["Test"]; ok {
 		t.Errorf("Attachment should not be added")
 	}
 }
@@ -295,8 +202,8 @@ func TestAddAttachmentFail(t *testing.T) {
 func TestAddContentIds(t *testing.T) {
 	m := NewMail()
 	id, value := "id", "im a value"
-	m.AddContentID(id, value)
-	if val, ok := m.Content[id]; !ok && val != value {
+	m.ContentID(id, value)
+	if val, ok := m.content[id]; !ok && val != value {
 		t.Errorf("ContentID failed to be added")
 	}
 }
@@ -305,23 +212,15 @@ func TestAddHeaders(t *testing.T) {
 	m := NewMail()
 	header, value := "id", "im a value"
 	m.AddHeader(header, value)
-	if val, ok := m.Headers[header]; !ok && val != value {
+	if val, ok := m.headers[header]; !ok && val != value {
 		t.Errorf("Header failed to be added")
-	}
-}
-
-func TestHeaderString(t *testing.T) {
-	m := NewMail()
-	m.AddHeader("Cc", "hello@test.com")
-	if _, err := m.HeadersString(); err != nil {
-		t.Errorf("Error parsing headers: %v", err)
 	}
 }
 
 func TestAddToSMTPAPI(t *testing.T) {
 	m := NewMail()
-	m.SMTPAPIHeader.AddTo("example@email.com")
-	if len(m.SMTPAPIHeader.To) != 1 {
-		t.Error("SMTPAPIHeader To should be len of 1")
+	m.smtpHeaders.AddTo("example@email.com")
+	if len(m.smtpHeaders.To) != 1 {
+		t.Error("smptHeaders.To should be len of 1")
 	}
 }

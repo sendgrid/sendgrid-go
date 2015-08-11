@@ -7,6 +7,8 @@ SendGrid Helper Library to send emails very easily using Go.
 
 ### Warning
 
+Version ``3.x`` changes most everything.
+
 Version ``2.x.x`` drops support for Go versions < 1.3.
 
 Version ``1.2.x`` behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
@@ -27,36 +29,41 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
+	"net/mail"
 )
 
 func main() {
-	sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
+
 	message := sendgrid.NewMail()
-	message.AddTo("yamil@sendgrid.com")
-	message.AddToName("Yamil Asusta")
-	message.SetSubject("SendGrid Testing")
-	message.SetText("WIN")
-	message.SetFrom("yamil@sendgrid.com")
-    if r := sg.Send(message); r == nil {
+	message.From(&mail.Address{
+		Address: "hello@sendgrid.com",
+	})
+	message.To(&mail.Address{
+		Name:    "Yamil Asusta",
+		Address: "yamil@sendgrid.com",
+	})
+	message.Subject("SendGrid Testing")
+	message.Text("WIN")
+
+	sg := sendgrid.NewClient("sendgrid_user", "sendgrid_key")
+	if r := sg.Send(message); r == nil {
 		fmt.Println("Email sent!")
 	} else {
 		fmt.Println(r)
 	}
 }
-
 ```
 
 ## Usage
 
-To begin using this library, call `NewSendGridClient` with your SendGrid credentials OR `NewSendGridClientWithApiKey` with a SendGrid API Key. API Key is the preferred method. API Keys are in beta. To configure API keys, visit https://sendgrid.com/beta/settings/api_key.
+To begin using this library, call `NewClient` with your SendGrid credentials OR `NewClientWithKey` with a SendGrid API Key. API Key is the preferred method. API Keys are in beta. To configure API keys, visit https://sendgrid.com/beta/settings/api_key.
 
 ### Creating a Client
 
 ```go
-sg := sendgrid.NewSendGridClient("sendgrid_user", "sendgrid_key")
+sg := sendgrid.NewClient("sendgrid_user", "sendgrid_key")
 // or
-sg := sendgrid.NewSendGridClientWithApiKey("sendgrid_api_key")
+sg := sendgrid.NewClientWithKey("sendgrid_api_key")
 ```
 
 ### Creating a Mail
@@ -67,48 +74,46 @@ message := sendgrid.NewMail()
 ### Adding Recipients
 
 ```go
-message.AddTo("example@sendgrid.com") // Returns error if email string is not valid RFC 5322
+message.To(&mail.Address{Address: "example@sendgrid.com"}) // Returns error if email string is not valid RFC 5322
 // or
 address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
-message.AddRecipient(address) // Receives a vaild mail.Address
+messages.To(address)
+
 ```
 
 ### Adding BCC Recipients
 
-Same concept as regular recipient excepts the methods are:
-
-*   AddBcc
-*   AddBccRecipient
+Same concept as regular recipient excepts the method is `Bcc`.
 
 ### Setting the Subject
 
 ```go
-message.SetSubject("New email")
+message.Subject("New email")
 ```
 
 ### Set Text or HTML
 
 ```go
-message.SetText("Add Text Here..")
+message.Text("Add Text Here..")
 //or
-message.SetHTML("<html><body>Stuff, you know?</body></html>")
+message.HTML("<html><body>Stuff, you know?</body></html>")
 ```
 ### Set From
 
 ```go
-message.SetFrom("example@lol.com")
+message.From(&mail.Address{Address: "example@lol.com"})
 ```
 ### Set File Attachments
 
 ```go
-message.AddAttachment("text.txt", file) // file needs to implement the io.Reader interface
+message.Attach("text.txt", SomeIOReader) // file needs to implement the io.Reader interface
 //or
-message.AddAttachmentFromStream("filename", "some file content")
+message.AttachBytes("filename", SomeByteSlice)
 ```
 ### Adding ContentIDs
 
 ```go
-message.AddContentID("id", "content")
+message.ContentID("id", "content")
 ```
 
 ## SendGrid's  [X-SMTPAPI](http://sendgrid.com/docs/API_Reference/SMTP_API/)
