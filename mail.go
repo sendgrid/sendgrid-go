@@ -1,247 +1,175 @@
 package sendgrid
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
-	"io/ioutil"
 	"net/mail"
+	"net/url"
 	"time"
 
 	"github.com/sendgrid/smtpapi-go"
 )
 
-// SGMail is representation of a valid SendGrid Mail
-type SGMail struct {
-	To       []string
-	ToName   []string
-	Cc       []string
-	Subject  string
-	Text     string
-	HTML     string
-	From     string
-	Bcc      []string
-	FromName string
-	ReplyTo  string
-	Date     string
-	Files    map[string]string
-	Content  map[string]string
-	Headers  map[string]string
-	smtpapi.SMTPAPIHeader
+// Mail is representation of a valid SendGrid Mail
+type Mail struct {
+	from    *mail.Address
+	replyTo *mail.Address
+	to      []*mail.Address
+	cc      []*mail.Address
+	bcc     []*mail.Address
+	subject string
+	text    string
+	html    string
+	date    string
+	files   map[string][]byte
+	content map[string]string
+	headers map[string]string
+
+	SMTPHeaders smtpapi.Header
 }
 
 // NewMail returns a new *SGMail
-func NewMail() *SGMail {
-	return &SGMail{}
+func NewMail() *Mail {
+	return &Mail{}
 }
 
-// AddTo adds a valid email address
-func (m *SGMail) AddTo(email string) error {
-	address, err := mail.ParseAddress(email)
-	if err != nil {
-		return err
-	}
-	m.AddRecipient(address)
-	return nil
+// To adds a valid email address
+func (m *Mail) To(emails ...*mail.Address) {
+	m.to = append(m.to, emails...)
 }
 
-// AddTos adds multiple email addresses
-func (m *SGMail) AddTos(emails []string) error {
-	for i := 0; i < len(emails); i++ {
-		if err := m.AddTo(emails[i]); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// AddRecipient will add mail.Address emails to recipients.
-func (m *SGMail) AddRecipient(recipient *mail.Address) {
-	m.To = append(m.To, recipient.Address)
-	if recipient.Name != "" {
-		m.ToName = append(m.ToName, recipient.Name)
-	}
-}
-
-// AddRecipients calls AddRecipient per email
-func (m *SGMail) AddRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddRecipient(recipients[i])
-	}
-}
-
-// AddToName sets the "pretty" name for a recipient
-func (m *SGMail) AddToName(name string) {
-	m.ToName = append(m.ToName, name)
-}
-
-// AddToNames sets the "pretty" name for multiple recipients
-func (m *SGMail) AddToNames(names []string) {
-	m.ToName = append(m.ToName, names...)
-}
-
-// AddCc ...
-func (m *SGMail) AddCc(cc string) error {
-	address, err := mail.ParseAddress(cc)
-	if err != nil {
-		return err
-	}
-	m.AddCcRecipient(address)
-	return nil
-}
-
-// AddCcs ...
-func (m *SGMail) AddCcs(ccs []string) error {
-	for i := 0; i < len(ccs); i++ {
-		if err := m.AddCc(ccs[i]); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// AddCcRecipient ...
-func (m *SGMail) AddCcRecipient(recipient *mail.Address) {
-	m.Cc = append(m.Cc, recipient.Address)
-}
-
-// AddCcRecipients ...
-func (m *SGMail) AddCcRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddCcRecipient(recipients[i])
-	}
+// Cc ...
+func (m *Mail) Cc(emails ...*mail.Address) {
+	m.cc = append(m.cc, emails...)
 }
 
 // SetSubject sets the email's subject
-func (m *SGMail) SetSubject(subject string) {
-	m.Subject = subject
+func (m *Mail) Subject(subject string) {
+	m.subject = subject
 }
 
 // SetText sets the email's text
-func (m *SGMail) SetText(text string) {
-	m.Text = text
+func (m *Mail) Text(text string) {
+	m.text = text
 }
 
 // SetHTML sets the email's HTML
-func (m *SGMail) SetHTML(html string) {
-	m.HTML = html
+func (m *Mail) HTML(html string) {
+	m.html = html
 }
 
 // SetFrom will set the senders email property
-func (m *SGMail) SetFrom(from string) error {
-	address, err := mail.ParseAddress(from)
-	if err != nil {
-		return err
-	}
-	m.SetFromEmail(address)
-	return nil
+func (m *Mail) From(from *mail.Address) {
+	m.from = from
 }
 
-// SetFromEmail sets the senders email property
-func (m *SGMail) SetFromEmail(address *mail.Address) {
-	m.From = address.Address
-	if address.Name != "" {
-		m.SetFromName(address.Name)
-	}
-}
-
-// AddBcc ...
-func (m *SGMail) AddBcc(bcc string) error {
-	address, err := mail.ParseAddress(bcc)
-	if err != nil {
-		return err
-	}
-	m.AddBccRecipient(address)
-	return nil
-}
-
-// AddBccs ...
-func (m *SGMail) AddBccs(bccs []string) error {
-	for i := 0; i < len(bccs); i++ {
-		if err := m.AddBcc(bccs[i]); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// AddBccRecipient ...
-func (m *SGMail) AddBccRecipient(recipient *mail.Address) {
-	m.Bcc = append(m.Bcc, recipient.Address)
-}
-
-// AddBccRecipients ...
-func (m *SGMail) AddBccRecipients(recipients []*mail.Address) {
-	for i := 0; i < len(recipients); i++ {
-		m.AddBccRecipient(recipients[i])
-	}
-}
-
-// SetFromName ...
-func (m *SGMail) SetFromName(fromname string) {
-	m.FromName = fromname
-}
-
-// SetReplyTo ...
-func (m *SGMail) SetReplyTo(replyto string) error {
-	address, err := mail.ParseAddress(replyto)
-	if err != nil {
-		return err
-	}
-	m.SetReplyToEmail(address)
-	return nil
+// Bcc ...
+func (m *Mail) Bcc(emails ...*mail.Address) {
+	m.bcc = append(m.bcc, emails...)
 }
 
 // SetReplyToEmail ...
-func (m *SGMail) SetReplyToEmail(address *mail.Address) {
-	m.ReplyTo = address.Address
+func (m *Mail) ReplyTo(address *mail.Address) {
+	m.replyTo = address
 }
 
 // SetDate ...
-func (m *SGMail) SetDate(date string) {
-	m.Date = date
+func (m *Mail) SetDate(date string) {
+	m.date = date
 }
 
 // SetRFCDate ...
-func (m *SGMail) SetRFCDate(date time.Time) {
-	m.Date = date.Format(time.RFC822)
+func (m *Mail) SetRFCDate(date time.Time) {
+	m.date = date.Format(time.RFC822)
 }
 
-// AddAttachment allows file attachments to be sent. For security reasons,
+// Attachment allows file attachments to be sent. For security reasons,
 // this method doesn't take filepaths only the io.Reader interface.
-func (m *SGMail) AddAttachment(filename string, file io.Reader) error {
-	stream, err := ioutil.ReadAll(file)
+func (m *Mail) Attach(filename string, file io.Reader) error {
+	content := new(bytes.Buffer)
+	_, err := content.ReadFrom(file)
 	if err != nil {
 		return err
 	}
-	m.AddAttachmentFromStream(filename, string(stream))
+	m.AttachBytes(filename, content.Bytes())
 	return nil
 }
 
 // AddAttachmentFromStream ...
-func (m *SGMail) AddAttachmentFromStream(filename, file string) {
-	if m.Files == nil {
-		m.Files = make(map[string]string)
+func (m *Mail) AttachBytes(filename string, file []byte) {
+	if m.files == nil {
+		m.files = make(map[string][]byte)
 	}
-	m.Files[filename] = file
+	m.files[filename] = file
 }
 
 // AddContentID ...
-func (m *SGMail) AddContentID(id, value string) {
-	if m.Content == nil {
-		m.Content = make(map[string]string)
+func (m *Mail) ContentID(id, value string) {
+	if m.content == nil {
+		m.content = make(map[string]string)
 	}
-	m.Content[id] = value
+	m.content[id] = value
 }
 
 // AddHeader ...
-func (m *SGMail) AddHeader(header, value string) {
-	if m.Headers == nil {
-		m.Headers = make(map[string]string)
+func (m *Mail) AddHeader(header, value string) {
+	if m.headers == nil {
+		m.headers = make(map[string]string)
 	}
-	m.Headers[header] = value
+	m.headers[header] = value
 }
 
-func (m *SGMail) HeadersString() (string, error) {
-	headers, e := json.Marshal(m.Headers)
-	return string(headers), e
+func (m *Mail) values() (url.Values, error) {
+	values := url.Values{}
+
+	apiHeaders, err := m.SMTPHeaders.JSONString()
+	if err != nil {
+		return nil, fmt.Errorf("sendgrid.go: error:%v", err)
+	}
+	values.Set("x-smtpapi", apiHeaders)
+
+	headers, err := json.Marshal(m.headers)
+	if err != nil {
+		return nil, fmt.Errorf("sendgrid.go: error: %v", err)
+	}
+
+	values.Set("headers", string(headers))
+	values.Set("subject", m.subject)
+	values.Set("html", m.html)
+	values.Set("text", m.text)
+
+	if m.from != nil {
+		values.Set("from", m.from.Address)
+		if m.from.Name != "" {
+			values.Set("fromname", m.from.Name)
+		}
+	}
+
+	for _, to := range m.to {
+		values.Add("to[]", to.Address)
+		values.Add("toname[]", to.Name)
+	}
+
+	if m.replyTo != nil {
+		values.Set("replyto", m.replyTo.Address)
+	}
+
+	for _, cc := range m.cc {
+		values.Add("cc[]", cc.Address)
+	}
+	for _, bcc := range m.bcc {
+		values.Add("bcc[]", bcc.Address)
+	}
+
+	for k, v := range m.files {
+		//XXX: Converting []byte to string is safe here?
+		values.Set("files["+k+"]", string(v))
+	}
+
+	for k, v := range m.content {
+		values.Set("content["+k+"]", v)
+	}
+	return values, nil
 }

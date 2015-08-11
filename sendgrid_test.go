@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/mail"
 	"testing"
 )
 
@@ -13,27 +14,27 @@ const (
 )
 
 func TestSendGridVersion(t *testing.T) {
-	if Version != "2.0.0" {
+	if Version != "3.0.0" {
 		t.Error("SendGrid version does not match")
 	}
 }
 
 func TestNewSendGridClient(t *testing.T) {
-	client := NewSendGridClient(APIUser, APIPassword)
+	client := NewClient(APIUser, APIPassword)
 	if client == nil {
 		t.Error("NewSendGridClient should never return nil")
 	}
 }
 
 func TestNewSendGridClientUsernamePassword(t *testing.T) {
-	client := NewSendGridClient(APIUser, APIPassword)
+	client := NewClient(APIUser, APIPassword)
 	if client.apiUser == "" || client.apiPwd == "" {
 		t.Error("NewSendGridClient should have username and password set")
 	}
 }
 
-func TestNewSendGridClientApiKey(t *testing.T) {
-	client := NewSendGridClientWithApiKey(APIPassword)
+func TestClientWithApiKey(t *testing.T) {
+	client := NewClientWithKey(APIPassword)
 	if client.apiUser != "" && client.apiPwd == APIPassword {
 		t.Error("NewSendGridClient should have api ket set")
 	}
@@ -44,13 +45,19 @@ func TestSend(t *testing.T) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	defer fakeServer.Close()
-	m := NewMail()
-	client := NewSendGridClient(APIUser, APIPassword)
-	client.APIMail = fakeServer.URL
-	m.AddTo("Test! <test@email.com>")
-	m.SetSubject("Test")
-	m.SetText("Text")
 
+	addr, err := mail.ParseAddress("Test! <test@email.com>")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	m := NewMail()
+	m.To(addr)
+	m.Subject("Test")
+	m.Text("Text")
+
+	client := NewClient(APIUser, APIPassword)
+	client.endpoint = fakeServer.URL
 	if e := client.Send(m); e != nil {
 		t.Errorf("Send failed to send email. Returned error: %v", e)
 	}
@@ -64,13 +71,18 @@ func TestSendForAuthorizationHeader(t *testing.T) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	defer fakeServer.Close()
-	m := NewMail()
-	client := NewSendGridClientWithApiKey(APIPassword)
-	client.APIMail = fakeServer.URL
-	m.AddTo("Test! <test@email.com>")
-	m.SetSubject("Test")
-	m.SetText("Text")
 
+	addr, err := mail.ParseAddress("Test! <test@email.com>")
+	if err != nil {
+		t.Fatal(err)
+	}
+	m := NewMail()
+	m.To(addr)
+	m.Subject("Test")
+	m.Text("Text")
+
+	client := NewClientWithKey(APIPassword)
+	client.endpoint = fakeServer.URL
 	if e := client.Send(m); e != nil {
 		t.Errorf("Send failed to send email. Returned error: %v", e)
 	}
