@@ -190,6 +190,16 @@ message.SetFilter("footer", filter)
 message.JSONString() //returns a JSON string representation of the headers
 ```
 
+### Send emails through a proxy
+Cloud deployment platforms such as Heroku do not guarantee a static IP. Hence it is advisable to use proxies form static outbound IP services. Use `SendThroughProxy()` to do so:
+
+```go
+proxyURL := "http://user:passwd@proxyserver.xyz:port"
+if e := client.SendThroughProxy(m, proxyURL); e != nil {
+   t.Errorf("Send failed to send email through proxy. Returned error: %v", e)
+}
+```
+
 ## AppEngine Example
 
 ```go
@@ -221,6 +231,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 ```
 
 Kudos to [Matthew Zimmerman](https://github.com/mzimmerman) for this example.
+
+
 
 ###Tests
 
