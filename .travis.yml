@@ -13,4 +13,5 @@ notifications:
     format: html
     notify: true
 install:
+  - go get
   - go get github.com/elazarl/goproxy
