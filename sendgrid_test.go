@@ -5,14 +5,16 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/elazarl/goproxy"
 )
 
 // @note fill this out before testing
 const (
 	APIUser     = "API_USER"
 	APIPassword = "API_PASSWORD"
-	ProxyUrl    = "PROXY_URL"
 
+	ProxyUrl      = "127.0.0.1"
 	TestRecipient = "Test! <test@email.com>"
 )
 
@@ -61,10 +63,17 @@ func TestSend(t *testing.T) {
 }
 
 func TestSendThroughProxy(t *testing.T) {
+	// Start own proxy server locally
+	proxy := goproxy.NewProxyHttpServer()
+	proxy.Verbose = true
+	fakeProxy := httptest.NewServer(proxy)
+	defer fakeProxy.Close()
+
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "{\"message\": \"success\"}")
 	}))
 	defer fakeServer.Close()
+
 	m := NewMail()
 	client := NewSendGridClient(APIUser, APIPassword)
 	client.APIMail = fakeServer.URL
@@ -72,7 +81,7 @@ func TestSendThroughProxy(t *testing.T) {
 	m.SetSubject("Test")
 	m.SetText("Text")
 
-	if e := client.SendThroughProxy(m, ProxyUrl); e != nil {
+	if e := client.SendThroughProxy(m, fakeProxy.URL); e != nil {
 		t.Errorf("Send failed to send email through proxy. Returned error: %v", e)
 	}
 }

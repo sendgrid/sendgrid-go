@@ -12,3 +12,5 @@ notifications:
       <a href="https://github.com/sendgrid/docs/commits/%{commit}">View on GitHub</a>'
     format: html
     notify: true
+install:
+  - go get github.com/elazarl/goproxy
