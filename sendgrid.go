@@ -90,7 +90,7 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	return values, nil
 }
 
-// send (unexported) will send mail using SG web API with a given client
+// send (unexported generalization) will send mail using SG web API with a given client
 func (sg *SGClient) send(m *SGMail, client *http.Client) error {
 	var e error
 	values, e := sg.buildURL(m)

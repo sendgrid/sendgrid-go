@@ -14,7 +14,6 @@ const (
 	APIUser     = "API_USER"
 	APIPassword = "API_PASSWORD"
 
-	ProxyUrl      = "127.0.0.1"
 	TestRecipient = "Test! <test@email.com>"
 )
 
