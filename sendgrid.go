@@ -90,14 +90,8 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	return values, nil
 }
 
-// Send will send mail using SG web API
-func (sg *SGClient) Send(m *SGMail) error {
-	if sg.Client == nil {
-		sg.Client = &http.Client{
-			Transport: http.DefaultTransport,
-			Timeout:   5 * time.Second,
-		}
-	}
+// send (unexported) will send mail using SG web API with a given client
+func (sg *SGClient) send(m *SGMail, client *http.Client) error {
 	var e error
 	values, e := sg.buildURL(m)
 	if e != nil {
@@ -115,7 +109,7 @@ func (sg *SGClient) Send(m *SGMail) error {
 		req.Header.Set("Authorization", "Bearer "+sg.apiPwd)
 	}
 
-	res, e := sg.Client.Do(req)
+	res, e := client.Do(req)
 	if e != nil {
 		return fmt.Errorf("sendgrid.go: error:%v; response:%v", e, res)
 	}
@@ -129,4 +123,31 @@ func (sg *SGClient) Send(m *SGMail) error {
 	body, _ := ioutil.ReadAll(res.Body)
 
 	return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", res.StatusCode, e, body)
+}
+
+// Send will send mail using SG web API using standard client with http.DefaultTransport
+func (sg *SGClient) Send(m *SGMail) error {
+	if sg.Client == nil {
+		sg.Client = &http.Client{
+			Transport: http.DefaultTransport,
+			Timeout:   5 * time.Second,
+		}
+	}
+
+	return sg.send(m, sg.Client)
+}
+
+// SendThroughProxy send mail using SG web API using a proxy.
+func (sg *SGClient) SendThroughProxy(m *SGMail, proxyURL string) error {
+	proxyUrl, err := url.Parse(proxyURL)
+	if err != nil {
+		return err
+	}
+
+	client := &http.Client{
+		Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)},
+		Timeout:   5 * time.Second,
+	}
+
+	return sg.send(m, client)
 }
