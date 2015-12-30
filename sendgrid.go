@@ -17,6 +17,7 @@ type SGClient struct {
 	apiUser string
 	apiPwd  string
 	APIMail string
+	timeout time.Duration
 	Client  *http.Client
 }
 
@@ -28,6 +29,7 @@ func NewSendGridClient(apiUser, apiKey string) *SGClient {
 		apiUser: apiUser,
 		apiPwd:  apiKey,
 		APIMail: apiMail,
+		timeout: 5 * time.Second,
 	}
 
 	return Client
@@ -90,12 +92,18 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	return values, nil
 }
 
+// SetTimeout will set the timeout value for the http
+// client connection. Default is 5 seconds
+func (sg *SGClient) SetTimeout(timeout time.Duration) {
+	sg.timeout = timeout
+}
+
 // Send will send mail using SG web API
 func (sg *SGClient) Send(m *SGMail) error {
 	if sg.Client == nil {
 		sg.Client = &http.Client{
 			Transport: http.DefaultTransport,
-			Timeout:   5 * time.Second,
+			Timeout:   sg.timeout,
 		}
 	}
 	var e error
