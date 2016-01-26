@@ -32,8 +32,24 @@ type Personalization struct {
 }
 
 type Email struct {
-	Name    string `json:"name"`
-	Address string `json:"email"`
+	Name             string                 `json:"name"`
+	Address          string                 `json:"email"`
+	From             string                 `json:"from"`
+	Subject          string                 `json:"subject"`
+	Personalization  []*Personalization     `json:"personalization,omitempty"`
+	Content          []*Content             `json:"content"`
+	Attachments      []*Attachment          `json:"attachments,omitempty"`
+	TemplateID       string                 `json:"template_id,omitempty"`
+	Sections         map[string]string      `json:"sections,omitempty"`
+	Headers          map[string]interface{} `json:"headers,omitempty"`
+	Categories       []string               `json:"categories,omitempty"`
+	CustomArgs       map[string]interface{} `json:"custom_args,omitempty"`
+	SendAt           int                    `json:"send_at,omitempty"`
+	BatchID          string                 `json:"batch_id,omitempty"`
+	Asm              *Asm                   `json:"asm,omitempty"`
+	IPPoolID         int                    `json:"ip_pool_id,omitempty"`
+	MailSettings     *MailSettings          `json:"mail_settings,omitempty"`
+	TrackingSettings *TrackingSettings      `json:"tracking_settings,omitempty"`
 }
 
 type Content struct {
@@ -67,6 +83,10 @@ type TrackingSettings struct {
 	OpenTracking         *OpenTrackingSetting         `json:"open_tracking"`
 	SubscriptionTracking *SubscriptionTrackingSetting `json:"subscription_tracking"`
 	GoogleAnalytics      *GaSetting                   `json:"ganalytics"`
+	BCC                  *BccSetting                  `json:"bcc"`
+	BypassListManagement *Setting                     `json:"bypass_list_management"`
+	Footer               *FooterSetting               `json:"footer"`
+	SandboxMode          *Setting                     `json:"sandbox_mode"`
 }
 
 type BccSetting struct {
