@@ -20,9 +20,9 @@ type SGMailV3 struct {
 }
 
 type Personalization struct {
-	To            []Email           `json:"to"`
-	CC            []Email           `json:"cc"`
-	BCC           []Email           `json:"bcc"`
+	To            []*Email          `json:"to"`
+	CC            []*Email          `json:"cc"`
+	BCC           []*Email          `json:"bcc"`
 	Subject       string            `json:"subject"`
 	Headers       map[string]string `json:"headers"`
 	Substitutions map[string]string `json:"substitutions"`
@@ -140,7 +140,7 @@ func (s *SGMailV3) AddSection(key string, value string) *SGMailV3 {
 	return s
 }
 
-func (s *SGMailV3) AddHeader(key string, value string) *SGMailV3 {
+func (s *SGMailV3) SetHeader(key string, value string) *SGMailV3 {
 	if s.Headers == nil {
 		s.Headers = make(map[string]string)
 	}
@@ -149,7 +149,7 @@ func (s *SGMailV3) AddHeader(key string, value string) *SGMailV3 {
 	return s
 }
 
-func (s *SGMailV3) AddCategory(category ...string) *SGMailV3 {
+func (s *SGMailV3) AddCategories(category ...string) *SGMailV3 {
 	if s.Categories == nil {
 		s.Categories = make([]string, 0)
 	}
@@ -158,7 +158,7 @@ func (s *SGMailV3) AddCategory(category ...string) *SGMailV3 {
 	return s
 }
 
-func (s *SGMailV3) AddCustomArg(key string, value string) *SGMailV3 {
+func (s *SGMailV3) SetCustomArg(key string, value string) *SGMailV3 {
 	if s.CustomArgs == nil {
 		s.CustomArgs = make(map[string]string)
 	}
@@ -199,9 +199,9 @@ func (s *SGMailV3) SetTrackingSettings(trackingSettings *TrackingSettings) *SGMa
 
 func NewPersonalization() *Personalization {
 	return &Personalization{
-		To:            make([]Email, 0),
-		CC:            make([]Email, 0),
-		BCC:           make([]Email, 0),
+		To:            make([]*Email, 0),
+		CC:            make([]*Email, 0),
+		BCC:           make([]*Email, 0),
 		Headers:       make(map[string]string),
 		Substitutions: make(map[string]string),
 		CustomArgs:    make(map[string]string),
@@ -209,15 +209,15 @@ func NewPersonalization() *Personalization {
 	}
 }
 
-func (p *Personalization) AddTos(to ...Email) {
+func (p *Personalization) AddTos(to ...*Email) {
 	p.To = append(p.To, to...)
 }
 
-func (p *Personalization) AddCCs(cc ...Email) {
+func (p *Personalization) AddCCs(cc ...*Email) {
 	p.CC = append(p.CC, cc...)
 }
 
-func (p *Personalization) AddBCCs(bcc ...Email) {
+func (p *Personalization) AddBCCs(bcc ...*Email) {
 	p.BCC = append(p.BCC, bcc...)
 }
 
@@ -277,7 +277,7 @@ func (a *Asm) SetGroupID(groupID int) *Asm {
 
 func (a *Asm) AddGroupsToDisplay(groupsToDisplay ...int) *Asm {
 	if a.GroupsToDisplay == nil {
-		a.GroupsToDisplay = make([]int, len(groupsToDisplay))
+		a.GroupsToDisplay = make([]int, 0)
 	}
 
 	a.GroupsToDisplay = append(a.GroupsToDisplay, groupsToDisplay...)
@@ -435,4 +435,11 @@ func (g *GaSetting) SetCampaignName(campaignName string) *GaSetting {
 
 func NewSetting(enable bool) *Setting {
 	return &Setting{Enable: enable}
+}
+
+func NewEmail(name string, address string) *Email {
+	return &Email{
+		Name:    name,
+		Address: address,
+	}
 }
