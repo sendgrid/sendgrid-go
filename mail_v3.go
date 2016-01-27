@@ -79,14 +79,14 @@ type MailSettings struct {
 }
 
 type TrackingSettings struct {
-	ClickTracking        *Setting                     `json:"click_tracking"`
+	ClickTracking        *ClickTrackingSetting        `json:"click_tracking"`
 	OpenTracking         *OpenTrackingSetting         `json:"open_tracking"`
 	SubscriptionTracking *SubscriptionTrackingSetting `json:"subscription_tracking"`
 	GoogleAnalytics      *GaSetting                   `json:"ganalytics"`
 	BCC                  *BccSetting                  `json:"bcc"`
 	BypassListManagement *Setting                     `json:"bypass_list_management"`
 	Footer               *FooterSetting               `json:"footer"`
-	SandboxMode          *Setting                     `json:"sandbox_mode"`
+	SandboxMode          *SandboxModeSetting          `json:"sandbox_mode"`
 }
 
 type BccSetting struct {
@@ -100,9 +100,26 @@ type FooterSetting struct {
 	Html   string `json:"html"`
 }
 
+type ClickTrackingSetting struct {
+	Enable     bool `json:"enable"`
+	EnableText bool `json:"enable_text"`
+}
+
 type OpenTrackingSetting struct {
 	Enable          bool   `json:"enable"`
 	SubstitutionTag string `json:"substitution_tag"`
+}
+
+type SandboxModeSetting struct {
+	Enable      bool              `json:"enable"`
+	ForwardSpam bool              `json:"forward_spam"`
+	SpamCheck   *SpamCheckSetting `json:"spam_check"`
+}
+
+type SpamCheckSetting struct {
+	Enable        bool   `json:"enable"`
+	SpamThreshold int    `json:"spam_threshold"`
+	PostToURL     string `json:"post_to_url"`
 }
 
 type SubscriptionTrackingSetting struct {
@@ -332,7 +349,7 @@ func NewTrackingSettings() *TrackingSettings {
 	return &TrackingSettings{}
 }
 
-func (t *TrackingSettings) SetClickTracking(clickTracking *Setting) *TrackingSettings {
+func (t *TrackingSettings) SetClickTracking(clickTracking *ClickTrackingSetting) *TrackingSettings {
 	t.ClickTracking = clickTracking
 	return t
 
@@ -461,5 +478,28 @@ func NewEmail(name string, address string) *Email {
 	return &Email{
 		Name:    name,
 		Address: address,
+	}
+}
+
+func NewClickTrackingSetting(enable bool, enableText bool) *ClickTrackingSetting {
+	return &ClickTrackingSetting{
+		Enable:     enable,
+		EnableText: enableText,
+	}
+}
+
+func NewSpamCheckSetting(enable bool, spamThreshold int, postToURL string) *SpamCheckSetting {
+	return &SpamCheckSetting{
+		Enable:        enable,
+		SpamThreshold: spamThreshold,
+		PostToURL:     postToURL,
+	}
+}
+
+func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSetting) *SandboxModeSetting {
+	return &SandboxModeSetting{
+		Enable:      enable,
+		ForwardSpam: forwardSpam,
+		SpamCheck:   spamCheck,
 	}
 }
