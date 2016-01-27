@@ -195,7 +195,7 @@ func TestV3SetMailSettings(t *testing.T) {
 func TestV3SetTrackingSettings(t *testing.T) {
 	m := NewV3Mail()
 	ts := NewTrackingSettings()
-	ts.SetClickTracking(NewSetting(true))
+	ts.SetClickTracking(NewClickTrackingSetting(true, false))
 	m.SetTrackingSettings(ts)
 
 	if m.TrackingSettings == nil {
@@ -506,7 +506,7 @@ func TestV3NewTrackingSettings(t *testing.T) {
 }
 
 func TestV3TrackingSettingsSetClickTracking(t *testing.T) {
-	ts := NewTrackingSettings().SetClickTracking(NewSetting(true))
+	ts := NewTrackingSettings().SetClickTracking(NewClickTrackingSetting(true, true))
 
 	if ts.ClickTracking == nil {
 		t.Errorf("Click Tracking should not be nil")
@@ -780,5 +780,52 @@ func TestV3NewEmail(t *testing.T) {
 
 	if e.Address != address {
 		t.Errorf("Address should be %s, got %s", address, e.Address)
+	}
+}
+
+func TestV3NewClickTrackingSetting(t *testing.T) {
+	c := NewClickTrackingSetting(true, false)
+
+	if !c.Enable {
+		t.Error("Click Tracking should be enabled")
+	}
+
+	if c.EnableText {
+		t.Error("Enable Text should not be enabled")
+	}
+}
+
+func TestV3NewSpamCheckSetting(t *testing.T) {
+	spamThreshold := 8
+	postToURL := "http://myurl.com"
+	s := NewSpamCheckSetting(true, spamThreshold, postToURL)
+
+	if !s.Enable {
+		t.Error("SpamCheck should be enabled")
+	}
+
+	if s.SpamThreshold != spamThreshold {
+		t.Errorf("SpamThreshold should be %d, got %d", spamThreshold, s.SpamThreshold)
+	}
+
+	if s.PostToURL != postToURL {
+		t.Errorf("PostToURL should be %s, got %s", postToURL, s.PostToURL)
+	}
+}
+
+func TestV3NewSandboxModeSetting(t *testing.T) {
+	spamCheck := NewSpamCheckSetting(true, 1, "http://wwww.google.com")
+	s := NewSandboxModeSetting(true, true, spamCheck)
+
+	if !s.Enable {
+		t.Error("Sandbox Mode should be enabled")
+	}
+
+	if !s.ForwardSpam {
+		t.Error("ForwardSpam should be enabled")
+	}
+
+	if s.SpamCheck == nil {
+		t.Error("SpamCheck should not be nil")
 	}
 }
