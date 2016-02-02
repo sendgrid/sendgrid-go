@@ -1,10 +1,10 @@
 package sendgrid
 
 type SGMailV3 struct {
-	From             *Email             `json:"from"`
-	Subject          string             `json:"subject"`
+	From             *Email             `json:"from,omitempty"`
+	Subject          string             `json:"subject,omitempty"`
 	Personalizations []*Personalization `json:"personalization,omitempty"`
-	Content          []*Content         `json:"content"`
+	Content          []*Content         `json:"content,omitempty"`
 	Attachments      []*Attachment      `json:"attachments,omitempty"`
 	TemplateID       string             `json:"template_id,omitempty"`
 	Sections         map[string]string  `json:"sections,omitempty"`
@@ -20,24 +20,24 @@ type SGMailV3 struct {
 }
 
 type Personalization struct {
-	To            []*Email          `json:"to"`
-	CC            []*Email          `json:"cc"`
-	BCC           []*Email          `json:"bcc"`
-	Subject       string            `json:"subject"`
-	Headers       map[string]string `json:"headers"`
-	Substitutions map[string]string `json:"substitutions"`
-	CustomArgs    map[string]string `json:"custom_args"`
-	Categories    []string          `json:"categories"`
-	SendAt        int               `json:"send_at"`
+	To            []*Email          `json:"to,omitempty"`
+	CC            []*Email          `json:"cc,omitempty"`
+	BCC           []*Email          `json:"bcc,omitempty"`
+	Subject       string            `json:"subject,omitempty"`
+	Headers       map[string]string `json:"headers,omitempty"`
+	Substitutions map[string]string `json:"substitutions,omitempty"`
+	CustomArgs    map[string]string `json:"custom_args,omitempty"`
+	Categories    []string          `json:"categories,omitempty"`
+	SendAt        int               `json:"send_at,omitempty"`
 }
 
 type Email struct {
-	Name             string                 `json:"name"`
-	Address          string                 `json:"email"`
-	From             string                 `json:"from"`
-	Subject          string                 `json:"subject"`
+	Name             string                 `json:"name,omitempty"`
+	Address          string                 `json:"email,omitempty"`
+	From             string                 `json:"from,omitempty"`
+	Subject          string                 `json:"subject,omitempty"`
 	Personalization  []*Personalization     `json:"personalization,omitempty"`
-	Content          []*Content             `json:"content"`
+	Content          []*Content             `json:"content,omitempty"`
 	Attachments      []*Attachment          `json:"attachments,omitempty"`
 	TemplateID       string                 `json:"template_id,omitempty"`
 	Sections         map[string]string      `json:"sections,omitempty"`
@@ -53,92 +53,92 @@ type Email struct {
 }
 
 type Content struct {
-	Type  string `json:"type"`
-	Value string `json:"value"`
+	Type  string `json:"type,omitempty"`
+	Value string `json:"value,omitempty"`
 }
 
 type Attachment struct {
-	Content     string `json:"content"`
-	Type        string `json:"type"`
-	Name        string `json:"name"`
-	Filename    string `json:"filename"`
-	Disposition string `json:"disposition"`
+	Content     string `json:"content,omitempty"`
+	Type        string `json:"type,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Filename    string `json:"filename,omitempty"`
+	Disposition string `json:"disposition,omitempty"`
 	ContentID   string `json:"content_id,omitempty"`
 }
 
 type Asm struct {
-	GroupID         int   `json:"group_id"`
+	GroupID         int   `json:"group_id,omitempty"`
 	GroupsToDisplay []int `json:"groups_to_display,omitempty"`
 }
 
 type MailSettings struct {
-	BCC                  *BccSetting    `json:"bcc"`
-	BypassListManagement *Setting       `json:"bypass_list_management"`
-	Footer               *FooterSetting `json:"footer"`
-	SandboxMode          *Setting       `json:"sandbox_mode"`
+	BCC                  *BccSetting    `json:"bcc,omitempty"`
+	BypassListManagement *Setting       `json:"bypass_list_management,omitempty"`
+	Footer               *FooterSetting `json:"footer,omitempty"`
+	SandboxMode          *Setting       `json:"sandbox_mode,omitempty"`
 }
 
 type TrackingSettings struct {
-	ClickTracking        *ClickTrackingSetting        `json:"click_tracking"`
-	OpenTracking         *OpenTrackingSetting         `json:"open_tracking"`
-	SubscriptionTracking *SubscriptionTrackingSetting `json:"subscription_tracking"`
-	GoogleAnalytics      *GaSetting                   `json:"ganalytics"`
-	BCC                  *BccSetting                  `json:"bcc"`
-	BypassListManagement *Setting                     `json:"bypass_list_management"`
-	Footer               *FooterSetting               `json:"footer"`
-	SandboxMode          *SandboxModeSetting          `json:"sandbox_mode"`
+	ClickTracking        *ClickTrackingSetting        `json:"click_tracking,omitempty"`
+	OpenTracking         *OpenTrackingSetting         `json:"open_tracking,omitempty"`
+	SubscriptionTracking *SubscriptionTrackingSetting `json:"subscription_tracking,omitempty"`
+	GoogleAnalytics      *GaSetting                   `json:"ganalytics,omitempty"`
+	BCC                  *BccSetting                  `json:"bcc,omitempty"`
+	BypassListManagement *Setting                     `json:"bypass_list_management,omitempty"`
+	Footer               *FooterSetting               `json:"footer,omitempty"`
+	SandboxMode          *SandboxModeSetting          `json:"sandbox_mode,omitempty"`
 }
 
 type BccSetting struct {
-	Enable bool   `json:"enable"`
-	Email  *Email `json:"email"`
+	Enable bool   `json:"enable,omitempty"`
+	Email  *Email `json:"email,omitempty"`
 }
 
 type FooterSetting struct {
-	Enable bool   `json:"enable"`
-	Text   string `json:"text"`
-	Html   string `json:"html"`
+	Enable bool   `json:"enable,omitempty"`
+	Text   string `json:"text,omitempty"`
+	Html   string `json:"html,omitempty"`
 }
 
 type ClickTrackingSetting struct {
-	Enable     bool `json:"enable"`
-	EnableText bool `json:"enable_text"`
+	Enable     bool `json:"enable,omitempty"`
+	EnableText bool `json:"enable_text,omitempty"`
 }
 
 type OpenTrackingSetting struct {
-	Enable          bool   `json:"enable"`
-	SubstitutionTag string `json:"substitution_tag"`
+	Enable          bool   `json:"enable,omitempty"`
+	SubstitutionTag string `json:"substitution_tag,omitempty"`
 }
 
 type SandboxModeSetting struct {
-	Enable      bool              `json:"enable"`
-	ForwardSpam bool              `json:"forward_spam"`
-	SpamCheck   *SpamCheckSetting `json:"spam_check"`
+	Enable      bool              `json:"enable,omitempty"`
+	ForwardSpam bool              `json:"forward_spam,omitempty"`
+	SpamCheck   *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
 type SpamCheckSetting struct {
-	Enable        bool   `json:"enable"`
-	SpamThreshold int    `json:"spam_threshold"`
-	PostToURL     string `json:"post_to_url"`
+	Enable        bool   `json:"enable,omitempty"`
+	SpamThreshold int    `json:"spam_threshold,omitempty"`
+	PostToURL     string `json:"post_to_url,omitempty"`
 }
 
 type SubscriptionTrackingSetting struct {
-	Enable          bool   `json:"enable"`
-	Text            string `json:"text"`
-	Html            string `json:"html"`
-	SubstitutionTag string `json:"substitution_tag"`
+	Enable          bool   `json:"enable,omitempty"`
+	Text            string `json:"text,omitempty"`
+	Html            string `json:"html,omitempty"`
+	SubstitutionTag string `json:"substitution_tag,omitempty"`
 }
 
 type GaSetting struct {
-	Enable          bool   `json:"enable"`
-	CampaignSource  string `json:"Campaign Source"`
-	CampaignTerm    string `json:"Campaign Term"`
-	CampaignContent string `json:"Campaign Content"`
-	CampaignName    string `json:"Campaign Name"`
+	Enable          bool   `json:"enable,omitempty"`
+	CampaignSource  string `json:"Campaign Source,omitempty"`
+	CampaignTerm    string `json:"Campaign Term,omitempty"`
+	CampaignContent string `json:"Campaign Content,omitempty"`
+	CampaignName    string `json:"Campaign Name,omitempty"`
 }
 
 type Setting struct {
-	Enable bool `json:"enable"`
+	Enable bool `json:"enable,omitempty"`
 }
 
 func NewV3Mail() *SGMailV3 {
