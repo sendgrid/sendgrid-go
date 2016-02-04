@@ -32,24 +32,8 @@ type Personalization struct {
 }
 
 type Email struct {
-	Name             string                 `json:"name,omitempty"`
-	Address          string                 `json:"email,omitempty"`
-	From             string                 `json:"from,omitempty"`
-	Subject          string                 `json:"subject,omitempty"`
-	Personalization  []*Personalization     `json:"personalization,omitempty"`
-	Content          []*Content             `json:"content,omitempty"`
-	Attachments      []*Attachment          `json:"attachments,omitempty"`
-	TemplateID       string                 `json:"template_id,omitempty"`
-	Sections         map[string]string      `json:"sections,omitempty"`
-	Headers          map[string]interface{} `json:"headers,omitempty"`
-	Categories       []string               `json:"categories,omitempty"`
-	CustomArgs       map[string]interface{} `json:"custom_args,omitempty"`
-	SendAt           int                    `json:"send_at,omitempty"`
-	BatchID          string                 `json:"batch_id,omitempty"`
-	Asm              *Asm                   `json:"asm,omitempty"`
-	IPPoolID         int                    `json:"ip_pool_id,omitempty"`
-	MailSettings     *MailSettings          `json:"mail_settings,omitempty"`
-	TrackingSettings *TrackingSettings      `json:"tracking_settings,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Address string `json:"email,omitempty"`
 }
 
 type Content struct {
