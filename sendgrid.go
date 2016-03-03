@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -17,7 +18,9 @@ type SGClient struct {
 	apiUser string
 	apiPwd  string
 	APIMail string
-	Client  *http.Client
+
+	mut    sync.RWMutex // protects the Client
+	Client *http.Client
 }
 
 // NewSendGridClient will return a new SGClient. Used for username and password
@@ -92,12 +95,9 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 
 // Send will send mail using SG web API
 func (sg *SGClient) Send(m *SGMail) error {
-	if sg.Client == nil {
-		sg.Client = &http.Client{
-			Transport: http.DefaultTransport,
-			Timeout:   5 * time.Second,
-		}
-	}
+	sg.checkClient()
+	defer sg.mut.RUnlock()
+
 	var e error
 	values, e := sg.buildURL(m)
 	if e != nil {
@@ -129,4 +129,21 @@ func (sg *SGClient) Send(m *SGMail) error {
 	body, _ := ioutil.ReadAll(res.Body)
 
 	return fmt.Errorf("sendgrid.go: code:%d error:%v body:%s", res.StatusCode, e, body)
+}
+
+// checkClient asserts that sg.Client is set, and leaves the caller
+// with sg.Client locked for reading.
+func (sg *SGClient) checkClient() {
+	sg.mut.RLock()
+	if sg.Client == nil {
+		sg.mut.RUnlock()
+		sg.mut.Lock()
+
+		sg.Client = &http.Client{
+			Transport: http.DefaultTransport,
+			Timeout:   5 * time.Second,
+		}
+		sg.mut.Unlock()
+		sg.mut.RLock()
+	}
 }
