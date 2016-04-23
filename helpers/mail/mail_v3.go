@@ -1,4 +1,4 @@
-package sendgrid
+package mail
 
 type SGMailV3 struct {
 	From             *Email             `json:"from,omitempty"`
@@ -14,15 +14,16 @@ type SGMailV3 struct {
 	SendAt           int                `json:"send_at,omitempty"`
 	BatchID          string             `json:"batch_id,omitempty"`
 	Asm              *Asm               `json:"asm,omitempty"`
-	IPPoolID         int                `json:"ip_pool_id,omitempty"`
+	IPPoolID         string             `json:"ip_pool_name,omitempty"`
 	MailSettings     *MailSettings      `json:"mail_settings,omitempty"`
 	TrackingSettings *TrackingSettings  `json:"tracking_settings,omitempty"`
+	ReplyTo          *Email             `json:"reply_to,omitempty"`
 }
 
 type Personalization struct {
 	To            []*Email          `json:"to,omitempty"`
 	CC            []*Email          `json:"cc,omitempty"`
-	BCC           []*Email          `json:"bcc,omitempty"`
+	BCC           []string          `json:"bcc,omitempty"`
 	Subject       string            `json:"subject,omitempty"`
 	Headers       map[string]string `json:"headers,omitempty"`
 	Substitutions map[string]string `json:"substitutions,omitempty"`
@@ -56,10 +57,11 @@ type Asm struct {
 }
 
 type MailSettings struct {
-	BCC                  *BccSetting    `json:"bcc,omitempty"`
-	BypassListManagement *Setting       `json:"bypass_list_management,omitempty"`
-	Footer               *FooterSetting `json:"footer,omitempty"`
-	SandboxMode          *Setting       `json:"sandbox_mode,omitempty"`
+	BCC                  *BccSetting       `json:"bcc,omitempty"`
+	BypassListManagement *Setting          `json:"bypass_list_management,omitempty"`
+	Footer               *FooterSetting    `json:"footer,omitempty"`
+	SandboxMode          *Setting          `json:"sandbox_mode,omitempty"`
+	SpamCheckSetting     *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
 type TrackingSettings struct {
@@ -75,7 +77,7 @@ type TrackingSettings struct {
 
 type BccSetting struct {
 	Enable bool   `json:"enable,omitempty"`
-	Email  *Email `json:"email,omitempty"`
+	Email  string `json:"email,omitempty"`
 }
 
 type FooterSetting struct {
@@ -102,7 +104,7 @@ type SandboxModeSetting struct {
 
 type SpamCheckSetting struct {
 	Enable        bool   `json:"enable,omitempty"`
-	SpamThreshold int    `json:"spam_threshold,omitempty"`
+	SpamThreshold int    `json:"threshold,omitempty"`
 	PostToURL     string `json:"post_to_url,omitempty"`
 }
 
@@ -115,10 +117,11 @@ type SubscriptionTrackingSetting struct {
 
 type GaSetting struct {
 	Enable          bool   `json:"enable,omitempty"`
-	CampaignSource  string `json:"Campaign Source,omitempty"`
-	CampaignTerm    string `json:"Campaign Term,omitempty"`
-	CampaignContent string `json:"Campaign Content,omitempty"`
-	CampaignName    string `json:"Campaign Name,omitempty"`
+	CampaignSource  string `json:"utm_source,omitempty"`
+	CampaignTerm    string `json:"utm_term,omitempty"`
+	CampaignContent string `json:"utm_content,omitempty"`
+	CampaignName    string `json:"utm_campaign,omitempty"`
+	CampaignMedium  string `json:"utm_medium,omitempty"`
 }
 
 type Setting struct {
@@ -142,8 +145,31 @@ func (s *SGMailV3) AddPersonalizations(p ...*Personalization) *SGMailV3 {
 	return s
 }
 
+func (s *SGMailV3) AddContent(c ...*Content) *SGMailV3 {
+	if s.Content == nil {
+		s.Content = make([]*Content, 0)
+	}
+	s.Content = append(s.Content, c...)
+
+	return s
+}
+
+func (s *SGMailV3) AddAttachment(a ...*Attachment) *SGMailV3 {
+	if s.Attachments == nil {
+		s.Attachments = make([]*Attachment, 0)
+	}
+	s.Attachments = append(s.Attachments, a...)
+
+	return s
+}
+
 func (s *SGMailV3) SetFrom(e *Email) *SGMailV3 {
 	s.From = e
+	return s
+}
+
+func (s *SGMailV3) SetReplyTo(e *Email) *SGMailV3 {
+	s.ReplyTo = e
 	return s
 }
 
@@ -203,7 +229,7 @@ func (s *SGMailV3) SetASM(asm *Asm) *SGMailV3 {
 	return s
 }
 
-func (s *SGMailV3) SetIPPoolID(ipPoolID int) *SGMailV3 {
+func (s *SGMailV3) SetIPPoolID(ipPoolID string) *SGMailV3 {
 	s.IPPoolID = ipPoolID
 	return s
 }
@@ -222,7 +248,7 @@ func NewPersonalization() *Personalization {
 	return &Personalization{
 		To:            make([]*Email, 0),
 		CC:            make([]*Email, 0),
-		BCC:           make([]*Email, 0),
+		BCC:           make([]string, 0),
 		Headers:       make(map[string]string),
 		Substitutions: make(map[string]string),
 		CustomArgs:    make(map[string]string),
@@ -238,7 +264,11 @@ func (p *Personalization) AddCCs(cc ...*Email) {
 	p.CC = append(p.CC, cc...)
 }
 
-func (p *Personalization) AddBCCs(bcc ...*Email) {
+func (p *Personalization) AddBCCs(bcc ...string) {
+	if p.BCC == nil {
+		p.BCC = make([]string, 0)
+	}
+
 	p.BCC = append(p.BCC, bcc...)
 }
 
@@ -329,6 +359,11 @@ func (m *MailSettings) SetSandboxMode(sandboxMode *Setting) *MailSettings {
 	return m
 }
 
+func (m *MailSettings) SetSpamCheckSettings(spamCheckSetting *SpamCheckSetting) *MailSettings {
+	m.SpamCheckSetting = spamCheckSetting
+	return m
+}
+
 func NewTrackingSettings() *TrackingSettings {
 	return &TrackingSettings{}
 }
@@ -363,7 +398,7 @@ func (b *BccSetting) SetEnable(enable bool) *BccSetting {
 	return b
 }
 
-func (b *BccSetting) SetEmail(email *Email) *BccSetting {
+func (b *BccSetting) SetEmail(email string) *BccSetting {
 	b.Email = email
 	return b
 }
@@ -454,6 +489,11 @@ func (g *GaSetting) SetCampaignName(campaignName string) *GaSetting {
 	return g
 }
 
+func (g *GaSetting) SetCampaignMedium(campaignMedium string) *GaSetting {
+	g.CampaignMedium = campaignMedium
+	return g
+}
+
 func NewSetting(enable bool) *Setting {
 	return &Setting{Enable: enable}
 }
@@ -465,19 +505,44 @@ func NewEmail(name string, address string) *Email {
 	}
 }
 
-func NewClickTrackingSetting(enable bool, enableText bool) *ClickTrackingSetting {
-	return &ClickTrackingSetting{
-		Enable:     enable,
-		EnableText: enableText,
+func NewContent(contentType string, value string) *Content {
+	return &Content{
+		Type:  contentType,
+		Value: value,
 	}
 }
 
-func NewSpamCheckSetting(enable bool, spamThreshold int, postToURL string) *SpamCheckSetting {
-	return &SpamCheckSetting{
-		Enable:        enable,
-		SpamThreshold: spamThreshold,
-		PostToURL:     postToURL,
-	}
+func NewClickTrackingSetting() *ClickTrackingSetting {
+	return &ClickTrackingSetting{}
+}
+
+func (c *ClickTrackingSetting) SetEnable(enable bool) *ClickTrackingSetting {
+	c.Enable = enable
+	return c
+}
+
+func (c *ClickTrackingSetting) SetEnableText(enableText bool) *ClickTrackingSetting {
+	c.EnableText = enableText
+	return c
+}
+
+func NewSpamCheckSetting() *SpamCheckSetting {
+	return &SpamCheckSetting{}
+}
+
+func (s *SpamCheckSetting) SetEnable(enable bool) *SpamCheckSetting {
+	s.Enable = enable
+	return s
+}
+
+func (s *SpamCheckSetting) SetSpamThreshold(spamThreshold int) *SpamCheckSetting {
+	s.SpamThreshold = spamThreshold
+	return s
+}
+
+func (s *SpamCheckSetting) SetPostToURL(postToURL string) *SpamCheckSetting {
+	s.PostToURL = postToURL
+	return s
 }
 
 func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSetting) *SandboxModeSetting {

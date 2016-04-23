@@ -1,4 +1,4 @@
-package sendgrid
+package mail
 
 import (
 	"math/rand"
@@ -39,7 +39,36 @@ func TestV3AddPersonalizations(t *testing.T) {
 	if len(m.Personalizations) != numOfPersonalizations {
 		t.Errorf("Mail should have %d personalizations, got %d personalizations", personalizations, len(m.Personalizations))
 	}
+}
 
+func TestV3AddContent(t *testing.T) {
+	numOfContent := 2
+	content := make([]*Content, 0)
+	for i := 0; i < numOfContent; i++ {
+		content = append(content, NewContent("type", "value"))
+	}
+
+	m := NewV3Mail()
+	m.AddContent(content...)
+
+	if len(m.Content) != numOfContent {
+		t.Errorf("Mail should have %d contents, got %d contents", content, len(m.Content))
+	}
+}
+
+func TestV3AddAttachment(t *testing.T) {
+	numOfAttachments := 2
+	attachment := make([]*Attachment, 0)
+	for i := 0; i < numOfAttachments; i++ {
+		attachment = append(attachment, NewAttachment())
+	}
+
+	m := NewV3Mail()
+	m.AddAttachment(attachment...)
+
+	if len(m.Attachments) != numOfAttachments {
+		t.Errorf("Mail should have %d attachments, got %d attachments", attachment, 2)
+	}
 }
 
 func TestV3SetFrom(t *testing.T) {
@@ -55,6 +84,23 @@ func TestV3SetFrom(t *testing.T) {
 	}
 
 	if m.From.Address != address {
+		t.Errorf("address should be %s, got %s", address, e.Address)
+	}
+}
+
+func TestV3SetReplyTo(t *testing.T) {
+	m := NewV3Mail()
+
+	address := "tesuser@sendgrid.com"
+	name := "Test User"
+	e := NewEmail(name, address)
+	m.SetReplyTo(e)
+
+	if m.ReplyTo.Name != name {
+		t.Errorf("name should be %s, got %s", name, e.Name)
+	}
+
+	if m.ReplyTo.Address != address {
 		t.Errorf("address should be %s, got %s", address, e.Address)
 	}
 }
@@ -150,7 +196,7 @@ func TestV3SetBatchID(t *testing.T) {
 
 func TestV3SetIPPoolID(t *testing.T) {
 	m := NewV3Mail()
-	ipPoolID := 42
+	ipPoolID := "42"
 
 	m.SetIPPoolID(ipPoolID)
 	if m.IPPoolID != ipPoolID {
@@ -195,7 +241,10 @@ func TestV3SetMailSettings(t *testing.T) {
 func TestV3SetTrackingSettings(t *testing.T) {
 	m := NewV3Mail()
 	ts := NewTrackingSettings()
-	ts.SetClickTracking(NewClickTrackingSetting(true, false))
+	n := NewClickTrackingSetting()
+	n.SetEnable(true)
+	n.SetEnableText(true)
+	ts.SetClickTracking(n)
 	m.SetTrackingSettings(ts)
 
 	if m.TrackingSettings == nil {
@@ -294,16 +343,12 @@ func TestV3PersonalizationAddCCs(t *testing.T) {
 }
 
 func TestV3PersonalizationAddBCCs(t *testing.T) {
-	bccs := []*Email{
-		NewEmail("alvin", "alvin@thechipmunk.net"),
-		NewEmail("homer", "homer@simpsons.com"),
-	}
-
 	p := NewPersonalization()
-	p.AddBCCs(bccs...)
+	p.AddBCCs("alvin@thechipmunk.net")
+	p.AddBCCs("homer@simpsons.com")
 
-	if len(p.BCC) != len(bccs) {
-		t.Errorf("length of BCC should be %d, got %d", len(bccs), len(p.BCC))
+	if len(p.BCC) != 2 {
+		t.Errorf("length of BCC should be %d, got %d", 2, len(p.BCC))
 	}
 
 }
@@ -486,6 +531,28 @@ func TestV3MailSettingsSetSandboxMode(t *testing.T) {
 	}
 }
 
+func TestV3MailSettingsSpamCheckSettings(t *testing.T) {
+
+	m := NewMailSettings()
+	s := NewSpamCheckSetting()
+	s.SetEnable(true)
+	s.SetPostToURL("http://test.com")
+	s.SetSpamThreshold(1)
+	m.SetSpamCheckSettings(s)
+
+	if !m.SpamCheckSetting.Enable {
+		t.Errorf("SpamCheckSettings should be enabled")
+	}
+
+	if m.SpamCheckSetting.PostToURL == "" {
+		t.Errorf("Post to URL should not empty")
+	}
+
+	if m.SpamCheckSetting.SpamThreshold != 1 {
+		t.Errorf("Spam threshold should be 1")
+	}
+}
+
 func TestV3MailSettingsSetFooter(t *testing.T) {
 	m := NewMailSettings().SetFooter(NewFooterSetting().SetEnable(true))
 	if m.Footer == nil {
@@ -506,7 +573,10 @@ func TestV3NewTrackingSettings(t *testing.T) {
 }
 
 func TestV3TrackingSettingsSetClickTracking(t *testing.T) {
-	ts := NewTrackingSettings().SetClickTracking(NewClickTrackingSetting(true, true))
+	n := NewClickTrackingSetting()
+	n.SetEnable(true)
+	n.SetEnableText(true)
+	ts := NewTrackingSettings().SetClickTracking(n)
 
 	if ts.ClickTracking == nil {
 		t.Errorf("Click Tracking should not be nil")
@@ -547,8 +617,9 @@ func TestV3TrackingSettingsSetGoogleAnalytics(t *testing.T) {
 	campaignTerm := "campaign1_term"
 	campaignSource := "campaign1_source"
 	campaignContent := "campaign1_content"
+	campaignMedium := "campaign1_medium"
 
-	ts := NewTrackingSettings().SetGoogleAnalytics(NewGaSetting().SetCampaignName(campaignName).SetCampaignTerm(campaignTerm).SetCampaignSource(campaignSource).SetCampaignContent(campaignContent).SetEnable(true))
+	ts := NewTrackingSettings().SetGoogleAnalytics(NewGaSetting().SetCampaignName(campaignName).SetCampaignTerm(campaignTerm).SetCampaignSource(campaignSource).SetCampaignContent(campaignContent).SetCampaignMedium(campaignMedium).SetEnable(true))
 
 	if ts.GoogleAnalytics == nil {
 		t.Errorf("GoogleAnalytics should not be nil")
@@ -570,6 +641,10 @@ func TestV3TrackingSettingsSetGoogleAnalytics(t *testing.T) {
 		t.Errorf("CampaignContent should be %s, got %s", campaignContent, ts.GoogleAnalytics.CampaignContent)
 	}
 
+	if ts.GoogleAnalytics.CampaignMedium != campaignMedium {
+		t.Errorf("CampaignMedium should be %s, got %s", campaignMedium, ts.GoogleAnalytics.CampaignMedium)
+	}
+
 }
 
 func TestV3NewBCCSetting(t *testing.T) {
@@ -589,20 +664,12 @@ func TestV3BCCSettingSetEnable(t *testing.T) {
 }
 
 func TestV3BCCSettingSetEmail(t *testing.T) {
-	name := "joe"
+
 	address := "joe@schmoe.net"
-	b := NewBCCSetting().SetEmail(NewEmail(name, address))
+	b := NewBCCSetting().SetEmail(address)
 
-	if b.Email == nil {
-		t.Errorf("Email should not be nil")
-	}
-
-	if b.Email.Name != name {
-		t.Errorf("Email name should be %s, got %s", name, b.Email.Name)
-	}
-
-	if b.Email.Address != address {
-		t.Errorf("Email address should be %s, got %s", address, b.Email.Address)
+	if b.Email == "" {
+		t.Errorf("Email should not be empty")
 	}
 }
 
@@ -784,7 +851,9 @@ func TestV3NewEmail(t *testing.T) {
 }
 
 func TestV3NewClickTrackingSetting(t *testing.T) {
-	c := NewClickTrackingSetting(true, false)
+	c := NewClickTrackingSetting()
+	c.SetEnable(true)
+	c.SetEnableText(false)
 
 	if !c.Enable {
 		t.Error("Click Tracking should be enabled")
@@ -798,7 +867,10 @@ func TestV3NewClickTrackingSetting(t *testing.T) {
 func TestV3NewSpamCheckSetting(t *testing.T) {
 	spamThreshold := 8
 	postToURL := "http://myurl.com"
-	s := NewSpamCheckSetting(true, spamThreshold, postToURL)
+	s := NewSpamCheckSetting()
+	s.SetEnable(true)
+	s.SetSpamThreshold(spamThreshold)
+	s.SetPostToURL(postToURL)
 
 	if !s.Enable {
 		t.Error("SpamCheck should be enabled")
@@ -814,7 +886,10 @@ func TestV3NewSpamCheckSetting(t *testing.T) {
 }
 
 func TestV3NewSandboxModeSetting(t *testing.T) {
-	spamCheck := NewSpamCheckSetting(true, 1, "http://wwww.google.com")
+	spamCheck := NewSpamCheckSetting()
+	spamCheck.SetEnable(true)
+	spamCheck.SetSpamThreshold(1)
+	spamCheck.SetPostToURL("http://wwww.google.com")
 	s := NewSandboxModeSetting(true, true, spamCheck)
 
 	if !s.Enable {
