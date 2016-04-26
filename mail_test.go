@@ -7,6 +7,8 @@ import (
 	"net/mail"
 	"testing"
 	"time"
+
+	twmail "github.com/teamwork/utils/mail"
 )
 
 func TestNewMail(t *testing.T) {
@@ -152,7 +154,7 @@ func TestSetHTML(t *testing.T) {
 
 func TestSetFrom(t *testing.T) {
 	m := NewMail()
-	testFrom, _ := mail.ParseAddress("Joe <email@email.com>")
+	testFrom, _ := twmail.ParseAddress("Joe <email@email.com>")
 	m.SetFrom(testFrom.String())
 	switch {
 	case m.From != testFrom.Address:
