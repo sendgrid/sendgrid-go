@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/sendgrid/smtpapi-go"
+	twmail "github.com/teamwork/utils/mail"
 )
 
 // SGMail is representation of a valid SendGrid Mail
@@ -36,7 +37,7 @@ func NewMail() *SGMail {
 
 // AddTo adds a valid email address
 func (m *SGMail) AddTo(email string) error {
-	address, err := mail.ParseAddress(email)
+	address, err := twmail.ParseAddress(email)
 	if err != nil {
 		return err
 	}
@@ -81,7 +82,7 @@ func (m *SGMail) AddToNames(names []string) {
 
 // AddCc ...
 func (m *SGMail) AddCc(cc string) error {
-	address, err := mail.ParseAddress(cc)
+	address, err := twmail.ParseAddress(cc)
 	if err != nil {
 		return err
 	}
@@ -128,7 +129,7 @@ func (m *SGMail) SetHTML(html string) {
 
 // SetFrom will set the senders email property
 func (m *SGMail) SetFrom(from string) error {
-	address, err := mail.ParseAddress(from)
+	address, err := twmail.ParseAddress(from)
 	if err != nil {
 		return err
 	}
@@ -146,7 +147,7 @@ func (m *SGMail) SetFromEmail(address *mail.Address) {
 
 // AddBcc ...
 func (m *SGMail) AddBcc(bcc string) error {
-	address, err := mail.ParseAddress(bcc)
+	address, err := twmail.ParseAddress(bcc)
 	if err != nil {
 		return err
 	}
@@ -183,7 +184,7 @@ func (m *SGMail) SetFromName(fromname string) {
 
 // SetReplyTo ...
 func (m *SGMail) SetReplyTo(replyto string) error {
-	address, err := mail.ParseAddress(replyto)
+	address, err := twmail.ParseAddress(replyto)
 	if err != nil {
 		return err
 	}
