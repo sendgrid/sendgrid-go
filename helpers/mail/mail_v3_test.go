@@ -343,12 +343,16 @@ func TestV3PersonalizationAddCCs(t *testing.T) {
 }
 
 func TestV3PersonalizationAddBCCs(t *testing.T) {
-	p := NewPersonalization()
-	p.AddBCCs("alvin@thechipmunk.net")
-	p.AddBCCs("homer@simpsons.com")
+  bccs := []*Email{
+		NewEmail("alvin", "alvin@thechipmunk.net"),
+		NewEmail("homer", "homer@simpsons.com"),
+	}
 
-	if len(p.BCC) != 2 {
-		t.Errorf("length of BCC should be %d, got %d", 2, len(p.BCC))
+	p := NewPersonalization()
+	p.AddBCCs(bccs...)
+
+	if len(p.BCC) != len(bccs) {
+		t.Errorf("length of BCC should be %d, got %d", len(bccs), len(p.BCC))
 	}
 
 }

@@ -3,7 +3,7 @@ package mail
 type SGMailV3 struct {
 	From             *Email             `json:"from,omitempty"`
 	Subject          string             `json:"subject,omitempty"`
-	Personalizations []*Personalization `json:"personalization,omitempty"`
+	Personalizations []*Personalization `json:"personalizations,omitempty"`
 	Content          []*Content         `json:"content,omitempty"`
 	Attachments      []*Attachment      `json:"attachments,omitempty"`
 	TemplateID       string             `json:"template_id,omitempty"`
@@ -23,7 +23,7 @@ type SGMailV3 struct {
 type Personalization struct {
 	To            []*Email          `json:"to,omitempty"`
 	CC            []*Email          `json:"cc,omitempty"`
-	BCC           []string          `json:"bcc,omitempty"`
+	BCC           []*Email          `json:"bcc,omitempty"`
 	Subject       string            `json:"subject,omitempty"`
 	Headers       map[string]string `json:"headers,omitempty"`
 	Substitutions map[string]string `json:"substitutions,omitempty"`
@@ -134,6 +134,17 @@ func NewV3Mail() *SGMailV3 {
 		Content:          make([]*Content, 0),
 		Attachments:      make([]*Attachment, 0),
 	}
+}
+
+func NewV3MailInit(from *Email, subject string, to *Email, content *Content) *SGMailV3 {
+	m := new(SGMailV3)
+	m.SetFrom(from)
+	m.Subject = subject
+	p := NewPersonalization()
+	p.AddTos(to)
+	m.AddPersonalizations(p)
+	m.AddContent(content)
+	return m
 }
 
 func (s *SGMailV3) AddPersonalizations(p ...*Personalization) *SGMailV3 {
@@ -248,7 +259,7 @@ func NewPersonalization() *Personalization {
 	return &Personalization{
 		To:            make([]*Email, 0),
 		CC:            make([]*Email, 0),
-		BCC:           make([]string, 0),
+		BCC:           make([]*Email, 0),
 		Headers:       make(map[string]string),
 		Substitutions: make(map[string]string),
 		CustomArgs:    make(map[string]string),
@@ -264,11 +275,7 @@ func (p *Personalization) AddCCs(cc ...*Email) {
 	p.CC = append(p.CC, cc...)
 }
 
-func (p *Personalization) AddBCCs(bcc ...string) {
-	if p.BCC == nil {
-		p.BCC = make([]string, 0)
-	}
-
+func (p *Personalization) AddBCCs(bcc ...*Email) {
 	p.BCC = append(p.BCC, bcc...)
 }
 

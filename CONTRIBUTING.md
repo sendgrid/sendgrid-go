@@ -83,7 +83,7 @@ cd sendgrid-go
 
 ##### Execute: #####
 
-See the [examples folder](https://github.com/sendgrid/rest/tree/master/examples) to get started quickly.
+See the [examples folder](https://github.com/sendgrid/rest/tree/v3beta/examples) to get started quickly.
 
 You will need to setup the following environment to use the SendGrid example:
 
@@ -110,9 +110,9 @@ The main function that does the heavy lifting (and external entry point) is `API
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in `[sendgrid_test.go](https://github.com/sendgrid/sendgrid-go/blob/master/sendgrid_test.go)`.
+All test files are in `[sendgrid_test.go](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go)`.
 
-For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/blob/master/sendgrid_test.go) file with unit tests as you modify the code.
+For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go) file with unit tests as you modify the code.
 
 Run the test:
 
