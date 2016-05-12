@@ -11,17 +11,17 @@ import (
 // Minimum required to send an email
 func helloEmail() string {
 
-	address := "dx@sendgrid.com"
-	name := "DX"
+	address := "test@example.com"
+	name := "Example User"
 	from := mail.NewEmail(name, address)
 	subject := "Hello World from the SendGrid Go Library"
-	address = "elmer.thomas@sendgrid.com"
-	name = "Elmer Thomas"
+	address = "test@example.com"
+	name = "Example User"
 	to := mail.NewEmail(name, address)
 	content := mail.NewContent("text/plain", "some text here")
 	m := mail.NewV3MailInit(from, subject, to, content)
-	address = "elmer.thomas+add_second_email@sendgrid.com"
-	name = "Elmer Thomas"
+	address = "test2@example.com"
+	name = "Example User"
 	email := mail.NewEmail(name, address)
 	m.Personalizations[0].AddTos(email)
 
@@ -35,8 +35,8 @@ func helloEmail() string {
 // Fully populated Mail object
 func kitchenSink() string {
 	m := mail.NewV3Mail()
-	address := "dx@sendgrid.com"
-	name := "DX"
+	address := "test@example.com"
+	name := "Example User"
 	e := mail.NewEmail(name, address)
 	m.SetFrom(e)
 
@@ -44,25 +44,25 @@ func kitchenSink() string {
 
 	p := mail.NewPersonalization()
 	tos := []*mail.Email{
-		mail.NewEmail("Elmer Thomas", "elmer.thomas@sendgrid.com"),
-		mail.NewEmail("Elmer Thomas Aliass", "elmer.thomas@gmail.com"),
+		mail.NewEmail("Example User", "test1@example.com"),
+		mail.NewEmail("Example User", "test2@example.com"),
 	}
 	p.AddTos(tos...)
 	ccs := []*mail.Email{
-		mail.NewEmail("Matt Bernier", "matt.bernier@sendgrid.com"),
-		mail.NewEmail("Eric Shallock", "eric.shallock@sendgrid.com"),
+		mail.NewEmail("Example User", "test3@example.com"),
+		mail.NewEmail("Example User", "test4@example.com"),
 	}
 	p.AddCCs(ccs...)
 	bccs := []*mail.Email{
-		mail.NewEmail("Matt Bernier+bcc", "matt.bernier+bcc@sendgrid.com"),
-		mail.NewEmail("Eric Shallock+bcc", "eric.shallock+bcc@sendgrid.com"),
+		mail.NewEmail("Example User", "test5@example.com"),
+		mail.NewEmail("Example User", "test6@example.com"),
 	}
 	p.AddBCCs(bccs...)
 	p.Subject = "Hello World from the Personalized SendGrid Go Library"
 	p.SetHeader("X-Test", "test")
 	p.SetHeader("X-Mock", "true")
-	p.SetSubstitution("%name%", "Tim")
-	p.SetSubstitution("%city%", "Riverside")
+	p.SetSubstitution("%name%", "Example User")
+	p.SetSubstitution("%city%", "Denver")
 	p.SetCustomArg("user_id", "343")
 	p.SetCustomArg("type", "marketing")
 	p.SetSendAt(1461356286)
@@ -70,25 +70,25 @@ func kitchenSink() string {
 
 	p2 := mail.NewPersonalization()
 	tos2 := []*mail.Email{
-		mail.NewEmail("Elmer Thomas", "elmer.thomas@sendgrid.com"),
-		mail.NewEmail("Elmer Thomas Aliass", "elmer.thomas@gmail.com"),
+		mail.NewEmail("Example User", "test1@example.com"),
+		mail.NewEmail("Example User", "test2@example.com"),
 	}
 	p2.AddTos(tos2...)
 	ccs2 := []*mail.Email{
-		mail.NewEmail("Matt Bernier", "matt.bernier@sendgrid.com"),
-		mail.NewEmail("Eric Shallock", "eric.shallock@sendgrid.com"),
+		mail.NewEmail("Example User", "test3@example.com"),
+		mail.NewEmail("Example User", "test4@example.com"),
 	}
 	p2.AddCCs(ccs2...)
 	bccs = []*mail.Email{
-		mail.NewEmail("Matt Bernier+bcc", "matt.bernier+bcc2@sendgrid.com"),
-		mail.NewEmail("Eric Shallock+bcc", "eric.shallock+bcc2@sendgrid.com"),
+		mail.NewEmail("Example User", "test5@example.com"),
+		mail.NewEmail("Example User", "test6@example.com"),
 	}
-	p.AddBCCs(bccs...)
+	p2.AddBCCs(bccs...)
 	p2.Subject = "Hello World from the Personalized SendGrid Go Library"
 	p2.SetHeader("X-Test", "test")
 	p2.SetHeader("X-Mock", "true")
-	p2.SetSubstitution("%name%", "Tim")
-	p2.SetSubstitution("%city%", "Riverside")
+	p2.SetSubstitution("%name%", "Example User")
+	p2.SetSubstitution("%city%", "Denver")
 	p2.SetCustomArg("user_id", "343")
 	p2.SetCustomArg("type", "marketing")
 	p2.SetSendAt(1461356286)
@@ -145,7 +145,7 @@ func kitchenSink() string {
 	mailSettings := mail.NewMailSettings()
 	bccSettings := mail.NewBCCSetting()
 	bccSettings.SetEnable(true)
-	bccSettings.SetEmail("dx@sendgrid.com")
+	bccSettings.SetEmail("test@example.com")
 	mailSettings.SetBCC(bccSettings)
 	sandBoxMode := mail.NewSetting(true)
 	mailSettings.SetSandboxMode(sandBoxMode)
@@ -188,7 +188,7 @@ func kitchenSink() string {
 	trackingSettings.SetGoogleAnalytics(googleAnalyticsSetting)
 	m.SetTrackingSettings(trackingSettings)
 
-	replyToEmail := mail.NewEmail("Mr. Elmer Thomas", "dx+reply@sendgrid.com")
+	replyToEmail := mail.NewEmail("Example User", "test@example.com")
 	m.SetReplyTo(replyToEmail)
 
 	b, err := json.Marshal(m)

@@ -110,7 +110,7 @@ The main function that does the heavy lifting (and external entry point) is `API
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in `[sendgrid_test.go](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go)`.
+All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go).
 
 For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go) file with unit tests as you modify the code.
 
@@ -126,10 +126,6 @@ Generally, we follow the style guidelines as suggested by the official language.
 * [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
 
 Please run your code through [fmt](https://blog.golang.org/go-fmt-your-code)
-
-### Directory Structure
-
-* `examples` for example calls
 
 ## Creating a Pull Request<a name="creating_a_pull_request"></a>
 

@@ -12,16 +12,6 @@ By using this endpoint, you accept that you may encounter bugs and that the endp
 
 # Installation
 
-`go get github.com/sendgrid/sendgrid-go`
-
-```go
-import "github.com/sendgrid/sendgrid-go"
-```
-
-## Dependencies
-
-- [rest](https://github.com/sendgrid/rest)
-
 ## Environment Variables
 
 First, get your free SendGrid account [here](https://sendgrid.com/free?source=sendgrid-go).
@@ -34,6 +24,46 @@ echo "sendgrid.env" >> .gitignore
 source ./sendgrid.env
 ```
 
+## TRYING OUT THE V3 BETA MAIL SEND
+
+```bash
+git clone -b v3beta --single-branch https://github.com/sendgrid/sendgrid-go.git
+cd sendgrid-go
+```
+
+* Update the to and from [emails](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples/mail/example.go#L14).
+
+```bash
+go run examples/mail/example.go
+```
+
+## TRYING OUT THE V3 BETA WEB API
+
+```bash
+git clone -b v3beta --single-branch https://github.com/sendgrid/sendgrid-go.git
+```
+
+* Check out the documentation for [Web API v3 endpoints](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html).
+* Review the corresponding [examples](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples).
+
+```bash
+go run examples/example.go
+```
+
+* Check out the documentation for [Web API v3 /mail/send/beta endpoint](https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/index.html).
+
+## Once we are out of v3 BETA, the following will apply
+
+`go get github.com/sendgrid/sendgrid-go`
+
+```go
+import "github.com/sendgrid/sendgrid-go"
+```
+
+## Dependencies
+
+- [rest](https://github.com/sendgrid/rest)
+
 # Quick Start
 
 ## Hello Email
@@ -45,9 +75,9 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	"os"
 )
-from := mail.NewEmail("DX", "dx@sendgrid.com")
+from := mail.NewEmail("Example User", "test@example.com")
 subject := "Hello World from the SendGrid Go Library"
-to := mail.NewEmail("Elmer Thomas", "elmer.thomas@sendgrid.com")
+to := mail.NewEmail("Example User", "test@example.com")
 content := mail.NewContent("text/plain", "some text here")
 m := mail.NewV3MailInit(from, subject, to, content)
 
