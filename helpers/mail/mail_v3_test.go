@@ -74,7 +74,7 @@ func TestV3AddAttachment(t *testing.T) {
 func TestV3SetFrom(t *testing.T) {
 	m := NewV3Mail()
 
-	address := "tesuser@sendgrid.com"
+	address := "test@example.com"
 	name := "Test User"
 	e := NewEmail(name, address)
 	m.SetFrom(e)
@@ -91,7 +91,7 @@ func TestV3SetFrom(t *testing.T) {
 func TestV3SetReplyTo(t *testing.T) {
 	m := NewV3Mail()
 
-	address := "tesuser@sendgrid.com"
+	address := "test@example.com"
 	name := "Test User"
 	e := NewEmail(name, address)
 	m.SetReplyTo(e)
@@ -315,8 +315,8 @@ func TestV3NewPersonalization(t *testing.T) {
 
 func TestV3PersonalizationAddTos(t *testing.T) {
 	tos := []*Email{
-		NewEmail("alvin", "alvin@thechipmunk.net"),
-		NewEmail("homer", "homer@simpsons.com"),
+		NewEmail("Example User", "test@example.com"),
+		NewEmail("Example User", "test@example.com"),
 	}
 
 	p := NewPersonalization()
@@ -329,8 +329,8 @@ func TestV3PersonalizationAddTos(t *testing.T) {
 
 func TestV3PersonalizationAddCCs(t *testing.T) {
 	ccs := []*Email{
-		NewEmail("alvin", "alvin@thechipmunk.net"),
-		NewEmail("homer", "homer@simpsons.com"),
+		NewEmail("Example User", "test@example.com"),
+		NewEmail("Example User", "test@example.com"),
 	}
 
 	p := NewPersonalization()
@@ -344,8 +344,8 @@ func TestV3PersonalizationAddCCs(t *testing.T) {
 
 func TestV3PersonalizationAddBCCs(t *testing.T) {
   bccs := []*Email{
-		NewEmail("alvin", "alvin@thechipmunk.net"),
-		NewEmail("homer", "homer@simpsons.com"),
+		NewEmail("Example User", "test@example.com"),
+		NewEmail("Example User", "test@example.com"),
 	}
 
 	p := NewPersonalization()
