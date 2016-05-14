@@ -11,6 +11,7 @@ import (
 )
 
 const Version = "2.0.0"
+const ApiUrl = "https://api.sendgrid.com/api/mail.send.json?"
 
 // SGClient will contain the credentials and default values
 type SGClient struct {
@@ -22,12 +23,10 @@ type SGClient struct {
 
 // NewSendGridClient will return a new SGClient. Used for username and password
 func NewSendGridClient(apiUser, apiKey string) *SGClient {
-	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
-
 	Client := &SGClient{
 		apiUser: apiUser,
 		apiPwd:  apiKey,
-		APIMail: apiMail,
+		APIMail: ApiUrl,
 	}
 
 	return Client
@@ -35,11 +34,9 @@ func NewSendGridClient(apiUser, apiKey string) *SGClient {
 
 // NewSendGridClient will return a new SGClient. Used for api key
 func NewSendGridClientWithApiKey(apiKey string) *SGClient {
-	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
-
 	Client := &SGClient{
 		apiPwd:  apiKey,
-		APIMail: apiMail,
+		APIMail: ApiUrl,
 	}
 
 	return Client
