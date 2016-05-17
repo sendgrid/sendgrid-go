@@ -140,8 +140,7 @@ If you wish to use the X-SMTPAPI on your own app, you can use the [SMTPAPI Go li
 ```go
 message.SMTPAPIHeader.AddTo("addTo@mailinator.com")
 // or
-tos := []string{"test@test.com", "test@email.com"}
-message.SMTPAPIHeader.AddTos(tos)
+message.SMTPAPIHeader.AddTo("test@test.com", "test@email.com")
 // or
 message.SMTPAPIHeader.SetTos(tos)
 ```
