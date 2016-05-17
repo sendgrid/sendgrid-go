@@ -57,9 +57,7 @@ func (m *SGMail) AddTos(emails []string) error {
 // AddRecipient will add mail.Address emails to recipients.
 func (m *SGMail) AddRecipient(recipient *mail.Address) {
 	m.To = append(m.To, recipient.Address)
-	if recipient.Name != "" {
-		m.ToName = append(m.ToName, recipient.Name)
-	}
+	m.ToName = append(m.ToName, recipient.Name)
 }
 
 // AddRecipients calls AddRecipient per email

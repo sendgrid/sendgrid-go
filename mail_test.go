@@ -41,8 +41,8 @@ func TestAddTos(t *testing.T) {
 	switch {
 	case len(m.To) != 2:
 		t.Errorf("AddTos should append to SGMail.To")
-	case len(m.ToName) != 1:
-		t.Errorf("AddTos should append to SGMail.ToName if a valid email was supplied")
+	case len(m.ToName) != 2:
+		t.Errorf("AddTos should append to SGMail.ToName")
 	}
 }
 
