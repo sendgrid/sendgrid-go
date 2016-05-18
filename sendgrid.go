@@ -45,6 +45,18 @@ func NewSendGridClientWithApiKey(apiKey string) *SGClient {
 	return Client
 }
 
+// NewSendGridClient will return a new SGClient. Used for api key
+func NewSendGridClientWithApiKeyAndMailUrl(apiKey, apiMail string) *SGClient {
+	
+	Client := &SGClient{
+		apiPwd:  apiKey,
+		APIMail: apiMail,
+	}
+
+	return Client
+}
+
+
 func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 	values := url.Values{}
 	if sg.apiUser != "" {
