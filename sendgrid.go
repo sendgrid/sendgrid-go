@@ -22,27 +22,20 @@ type SGClient struct {
 
 // NewSendGridClient will return a new SGClient. Used for username and password
 func NewSendGridClient(apiUser, apiKey string) *SGClient {
-	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
-
-	Client := &SGClient{
+	return &SGClient{
 		apiUser: apiUser,
 		apiPwd:  apiKey,
-		APIMail: apiMail,
+		APIMail: "https://api.sendgrid.com/api/mail.send.json?",
+		Client: &http.Client{
+			Transport: http.DefaultTransport,
+			Timeout:   5 * time.Second,
+		},
 	}
-
-	return Client
 }
 
 // NewSendGridClient will return a new SGClient. Used for api key
 func NewSendGridClientWithApiKey(apiKey string) *SGClient {
-	apiMail := "https://api.sendgrid.com/api/mail.send.json?"
-
-	Client := &SGClient{
-		apiPwd:  apiKey,
-		APIMail: apiMail,
-	}
-
-	return Client
+	return NewSendGridClient("", apiKey)
 }
 
 func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
@@ -92,12 +85,6 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 
 // Send will send mail using SG web API
 func (sg *SGClient) Send(m *SGMail) error {
-	if sg.Client == nil {
-		sg.Client = &http.Client{
-			Transport: http.DefaultTransport,
-			Timeout:   5 * time.Second,
-		}
-	}
 	var e error
 	values, e := sg.buildURL(m)
 	if e != nil {
