@@ -2,6 +2,7 @@ language: go
 go:
 - '1.3'
 - tip
+gobuild_args: -race -v
 notifications:
   hipchat:
     rooms:

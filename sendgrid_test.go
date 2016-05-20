@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"sync"
 	"testing"
 )
 
@@ -74,4 +75,39 @@ func TestSendForAuthorizationHeader(t *testing.T) {
 	if e := client.Send(m); e != nil {
 		t.Errorf("Send failed to send email. Returned error: %v", e)
 	}
+}
+
+func TestSendFromMultipleGorouties(t *testing.T) {
+	// needs -race flag on 'go test' to verify SGClient.Client protection
+
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Authorization") != "Bearer "+APIPassword {
+			t.Error("Send failed to have authorization header")
+		}
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+
+	client := NewSendGridClientWithApiKey(APIPassword)
+	client.APIMail = fakeServer.URL
+
+	wg := new(sync.WaitGroup)
+	wg.Add(5)
+
+	for i := 0; i < 5; i++ {
+		go func(i int) {
+			defer wg.Done()
+
+			m := NewMail()
+			m.AddTo(fmt.Sprintf("Test! <test%d@mail.com>", i))
+			m.SetSubject(fmt.Sprintf("Test %d", i))
+			m.SetText(fmt.Sprintf("Text %d", i))
+
+			if e := client.Send(m); e != nil {
+				t.Errorf("[%d] Send failed to send email. Returned error: %v", i, e)
+			}
+		}(i)
+	}
+
+	wg.Wait()
 }
