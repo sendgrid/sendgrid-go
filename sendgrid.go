@@ -11,6 +11,7 @@ import (
 )
 
 const Version = "2.0.0"
+const defaultTimeout = 5 * time.Second
 
 // SGClient will contain the credentials and default values
 type SGClient struct {
@@ -92,10 +93,15 @@ func (sg *SGClient) buildURL(m *SGMail) (url.Values, error) {
 
 // Send will send mail using SG web API
 func (sg *SGClient) Send(m *SGMail) error {
+	return sg.SendWithTimeout(m, defaultTimeout)
+}
+
+// SendWithTimeout will send mail using SG web API and a custom timeout
+func (sg *SGClient) SendWithTimeout(m *SGMail, timeout time.Duration) error {
 	if sg.Client == nil {
 		sg.Client = &http.Client{
 			Transport: http.DefaultTransport,
-			Timeout:   5 * time.Second,
+			Timeout:   timeout,
 		}
 	}
 	var e error
