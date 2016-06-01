@@ -2,7 +2,6 @@ package sendgrid
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"os"
 	"testing"
 )
