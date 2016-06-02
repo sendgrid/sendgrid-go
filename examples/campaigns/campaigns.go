@@ -257,3 +257,6 @@ func SendaTestCampaign() {
   }
 }
 
+func main() {
+    // add your function calls here
+}

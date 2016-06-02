@@ -206,3 +206,6 @@ func v3MailSendBeta() {
   }
 }
 
+func main() {
+    // add your function calls here
+}

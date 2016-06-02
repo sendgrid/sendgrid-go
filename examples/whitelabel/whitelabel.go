@@ -585,3 +585,6 @@ func AssociateaLinkWhitelabel() {
   }
 }
 
+func main() {
+    // add your function calls here
+}

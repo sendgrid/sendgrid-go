@@ -412,3 +412,6 @@ func Retrievelegacytemplatemailsettings() {
   }
 }
 
+func main() {
+    // add your function calls here
+}

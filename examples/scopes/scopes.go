@@ -25,3 +25,6 @@ func Retrievealistofscopesforwhichthisuserhasaccess() {
   }
 }
 
+func main() {
+    // add your function calls here
+}

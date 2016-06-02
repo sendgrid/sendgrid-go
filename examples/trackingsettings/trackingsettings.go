@@ -203,3 +203,6 @@ func RetrieveSubscriptionTrackingSettings() {
   }
 }
 
+func main() {
+    // add your function calls here
+}
