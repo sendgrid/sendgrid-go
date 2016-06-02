@@ -46,15 +46,17 @@ source ./sendgrid.env
 
 ## TRYING OUT THE V3 BETA MAIL SEND
 
+* Check out the documentation for [Web API v3 /mail/send/beta endpoint](https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/index.html).
+
 ```bash
 git clone -b v3beta --single-branch https://github.com/sendgrid/sendgrid-go.git
 cd sendgrid-go
 ```
 
-* Update the to and from [emails](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples/mail/example.go#L14).
+* Update the to and from [emails](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples/helpers/mail/example.go#L14).
 
 ```bash
-go run examples/mail/example.go
+go run examples/helpers/mail/example.go
 ```
 
 ## TRYING OUT THE V3 BETA WEB API
@@ -64,13 +66,12 @@ git clone -b v3beta --single-branch https://github.com/sendgrid/sendgrid-go.git
 ```
 
 * Check out the documentation for [Web API v3 endpoints](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html).
-* Review the corresponding [examples](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples).
+* Review the corresponding [example](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples).
+* Update the file
 
 ```bash
-go run examples/example.go
+go run <Desired File>
 ```
-
-* Check out the documentation for [Web API v3 /mail/send/beta endpoint](https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/index.html).
 
 ## Once we are out of v3 BETA, the following will apply
 
@@ -147,7 +148,7 @@ func main() {
 # Usage
 
 - [SendGrid Docs](https://sendgrid.com/docs/API_Reference/index.html)
-- [v3 Web API](https://github.com/sendgrid/sendgrid-go/tree/v3beta/USAGE.md)
+- [Usage Docs](https://github.com/sendgrid/sendgrid-go/tree/v3beta/USAGE.md)
 - [Example Code](https://github.com/sendgrid/sendgrid-go/tree/v3beta/examples)
 - [v3 Web API Mail Send Helper](https://github.com/sendgrid/sendgrid-go/tree/v3beta/helpers/mail/README.md)
 

@@ -6,14 +6,13 @@ This documentation is based on our [OAI specification](https://github.com/sendgr
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
 )
 
 apiKey := os.Getenv("SENDGRID_APIKEY")
-host = "https://api.sendgrid.com"
+host := "https://api.sendgrid.com"
 ```
 
 # Table of Contents

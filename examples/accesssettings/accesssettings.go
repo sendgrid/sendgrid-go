@@ -11,7 +11,7 @@ import (
 // GET /access_settings/activity
 
 func Retrieveallrecentaccessattempts() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/activity", host, "v3")
   request.Method = "GET"
@@ -33,7 +33,7 @@ request.QueryParams = queryParams
 // POST /access_settings/whitelist
 
 func AddoneormoreIPstothewhitelist() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "POST"
@@ -65,7 +65,7 @@ func AddoneormoreIPstothewhitelist() {
 // GET /access_settings/whitelist
 
 func RetrievealistofcurrentlywhitelistedIPs() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "GET"
@@ -84,7 +84,7 @@ func RetrievealistofcurrentlywhitelistedIPs() {
 // DELETE /access_settings/whitelist
 
 func RemoveoneormoreIPsfromthewhitelist() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "DELETE"
@@ -110,7 +110,7 @@ func RemoveoneormoreIPsfromthewhitelist() {
 // GET /access_settings/whitelist/{rule_id}
 
 func RetrieveaspecificwhitelistedIP() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
   request.Method = "GET"
@@ -129,7 +129,7 @@ func RetrieveaspecificwhitelistedIP() {
 // DELETE /access_settings/whitelist/{rule_id}
 
 func RemoveaspecificIPfromthewhitelist() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
   request.Method = "DELETE"

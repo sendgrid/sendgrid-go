@@ -11,7 +11,7 @@ import (
 // POST /templates
 
 func Createatransactionaltemplate() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
   request.Method = "POST"
@@ -33,7 +33,7 @@ func Createatransactionaltemplate() {
 // GET /templates
 
 func Retrievealltransactionaltemplates() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
   request.Method = "GET"
@@ -52,7 +52,7 @@ func Retrievealltransactionaltemplates() {
 // PATCH /templates/{template_id}
 
 func Editatransactionaltemplate() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "PATCH"
@@ -74,7 +74,7 @@ func Editatransactionaltemplate() {
 // GET /templates/{template_id}
 
 func Retrieveasingletransactionaltemplate() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "GET"
@@ -93,7 +93,7 @@ func Retrieveasingletransactionaltemplate() {
 // DELETE /templates/{template_id}
 
 func Deleteatemplate() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "DELETE"
@@ -112,7 +112,7 @@ func Deleteatemplate() {
 // POST /templates/{template_id}/versions
 
 func Createanewtransactionaltemplateversion() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
   request.Method = "POST"
@@ -139,7 +139,7 @@ func Createanewtransactionaltemplateversion() {
 // PATCH /templates/{template_id}/versions/{version_id}
 
 func Editatransactionaltemplateversion() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "PATCH"
@@ -165,7 +165,7 @@ func Editatransactionaltemplateversion() {
 // GET /templates/{template_id}/versions/{version_id}
 
 func Retrieveaspecifictransactionaltemplateversion() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "GET"
@@ -184,7 +184,7 @@ func Retrieveaspecifictransactionaltemplateversion() {
 // DELETE /templates/{template_id}/versions/{version_id}
 
 func Deleteatransactionaltemplateversion() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "DELETE"
@@ -203,7 +203,7 @@ func Deleteatransactionaltemplateversion() {
 // POST /templates/{template_id}/versions/{version_id}/activate
 
 func Activateatransactionaltemplateversion() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
   request.Method = "POST"

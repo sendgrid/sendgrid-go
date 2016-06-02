@@ -11,7 +11,7 @@ import (
 // POST /api_keys
 
 func CreateAPIkeys() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "POST"
@@ -38,7 +38,7 @@ func CreateAPIkeys() {
 // GET /api_keys
 
 func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "GET"
@@ -57,7 +57,7 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 // PUT /api_keys/{api_key_id}
 
 func UpdatethenamescopesofanAPIKey() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PUT"
@@ -83,7 +83,7 @@ func UpdatethenamescopesofanAPIKey() {
 // PATCH /api_keys/{api_key_id}
 
 func UpdateAPIkeys() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PATCH"
@@ -105,7 +105,7 @@ func UpdateAPIkeys() {
 // GET /api_keys/{api_key_id}
 
 func RetrieveanexistingAPIKey() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "GET"
@@ -124,7 +124,7 @@ func RetrieveanexistingAPIKey() {
 // DELETE /api_keys/{api_key_id}
 
 func DeleteAPIkeys() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "DELETE"

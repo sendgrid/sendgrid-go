@@ -11,7 +11,7 @@ import (
 // GET /partner_settings
 
 func Returnsalistofallpartnersettings() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
   request.Method = "GET"
@@ -34,7 +34,7 @@ request.QueryParams = queryParams
 // PATCH /partner_settings/new_relic
 
 func UpdatesNewRelicpartnersettings() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
   request.Method = "PATCH"
@@ -58,7 +58,7 @@ func UpdatesNewRelicpartnersettings() {
 // GET /partner_settings/new_relic
 
 func ReturnsallNewRelicpartnersettings() {
-  apiKey := os.Getenv("SENDGRID_APIKEY")
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
   request.Method = "GET"

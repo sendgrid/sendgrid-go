@@ -88,12 +88,12 @@ source ./sendgrid.env
 
 ##### Execute: #####
 
-See the [examples folder](https://github.com/sendgrid/rest/tree/v3beta/examples) to get started quickly.
-
-To run the example:
+* Check out the documentation for [Web API v3 endpoints](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html).
+* Review the corresponding [example](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples).
+* Update the file
 
 ```bash
-go run examples/example.go
+go run <Desired File>
 ```
 
 <a name="understanding_the_codebase"></a>
