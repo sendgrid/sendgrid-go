@@ -12,7 +12,7 @@ import (
 
 func Getauser'saccountinformation() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -31,7 +31,7 @@ func Getauser'saccountinformation() {
 
 func Retrieveyourcreditbalance() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/credits", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -50,7 +50,7 @@ func Retrieveyourcreditbalance() {
 
 func Updateyouraccountemailaddress() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
@@ -72,7 +72,7 @@ func Updateyouraccountemailaddress() {
 
 func Retrieveyouraccountemailaddress() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -91,7 +91,7 @@ func Retrieveyouraccountemailaddress() {
 
 func Updateyourpassword() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
@@ -114,7 +114,7 @@ func Updateyourpassword() {
 
 func Updateauser'sprofile() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -138,7 +138,7 @@ func Updateauser'sprofile() {
 
 func Getauser'sprofile() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -157,7 +157,7 @@ func Getauser'sprofile() {
 
 func Cancelorpauseascheduledsend() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -180,7 +180,7 @@ func Cancelorpauseascheduledsend() {
 
 func Retrieveallscheduledsends() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -199,7 +199,7 @@ func Retrieveallscheduledsends() {
 
 func Updateuserscheduledsendinformation() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -221,7 +221,7 @@ func Updateuserscheduledsendinformation() {
 
 func Retrievescheduledsend() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -240,7 +240,7 @@ func Retrievescheduledsend() {
 
 func Deleteacancellationorpauseofascheduledsend() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
@@ -259,7 +259,7 @@ func Deleteacancellationorpauseofascheduledsend() {
 
 func UpdateEnforcedTLSsettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -282,7 +282,7 @@ func UpdateEnforcedTLSsettings() {
 
 func RetrievecurrentEnforcedTLSsettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -301,7 +301,7 @@ func RetrievecurrentEnforcedTLSsettings() {
 
 func Updateyourusername() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
@@ -323,7 +323,7 @@ func Updateyourusername() {
 
 func Retrieveyourusername() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -342,7 +342,7 @@ func Retrieveyourusername() {
 
 func UpdateEventNotificationSettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -376,7 +376,7 @@ func UpdateEventNotificationSettings() {
 
 func RetrieveEventWebhooksettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -395,7 +395,7 @@ func RetrieveEventWebhooksettings() {
 
 func TestEventNotificationSettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -417,7 +417,7 @@ func TestEventNotificationSettings() {
 
 func RetrieveParseWebhooksettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -436,7 +436,7 @@ func RetrieveParseWebhooksettings() {
 
 func RetrievesInboundParseWebhookstatistics() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)

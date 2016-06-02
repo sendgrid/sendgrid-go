@@ -12,7 +12,7 @@ import (
 
 func Retrieveemailstatisticsbycountryandstateprovince() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)

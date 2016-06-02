@@ -12,7 +12,7 @@ import (
 
 func CreateaGroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -36,7 +36,7 @@ func CreateaGroup() {
 
 func Retrieveallsuppressiongroupsassociatedwiththeuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -55,7 +55,7 @@ func Retrieveallsuppressiongroupsassociatedwiththeuser() {
 
 func Updateasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -79,7 +79,7 @@ func Updateasuppressiongroup() {
 
 func Getinformationonasinglesuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -98,7 +98,7 @@ func Getinformationonasinglesuppressiongroup() {
 
 func Deleteasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
@@ -117,7 +117,7 @@ func Deleteasuppressiongroup() {
 
 func Addsuppressionstoasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -142,7 +142,7 @@ func Addsuppressionstoasuppressiongroup() {
 
 func Retrieveallsuppressionsforasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -161,7 +161,7 @@ func Retrieveallsuppressionsforasuppressiongroup() {
 
 func Deleteasuppressionfromasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
@@ -180,7 +180,7 @@ func Deleteasuppressionfromasuppressiongroup() {
 
 func Addrecipientaddressestotheglobalsuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -205,7 +205,7 @@ func Addrecipientaddressestotheglobalsuppressiongroup() {
 
 func RetrieveaGlobalSuppression() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -224,7 +224,7 @@ func RetrieveaGlobalSuppression() {
 
 func DeleteaGlobalSuppression() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)

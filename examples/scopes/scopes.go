@@ -12,7 +12,7 @@ import (
 
 func Retrievealistofscopesforwhichthisuserhasaccess() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)

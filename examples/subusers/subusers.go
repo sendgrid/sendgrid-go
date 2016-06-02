@@ -12,7 +12,7 @@ import (
 
 func CreateSubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -40,7 +40,7 @@ func CreateSubuser() {
 
 func ListallSubusers() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
@@ -64,7 +64,7 @@ request.QueryParams = queryParams
 
 func RetrieveSubuserReputations() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/reputations", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
@@ -86,7 +86,7 @@ request.QueryParams = queryParams
 
 func Retrieveemailstatisticsforyoursubusers() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
@@ -113,7 +113,7 @@ request.QueryParams = queryParams
 
 func Retrievemonthlystatsforallsubusers() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
@@ -140,7 +140,7 @@ request.QueryParams = queryParams
 
 func Retrievethetotalsforeachemailstatisticmetricforallsubusers() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
@@ -168,7 +168,7 @@ request.QueryParams = queryParams
 
 func Enabledisableasubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -190,7 +190,7 @@ func Enabledisableasubuser() {
 
 func Deleteasubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
@@ -209,7 +209,7 @@ func Deleteasubuser() {
 
 func UpdateIPsassignedtoasubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` [
@@ -231,7 +231,7 @@ func UpdateIPsassignedtoasubuser() {
 
 func UpdateMonitorSettingsforasubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
@@ -254,7 +254,7 @@ func UpdateMonitorSettingsforasubuser() {
 
 func Createmonitorsettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -277,7 +277,7 @@ func Createmonitorsettings() {
 
 func Retrievemonitorsettingsforasubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -296,7 +296,7 @@ func Retrievemonitorsettingsforasubuser() {
 
 func Deletemonitorsettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
@@ -315,7 +315,7 @@ func Deletemonitorsettings() {
 
 func Retrievethemonthlyemailstatisticsforasinglesubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)

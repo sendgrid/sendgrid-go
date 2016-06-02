@@ -12,7 +12,7 @@ import (
 
 func CreateAPIkeys() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
@@ -39,7 +39,7 @@ func CreateAPIkeys() {
 
 func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -58,7 +58,7 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 
 func UpdatethenamescopesofanAPIKey() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
@@ -84,7 +84,7 @@ func UpdatethenamescopesofanAPIKey() {
 
 func UpdateAPIkeys() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
@@ -106,7 +106,7 @@ func UpdateAPIkeys() {
 
 func RetrieveanexistingAPIKey() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "GET"
   response, err := sendgrid.API(request)
@@ -125,7 +125,7 @@ func RetrieveanexistingAPIKey() {
 
 func DeleteAPIkeys() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
-  host = "https://api.sendgrid.com"
+  host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
