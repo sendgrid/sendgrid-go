@@ -11,8 +11,8 @@ import (
 // Retrieve email statistics by country and state/province.
 // GET /geo/stats
 
-func Retrieveemailstatisticsbycountryandstate/province.() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveemailstatisticsbycountryandstate/province.() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
   request.Method = "GET"

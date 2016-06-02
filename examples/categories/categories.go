@@ -11,8 +11,8 @@ import (
 // Retrieve all categories
 // GET /categories
 
-func Retrieveallcategories() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveallcategories() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
   request.Method = "GET"
@@ -35,8 +35,8 @@ request.QueryParams = queryParams
 // Retrieve Email Statistics for Categories
 // GET /categories/stats
 
-func RetrieveEmailStatisticsforCategories() void {
-  apiKey := "SENDGRID_APIKEY"
+func RetrieveEmailStatisticsforCategories() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
   request.Method = "GET"
@@ -62,8 +62,8 @@ request.QueryParams = queryParams
 // Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?]
 // GET /categories/stats/sums
 
-func Retrievesumsofemailstatsforeachcategory[Needs:Statsobjectdefined,hascategoryID?]() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrievesumsofemailstatsforeachcategory[Needs:Statsobjectdefined,hascategoryID?]() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
   request.Method = "GET"

@@ -11,8 +11,8 @@ import (
 // Create a batch ID
 // POST /mail/batch
 
-func CreateabatchID() void {
-  apiKey := "SENDGRID_APIKEY"
+func CreateabatchID() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
   request.Method = "POST"
@@ -30,8 +30,8 @@ func CreateabatchID() void {
 // Validate batch ID
 // GET /mail/batch/{batch_id}
 
-func ValidatebatchID() void {
-  apiKey := "SENDGRID_APIKEY"
+func ValidatebatchID() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
   request.Method = "GET"
@@ -49,8 +49,8 @@ func ValidatebatchID() void {
 // v3 Mail Send Beta
 // POST /mail/send/beta
 
-func v3MailSendBeta() void {
-  apiKey := "SENDGRID_APIKEY"
+func v3MailSendBeta() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
   request.Method = "POST"

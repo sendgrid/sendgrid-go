@@ -11,8 +11,8 @@ import (
 // Retrieve email statistics by mailbox provider.
 // GET /mailbox_providers/stats
 
-func Retrieveemailstatisticsbymailboxprovider.() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveemailstatisticsbymailboxprovider.() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
   request.Method = "GET"

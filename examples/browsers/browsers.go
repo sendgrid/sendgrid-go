@@ -11,8 +11,8 @@ import (
 // Retrieve email statistics by browser. 
 // GET /browsers/stats
 
-func Retrieveemailstatisticsbybrowser.() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveemailstatisticsbybrowser.() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")
   request.Method = "GET"

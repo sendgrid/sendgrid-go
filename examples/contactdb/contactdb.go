@@ -11,8 +11,8 @@ import (
 // Create a Custom Field
 // POST /contactdb/custom_fields
 
-func CreateaCustomField() void {
-  apiKey := "SENDGRID_APIKEY"
+func CreateaCustomField() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
   request.Method = "POST"
@@ -34,8 +34,8 @@ func CreateaCustomField() void {
 // Retrieve all custom fields
 // GET /contactdb/custom_fields
 
-func Retrieveallcustomfields() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveallcustomfields() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
   request.Method = "GET"
@@ -53,8 +53,8 @@ func Retrieveallcustomfields() void {
 // Retrieve a Custom Field
 // GET /contactdb/custom_fields/{custom_field_id}
 
-func RetrieveaCustomField() void {
-  apiKey := "SENDGRID_APIKEY"
+func RetrieveaCustomField() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
   request.Method = "GET"
@@ -72,8 +72,8 @@ func RetrieveaCustomField() void {
 // Delete a Custom Field
 // DELETE /contactdb/custom_fields/{custom_field_id}
 
-func DeleteaCustomField() void {
-  apiKey := "SENDGRID_APIKEY"
+func DeleteaCustomField() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
   request.Method = "DELETE"
@@ -91,8 +91,8 @@ func DeleteaCustomField() void {
 // Create a List
 // POST /contactdb/lists
 
-func CreateaList() void {
-  apiKey := "SENDGRID_APIKEY"
+func CreateaList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
   request.Method = "POST"
@@ -113,8 +113,8 @@ func CreateaList() void {
 // Retrieve all lists
 // GET /contactdb/lists
 
-func Retrievealllists() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrievealllists() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
   request.Method = "GET"
@@ -132,8 +132,8 @@ func Retrievealllists() void {
 // Delete Multiple lists
 // DELETE /contactdb/lists
 
-func DeleteMultiplelists() void {
-  apiKey := "SENDGRID_APIKEY"
+func DeleteMultiplelists() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
   request.Method = "DELETE"
@@ -157,8 +157,8 @@ func DeleteMultiplelists() void {
 // Update a List
 // PATCH /contactdb/lists/{list_id}
 
-func UpdateaList() void {
-  apiKey := "SENDGRID_APIKEY"
+func UpdateaList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "PATCH"
@@ -182,8 +182,8 @@ request.QueryParams = queryParams
 // Retrieve a single list
 // GET /contactdb/lists/{list_id}
 
-func Retrieveasinglelist() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveasinglelist() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "GET"
@@ -204,8 +204,8 @@ request.QueryParams = queryParams
 // Delete a List
 // DELETE /contactdb/lists/{list_id}
 
-func DeleteaList() void {
-  apiKey := "SENDGRID_APIKEY"
+func DeleteaList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "DELETE"
@@ -226,8 +226,8 @@ request.QueryParams = queryParams
 // Add Multiple Recipients to a List
 // POST /contactdb/lists/{list_id}/recipients
 
-func AddMultipleRecipientstoaList() void {
-  apiKey := "SENDGRID_APIKEY"
+func AddMultipleRecipientstoaList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
   request.Method = "POST"
@@ -249,8 +249,8 @@ func AddMultipleRecipientstoaList() void {
 // Retrieve all recipients on a List
 // GET /contactdb/lists/{list_id}/recipients
 
-func RetrieveallrecipientsonaList() void {
-  apiKey := "SENDGRID_APIKEY"
+func RetrieveallrecipientsonaList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
   request.Method = "GET"
@@ -273,8 +273,8 @@ request.QueryParams = queryParams
 // Add a Single Recipient to a List
 // POST /contactdb/lists/{list_id}/recipients/{recipient_id}
 
-func AddaSingleRecipienttoaList() void {
-  apiKey := "SENDGRID_APIKEY"
+func AddaSingleRecipienttoaList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
   request.Method = "POST"
@@ -292,8 +292,8 @@ func AddaSingleRecipienttoaList() void {
 // Delete a Single Recipient from a Single List
 // DELETE /contactdb/lists/{list_id}/recipients/{recipient_id}
 
-func DeleteaSingleRecipientfromaSingleList() void {
-  apiKey := "SENDGRID_APIKEY"
+func DeleteaSingleRecipientfromaSingleList() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
   request.Method = "DELETE"
@@ -315,8 +315,8 @@ request.QueryParams = queryParams
 // Update Recipient
 // PATCH /contactdb/recipients
 
-func UpdateRecipient() void {
-  apiKey := "SENDGRID_APIKEY"
+func UpdateRecipient() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "PATCH"
@@ -341,8 +341,8 @@ func UpdateRecipient() void {
 // Add recipients
 // POST /contactdb/recipients
 
-func Addrecipients() void {
-  apiKey := "SENDGRID_APIKEY"
+func Addrecipients() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "POST"
@@ -374,8 +374,8 @@ func Addrecipients() void {
 // Retrieve recipients
 // GET /contactdb/recipients
 
-func Retrieverecipients() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieverecipients() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "GET"
@@ -397,8 +397,8 @@ request.QueryParams = queryParams
 // Delete Recipient
 // DELETE /contactdb/recipients
 
-func DeleteRecipient() void {
-  apiKey := "SENDGRID_APIKEY"
+func DeleteRecipient() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "DELETE"
@@ -420,8 +420,8 @@ func DeleteRecipient() void {
 // Retrieve the count of billable recipients
 // GET /contactdb/recipients/billable_count
 
-func Retrievethecountofbillablerecipients() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrievethecountofbillablerecipients() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
   request.Method = "GET"
@@ -439,8 +439,8 @@ func Retrievethecountofbillablerecipients() void {
 // Retrieve a Count of Recipients
 // GET /contactdb/recipients/count
 
-func RetrieveaCountofRecipients() void {
-  apiKey := "SENDGRID_APIKEY"
+func RetrieveaCountofRecipients() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
   request.Method = "GET"
@@ -458,8 +458,8 @@ func RetrieveaCountofRecipients() void {
 // Retrieve recipients matching search criteria
 // GET /contactdb/recipients/search
 
-func Retrieverecipientsmatchingsearchcriteria() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieverecipientsmatchingsearchcriteria() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
   request.Method = "GET"
@@ -480,8 +480,8 @@ request.QueryParams = queryParams
 // Retrieve a single recipient
 // GET /contactdb/recipients/{recipient_id}
 
-func Retrieveasinglerecipient() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveasinglerecipient() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
   request.Method = "GET"
@@ -499,8 +499,8 @@ func Retrieveasinglerecipient() void {
 // Delete a Recipient
 // DELETE /contactdb/recipients/{recipient_id}
 
-func DeleteaRecipient() void {
-  apiKey := "SENDGRID_APIKEY"
+func DeleteaRecipient() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
   request.Method = "DELETE"
@@ -518,8 +518,8 @@ func DeleteaRecipient() void {
 // Retrieve the lists that a recipient is on
 // GET /contactdb/recipients/{recipient_id}/lists
 
-func Retrievetheliststhatarecipientison() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrievetheliststhatarecipientison() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
   request.Method = "GET"
@@ -537,8 +537,8 @@ func Retrievetheliststhatarecipientison() void {
 // Retrieve reserved fields
 // GET /contactdb/reserved_fields
 
-func Retrievereservedfields() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrievereservedfields() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
   request.Method = "GET"
@@ -556,8 +556,8 @@ func Retrievereservedfields() void {
 // Create a Segment
 // POST /contactdb/segments
 
-func CreateaSegment() void {
-  apiKey := "SENDGRID_APIKEY"
+func CreateaSegment() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
   request.Method = "POST"
@@ -599,8 +599,8 @@ func CreateaSegment() void {
 // Retrieve all segments
 // GET /contactdb/segments
 
-func Retrieveallsegments() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveallsegments() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
   request.Method = "GET"
@@ -618,8 +618,8 @@ func Retrieveallsegments() void {
 // Update a segment
 // PATCH /contactdb/segments/{segment_id}
 
-func Updateasegment() void {
-  apiKey := "SENDGRID_APIKEY"
+func Updateasegment() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "PATCH"
@@ -652,8 +652,8 @@ request.QueryParams = queryParams
 // Retrieve a segment
 // GET /contactdb/segments/{segment_id}
 
-func Retrieveasegment() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieveasegment() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "GET"
@@ -674,8 +674,8 @@ request.QueryParams = queryParams
 // Delete a segment
 // DELETE /contactdb/segments/{segment_id}
 
-func Deleteasegment() void {
-  apiKey := "SENDGRID_APIKEY"
+func Deleteasegment() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "DELETE"
@@ -696,8 +696,8 @@ request.QueryParams = queryParams
 // Retrieve recipients on a segment
 // GET /contactdb/segments/{segment_id}/recipients
 
-func Retrieverecipientsonasegment() void {
-  apiKey := "SENDGRID_APIKEY"
+func Retrieverecipientsonasegment() {
+  apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
   request.Method = "GET"
