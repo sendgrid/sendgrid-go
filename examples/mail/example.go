@@ -1,4 +1,5 @@
 package main
+// This is an example of the Mail helper, located here: /helpers/mail
 
 import (
 	"encoding/json"
