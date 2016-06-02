@@ -200,7 +200,6 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ```go
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -368,7 +367,6 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ```go
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -504,7 +502,6 @@ Each user can create up to 25 different suppression groups.
 ```go
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -573,7 +570,6 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ```go
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -642,7 +638,6 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ```go
   request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -834,7 +829,6 @@ For more information:
 ```go
   request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -932,7 +926,6 @@ For more information:
 ```go
   request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -957,7 +950,6 @@ For more information:
 ```go
   request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -1224,7 +1216,6 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ```go
   request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -1364,7 +1355,6 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ```go
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   queryParams := make(map[string]string)
   queryParams["delete_contacts"] = "true"
   request.QueryParams = queryParams
@@ -1439,7 +1429,6 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ```go
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -1460,7 +1449,6 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ```go
   request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   queryParams := make(map[string]string)
   queryParams["recipient_id"] = "0"
   queryParams["list_id"] = "0"
@@ -1699,7 +1687,6 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ```go
   request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -1914,7 +1901,6 @@ For more information about segments in Marketing Campaigns, please see our [User
 ```go
   request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   queryParams := make(map[string]string)
   queryParams["delete_contacts"] = "true"
   request.QueryParams = queryParams
@@ -2198,7 +2184,6 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ```go
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -2246,7 +2231,6 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ```go
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -2338,7 +2322,6 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ```go
   request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -2388,7 +2371,6 @@ More Information:
 ```go
   request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -3443,7 +3425,6 @@ For more information about Subusers:
 ```go
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -3550,7 +3531,6 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ```go
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -3692,7 +3672,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ```go
   request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -3809,7 +3788,6 @@ For more information see:
 ```go
   request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   queryParams := make(map[string]string)
   queryParams["email_address"] = "example@example.com"
   request.QueryParams = queryParams
@@ -3927,7 +3905,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ```go
   request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -3972,7 +3949,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ```go
   request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -4183,7 +4159,6 @@ Transactional templates are templates created specifically for transactional ema
 ```go
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -4306,7 +4281,6 @@ For more information about transactional templates, please see our [User Guide](
 ```go
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -4336,7 +4310,6 @@ For more information about transactional templates, please see our [User Guide](
 ```go
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -4871,7 +4844,6 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ```go
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5264,7 +5236,6 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5336,7 +5307,6 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5427,7 +5397,6 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5455,7 +5424,6 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5558,7 +5526,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5581,7 +5548,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5725,7 +5691,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   queryParams := make(map[string]string)
   queryParams["username"] = "test_string"
   request.QueryParams = queryParams
@@ -5798,7 +5763,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
@@ -5821,7 +5785,6 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ```go
   request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` null`)
   response, err := sendgrid.API(request)
   if err != nil {
 		fmt.Println(err)
