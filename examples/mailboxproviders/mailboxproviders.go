@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve email statistics by mailbox provider. #
-# GET /mailbox_providers/stats #
+///////////////////////////////////////////////////
+// Retrieve email statistics by mailbox provider.
+// GET /mailbox_providers/stats
 
 request := sendgrid.GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
 request.Method = "GET"

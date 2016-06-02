@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve Tracking Settings #
-# GET /tracking_settings #
+///////////////////////////////////////////////////
+// Retrieve Tracking Settings
+// GET /tracking_settings
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings", host, "v3")
 request.Method = "GET"
@@ -29,9 +29,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Click Tracking Settings #
-# PATCH /tracking_settings/click #
+///////////////////////////////////////////////////
+// Update Click Tracking Settings
+// PATCH /tracking_settings/click
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
 request.Method = "PATCH"
@@ -47,9 +47,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Click Track Settings #
-# GET /tracking_settings/click #
+///////////////////////////////////////////////////
+// Retrieve Click Track Settings
+// GET /tracking_settings/click
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
 request.Method = "GET"
@@ -62,9 +62,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Google Analytics Settings #
-# PATCH /tracking_settings/google_analytics #
+///////////////////////////////////////////////////
+// Update Google Analytics Settings
+// PATCH /tracking_settings/google_analytics
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
 request.Method = "PATCH"
@@ -85,9 +85,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Google Analytics Settings #
-# GET /tracking_settings/google_analytics #
+///////////////////////////////////////////////////
+// Retrieve Google Analytics Settings
+// GET /tracking_settings/google_analytics
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
 request.Method = "GET"
@@ -100,9 +100,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Open Tracking Settings #
-# PATCH /tracking_settings/open #
+///////////////////////////////////////////////////
+// Update Open Tracking Settings
+// PATCH /tracking_settings/open
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
 request.Method = "PATCH"
@@ -118,9 +118,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Get Open Tracking Settings #
-# GET /tracking_settings/open #
+///////////////////////////////////////////////////
+// Get Open Tracking Settings
+// GET /tracking_settings/open
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
 request.Method = "GET"
@@ -133,9 +133,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Subscription Tracking Settings #
-# PATCH /tracking_settings/subscription #
+///////////////////////////////////////////////////
+// Update Subscription Tracking Settings
+// PATCH /tracking_settings/subscription
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
 request.Method = "PATCH"
@@ -156,9 +156,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Subscription Tracking Settings #
-# GET /tracking_settings/subscription #
+///////////////////////////////////////////////////
+// Retrieve Subscription Tracking Settings
+// GET /tracking_settings/subscription
 
 request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
 request.Method = "GET"

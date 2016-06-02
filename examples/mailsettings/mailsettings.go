@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve all mail settings #
-# GET /mail_settings #
+///////////////////////////////////////////////////
+// Retrieve all mail settings
+// GET /mail_settings
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings", host, "v3")
 request.Method = "GET"
@@ -29,9 +29,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update address whitelist mail settings #
-# PATCH /mail_settings/address_whitelist #
+///////////////////////////////////////////////////
+// Update address whitelist mail settings
+// PATCH /mail_settings/address_whitelist
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
 request.Method = "PATCH"
@@ -51,9 +51,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve address whitelist mail settings #
-# GET /mail_settings/address_whitelist #
+///////////////////////////////////////////////////
+// Retrieve address whitelist mail settings
+// GET /mail_settings/address_whitelist
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
 request.Method = "GET"
@@ -66,9 +66,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update BCC mail settings #
-# PATCH /mail_settings/bcc #
+///////////////////////////////////////////////////
+// Update BCC mail settings
+// PATCH /mail_settings/bcc
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
 request.Method = "PATCH"
@@ -85,9 +85,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all BCC mail settings #
-# GET /mail_settings/bcc #
+///////////////////////////////////////////////////
+// Retrieve all BCC mail settings
+// GET /mail_settings/bcc
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
 request.Method = "GET"
@@ -100,9 +100,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update bounce purge mail settings #
-# PATCH /mail_settings/bounce_purge #
+///////////////////////////////////////////////////
+// Update bounce purge mail settings
+// PATCH /mail_settings/bounce_purge
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
 request.Method = "PATCH"
@@ -120,9 +120,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve bounce purge mail settings #
-# GET /mail_settings/bounce_purge #
+///////////////////////////////////////////////////
+// Retrieve bounce purge mail settings
+// GET /mail_settings/bounce_purge
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
 request.Method = "GET"
@@ -135,9 +135,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update footer mail settings #
-# PATCH /mail_settings/footer #
+///////////////////////////////////////////////////
+// Update footer mail settings
+// PATCH /mail_settings/footer
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
 request.Method = "PATCH"
@@ -155,9 +155,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve footer mail settings #
-# GET /mail_settings/footer #
+///////////////////////////////////////////////////
+// Retrieve footer mail settings
+// GET /mail_settings/footer
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
 request.Method = "GET"
@@ -170,9 +170,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update forward bounce mail settings #
-# PATCH /mail_settings/forward_bounce #
+///////////////////////////////////////////////////
+// Update forward bounce mail settings
+// PATCH /mail_settings/forward_bounce
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
 request.Method = "PATCH"
@@ -189,9 +189,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve forward bounce mail settings #
-# GET /mail_settings/forward_bounce #
+///////////////////////////////////////////////////
+// Retrieve forward bounce mail settings
+// GET /mail_settings/forward_bounce
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
 request.Method = "GET"
@@ -204,9 +204,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update forward spam mail settings #
-# PATCH /mail_settings/forward_spam #
+///////////////////////////////////////////////////
+// Update forward spam mail settings
+// PATCH /mail_settings/forward_spam
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
 request.Method = "PATCH"
@@ -223,9 +223,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve forward spam mail settings #
-# GET /mail_settings/forward_spam #
+///////////////////////////////////////////////////
+// Retrieve forward spam mail settings
+// GET /mail_settings/forward_spam
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
 request.Method = "GET"
@@ -238,9 +238,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update plain content mail settings #
-# PATCH /mail_settings/plain_content #
+///////////////////////////////////////////////////
+// Update plain content mail settings
+// PATCH /mail_settings/plain_content
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
 request.Method = "PATCH"
@@ -256,9 +256,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve plain content mail settings #
-# GET /mail_settings/plain_content #
+///////////////////////////////////////////////////
+// Retrieve plain content mail settings
+// GET /mail_settings/plain_content
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
 request.Method = "GET"
@@ -271,9 +271,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update spam check mail settings #
-# PATCH /mail_settings/spam_check #
+///////////////////////////////////////////////////
+// Update spam check mail settings
+// PATCH /mail_settings/spam_check
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
 request.Method = "PATCH"
@@ -291,9 +291,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve spam check mail settings #
-# GET /mail_settings/spam_check #
+///////////////////////////////////////////////////
+// Retrieve spam check mail settings
+// GET /mail_settings/spam_check
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
 request.Method = "GET"
@@ -306,9 +306,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update template mail settings #
-# PATCH /mail_settings/template #
+///////////////////////////////////////////////////
+// Update template mail settings
+// PATCH /mail_settings/template
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
 request.Method = "PATCH"
@@ -325,9 +325,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve legacy template mail settings #
-# GET /mail_settings/template #
+///////////////////////////////////////////////////
+// Retrieve legacy template mail settings
+// GET /mail_settings/template
 
 request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
 request.Method = "GET"

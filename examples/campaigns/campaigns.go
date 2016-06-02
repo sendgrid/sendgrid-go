@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create a Campaign #
-# POST /campaigns #
+///////////////////////////////////////////////////
+// Create a Campaign
+// POST /campaigns
 
 request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
 request.Method = "POST"
@@ -45,9 +45,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all Campaigns #
-# GET /campaigns #
+///////////////////////////////////////////////////
+// Retrieve all Campaigns
+// GET /campaigns
 
 request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
 request.Method = "GET"
@@ -64,9 +64,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a Campaign #
-# PATCH /campaigns/{campaign_id} #
+///////////////////////////////////////////////////
+// Update a Campaign
+// PATCH /campaigns/{campaign_id}
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
 request.Method = "PATCH"
@@ -88,9 +88,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a single campaign #
-# GET /campaigns/{campaign_id} #
+///////////////////////////////////////////////////
+// Retrieve a single campaign
+// GET /campaigns/{campaign_id}
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
 request.Method = "GET"
@@ -103,9 +103,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a Campaign #
-# DELETE /campaigns/{campaign_id} #
+///////////////////////////////////////////////////
+// Delete a Campaign
+// DELETE /campaigns/{campaign_id}
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
 request.Method = "DELETE"
@@ -118,9 +118,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a Scheduled Campaign #
-# PATCH /campaigns/{campaign_id}/schedules #
+///////////////////////////////////////////////////
+// Update a Scheduled Campaign
+// PATCH /campaigns/{campaign_id}/schedules
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
 request.Method = "PATCH"
@@ -136,9 +136,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Schedule a Campaign #
-# POST /campaigns/{campaign_id}/schedules #
+///////////////////////////////////////////////////
+// Schedule a Campaign
+// POST /campaigns/{campaign_id}/schedules
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
 request.Method = "POST"
@@ -154,9 +154,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# View Scheduled Time of a Campaign #
-# GET /campaigns/{campaign_id}/schedules #
+///////////////////////////////////////////////////
+// View Scheduled Time of a Campaign
+// GET /campaigns/{campaign_id}/schedules
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
 request.Method = "GET"
@@ -169,9 +169,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Unschedule a Scheduled Campaign #
-# DELETE /campaigns/{campaign_id}/schedules #
+///////////////////////////////////////////////////
+// Unschedule a Scheduled Campaign
+// DELETE /campaigns/{campaign_id}/schedules
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
 request.Method = "DELETE"
@@ -184,9 +184,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Send a Campaign #
-# POST /campaigns/{campaign_id}/schedules/now #
+///////////////////////////////////////////////////
+// Send a Campaign
+// POST /campaigns/{campaign_id}/schedules/now
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
 request.Method = "POST"
@@ -199,9 +199,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Send a Test Campaign #
-# POST /campaigns/{campaign_id}/schedules/test #
+///////////////////////////////////////////////////
+// Send a Test Campaign
+// POST /campaigns/{campaign_id}/schedules/test
 
 request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/test", host, "v3")
 request.Method = "POST"

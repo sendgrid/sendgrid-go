@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create a transactional template. #
-# POST /templates #
+///////////////////////////////////////////////////
+// Create a transactional template.
+// POST /templates
 
 request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
 request.Method = "POST"
@@ -28,9 +28,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all transactional templates. #
-# GET /templates #
+///////////////////////////////////////////////////
+// Retrieve all transactional templates.
+// GET /templates
 
 request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
 request.Method = "GET"
@@ -43,9 +43,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Edit a transactional template. #
-# PATCH /templates/{template_id} #
+///////////////////////////////////////////////////
+// Edit a transactional template.
+// PATCH /templates/{template_id}
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
 request.Method = "PATCH"
@@ -61,9 +61,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a single transactional template. #
-# GET /templates/{template_id} #
+///////////////////////////////////////////////////
+// Retrieve a single transactional template.
+// GET /templates/{template_id}
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
 request.Method = "GET"
@@ -76,9 +76,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a template. #
-# DELETE /templates/{template_id} #
+///////////////////////////////////////////////////
+// Delete a template.
+// DELETE /templates/{template_id}
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
 request.Method = "DELETE"
@@ -91,9 +91,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Create a new transactional template version. #
-# POST /templates/{template_id}/versions #
+///////////////////////////////////////////////////
+// Create a new transactional template version.
+// POST /templates/{template_id}/versions
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
 request.Method = "POST"
@@ -114,9 +114,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Edit a transactional template version. #
-# PATCH /templates/{template_id}/versions/{version_id} #
+///////////////////////////////////////////////////
+// Edit a transactional template version.
+// PATCH /templates/{template_id}/versions/{version_id}
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
 request.Method = "PATCH"
@@ -136,9 +136,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a specific transactional template version. #
-# GET /templates/{template_id}/versions/{version_id} #
+///////////////////////////////////////////////////
+// Retrieve a specific transactional template version.
+// GET /templates/{template_id}/versions/{version_id}
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
 request.Method = "GET"
@@ -151,9 +151,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a transactional template version. #
-# DELETE /templates/{template_id}/versions/{version_id} #
+///////////////////////////////////////////////////
+// Delete a transactional template version.
+// DELETE /templates/{template_id}/versions/{version_id}
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
 request.Method = "DELETE"
@@ -166,9 +166,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Activate a transactional template version. #
-# POST /templates/{template_id}/versions/{version_id}/activate #
+///////////////////////////////////////////////////
+// Activate a transactional template version.
+// POST /templates/{template_id}/versions/{version_id}/activate
 
 request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
 request.Method = "POST"

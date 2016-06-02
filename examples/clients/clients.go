@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve email statistics by client type. #
-# GET /clients/stats #
+///////////////////////////////////////////////////
+// Retrieve email statistics by client type.
+// GET /clients/stats
 
 request := sendgrid.GetRequest(apiKey, "/clients/stats", host, "v3")
 request.Method = "GET"
@@ -30,9 +30,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve stats by a specific client type. #
-# GET /clients/{client_type}/stats #
+///////////////////////////////////////////////////
+// Retrieve stats by a specific client type.
+// GET /clients/{client_type}/stats
 
 request := sendgrid.GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
 request.Method = "GET"

@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create a batch ID #
-# POST /mail/batch #
+///////////////////////////////////////////////////
+// Create a batch ID
+// POST /mail/batch
 
 request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
 request.Method = "POST"
@@ -25,9 +25,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Validate batch ID #
-# GET /mail/batch/{batch_id} #
+///////////////////////////////////////////////////
+// Validate batch ID
+// GET /mail/batch/{batch_id}
 
 request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
 request.Method = "GET"
@@ -40,9 +40,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# v3 Mail Send Beta #
-# POST /mail/send/beta #
+///////////////////////////////////////////////////
+// v3 Mail Send Beta
+// POST /mail/send/beta
 
 request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
 request.Method = "POST"

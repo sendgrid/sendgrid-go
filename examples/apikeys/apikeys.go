@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create API keys #
-# POST /api_keys #
+///////////////////////////////////////////////////
+// Create API keys
+// POST /api_keys
 
 request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
 request.Method = "POST"
@@ -33,9 +33,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all API Keys belonging to the authenticated user #
-# GET /api_keys #
+///////////////////////////////////////////////////
+// Retrieve all API Keys belonging to the authenticated user
+// GET /api_keys
 
 request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
 request.Method = "GET"
@@ -48,9 +48,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update the name & scopes of an API Key #
-# PUT /api_keys/{api_key_id} #
+///////////////////////////////////////////////////
+// Update the name & scopes of an API Key
+// PUT /api_keys/{api_key_id}
 
 request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
 request.Method = "PUT"
@@ -70,9 +70,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update API keys #
-# PATCH /api_keys/{api_key_id} #
+///////////////////////////////////////////////////
+// Update API keys
+// PATCH /api_keys/{api_key_id}
 
 request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
 request.Method = "PATCH"
@@ -88,9 +88,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve an existing API Key #
-# GET /api_keys/{api_key_id} #
+///////////////////////////////////////////////////
+// Retrieve an existing API Key
+// GET /api_keys/{api_key_id}
 
 request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
 request.Method = "GET"
@@ -103,9 +103,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete API keys #
-# DELETE /api_keys/{api_key_id} #
+///////////////////////////////////////////////////
+// Delete API keys
+// DELETE /api_keys/{api_key_id}
 
 request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
 request.Method = "DELETE"

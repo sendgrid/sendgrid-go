@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve email statistics by country and state/province. #
-# GET /geo/stats #
+///////////////////////////////////////////////////
+// Retrieve email statistics by country and state/province.
+// GET /geo/stats
 
 request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
 request.Method = "GET"

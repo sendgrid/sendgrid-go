@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve all categories #
-# GET /categories #
+///////////////////////////////////////////////////
+// Retrieve all categories
+// GET /categories
 
 request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
 request.Method = "GET"
@@ -30,9 +30,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Email Statistics for Categories #
-# GET /categories/stats #
+///////////////////////////////////////////////////
+// Retrieve Email Statistics for Categories
+// GET /categories/stats
 
 request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
 request.Method = "GET"
@@ -53,9 +53,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?] #
-# GET /categories/stats/sums #
+///////////////////////////////////////////////////
+// Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?]
+// GET /categories/stats/sums
 
 request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
 request.Method = "GET"

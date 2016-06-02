@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create a domain whitelabel. #
-# POST /whitelabel/domains #
+///////////////////////////////////////////////////
+// Create a domain whitelabel.
+// POST /whitelabel/domains
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
 request.Method = "POST"
@@ -37,9 +37,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# List all domain whitelabels. #
-# GET /whitelabel/domains #
+///////////////////////////////////////////////////
+// List all domain whitelabels.
+// GET /whitelabel/domains
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
 request.Method = "GET"
@@ -59,9 +59,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Get the default domain whitelabel. #
-# GET /whitelabel/domains/default #
+///////////////////////////////////////////////////
+// Get the default domain whitelabel.
+// GET /whitelabel/domains/default
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/default", host, "v3")
 request.Method = "GET"
@@ -74,9 +74,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# List the domain whitelabel associated with the given user. #
-# GET /whitelabel/domains/subuser #
+///////////////////////////////////////////////////
+// List the domain whitelabel associated with the given user.
+// GET /whitelabel/domains/subuser
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
 request.Method = "GET"
@@ -89,9 +89,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Disassociate a domain whitelabel from a given user. #
-# DELETE /whitelabel/domains/subuser #
+///////////////////////////////////////////////////
+// Disassociate a domain whitelabel from a given user.
+// DELETE /whitelabel/domains/subuser
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
 request.Method = "DELETE"
@@ -104,9 +104,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a domain whitelabel. #
-# PATCH /whitelabel/domains/{domain_id} #
+///////////////////////////////////////////////////
+// Update a domain whitelabel.
+// PATCH /whitelabel/domains/{domain_id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
 request.Method = "PATCH"
@@ -123,9 +123,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a domain whitelabel. #
-# GET /whitelabel/domains/{domain_id} #
+///////////////////////////////////////////////////
+// Retrieve a domain whitelabel.
+// GET /whitelabel/domains/{domain_id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
 request.Method = "GET"
@@ -138,9 +138,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a domain whitelabel. #
-# DELETE /whitelabel/domains/{domain_id} #
+///////////////////////////////////////////////////
+// Delete a domain whitelabel.
+// DELETE /whitelabel/domains/{domain_id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
 request.Method = "DELETE"
@@ -153,9 +153,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Associate a domain whitelabel with a given user. #
-# POST /whitelabel/domains/{domain_id}/subuser #
+///////////////////////////////////////////////////
+// Associate a domain whitelabel with a given user.
+// POST /whitelabel/domains/{domain_id}/subuser
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
 request.Method = "POST"
@@ -171,9 +171,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Add an IP to a domain whitelabel. #
-# POST /whitelabel/domains/{id}/ips #
+///////////////////////////////////////////////////
+// Add an IP to a domain whitelabel.
+// POST /whitelabel/domains/{id}/ips
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
 request.Method = "POST"
@@ -189,9 +189,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Remove an IP from a domain whitelabel. #
-# DELETE /whitelabel/domains/{id}/ips/{ip} #
+///////////////////////////////////////////////////
+// Remove an IP from a domain whitelabel.
+// DELETE /whitelabel/domains/{id}/ips/{ip}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
 request.Method = "DELETE"
@@ -204,9 +204,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Validate a domain whitelabel. #
-# POST /whitelabel/domains/{id}/validate #
+///////////////////////////////////////////////////
+// Validate a domain whitelabel.
+// POST /whitelabel/domains/{id}/validate
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
 request.Method = "POST"
@@ -219,9 +219,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Create an IP whitelabel #
-# POST /whitelabel/ips #
+///////////////////////////////////////////////////
+// Create an IP whitelabel
+// POST /whitelabel/ips
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
 request.Method = "POST"
@@ -239,9 +239,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all IP whitelabels #
-# GET /whitelabel/ips #
+///////////////////////////////////////////////////
+// Retrieve all IP whitelabels
+// GET /whitelabel/ips
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
 request.Method = "GET"
@@ -259,9 +259,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve an IP whitelabel #
-# GET /whitelabel/ips/{id} #
+///////////////////////////////////////////////////
+// Retrieve an IP whitelabel
+// GET /whitelabel/ips/{id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
 request.Method = "GET"
@@ -274,9 +274,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete an IP whitelabel #
-# DELETE /whitelabel/ips/{id} #
+///////////////////////////////////////////////////
+// Delete an IP whitelabel
+// DELETE /whitelabel/ips/{id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
 request.Method = "DELETE"
@@ -289,9 +289,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Validate an IP whitelabel #
-# POST /whitelabel/ips/{id}/validate #
+///////////////////////////////////////////////////
+// Validate an IP whitelabel
+// POST /whitelabel/ips/{id}/validate
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
 request.Method = "POST"
@@ -304,9 +304,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Create a Link Whitelabel #
-# POST /whitelabel/links #
+///////////////////////////////////////////////////
+// Create a Link Whitelabel
+// POST /whitelabel/links
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
 request.Method = "POST"
@@ -328,9 +328,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all link whitelabels #
-# GET /whitelabel/links #
+///////////////////////////////////////////////////
+// Retrieve all link whitelabels
+// GET /whitelabel/links
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
 request.Method = "GET"
@@ -346,9 +346,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a Default Link Whitelabel #
-# GET /whitelabel/links/default #
+///////////////////////////////////////////////////
+// Retrieve a Default Link Whitelabel
+// GET /whitelabel/links/default
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/default", host, "v3")
 request.Method = "GET"
@@ -364,9 +364,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Associated Link Whitelabel #
-# GET /whitelabel/links/subuser #
+///////////////////////////////////////////////////
+// Retrieve Associated Link Whitelabel
+// GET /whitelabel/links/subuser
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
 request.Method = "GET"
@@ -382,9 +382,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Disassociate a Link Whitelabel #
-# DELETE /whitelabel/links/subuser #
+///////////////////////////////////////////////////
+// Disassociate a Link Whitelabel
+// DELETE /whitelabel/links/subuser
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
 request.Method = "DELETE"
@@ -400,9 +400,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a Link Whitelabel #
-# PATCH /whitelabel/links/{id} #
+///////////////////////////////////////////////////
+// Update a Link Whitelabel
+// PATCH /whitelabel/links/{id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
 request.Method = "PATCH"
@@ -418,9 +418,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a Link Whitelabel #
-# GET /whitelabel/links/{id} #
+///////////////////////////////////////////////////
+// Retrieve a Link Whitelabel
+// GET /whitelabel/links/{id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
 request.Method = "GET"
@@ -433,9 +433,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a Link Whitelabel #
-# DELETE /whitelabel/links/{id} #
+///////////////////////////////////////////////////
+// Delete a Link Whitelabel
+// DELETE /whitelabel/links/{id}
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
 request.Method = "DELETE"
@@ -448,9 +448,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Validate a Link Whitelabel #
-# POST /whitelabel/links/{id}/validate #
+///////////////////////////////////////////////////
+// Validate a Link Whitelabel
+// POST /whitelabel/links/{id}/validate
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
 request.Method = "POST"
@@ -463,9 +463,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Associate a Link Whitelabel #
-# POST /whitelabel/links/{link_id}/subuser #
+///////////////////////////////////////////////////
+// Associate a Link Whitelabel
+// POST /whitelabel/links/{link_id}/subuser
 
 request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
 request.Method = "POST"

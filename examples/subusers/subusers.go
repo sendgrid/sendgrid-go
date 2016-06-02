@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create Subuser #
-# POST /subusers #
+///////////////////////////////////////////////////
+// Create Subuser
+// POST /subusers
 
 request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
 request.Method = "POST"
@@ -34,9 +34,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# List all Subusers #
-# GET /subusers #
+///////////////////////////////////////////////////
+// List all Subusers
+// GET /subusers
 
 request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
 request.Method = "GET"
@@ -54,9 +54,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Subuser Reputations #
-# GET /subusers/reputations #
+///////////////////////////////////////////////////
+// Retrieve Subuser Reputations
+// GET /subusers/reputations
 
 request := sendgrid.GetRequest(apiKey, "/subusers/reputations", host, "v3")
 request.Method = "GET"
@@ -72,9 +72,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve email statistics for your subusers. #
-# GET /subusers/stats #
+///////////////////////////////////////////////////
+// Retrieve email statistics for your subusers.
+// GET /subusers/stats
 
 request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
 request.Method = "GET"
@@ -95,9 +95,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve monthly stats for all subusers #
-# GET /subusers/stats/monthly #
+///////////////////////////////////////////////////
+// Retrieve monthly stats for all subusers
+// GET /subusers/stats/monthly
 
 request := sendgrid.GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
 request.Method = "GET"
@@ -118,9 +118,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-#  Retrieve the totals for each email statistic metric for all subusers. #
-# GET /subusers/stats/sums #
+///////////////////////////////////////////////////
+//  Retrieve the totals for each email statistic metric for all subusers.
+// GET /subusers/stats/sums
 
 request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
 request.Method = "GET"
@@ -142,9 +142,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Enable/disable a subuser #
-# PATCH /subusers/{subuser_name} #
+///////////////////////////////////////////////////
+// Enable/disable a subuser
+// PATCH /subusers/{subuser_name}
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
 request.Method = "PATCH"
@@ -160,9 +160,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a subuser #
-# DELETE /subusers/{subuser_name} #
+///////////////////////////////////////////////////
+// Delete a subuser
+// DELETE /subusers/{subuser_name}
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
 request.Method = "DELETE"
@@ -175,9 +175,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update IPs assigned to a subuser #
-# PUT /subusers/{subuser_name}/ips #
+///////////////////////////////////////////////////
+// Update IPs assigned to a subuser
+// PUT /subusers/{subuser_name}/ips
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
 request.Method = "PUT"
@@ -193,9 +193,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Monitor Settings for a subuser #
-# PUT /subusers/{subuser_name}/monitor #
+///////////////////////////////////////////////////
+// Update Monitor Settings for a subuser
+// PUT /subusers/{subuser_name}/monitor
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
 request.Method = "PUT"
@@ -212,9 +212,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Create monitor settings #
-# POST /subusers/{subuser_name}/monitor #
+///////////////////////////////////////////////////
+// Create monitor settings
+// POST /subusers/{subuser_name}/monitor
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
 request.Method = "POST"
@@ -231,9 +231,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve monitor settings for a subuser #
-# GET /subusers/{subuser_name}/monitor #
+///////////////////////////////////////////////////
+// Retrieve monitor settings for a subuser
+// GET /subusers/{subuser_name}/monitor
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
 request.Method = "GET"
@@ -246,9 +246,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete monitor settings #
-# DELETE /subusers/{subuser_name}/monitor #
+///////////////////////////////////////////////////
+// Delete monitor settings
+// DELETE /subusers/{subuser_name}/monitor
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
 request.Method = "DELETE"
@@ -261,9 +261,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve the monthly email statistics for a single subuser #
-# GET /subusers/{subuser_name}/stats/monthly #
+///////////////////////////////////////////////////
+// Retrieve the monthly email statistics for a single subuser
+// GET /subusers/{subuser_name}/stats/monthly
 
 request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
 request.Method = "GET"

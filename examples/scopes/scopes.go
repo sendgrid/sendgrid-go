@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve a list of scopes for which this user has access. #
-# GET /scopes #
+///////////////////////////////////////////////////
+// Retrieve a list of scopes for which this user has access.
+// GET /scopes
 
 request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")
 request.Method = "GET"

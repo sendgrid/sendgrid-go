@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Returns a list of all partner settings. #
-# GET /partner_settings #
+///////////////////////////////////////////////////
+// Returns a list of all partner settings.
+// GET /partner_settings
 
 request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
 request.Method = "GET"
@@ -29,9 +29,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Updates New Relic partner settings. #
-# PATCH /partner_settings/new_relic #
+///////////////////////////////////////////////////
+// Updates New Relic partner settings.
+// PATCH /partner_settings/new_relic
 
 request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
 request.Method = "PATCH"
@@ -49,9 +49,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Returns all New Relic partner settings. #
-# GET /partner_settings/new_relic #
+///////////////////////////////////////////////////
+// Returns all New Relic partner settings.
+// GET /partner_settings/new_relic
 
 request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
 request.Method = "GET"

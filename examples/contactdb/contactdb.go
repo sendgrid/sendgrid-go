@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Create a Custom Field #
-# POST /contactdb/custom_fields #
+///////////////////////////////////////////////////
+// Create a Custom Field
+// POST /contactdb/custom_fields
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
 request.Method = "POST"
@@ -29,9 +29,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all custom fields #
-# GET /contactdb/custom_fields #
+///////////////////////////////////////////////////
+// Retrieve all custom fields
+// GET /contactdb/custom_fields
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
 request.Method = "GET"
@@ -44,9 +44,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a Custom Field #
-# GET /contactdb/custom_fields/{custom_field_id} #
+///////////////////////////////////////////////////
+// Retrieve a Custom Field
+// GET /contactdb/custom_fields/{custom_field_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
 request.Method = "GET"
@@ -59,9 +59,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a Custom Field #
-# DELETE /contactdb/custom_fields/{custom_field_id} #
+///////////////////////////////////////////////////
+// Delete a Custom Field
+// DELETE /contactdb/custom_fields/{custom_field_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
 request.Method = "DELETE"
@@ -74,9 +74,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Create a List #
-# POST /contactdb/lists #
+///////////////////////////////////////////////////
+// Create a List
+// POST /contactdb/lists
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
 request.Method = "POST"
@@ -92,9 +92,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all lists #
-# GET /contactdb/lists #
+///////////////////////////////////////////////////
+// Retrieve all lists
+// GET /contactdb/lists
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
 request.Method = "GET"
@@ -107,9 +107,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete Multiple lists #
-# DELETE /contactdb/lists #
+///////////////////////////////////////////////////
+// Delete Multiple lists
+// DELETE /contactdb/lists
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
 request.Method = "DELETE"
@@ -128,9 +128,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a List #
-# PATCH /contactdb/lists/{list_id} #
+///////////////////////////////////////////////////
+// Update a List
+// PATCH /contactdb/lists/{list_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
 request.Method = "PATCH"
@@ -149,9 +149,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a single list #
-# GET /contactdb/lists/{list_id} #
+///////////////////////////////////////////////////
+// Retrieve a single list
+// GET /contactdb/lists/{list_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
 request.Method = "GET"
@@ -167,9 +167,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a List #
-# DELETE /contactdb/lists/{list_id} #
+///////////////////////////////////////////////////
+// Delete a List
+// DELETE /contactdb/lists/{list_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
 request.Method = "DELETE"
@@ -185,9 +185,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Add Multiple Recipients to a List #
-# POST /contactdb/lists/{list_id}/recipients #
+///////////////////////////////////////////////////
+// Add Multiple Recipients to a List
+// POST /contactdb/lists/{list_id}/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
 request.Method = "POST"
@@ -204,9 +204,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all recipients on a List #
-# GET /contactdb/lists/{list_id}/recipients #
+///////////////////////////////////////////////////
+// Retrieve all recipients on a List
+// GET /contactdb/lists/{list_id}/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
 request.Method = "GET"
@@ -224,9 +224,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Add a Single Recipient to a List #
-# POST /contactdb/lists/{list_id}/recipients/{recipient_id} #
+///////////////////////////////////////////////////
+// Add a Single Recipient to a List
+// POST /contactdb/lists/{list_id}/recipients/{recipient_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
 request.Method = "POST"
@@ -239,9 +239,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a Single Recipient from a Single List #
-# DELETE /contactdb/lists/{list_id}/recipients/{recipient_id} #
+///////////////////////////////////////////////////
+// Delete a Single Recipient from a Single List
+// DELETE /contactdb/lists/{list_id}/recipients/{recipient_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
 request.Method = "DELETE"
@@ -258,9 +258,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Recipient #
-# PATCH /contactdb/recipients #
+///////////////////////////////////////////////////
+// Update Recipient
+// PATCH /contactdb/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
 request.Method = "PATCH"
@@ -280,9 +280,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Add recipients #
-# POST /contactdb/recipients #
+///////////////////////////////////////////////////
+// Add recipients
+// POST /contactdb/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
 request.Method = "POST"
@@ -309,9 +309,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve recipients #
-# GET /contactdb/recipients #
+///////////////////////////////////////////////////
+// Retrieve recipients
+// GET /contactdb/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
 request.Method = "GET"
@@ -328,9 +328,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete Recipient #
-# DELETE /contactdb/recipients #
+///////////////////////////////////////////////////
+// Delete Recipient
+// DELETE /contactdb/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
 request.Method = "DELETE"
@@ -347,9 +347,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve the count of billable recipients #
-# GET /contactdb/recipients/billable_count #
+///////////////////////////////////////////////////
+// Retrieve the count of billable recipients
+// GET /contactdb/recipients/billable_count
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
 request.Method = "GET"
@@ -362,9 +362,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a Count of Recipients #
-# GET /contactdb/recipients/count #
+///////////////////////////////////////////////////
+// Retrieve a Count of Recipients
+// GET /contactdb/recipients/count
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
 request.Method = "GET"
@@ -377,9 +377,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve recipients matching search criteria #
-# GET /contactdb/recipients/search #
+///////////////////////////////////////////////////
+// Retrieve recipients matching search criteria
+// GET /contactdb/recipients/search
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
 request.Method = "GET"
@@ -395,9 +395,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a single recipient #
-# GET /contactdb/recipients/{recipient_id} #
+///////////////////////////////////////////////////
+// Retrieve a single recipient
+// GET /contactdb/recipients/{recipient_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
 request.Method = "GET"
@@ -410,9 +410,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a Recipient #
-# DELETE /contactdb/recipients/{recipient_id} #
+///////////////////////////////////////////////////
+// Delete a Recipient
+// DELETE /contactdb/recipients/{recipient_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
 request.Method = "DELETE"
@@ -425,9 +425,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve the lists that a recipient is on #
-# GET /contactdb/recipients/{recipient_id}/lists #
+///////////////////////////////////////////////////
+// Retrieve the lists that a recipient is on
+// GET /contactdb/recipients/{recipient_id}/lists
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
 request.Method = "GET"
@@ -440,9 +440,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve reserved fields #
-# GET /contactdb/reserved_fields #
+///////////////////////////////////////////////////
+// Retrieve reserved fields
+// GET /contactdb/reserved_fields
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
 request.Method = "GET"
@@ -455,9 +455,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Create a Segment #
-# POST /contactdb/segments #
+///////////////////////////////////////////////////
+// Create a Segment
+// POST /contactdb/segments
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
 request.Method = "POST"
@@ -494,9 +494,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all segments #
-# GET /contactdb/segments #
+///////////////////////////////////////////////////
+// Retrieve all segments
+// GET /contactdb/segments
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
 request.Method = "GET"
@@ -509,9 +509,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a segment #
-# PATCH /contactdb/segments/{segment_id} #
+///////////////////////////////////////////////////
+// Update a segment
+// PATCH /contactdb/segments/{segment_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
 request.Method = "PATCH"
@@ -539,9 +539,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a segment #
-# GET /contactdb/segments/{segment_id} #
+///////////////////////////////////////////////////
+// Retrieve a segment
+// GET /contactdb/segments/{segment_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
 request.Method = "GET"
@@ -557,9 +557,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a segment #
-# DELETE /contactdb/segments/{segment_id} #
+///////////////////////////////////////////////////
+// Delete a segment
+// DELETE /contactdb/segments/{segment_id}
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
 request.Method = "DELETE"
@@ -575,9 +575,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve recipients on a segment #
-# GET /contactdb/segments/{segment_id}/recipients #
+///////////////////////////////////////////////////
+// Retrieve recipients on a segment
+// GET /contactdb/segments/{segment_id}/recipients
 
 request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
 request.Method = "GET"

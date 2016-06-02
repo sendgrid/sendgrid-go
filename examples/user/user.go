@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Get a user's account information. #
-# GET /user/account #
+///////////////////////////////////////////////////
+// Get a user's account information.
+// GET /user/account
 
 request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
 request.Method = "GET"
@@ -25,9 +25,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve your credit balance #
-# GET /user/credits #
+///////////////////////////////////////////////////
+// Retrieve your credit balance
+// GET /user/credits
 
 request := sendgrid.GetRequest(apiKey, "/user/credits", host, "v3")
 request.Method = "GET"
@@ -40,9 +40,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update your account email address #
-# PUT /user/email #
+///////////////////////////////////////////////////
+// Update your account email address
+// PUT /user/email
 
 request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
 request.Method = "PUT"
@@ -58,9 +58,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve your account email address #
-# GET /user/email #
+///////////////////////////////////////////////////
+// Retrieve your account email address
+// GET /user/email
 
 request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
 request.Method = "GET"
@@ -73,9 +73,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update your password #
-# PUT /user/password #
+///////////////////////////////////////////////////
+// Update your password
+// PUT /user/password
 
 request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
 request.Method = "PUT"
@@ -92,9 +92,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update a user's profile #
-# PATCH /user/profile #
+///////////////////////////////////////////////////
+// Update a user's profile
+// PATCH /user/profile
 
 request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
 request.Method = "PATCH"
@@ -112,9 +112,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Get a user's profile #
-# GET /user/profile #
+///////////////////////////////////////////////////
+// Get a user's profile
+// GET /user/profile
 
 request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
 request.Method = "GET"
@@ -127,9 +127,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Cancel or pause a scheduled send #
-# POST /user/scheduled_sends #
+///////////////////////////////////////////////////
+// Cancel or pause a scheduled send
+// POST /user/scheduled_sends
 
 request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
 request.Method = "POST"
@@ -146,9 +146,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve all scheduled sends #
-# GET /user/scheduled_sends #
+///////////////////////////////////////////////////
+// Retrieve all scheduled sends
+// GET /user/scheduled_sends
 
 request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
 request.Method = "GET"
@@ -161,9 +161,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update user scheduled send information #
-# PATCH /user/scheduled_sends/{batch_id} #
+///////////////////////////////////////////////////
+// Update user scheduled send information
+// PATCH /user/scheduled_sends/{batch_id}
 
 request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
 request.Method = "PATCH"
@@ -179,9 +179,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve scheduled send #
-# GET /user/scheduled_sends/{batch_id} #
+///////////////////////////////////////////////////
+// Retrieve scheduled send
+// GET /user/scheduled_sends/{batch_id}
 
 request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
 request.Method = "GET"
@@ -194,9 +194,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Delete a cancellation or pause of a scheduled send #
-# DELETE /user/scheduled_sends/{batch_id} #
+///////////////////////////////////////////////////
+// Delete a cancellation or pause of a scheduled send
+// DELETE /user/scheduled_sends/{batch_id}
 
 request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
 request.Method = "DELETE"
@@ -209,9 +209,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Enforced TLS settings #
-# PATCH /user/settings/enforced_tls #
+///////////////////////////////////////////////////
+// Update Enforced TLS settings
+// PATCH /user/settings/enforced_tls
 
 request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
 request.Method = "PATCH"
@@ -228,9 +228,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve current Enforced TLS settings. #
-# GET /user/settings/enforced_tls #
+///////////////////////////////////////////////////
+// Retrieve current Enforced TLS settings.
+// GET /user/settings/enforced_tls
 
 request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
 request.Method = "GET"
@@ -243,9 +243,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update your username #
-# PUT /user/username #
+///////////////////////////////////////////////////
+// Update your username
+// PUT /user/username
 
 request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
 request.Method = "PUT"
@@ -261,9 +261,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve your username #
-# GET /user/username #
+///////////////////////////////////////////////////
+// Retrieve your username
+// GET /user/username
 
 request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
 request.Method = "GET"
@@ -276,9 +276,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Update Event Notification Settings #
-# PATCH /user/webhooks/event/settings #
+///////////////////////////////////////////////////
+// Update Event Notification Settings
+// PATCH /user/webhooks/event/settings
 
 request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
 request.Method = "PATCH"
@@ -306,9 +306,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Event Webhook settings #
-# GET /user/webhooks/event/settings #
+///////////////////////////////////////////////////
+// Retrieve Event Webhook settings
+// GET /user/webhooks/event/settings
 
 request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
 request.Method = "GET"
@@ -321,9 +321,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Test Event Notification Settings  #
-# POST /user/webhooks/event/test #
+///////////////////////////////////////////////////
+// Test Event Notification Settings 
+// POST /user/webhooks/event/test
 
 request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
 request.Method = "POST"
@@ -339,9 +339,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve Parse Webhook settings #
-# GET /user/webhooks/parse/settings #
+///////////////////////////////////////////////////
+// Retrieve Parse Webhook settings
+// GET /user/webhooks/parse/settings
 
 request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
 request.Method = "GET"
@@ -354,9 +354,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieves Inbound Parse Webhook statistics. #
-# GET /user/webhooks/parse/stats #
+///////////////////////////////////////////////////
+// Retrieves Inbound Parse Webhook statistics.
+// GET /user/webhooks/parse/stats
 
 request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
 request.Method = "GET"

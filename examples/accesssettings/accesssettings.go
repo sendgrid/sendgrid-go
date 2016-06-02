@@ -10,9 +10,9 @@ import (
 apiKey := "SENDGRID_APIKEY"
 host = "https://api.sendgrid.com"
 
-##################################################
-# Retrieve all recent access attempts #
-# GET /access_settings/activity #
+///////////////////////////////////////////////////
+// Retrieve all recent access attempts
+// GET /access_settings/activity
 
 request := sendgrid.GetRequest(apiKey, "/access_settings/activity", host, "v3")
 request.Method = "GET"
@@ -28,9 +28,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Add one or more IPs to the whitelist #
-# POST /access_settings/whitelist #
+///////////////////////////////////////////////////
+// Add one or more IPs to the whitelist
+// POST /access_settings/whitelist
 
 request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
 request.Method = "POST"
@@ -56,9 +56,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a list of currently whitelisted IPs #
-# GET /access_settings/whitelist #
+///////////////////////////////////////////////////
+// Retrieve a list of currently whitelisted IPs
+// GET /access_settings/whitelist
 
 request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
 request.Method = "GET"
@@ -71,9 +71,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Remove one or more IPs from the whitelist #
-# DELETE /access_settings/whitelist #
+///////////////////////////////////////////////////
+// Remove one or more IPs from the whitelist
+// DELETE /access_settings/whitelist
 
 request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
 request.Method = "DELETE"
@@ -93,9 +93,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Retrieve a specific whitelisted IP #
-# GET /access_settings/whitelist/{rule_id} #
+///////////////////////////////////////////////////
+// Retrieve a specific whitelisted IP
+// GET /access_settings/whitelist/{rule_id}
 
 request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
 request.Method = "GET"
@@ -108,9 +108,9 @@ if err != nil {
   fmt.Println(response.ResponseHeaders)
 }
 
-##################################################
-# Remove a specific IP from the whitelist #
-# DELETE /access_settings/whitelist/{rule_id} #
+///////////////////////////////////////////////////
+// Remove a specific IP from the whitelist
+// DELETE /access_settings/whitelist/{rule_id}
 
 request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
 request.Method = "DELETE"
