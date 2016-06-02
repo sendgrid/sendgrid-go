@@ -61,7 +61,7 @@ request.QueryParams = queryParams
 // Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?]
 // GET /categories/stats/sums
 
-func Retrievesumsofemailstatsforeachcategory[Needs:Statsobjectdefined,hascategoryID?]() {
+func Retrievesumsofemailstatsforeachcategory() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
