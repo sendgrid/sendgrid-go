@@ -57,19 +57,19 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### GET /access_settings/activity
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/access_settings/activity", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
+request := sendgrid.GetRequest(apiKey, "/access_settings/activity", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add one or more IPs to the whitelist
 
@@ -84,9 +84,9 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### POST /access_settings/whitelist
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "ips": [
     {
       "ip": "192.168.1.1"
@@ -99,14 +99,14 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
     }
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a list of currently whitelisted IPs
 
@@ -119,16 +119,16 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### GET /access_settings/whitelist
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Remove one or more IPs from the whitelist
 
@@ -143,23 +143,23 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### DELETE /access_settings/whitelist
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` {
   "ids": [
     1,
     2,
     3
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a specific whitelisted IP
 
@@ -174,16 +174,16 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### GET /access_settings/whitelist/{rule_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Remove a specific IP from the whitelist
 
@@ -198,16 +198,16 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### DELETE /access_settings/whitelist/{rule_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="api_keys"></a>
 # API KEYS
@@ -227,9 +227,9 @@ See the [API Key Permissions List](https://sendgrid.com/docs/API_Reference/Web_A
 ### POST /api_keys
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "name": "My API Key",
   "scopes": [
     "mail.send",
@@ -237,14 +237,14 @@ See the [API Key Permissions List](https://sendgrid.com/docs/API_Reference/Web_A
     "alerts.read"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all API Keys belonging to the authenticated user
 
@@ -255,16 +255,16 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### GET /api_keys
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update the name & scopes of an API Key
 
@@ -279,23 +279,23 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### PUT /api_keys/{api_key_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` {
   "name": "A New Hope",
   "scopes": [
     "user.profile.read",
     "user.profile.update"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update API keys
 
@@ -314,19 +314,19 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### PATCH /api_keys/{api_key_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "name": "A New Hope"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve an existing API Key
 
@@ -337,16 +337,16 @@ If the API Key ID does not exist an HTTP 404 will be returned.
 ### GET /api_keys/{api_key_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete API keys
 
@@ -365,16 +365,16 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### DELETE /api_keys/{api_key_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="asm"></a>
 # ASM
@@ -392,21 +392,21 @@ Each user can create up to 25 different suppression groups.
 ### POST /asm/groups
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "description": "A group description",
   "is_default": false,
   "name": "A group name"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all suppression groups associated with the user.
 
@@ -421,16 +421,16 @@ Each user can create up to 25 different suppression groups.
 ### GET /asm/groups
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a suppression group.
 
@@ -445,21 +445,21 @@ Each user can create up to 25 different suppression groups.
 ### PATCH /asm/groups/{group_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "description": "Suggestions for items our users might like.",
   "id": 103,
   "name": "Item Suggestions"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Get information on a single suppression group.
 
@@ -474,16 +474,16 @@ Each user can create up to 25 different suppression groups.
 ### GET /asm/groups/{group_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a suppression group.
 
@@ -500,16 +500,16 @@ Each user can create up to 25 different suppression groups.
 ### DELETE /asm/groups/{group_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add suppressions to a suppression group
 
@@ -522,22 +522,22 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ### POST /asm/groups/{group_id}/suppressions
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "recipient_emails": [
     "test1@example.com",
     "test2@example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all suppressions for a suppression group
 
@@ -548,16 +548,16 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ### GET /asm/groups/{group_id}/suppressions
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a suppression from a suppression group
 
@@ -568,16 +568,16 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ### DELETE /asm/groups/{group_id}/suppressions/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add recipient addresses to the global suppression group.
 
@@ -588,22 +588,22 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### POST /asm/suppressions/global
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "recipient_emails": [
     "test1@example.com",
     "test2@example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a Global Suppression
 
@@ -616,16 +616,16 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### GET /asm/suppressions/global/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a Global Suppression
 
@@ -636,16 +636,16 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### DELETE /asm/suppressions/global/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="browsers"></a>
 # BROWSERS
@@ -661,24 +661,24 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /browsers/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["aggregated_by"] = "day"
   queryParams["browsers"] = "test_string"
   queryParams["limit"] = "test_string"
   queryParams["offset"] = "test_string"
   queryParams["start_date"] = "2016-01-01"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="campaigns"></a>
 # CAMPAIGNS
@@ -698,9 +698,9 @@ For more information:
 ### POST /campaigns
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "categories": [
     "spring line"
   ],
@@ -720,14 +720,14 @@ For more information:
   "suppression_group_id": 42,
   "title": "March Newsletter"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all Campaigns
 
@@ -744,20 +744,20 @@ For more information:
 ### GET /campaigns
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "0"
+request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "0"
   queryParams["offset"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a Campaign
 
@@ -770,9 +770,9 @@ For more information:
 ### PATCH /campaigns/{campaign_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "categories": [
     "summer line"
   ],
@@ -781,14 +781,14 @@ For more information:
   "subject": "New Products for Summer!",
   "title": "May Newsletter"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a single campaign
 
@@ -803,16 +803,16 @@ For more information:
 ### GET /campaigns/{campaign_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a Campaign
 
@@ -827,16 +827,16 @@ For more information:
 ### DELETE /campaigns/{campaign_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a Scheduled Campaign
 
@@ -849,19 +849,19 @@ For more information:
 ### PATCH /campaigns/{campaign_id}/schedules
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "send_at": 1489451436
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Schedule a Campaign
 
@@ -874,19 +874,19 @@ For more information:
 ### POST /campaigns/{campaign_id}/schedules
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "send_at": 1489771528
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## View Scheduled Time of a Campaign
 
@@ -899,16 +899,16 @@ For more information:
 ### GET /campaigns/{campaign_id}/schedules
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Unschedule a Scheduled Campaign
 
@@ -924,16 +924,16 @@ For more information:
 ### DELETE /campaigns/{campaign_id}/schedules
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Send a Campaign
 
@@ -948,16 +948,16 @@ For more information:
 ### POST /campaigns/{campaign_id}/schedules/now
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Send a Test Campaign
 
@@ -972,19 +972,19 @@ For more information:
 ### POST /campaigns/{campaign_id}/schedules/test
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/test", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/test", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "to": "your.email@example.com"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="categories"></a>
 # CATEGORIES
@@ -998,21 +998,21 @@ Categories can help organize your email analytics by enabling you to tag emails 
 ### GET /categories
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["category"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["category"] = "test_string"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Email Statistics for Categories
 
@@ -1025,24 +1025,24 @@ Categories allow you to group your emails together according to broad topics tha
 ### GET /categories/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   queryParams["start_date"] = "2016-01-01"
   queryParams["categories"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?]
 
@@ -1055,10 +1055,10 @@ Categories allow you to group your emails together according to broad topics tha
 ### GET /categories/stats/sums
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["sort_by_metric"] = "test_string"
@@ -1066,14 +1066,14 @@ Categories allow you to group your emails together according to broad topics tha
   queryParams["start_date"] = "2016-01-01"
   queryParams["sort_by_direction"] = "asc"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="clients"></a>
 # CLIENTS
@@ -1089,21 +1089,21 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /clients/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/clients/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["aggregated_by"] = "day"
+request := sendgrid.GetRequest(apiKey, "/clients/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["aggregated_by"] = "day"
   queryParams["start_date"] = "2016-01-01"
   queryParams["end_date"] = "2016-04-01"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve stats by a specific client type.
 
@@ -1122,21 +1122,21 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /clients/{client_type}/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["aggregated_by"] = "day"
+request := sendgrid.GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["aggregated_by"] = "day"
   queryParams["start_date"] = "2016-01-01"
   queryParams["end_date"] = "2016-04-01"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="contactdb"></a>
 # CONTACTDB
@@ -1150,20 +1150,20 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### POST /contactdb/custom_fields
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "name": "pet",
   "type": "text"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all custom fields
 
@@ -1174,16 +1174,16 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/custom_fields
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a Custom Field
 
@@ -1194,16 +1194,16 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/custom_fields/{custom_field_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a Custom Field
 
@@ -1214,16 +1214,16 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### DELETE /contactdb/custom_fields/{custom_field_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create a List
 
@@ -1234,19 +1234,19 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/lists
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "name": "your list name"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all lists
 
@@ -1257,16 +1257,16 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/lists
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete Multiple lists
 
@@ -1277,22 +1277,22 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/lists
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` [
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` [
   1,
   2,
   3,
   4
 ]`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a List
 
@@ -1304,22 +1304,22 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### PATCH /contactdb/lists/{list_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "name": "newlistname"
 }`)
-  queryParams := make(map[string]string)
-  queryParams["list_id"] = "0"
+queryParams := make(map[string]string)
+queryParams["list_id"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a single list
 
@@ -1330,19 +1330,19 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/lists/{list_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["list_id"] = "0"
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["list_id"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a List
 
@@ -1353,19 +1353,19 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/lists/{list_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
-  request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["delete_contacts"] = "true"
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+request.Method = "DELETE"
+queryParams := make(map[string]string)
+queryParams["delete_contacts"] = "true"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add Multiple Recipients to a List
 
@@ -1378,20 +1378,20 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/lists/{list_id}/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` [
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` [
   "recipient_id1",
   "recipient_id2"
 ]`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all recipients on a List
 
@@ -1402,21 +1402,21 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/lists/{list_id}/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["page"] = "1"
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["page"] = "1"
   queryParams["page_size"] = "1"
   queryParams["list_id"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add a Single Recipient to a List
 
@@ -1427,16 +1427,16 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/lists/{list_id}/recipients/{recipient_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a Single Recipient from a Single List
 
@@ -1447,20 +1447,20 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/lists/{list_id}/recipients/{recipient_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
-  request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["recipient_id"] = "0"
+request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
+request.Method = "DELETE"
+queryParams := make(map[string]string)
+queryParams["recipient_id"] = "0"
   queryParams["list_id"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Recipient
 
@@ -1475,23 +1475,23 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### PATCH /contactdb/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` [
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` [
   {
     "email": "jones@example.com",
     "first_name": "Guy",
     "last_name": "Jones"
   }
 ]`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add recipients
 
@@ -1504,9 +1504,9 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` [
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` [
   {
     "age": 25,
     "email": "example@example.com",
@@ -1520,14 +1520,14 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
     "last_name": "User"
   }
 ]`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve recipients
 
@@ -1541,20 +1541,20 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["page"] = "1"
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["page"] = "1"
   queryParams["page_size"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete Recipient
 
@@ -1567,20 +1567,20 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### DELETE /contactdb/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` [
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` [
   "recipient_id1",
   "recipient_id2"
 ]`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve the count of billable recipients
 
@@ -1593,16 +1593,16 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients/billable_count
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a Count of Recipients
 
@@ -1613,16 +1613,16 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/recipients/count
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve recipients matching search criteria
 
@@ -1642,19 +1642,19 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/recipients/search
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["{field_name}"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["{field_name}"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a single recipient
 
@@ -1665,16 +1665,16 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients/{recipient_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a Recipient
 
@@ -1685,16 +1685,16 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/recipients/{recipient_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve the lists that a recipient is on
 
@@ -1707,16 +1707,16 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients/{recipient_id}/lists
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve reserved fields
 
@@ -1727,16 +1727,16 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/reserved_fields
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create a Segment
 
@@ -1767,9 +1767,9 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### POST /contactdb/segments
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "conditions": [
     {
       "and_or": "",
@@ -1793,14 +1793,14 @@ For more information about segments in Marketing Campaigns, please see our [User
   "list_id": 4,
   "name": "Last Name Miller"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all segments
 
@@ -1813,16 +1813,16 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### GET /contactdb/segments
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a segment
 
@@ -1835,9 +1835,9 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### PATCH /contactdb/segments/{segment_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "conditions": [
     {
       "and_or": "",
@@ -1849,17 +1849,17 @@ For more information about segments in Marketing Campaigns, please see our [User
   "list_id": 5,
   "name": "The Millers"
 }`)
-  queryParams := make(map[string]string)
-  queryParams["segment_id"] = "test_string"
+queryParams := make(map[string]string)
+queryParams["segment_id"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a segment
 
@@ -1872,19 +1872,19 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### GET /contactdb/segments/{segment_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["segment_id"] = "0"
+request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["segment_id"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a segment
 
@@ -1899,19 +1899,19 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### DELETE /contactdb/segments/{segment_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
-  request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["delete_contacts"] = "true"
+request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+request.Method = "DELETE"
+queryParams := make(map[string]string)
+queryParams["delete_contacts"] = "true"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve recipients on a segment
 
@@ -1924,20 +1924,20 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### GET /contactdb/segments/{segment_id}/recipients
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["page"] = "1"
+request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["page"] = "1"
   queryParams["page_size"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="devices"></a>
 # DEVICES
@@ -1962,23 +1962,23 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /devices/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/devices/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["aggregated_by"] = "day"
+request := sendgrid.GetRequest(apiKey, "/devices/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["start_date"] = "2016-01-01"
   queryParams["end_date"] = "2016-04-01"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="geo"></a>
 # GEO
@@ -1994,24 +1994,24 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /geo/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["country"] = "US"
   queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   queryParams["start_date"] = "2016-01-01"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="ips"></a>
 # IPS
@@ -2027,23 +2027,23 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### GET /ips
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["subuser"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/ips", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["subuser"] = "test_string"
   queryParams["ip"] = "test_string"
   queryParams["limit"] = "1"
   queryParams["exclude_whitelabels"] = "true"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all assigned IPs
 
@@ -2054,16 +2054,16 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### GET /ips/assigned
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/assigned", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/assigned", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create an IP pool.
 
@@ -2080,19 +2080,19 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### POST /ips/pools
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "name": "marketing"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all IP pools.
 
@@ -2107,16 +2107,16 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### GET /ips/pools
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update an IP pools name.
 
@@ -2131,19 +2131,19 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### PUT /ips/pools/{pool_name}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` {
   "name": "new_pool_name"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all IPs in a specified pool.
 
@@ -2158,16 +2158,16 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### GET /ips/pools/{pool_name}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete an IP pool.
 
@@ -2182,16 +2182,16 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### DELETE /ips/pools/{pool_name}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add an IP address to a pool
 
@@ -2204,19 +2204,19 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### POST /ips/pools/{pool_name}/ips
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "ip": "0.0.0.0"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Remove an IP address from a pool.
 
@@ -2229,16 +2229,16 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### DELETE /ips/pools/{pool_name}/ips/{ip}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add an IP to warmup
 
@@ -2251,19 +2251,19 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### POST /ips/warmup
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "ip": "0.0.0.0"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all IPs currently in warmup
 
@@ -2276,16 +2276,16 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### GET /ips/warmup
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve warmup status for a specific IP address
 
@@ -2298,16 +2298,16 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### GET /ips/warmup/{ip_address}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Remove an IP from warmup
 
@@ -2320,16 +2320,16 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### DELETE /ips/warmup/{ip_address}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all IP pools an IP address belongs to
 
@@ -2342,16 +2342,16 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### GET /ips/{ip_address}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/ips/{ip_address}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/ips/{ip_address}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="mail"></a>
 # MAIL
@@ -2369,16 +2369,16 @@ More Information:
 ### POST /mail/batch
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Validate batch ID
 
@@ -2393,16 +2393,16 @@ More Information:
 ### GET /mail/batch/{batch_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## v3 Mail Send Beta
 
@@ -2418,9 +2418,9 @@ For more detailed information about how to use the v3 Mail Send endpoint, please
 ### POST /mail/send/beta
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "asm": {
     "group_id": 1,
     "groups_to_display": [
@@ -2563,14 +2563,14 @@ For more detailed information about how to use the v3 Mail Send endpoint, please
     }
   }
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="mail_settings"></a>
 # MAIL SETTINGS
@@ -2584,20 +2584,20 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
+request := sendgrid.GetRequest(apiKey, "/mail_settings", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update address whitelist mail settings
 
@@ -2610,23 +2610,23 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/address_whitelist
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "list": [
     "email1@example.com",
     "example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve address whitelist mail settings
 
@@ -2639,16 +2639,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/address_whitelist
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update BCC mail settings
 
@@ -2661,20 +2661,20 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/bcc
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "email": "email@example.com",
   "enabled": false
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all BCC mail settings
 
@@ -2687,16 +2687,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/bcc
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update bounce purge mail settings
 
@@ -2709,21 +2709,21 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/bounce_purge
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "hard_bounces": 5,
   "soft_bounces": 5
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve bounce purge mail settings
 
@@ -2736,16 +2736,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/bounce_purge
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update footer mail settings
 
@@ -2758,21 +2758,21 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/footer
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "html_content": "...",
   "plain_content": "..."
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve footer mail settings
 
@@ -2785,16 +2785,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/footer
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update forward bounce mail settings
 
@@ -2807,20 +2807,20 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/forward_bounce
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "email": "example@example.com",
   "enabled": true
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve forward bounce mail settings
 
@@ -2833,16 +2833,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/forward_bounce
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update forward spam mail settings
 
@@ -2855,20 +2855,20 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/forward_spam
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "email": "",
   "enabled": false
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve forward spam mail settings
 
@@ -2881,16 +2881,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/forward_spam
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update plain content mail settings
 
@@ -2903,19 +2903,19 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/plain_content
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": false
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve plain content mail settings
 
@@ -2928,16 +2928,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/plain_content
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update spam check mail settings
 
@@ -2950,21 +2950,21 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/spam_check
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "max_score": 5,
   "url": "url"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve spam check mail settings
 
@@ -2977,16 +2977,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/spam_check
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update template mail settings
 
@@ -3001,20 +3001,20 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/template
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "html_content": "<% body %>"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve legacy template mail settings
 
@@ -3029,16 +3029,16 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/template
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="mailbox_providers"></a>
 # MAILBOX PROVIDERS
@@ -3054,24 +3054,24 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /mailbox_providers/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["mailbox_providers"] = "test_string"
   queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   queryParams["start_date"] = "2016-01-01"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="partner_settings"></a>
 # PARTNER SETTINGS
@@ -3085,20 +3085,20 @@ Our partner settings allow you to integrate your SendGrid account with our partn
 ### GET /partner_settings
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
+request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Updates New Relic partner settings.
 
@@ -3111,21 +3111,21 @@ By integrating with New Relic, you can send your SendGrid email statistics to yo
 ### PATCH /partner_settings/new_relic
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enable_subuser_statistics": true,
   "enabled": true,
   "license_key": ""
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Returns all New Relic partner settings.
 
@@ -3138,16 +3138,16 @@ By integrating with New Relic, you can send your SendGrid email statistics to yo
 ### GET /partner_settings/new_relic
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="scopes"></a>
 # SCOPES
@@ -3161,16 +3161,16 @@ API Keys can be used to authenticate the use of [SendGrids v3 Web API](https://s
 ### GET /scopes
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="stats"></a>
 # STATS
@@ -3184,23 +3184,23 @@ Parent accounts will see aggregated stats for their account and all subuser acco
 ### GET /stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["aggregated_by"] = "day"
+request := sendgrid.GetRequest(apiKey, "/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["start_date"] = "2016-01-01"
   queryParams["end_date"] = "2016-04-01"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="subusers"></a>
 # SUBUSERS
@@ -3217,9 +3217,9 @@ For more information about Subusers:
 ### POST /subusers
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "email": "John@example.com",
   "ips": [
     "1.1.1.1",
@@ -3228,14 +3228,14 @@ For more information about Subusers:
   "password": "johns_password",
   "username": "John@example.com"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## List all Subusers
 
@@ -3249,21 +3249,21 @@ For more information about Subusers:
 ### GET /subusers
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
   queryParams["limit"] = "0"
   queryParams["offset"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Subuser Reputations
 
@@ -3274,19 +3274,19 @@ This endpoint allows you to request the reputations for your subusers.
 ### GET /subusers/reputations
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/reputations", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["usernames"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/subusers/reputations", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["usernames"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve email statistics for your subusers.
 
@@ -3301,24 +3301,24 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   queryParams["start_date"] = "2016-01-01"
   queryParams["subusers"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve monthly stats for all subusers
 
@@ -3334,24 +3334,24 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/stats/monthly
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["subuser"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["subuser"] = "test_string"
   queryParams["limit"] = "1"
   queryParams["sort_by_metric"] = "test_string"
   queryParams["offset"] = "1"
   queryParams["date"] = "test_string"
   queryParams["sort_by_direction"] = "asc"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ##  Retrieve the totals for each email statistic metric for all subusers.
 
@@ -3365,10 +3365,10 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/stats/sums
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
+request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["end_date"] = "2016-04-01"
   queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "1"
   queryParams["sort_by_metric"] = "test_string"
@@ -3376,14 +3376,14 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
   queryParams["start_date"] = "2016-01-01"
   queryParams["sort_by_direction"] = "asc"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Enable/disable a subuser
 
@@ -3397,19 +3397,19 @@ For more information about Subusers:
 ### PATCH /subusers/{subuser_name}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "disabled": false
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a subuser
 
@@ -3423,16 +3423,16 @@ For more information about Subusers:
 ### DELETE /subusers/{subuser_name}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update IPs assigned to a subuser
 
@@ -3446,19 +3446,19 @@ More information:
 ### PUT /subusers/{subuser_name}/ips
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` [
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` [
   "127.0.0.1"
 ]`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Monitor Settings for a subuser
 
@@ -3467,20 +3467,20 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### PUT /subusers/{subuser_name}/monitor
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` {
   "email": "example@example.com",
   "frequency": 500
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create monitor settings
 
@@ -3489,20 +3489,20 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### POST /subusers/{subuser_name}/monitor
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "email": "example@example.com",
   "frequency": 50000
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve monitor settings for a subuser
 
@@ -3511,16 +3511,16 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### GET /subusers/{subuser_name}/monitor
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete monitor settings
 
@@ -3529,16 +3529,16 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### DELETE /subusers/{subuser_name}/monitor
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve the monthly email statistics for a single subuser
 
@@ -3554,23 +3554,23 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/{subuser_name}/stats/monthly
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["date"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["date"] = "test_string"
   queryParams["sort_by_direction"] = "asc"
   queryParams["limit"] = "0"
   queryParams["sort_by_metric"] = "test_string"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="suppression"></a>
 # SUPPRESSION
@@ -3586,22 +3586,22 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/blocks
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["start_time"] = "1"
+request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["start_time"] = "1"
   queryParams["limit"] = "1"
   queryParams["end_time"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete blocks
 
@@ -3619,23 +3619,23 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/blocks
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` {
   "delete_all": false,
   "emails": [
     "example1@example.com",
     "example2@example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a specific block
 
@@ -3648,16 +3648,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/blocks/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a specific block
 
@@ -3670,16 +3670,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/blocks/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all bounces
 
@@ -3695,20 +3695,20 @@ For more information see:
 ### GET /suppression/bounces
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["start_time"] = "0"
+request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["start_time"] = "0"
   queryParams["end_time"] = "0"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete bounces
 
@@ -3727,23 +3727,23 @@ Note: the `delete_all` and `emails` parameters should be used independently of e
 ### DELETE /suppression/bounces
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` {
   "delete_all": true,
   "emails": [
     "example@example.com",
     "example2@example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a Bounce
 
@@ -3760,16 +3760,16 @@ For more information see:
 ### GET /suppression/bounces/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a bounce
 
@@ -3786,19 +3786,19 @@ For more information see:
 ### DELETE /suppression/bounces/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
-  request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["email_address"] = "example@example.com"
+request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+request.Method = "DELETE"
+queryParams := make(map[string]string)
+queryParams["email_address"] = "example@example.com"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all invalid emails
 
@@ -3813,22 +3813,22 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/invalid_emails
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["start_time"] = "1"
+request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["start_time"] = "1"
   queryParams["limit"] = "1"
   queryParams["end_time"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete invalid emails
 
@@ -3848,23 +3848,23 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/invalid_emails
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` {
   "delete_all": false,
   "emails": [
     "example1@example.com",
     "example2@example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a specific invalid email
 
@@ -3879,16 +3879,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/invalid_emails/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a specific invalid email
 
@@ -3903,16 +3903,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/invalid_emails/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a specific spam report
 
@@ -3925,16 +3925,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/spam_report/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a specific spam report
 
@@ -3947,16 +3947,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/spam_report/{email}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all spam reports
 
@@ -3969,22 +3969,22 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/spam_reports
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["start_time"] = "1"
+request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["start_time"] = "1"
   queryParams["limit"] = "1"
   queryParams["end_time"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete spam reports
 
@@ -4002,23 +4002,23 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/spam_reports
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
-  request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+request.Method = "DELETE"
+request.RequestBody = []byte(` {
   "delete_all": false,
   "emails": [
     "example1@example.com",
     "example2@example.com"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all global suppressions
 
@@ -4029,22 +4029,22 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### GET /suppression/unsubscribes
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/suppression/unsubscribes", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["start_time"] = "1"
+request := sendgrid.GetRequest(apiKey, "/suppression/unsubscribes", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["start_time"] = "1"
   queryParams["limit"] = "1"
   queryParams["end_time"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="templates"></a>
 # TEMPLATES
@@ -4060,19 +4060,19 @@ Transactional templates are templates created specifically for transactional ema
 ### POST /templates
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "name": "example_name"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all transactional templates.
 
@@ -4085,16 +4085,16 @@ Transactional templates are templates created specifically for transactional ema
 ### GET /templates
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Edit a transactional template.
 
@@ -4108,19 +4108,19 @@ Transactional templates are templates created specifically for transactional ema
 ### PATCH /templates/{template_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "name": "new_example_name"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a single transactional template.
 
@@ -4134,16 +4134,16 @@ Transactional templates are templates created specifically for transactional ema
 ### GET /templates/{template_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a template.
 
@@ -4157,16 +4157,16 @@ Transactional templates are templates created specifically for transactional ema
 ### DELETE /templates/{template_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create a new transactional template version.
 
@@ -4180,9 +4180,9 @@ For more information about transactional templates, please see our [User Guide](
 ### POST /templates/{template_id}/versions
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "active": 1,
   "html_content": "<%body%>",
   "name": "example_version_name",
@@ -4190,14 +4190,14 @@ For more information about transactional templates, please see our [User Guide](
   "subject": "<%subject%>",
   "template_id": "ddb96bbc-9b92-425e-8979-99464621b543"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Edit a transactional template version.
 
@@ -4216,23 +4216,23 @@ For more information about transactional templates, please see our [User Guide](
 ### PATCH /templates/{template_id}/versions/{version_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "active": 1,
   "html_content": "<%body%>",
   "name": "updated_example_name",
   "plain_content": "<%body%>",
   "subject": "<%subject%>"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a specific transactional template version.
 
@@ -4251,16 +4251,16 @@ For more information about transactional templates, please see our [User Guide](
 ### GET /templates/{template_id}/versions/{version_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a transactional template version.
 
@@ -4279,16 +4279,16 @@ For more information about transactional templates, please see our [User Guide](
 ### DELETE /templates/{template_id}/versions/{version_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Activate a transactional template version.
 
@@ -4308,16 +4308,16 @@ For more information about transactional templates, please see our [User Guide](
 ### POST /templates/{template_id}/versions/{version_id}/activate
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="tracking_settings"></a>
 # TRACKING SETTINGS
@@ -4333,20 +4333,20 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
+request := sendgrid.GetRequest(apiKey, "/tracking_settings", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Click Tracking Settings
 
@@ -4359,19 +4359,19 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/click
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Click Track Settings
 
@@ -4384,16 +4384,16 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/click
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Google Analytics Settings
 
@@ -4410,9 +4410,9 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/google_analytics
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "utm_campaign": "website",
   "utm_content": "",
@@ -4420,14 +4420,14 @@ For more information about tracking, please see our [User Guide](https://sendgri
   "utm_source": "sendgrid.com",
   "utm_term": ""
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Google Analytics Settings
 
@@ -4444,16 +4444,16 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/google_analytics
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Open Tracking Settings
 
@@ -4468,19 +4468,19 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/open
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Get Open Tracking Settings
 
@@ -4495,16 +4495,16 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/open
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Subscription Tracking Settings
 
@@ -4519,9 +4519,9 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/subscription
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "enabled": true,
   "html_content": "html content",
   "landing": "landing page html",
@@ -4529,14 +4529,14 @@ For more information about tracking, please see our [User Guide](https://sendgri
   "replace": "replacement tag",
   "url": "url"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Subscription Tracking Settings
 
@@ -4551,16 +4551,16 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/subscription
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="user"></a>
 # USER
@@ -4580,16 +4580,16 @@ For more information about your user profile:
 ### GET /user/account
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve your credit balance
 
@@ -4600,16 +4600,16 @@ Your monthly credit allotment limits the number of emails you may send before in
 ### GET /user/credits
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/credits", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/credits", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update your account email address
 
@@ -4624,19 +4624,19 @@ For more information about your user profile:
 ### PUT /user/email
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` {
   "email": "example@example.com"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve your account email address
 
@@ -4651,16 +4651,16 @@ For more information about your user profile:
 ### GET /user/email
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update your password
 
@@ -4675,20 +4675,20 @@ For more information about your user profile:
 ### PUT /user/password
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` {
   "new_password": "new_password",
   "old_password": "old_password"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a user's profile
 
@@ -4705,21 +4705,21 @@ It should be noted that any one or more of the parameters can be updated via the
 ### PATCH /user/profile
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "city": "Orange",
   "first_name": "Example",
   "last_name": "User"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Get a user's profile
 
@@ -4732,16 +4732,16 @@ For more information about your user profile:
 ### GET /user/profile
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Cancel or pause a scheduled send
 
@@ -4755,20 +4755,20 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### POST /user/scheduled_sends
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "batch_id": "YOUR_BATCH_ID",
   "status": "pause"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all scheduled sends
 
@@ -4779,16 +4779,16 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### GET /user/scheduled_sends
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update user scheduled send information
 
@@ -4799,19 +4799,19 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### PATCH /user/scheduled_sends/{batch_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "status": "pause"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve scheduled send
 
@@ -4822,16 +4822,16 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### GET /user/scheduled_sends/{batch_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a cancellation or pause of a scheduled send
 
@@ -4842,16 +4842,16 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### DELETE /user/scheduled_sends/{batch_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Enforced TLS settings
 
@@ -4864,20 +4864,20 @@ The Enforced TLS settings specify whether or not the recipient is required to su
 ### PATCH /user/settings/enforced_tls
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "require_tls": true,
   "require_valid_cert": false
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve current Enforced TLS settings.
 
@@ -4890,16 +4890,16 @@ The Enforced TLS settings specify whether or not the recipient is required to su
 ### GET /user/settings/enforced_tls
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update your username
 
@@ -4914,19 +4914,19 @@ For more information about your user profile:
 ### PUT /user/username
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
-  request.Method = "PUT"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
+request.Method = "PUT"
+request.RequestBody = []byte(` {
   "username": "test_username"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve your username
 
@@ -4941,16 +4941,16 @@ For more information about your user profile:
 ### GET /user/username
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update Event Notification Settings
 
@@ -4965,9 +4965,9 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
 ### PATCH /user/webhooks/event/settings
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "bounce": true,
   "click": true,
   "deferred": true,
@@ -4982,14 +4982,14 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
   "unsubscribe": true,
   "url": "url"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Event Webhook settings
 
@@ -5004,16 +5004,16 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
 ### GET /user/webhooks/event/settings
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Test Event Notification Settings
 
@@ -5026,19 +5026,19 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
 ### POST /user/webhooks/event/test
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "url": "url"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Parse Webhook settings
 
@@ -5049,16 +5049,16 @@ SendGrid can parse the attachments and contents of incoming emails. The Parse AP
 ### GET /user/webhooks/parse/settings
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieves Inbound Parse Webhook statistics.
 
@@ -5071,23 +5071,23 @@ There are a number of pre-made integrations for the SendGrid Parse Webhook which
 ### GET /user/webhooks/parse/stats
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["aggregated_by"] = "day"
+request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["aggregated_by"] = "day"
   queryParams["limit"] = "test_string"
   queryParams["start_date"] = "2016-01-01"
   queryParams["end_date"] = "2016-04-01"
   queryParams["offset"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 <a name="whitelabel"></a>
 # WHITELABEL
@@ -5107,9 +5107,9 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "automatic_security": false,
   "custom_spf": true,
   "default": true,
@@ -5121,14 +5121,14 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
   "subdomain": "news",
   "username": "john@example.com"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## List all domain whitelabels.
 
@@ -5142,23 +5142,23 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
   queryParams["domain"] = "test_string"
   queryParams["exclude_subusers"] = "true"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Get the default domain whitelabel.
 
@@ -5176,16 +5176,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains/default
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/default", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/default", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## List the domain whitelabel associated with the given user.
 
@@ -5205,16 +5205,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains/subuser
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Disassociate a domain whitelabel from a given user.
 
@@ -5234,16 +5234,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### DELETE /whitelabel/domains/subuser
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a domain whitelabel.
 
@@ -5256,20 +5256,20 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### PATCH /whitelabel/domains/{domain_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "custom_spf": true,
   "default": false
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a domain whitelabel.
 
@@ -5283,16 +5283,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains/{domain_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a domain whitelabel.
 
@@ -5305,16 +5305,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### DELETE /whitelabel/domains/{domain_id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Associate a domain whitelabel with a given user.
 
@@ -5334,19 +5334,19 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains/{domain_id}/subuser
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "username": "jane@example.com"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Add an IP to a domain whitelabel.
 
@@ -5364,19 +5364,19 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains/{id}/ips
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "ip": "192.168.0.1"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Remove an IP from a domain whitelabel.
 
@@ -5395,16 +5395,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### DELETE /whitelabel/domains/{id}/ips/{ip}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Validate a domain whitelabel.
 
@@ -5422,16 +5422,16 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains/{id}/validate
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create an IP whitelabel
 
@@ -5446,21 +5446,21 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/ips
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "domain": "example.com",
   "ip": "192.168.1.1",
   "subdomain": "email"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all IP whitelabels
 
@@ -5475,21 +5475,21 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/ips
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["ip"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["ip"] = "test_string"
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve an IP whitelabel
 
@@ -5502,16 +5502,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/ips/{id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete an IP whitelabel
 
@@ -5524,16 +5524,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### DELETE /whitelabel/ips/{id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Validate an IP whitelabel
 
@@ -5546,16 +5546,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/ips/{id}/validate
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Create a Link Whitelabel
 
@@ -5568,25 +5568,25 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/links
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "default": true,
   "domain": "example.com",
   "subdomain": "mail"
 }`)
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve all link whitelabels
 
@@ -5599,19 +5599,19 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a Default Link Whitelabel
 
@@ -5631,19 +5631,19 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links/default
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/default", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["domain"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/default", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["domain"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve Associated Link Whitelabel
 
@@ -5660,19 +5660,19 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links/subuser
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Disassociate a Link Whitelabel
 
@@ -5689,19 +5689,19 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### DELETE /whitelabel/links/subuser
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
-  request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
+request.Method = "DELETE"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
   request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Update a Link Whitelabel
 
@@ -5714,19 +5714,19 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### PATCH /whitelabel/links/{id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
-  request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+request.Method = "PATCH"
+request.RequestBody = []byte(` {
   "default": true
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Retrieve a Link Whitelabel
 
@@ -5739,16 +5739,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links/{id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Delete a Link Whitelabel
 
@@ -5761,16 +5761,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### DELETE /whitelabel/links/{id}
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Validate a Link Whitelabel
 
@@ -5783,16 +5783,16 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/links/{id}/validate
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
-  request.Method = "POST"
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 ## Associate a Link Whitelabel
 
@@ -5809,18 +5809,18 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/links/{link_id}/subuser
 
 ```go
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
-  request.Method = "POST"
-  request.RequestBody = []byte(` {
+request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
+request.Method = "POST"
+request.RequestBody = []byte(` {
   "username": "jane@example.com"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
-	}
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.ResponseBody)
+  fmt.Println(response.ResponseHeaders)
+}
 ```
 
