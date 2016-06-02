@@ -50,13 +50,13 @@ func Test_test_access_settings_activity_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/access_settings/activity", host, "v3")
+  request := GetRequest(apiKey, "/access_settings/activity", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -73,7 +73,7 @@ func Test_test_access_settings_whitelist_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+  request := GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "ips": [
@@ -89,7 +89,7 @@ func Test_test_access_settings_whitelist_post(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -106,10 +106,10 @@ func Test_test_access_settings_whitelist_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+  request := GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -126,7 +126,7 @@ func Test_test_access_settings_whitelist_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+  request := GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` {
   "ids": [
@@ -136,7 +136,7 @@ func Test_test_access_settings_whitelist_delete(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -153,10 +153,10 @@ func Test_test_access_settings_whitelist__rule_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
+  request := GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -173,10 +173,10 @@ func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
+  request := GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -193,7 +193,7 @@ func Test_test_api_keys_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+  request := GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "name": "My API Key",
@@ -204,7 +204,7 @@ func Test_test_api_keys_post(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -221,10 +221,10 @@ func Test_test_api_keys_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+  request := GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -241,7 +241,7 @@ func Test_test_api_keys__api_key_id__put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
   "name": "A New Hope",
@@ -251,7 +251,7 @@ func Test_test_api_keys__api_key_id__put(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -268,13 +268,13 @@ func Test_test_api_keys__api_key_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "name": "A New Hope"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -291,10 +291,10 @@ func Test_test_api_keys__api_key_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -311,10 +311,10 @@ func Test_test_api_keys__api_key_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -331,7 +331,7 @@ func Test_test_asm_groups_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "description": "A group description",
@@ -339,7 +339,7 @@ func Test_test_asm_groups_post(t *testing.T){
   "name": "A group name"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -356,10 +356,10 @@ func Test_test_asm_groups_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -376,7 +376,7 @@ func Test_test_asm_groups__group_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "description": "Suggestions for items our users might like.",
@@ -384,7 +384,7 @@ func Test_test_asm_groups__group_id__patch(t *testing.T){
   "name": "Item Suggestions"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -401,10 +401,10 @@ func Test_test_asm_groups__group_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -421,10 +421,10 @@ func Test_test_asm_groups__group_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -441,7 +441,7 @@ func Test_test_asm_groups__group_id__suppressions_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "recipient_emails": [
@@ -450,7 +450,7 @@ func Test_test_asm_groups__group_id__suppressions_post(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -467,10 +467,10 @@ func Test_test_asm_groups__group_id__suppressions_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -487,10 +487,10 @@ func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
+  request := GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -507,7 +507,7 @@ func Test_test_asm_suppressions_global_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
+  request := GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "recipient_emails": [
@@ -516,7 +516,7 @@ func Test_test_asm_suppressions_global_post(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -533,10 +533,10 @@ func Test_test_asm_suppressions_global__email__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+  request := GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -553,10 +553,10 @@ func Test_test_asm_suppressions_global__email__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+  request := GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -573,7 +573,7 @@ func Test_test_browsers_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")
+  request := GetRequest(apiKey, "/browsers/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -584,7 +584,7 @@ func Test_test_browsers_stats_get(t *testing.T){
   queryParams["start_date"] = "2016-01-01"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -601,7 +601,7 @@ func Test_test_campaigns_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
+  request := GetRequest(apiKey, "/campaigns", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "categories": [
@@ -624,7 +624,7 @@ func Test_test_campaigns_post(t *testing.T){
   "title": "March Newsletter"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -641,14 +641,14 @@ func Test_test_campaigns_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
+  request := GetRequest(apiKey, "/campaigns", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "0"
   queryParams["offset"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -665,7 +665,7 @@ func Test_test_campaigns__campaign_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "categories": [
@@ -677,7 +677,7 @@ func Test_test_campaigns__campaign_id__patch(t *testing.T){
   "title": "May Newsletter"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -694,10 +694,10 @@ func Test_test_campaigns__campaign_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -714,10 +714,10 @@ func Test_test_campaigns__campaign_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -734,13 +734,13 @@ func Test_test_campaigns__campaign_id__schedules_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "send_at": 1489451436
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -757,13 +757,13 @@ func Test_test_campaigns__campaign_id__schedules_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "send_at": 1489771528
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -780,10 +780,10 @@ func Test_test_campaigns__campaign_id__schedules_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -800,10 +800,10 @@ func Test_test_campaigns__campaign_id__schedules_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -820,10 +820,10 @@ func Test_test_campaigns__campaign_id__schedules_now_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -840,13 +840,13 @@ func Test_test_campaigns__campaign_id__schedules_test_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/test", host, "v3")
+  request := GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/test", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "to": "your.email@example.com"
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -863,7 +863,7 @@ func Test_test_categories_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
+  request := GetRequest(apiKey, "/categories", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["category"] = "test_string"
@@ -871,7 +871,7 @@ func Test_test_categories_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -888,7 +888,7 @@ func Test_test_categories_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
+  request := GetRequest(apiKey, "/categories/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -899,7 +899,7 @@ func Test_test_categories_stats_get(t *testing.T){
   queryParams["categories"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -916,7 +916,7 @@ func Test_test_categories_stats_sums_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
+  request := GetRequest(apiKey, "/categories/stats/sums", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -928,7 +928,7 @@ func Test_test_categories_stats_sums_get(t *testing.T){
   queryParams["sort_by_direction"] = "asc"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -945,7 +945,7 @@ func Test_test_clients_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/clients/stats", host, "v3")
+  request := GetRequest(apiKey, "/clients/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"
@@ -953,7 +953,7 @@ func Test_test_clients_stats_get(t *testing.T){
   queryParams["end_date"] = "2016-04-01"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -970,7 +970,7 @@ func Test_test_clients__client_type__stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
+  request := GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"
@@ -978,7 +978,7 @@ func Test_test_clients__client_type__stats_get(t *testing.T){
   queryParams["end_date"] = "2016-04-01"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -995,14 +995,14 @@ func Test_test_contactdb_custom_fields_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "name": "pet",
   "type": "text"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1019,10 +1019,10 @@ func Test_test_contactdb_custom_fields_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1039,10 +1039,10 @@ func Test_test_contactdb_custom_fields__custom_field_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1059,10 +1059,10 @@ func Test_test_contactdb_custom_fields__custom_field_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "202"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1079,13 +1079,13 @@ func Test_test_contactdb_lists_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "name": "your list name"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1102,10 +1102,10 @@ func Test_test_contactdb_lists_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1122,7 +1122,7 @@ func Test_test_contactdb_lists_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` [
   1,
@@ -1131,7 +1131,7 @@ func Test_test_contactdb_lists_delete(t *testing.T){
   4
 ]`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1148,7 +1148,7 @@ func Test_test_contactdb_lists__list_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "name": "newlistname"
@@ -1157,7 +1157,7 @@ func Test_test_contactdb_lists__list_id__patch(t *testing.T){
   queryParams["list_id"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1174,13 +1174,13 @@ func Test_test_contactdb_lists__list_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["list_id"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1197,13 +1197,13 @@ func Test_test_contactdb_lists__list_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
   request.Method = "DELETE"
   queryParams := make(map[string]string)
   queryParams["delete_contacts"] = "true"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "202"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1220,14 +1220,14 @@ func Test_test_contactdb_lists__list_id__recipients_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` [
   "recipient_id1",
   "recipient_id2"
 ]`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1244,7 +1244,7 @@ func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["page"] = "1"
@@ -1252,7 +1252,7 @@ func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T){
   queryParams["list_id"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1269,10 +1269,10 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__post(t *testi
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1289,14 +1289,14 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *tes
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
   request.Method = "DELETE"
   queryParams := make(map[string]string)
   queryParams["recipient_id"] = "0"
   queryParams["list_id"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1313,7 +1313,7 @@ func Test_test_contactdb_recipients_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` [
   {
@@ -1323,7 +1323,7 @@ func Test_test_contactdb_recipients_patch(t *testing.T){
   }
 ]`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1340,7 +1340,7 @@ func Test_test_contactdb_recipients_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` [
   {
@@ -1357,7 +1357,7 @@ func Test_test_contactdb_recipients_post(t *testing.T){
   }
 ]`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1374,14 +1374,14 @@ func Test_test_contactdb_recipients_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["page"] = "1"
   queryParams["page_size"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1398,14 +1398,14 @@ func Test_test_contactdb_recipients_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` [
   "recipient_id1",
   "recipient_id2"
 ]`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1422,10 +1422,10 @@ func Test_test_contactdb_recipients_billable_count_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1442,10 +1442,10 @@ func Test_test_contactdb_recipients_count_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1462,13 +1462,13 @@ func Test_test_contactdb_recipients_search_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["{field_name}"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1485,10 +1485,10 @@ func Test_test_contactdb_recipients__recipient_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1505,10 +1505,10 @@ func Test_test_contactdb_recipients__recipient_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1525,10 +1525,10 @@ func Test_test_contactdb_recipients__recipient_id__lists_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1545,10 +1545,10 @@ func Test_test_contactdb_reserved_fields_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1565,7 +1565,7 @@ func Test_test_contactdb_segments_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/segments", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "conditions": [
@@ -1592,7 +1592,7 @@ func Test_test_contactdb_segments_post(t *testing.T){
   "name": "Last Name Miller"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1609,10 +1609,10 @@ func Test_test_contactdb_segments_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/segments", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1629,7 +1629,7 @@ func Test_test_contactdb_segments__segment_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "conditions": [
@@ -1647,7 +1647,7 @@ func Test_test_contactdb_segments__segment_id__patch(t *testing.T){
   queryParams["segment_id"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1664,13 +1664,13 @@ func Test_test_contactdb_segments__segment_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["segment_id"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1687,13 +1687,13 @@ func Test_test_contactdb_segments__segment_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
   request.Method = "DELETE"
   queryParams := make(map[string]string)
   queryParams["delete_contacts"] = "true"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1710,14 +1710,14 @@ func Test_test_contactdb_segments__segment_id__recipients_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
+  request := GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["page"] = "1"
   queryParams["page_size"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1734,7 +1734,7 @@ func Test_test_devices_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/devices/stats", host, "v3")
+  request := GetRequest(apiKey, "/devices/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"
@@ -1744,7 +1744,7 @@ func Test_test_devices_stats_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1761,7 +1761,7 @@ func Test_test_geo_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
+  request := GetRequest(apiKey, "/geo/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -1772,7 +1772,7 @@ func Test_test_geo_stats_get(t *testing.T){
   queryParams["start_date"] = "2016-01-01"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1789,7 +1789,7 @@ func Test_test_ips_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips", host, "v3")
+  request := GetRequest(apiKey, "/ips", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["subuser"] = "test_string"
@@ -1799,7 +1799,7 @@ func Test_test_ips_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1816,10 +1816,10 @@ func Test_test_ips_assigned_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/assigned", host, "v3")
+  request := GetRequest(apiKey, "/ips/assigned", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1836,13 +1836,13 @@ func Test_test_ips_pools_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "name": "marketing"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1859,10 +1859,10 @@ func Test_test_ips_pools_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1879,13 +1879,13 @@ func Test_test_ips_pools__pool_name__put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
   "name": "new_pool_name"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1902,10 +1902,10 @@ func Test_test_ips_pools__pool_name__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1922,10 +1922,10 @@ func Test_test_ips_pools__pool_name__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1942,13 +1942,13 @@ func Test_test_ips_pools__pool_name__ips_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools/{pool_name}/ips", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "ip": "0.0.0.0"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1965,10 +1965,10 @@ func Test_test_ips_pools__pool_name__ips__ip__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")
+  request := GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -1985,13 +1985,13 @@ func Test_test_ips_warmup_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
+  request := GetRequest(apiKey, "/ips/warmup", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "ip": "0.0.0.0"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2008,10 +2008,10 @@ func Test_test_ips_warmup_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
+  request := GetRequest(apiKey, "/ips/warmup", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2028,10 +2028,10 @@ func Test_test_ips_warmup__ip_address__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
+  request := GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2048,10 +2048,10 @@ func Test_test_ips_warmup__ip_address__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
+  request := GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2068,10 +2068,10 @@ func Test_test_ips__ip_address__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/ips/{ip_address}", host, "v3")
+  request := GetRequest(apiKey, "/ips/{ip_address}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2088,10 +2088,10 @@ func Test_test_mail_batch_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
+  request := GetRequest(apiKey, "/mail/batch", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2108,10 +2108,10 @@ func Test_test_mail_batch__batch_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
+  request := GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2128,7 +2128,7 @@ func Test_test_mail_send_beta_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
+  request := GetRequest(apiKey, "/mail/send/beta", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "asm": {
@@ -2274,7 +2274,7 @@ func Test_test_mail_send_beta_post(t *testing.T){
   }
 }`)
   request.RequestHeaders["X-Mock"] = "202"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2291,14 +2291,14 @@ func Test_test_mail_settings_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2315,7 +2315,7 @@ func Test_test_mail_settings_address_whitelist_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
@@ -2325,7 +2325,7 @@ func Test_test_mail_settings_address_whitelist_patch(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2342,10 +2342,10 @@ func Test_test_mail_settings_address_whitelist_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2362,14 +2362,14 @@ func Test_test_mail_settings_bcc_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "email": "email@example.com",
   "enabled": false
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2386,10 +2386,10 @@ func Test_test_mail_settings_bcc_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2406,7 +2406,7 @@ func Test_test_mail_settings_bounce_purge_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
@@ -2414,7 +2414,7 @@ func Test_test_mail_settings_bounce_purge_patch(t *testing.T){
   "soft_bounces": 5
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2431,10 +2431,10 @@ func Test_test_mail_settings_bounce_purge_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2451,7 +2451,7 @@ func Test_test_mail_settings_footer_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/footer", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
@@ -2459,7 +2459,7 @@ func Test_test_mail_settings_footer_patch(t *testing.T){
   "plain_content": "..."
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2476,10 +2476,10 @@ func Test_test_mail_settings_footer_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/footer", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2496,14 +2496,14 @@ func Test_test_mail_settings_forward_bounce_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "email": "example@example.com",
   "enabled": true
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2520,10 +2520,10 @@ func Test_test_mail_settings_forward_bounce_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2540,14 +2540,14 @@ func Test_test_mail_settings_forward_spam_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "email": "",
   "enabled": false
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2564,10 +2564,10 @@ func Test_test_mail_settings_forward_spam_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2584,13 +2584,13 @@ func Test_test_mail_settings_plain_content_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": false
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2607,10 +2607,10 @@ func Test_test_mail_settings_plain_content_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2627,7 +2627,7 @@ func Test_test_mail_settings_spam_check_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
@@ -2635,7 +2635,7 @@ func Test_test_mail_settings_spam_check_patch(t *testing.T){
   "url": "url"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2652,10 +2652,10 @@ func Test_test_mail_settings_spam_check_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2672,14 +2672,14 @@ func Test_test_mail_settings_template_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/template", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
   "html_content": "<% body %>"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2696,10 +2696,10 @@ func Test_test_mail_settings_template_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+  request := GetRequest(apiKey, "/mail_settings/template", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2716,7 +2716,7 @@ func Test_test_mailbox_providers_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
+  request := GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -2727,7 +2727,7 @@ func Test_test_mailbox_providers_stats_get(t *testing.T){
   queryParams["start_date"] = "2016-01-01"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2744,14 +2744,14 @@ func Test_test_partner_settings_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
+  request := GetRequest(apiKey, "/partner_settings", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2768,7 +2768,7 @@ func Test_test_partner_settings_new_relic_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+  request := GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enable_subuser_statistics": true,
@@ -2776,7 +2776,7 @@ func Test_test_partner_settings_new_relic_patch(t *testing.T){
   "license_key": ""
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2793,10 +2793,10 @@ func Test_test_partner_settings_new_relic_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+  request := GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2813,10 +2813,10 @@ func Test_test_scopes_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")
+  request := GetRequest(apiKey, "/scopes", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2833,7 +2833,7 @@ func Test_test_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/stats", host, "v3")
+  request := GetRequest(apiKey, "/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"
@@ -2843,7 +2843,7 @@ func Test_test_stats_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2860,7 +2860,7 @@ func Test_test_subusers_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
+  request := GetRequest(apiKey, "/subusers", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "email": "John@example.com",
@@ -2872,7 +2872,7 @@ func Test_test_subusers_post(t *testing.T){
   "username": "John@example.com"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2889,7 +2889,7 @@ func Test_test_subusers_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
+  request := GetRequest(apiKey, "/subusers", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["username"] = "test_string"
@@ -2897,7 +2897,7 @@ func Test_test_subusers_get(t *testing.T){
   queryParams["offset"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2914,13 +2914,13 @@ func Test_test_subusers_reputations_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/reputations", host, "v3")
+  request := GetRequest(apiKey, "/subusers/reputations", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["usernames"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2937,7 +2937,7 @@ func Test_test_subusers_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
+  request := GetRequest(apiKey, "/subusers/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -2948,7 +2948,7 @@ func Test_test_subusers_stats_get(t *testing.T){
   queryParams["subusers"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2965,7 +2965,7 @@ func Test_test_subusers_stats_monthly_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
+  request := GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["subuser"] = "test_string"
@@ -2976,7 +2976,7 @@ func Test_test_subusers_stats_monthly_get(t *testing.T){
   queryParams["sort_by_direction"] = "asc"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -2993,7 +2993,7 @@ func Test_test_subusers_stats_sums_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
+  request := GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -3005,7 +3005,7 @@ func Test_test_subusers_stats_sums_get(t *testing.T){
   queryParams["sort_by_direction"] = "asc"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3022,13 +3022,13 @@ func Test_test_subusers__subuser_name__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "disabled": false
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3045,10 +3045,10 @@ func Test_test_subusers__subuser_name__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3065,13 +3065,13 @@ func Test_test_subusers__subuser_name__ips_put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` [
   "127.0.0.1"
 ]`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3088,14 +3088,14 @@ func Test_test_subusers__subuser_name__monitor_put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
   "email": "example@example.com",
   "frequency": 500
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3112,14 +3112,14 @@ func Test_test_subusers__subuser_name__monitor_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "email": "example@example.com",
   "frequency": 50000
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3136,10 +3136,10 @@ func Test_test_subusers__subuser_name__monitor_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3156,10 +3156,10 @@ func Test_test_subusers__subuser_name__monitor_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3176,7 +3176,7 @@ func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
+  request := GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["date"] = "test_string"
@@ -3186,7 +3186,7 @@ func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3203,7 +3203,7 @@ func Test_test_suppression_blocks_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+  request := GetRequest(apiKey, "/suppression/blocks", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -3212,7 +3212,7 @@ func Test_test_suppression_blocks_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3229,7 +3229,7 @@ func Test_test_suppression_blocks_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+  request := GetRequest(apiKey, "/suppression/blocks", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` {
   "delete_all": false,
@@ -3239,7 +3239,7 @@ func Test_test_suppression_blocks_delete(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3256,10 +3256,10 @@ func Test_test_suppression_blocks__email__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3276,10 +3276,10 @@ func Test_test_suppression_blocks__email__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3296,14 +3296,14 @@ func Test_test_suppression_bounces_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+  request := GetRequest(apiKey, "/suppression/bounces", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "0"
   queryParams["end_time"] = "0"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3320,7 +3320,7 @@ func Test_test_suppression_bounces_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+  request := GetRequest(apiKey, "/suppression/bounces", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` {
   "delete_all": true,
@@ -3330,7 +3330,7 @@ func Test_test_suppression_bounces_delete(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3347,10 +3347,10 @@ func Test_test_suppression_bounces__email__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3367,13 +3367,13 @@ func Test_test_suppression_bounces__email__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
   request.Method = "DELETE"
   queryParams := make(map[string]string)
   queryParams["email_address"] = "example@example.com"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3390,7 +3390,7 @@ func Test_test_suppression_invalid_emails_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+  request := GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -3399,7 +3399,7 @@ func Test_test_suppression_invalid_emails_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3416,7 +3416,7 @@ func Test_test_suppression_invalid_emails_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+  request := GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` {
   "delete_all": false,
@@ -3426,7 +3426,7 @@ func Test_test_suppression_invalid_emails_delete(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3443,10 +3443,10 @@ func Test_test_suppression_invalid_emails__email__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3463,10 +3463,10 @@ func Test_test_suppression_invalid_emails__email__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3483,10 +3483,10 @@ func Test_test_suppression_spam_report__email__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3503,10 +3503,10 @@ func Test_test_suppression_spam_report__email__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+  request := GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3523,7 +3523,7 @@ func Test_test_suppression_spam_reports_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+  request := GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -3532,7 +3532,7 @@ func Test_test_suppression_spam_reports_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3549,7 +3549,7 @@ func Test_test_suppression_spam_reports_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+  request := GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
   request.Method = "DELETE"
   request.RequestBody = []byte(` {
   "delete_all": false,
@@ -3559,7 +3559,7 @@ func Test_test_suppression_spam_reports_delete(t *testing.T){
   ]
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3576,7 +3576,7 @@ func Test_test_suppression_unsubscribes_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/suppression/unsubscribes", host, "v3")
+  request := GetRequest(apiKey, "/suppression/unsubscribes", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -3585,7 +3585,7 @@ func Test_test_suppression_unsubscribes_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3602,13 +3602,13 @@ func Test_test_templates_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+  request := GetRequest(apiKey, "/templates", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "name": "example_name"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3625,10 +3625,10 @@ func Test_test_templates_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+  request := GetRequest(apiKey, "/templates", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3645,13 +3645,13 @@ func Test_test_templates__template_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "name": "new_example_name"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3668,10 +3668,10 @@ func Test_test_templates__template_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3688,10 +3688,10 @@ func Test_test_templates__template_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3708,7 +3708,7 @@ func Test_test_templates__template_id__versions_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "active": 1,
@@ -3719,7 +3719,7 @@ func Test_test_templates__template_id__versions_post(t *testing.T){
   "template_id": "ddb96bbc-9b92-425e-8979-99464621b543"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3736,7 +3736,7 @@ func Test_test_templates__template_id__versions__version_id__patch(t *testing.T)
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "active": 1,
@@ -3746,7 +3746,7 @@ func Test_test_templates__template_id__versions__version_id__patch(t *testing.T)
   "subject": "<%subject%>"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3763,10 +3763,10 @@ func Test_test_templates__template_id__versions__version_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3783,10 +3783,10 @@ func Test_test_templates__template_id__versions__version_id__delete(t *testing.T
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3803,10 +3803,10 @@ func Test_test_templates__template_id__versions__version_id__activate_post(t *te
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
+  request := GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3823,14 +3823,14 @@ func Test_test_tracking_settings_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3847,13 +3847,13 @@ func Test_test_tracking_settings_click_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/click", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3870,10 +3870,10 @@ func Test_test_tracking_settings_click_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/click", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3890,7 +3890,7 @@ func Test_test_tracking_settings_google_analytics_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
@@ -3901,7 +3901,7 @@ func Test_test_tracking_settings_google_analytics_patch(t *testing.T){
   "utm_term": ""
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3918,10 +3918,10 @@ func Test_test_tracking_settings_google_analytics_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3938,13 +3938,13 @@ func Test_test_tracking_settings_open_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/open", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3961,10 +3961,10 @@ func Test_test_tracking_settings_open_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/open", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -3981,7 +3981,7 @@ func Test_test_tracking_settings_subscription_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "enabled": true,
@@ -3992,7 +3992,7 @@ func Test_test_tracking_settings_subscription_patch(t *testing.T){
   "url": "url"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4009,10 +4009,10 @@ func Test_test_tracking_settings_subscription_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
+  request := GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4029,10 +4029,10 @@ func Test_test_user_account_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
+  request := GetRequest(apiKey, "/user/account", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4049,10 +4049,10 @@ func Test_test_user_credits_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/credits", host, "v3")
+  request := GetRequest(apiKey, "/user/credits", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4069,13 +4069,13 @@ func Test_test_user_email_put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
+  request := GetRequest(apiKey, "/user/email", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
   "email": "example@example.com"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4092,10 +4092,10 @@ func Test_test_user_email_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
+  request := GetRequest(apiKey, "/user/email", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4112,14 +4112,14 @@ func Test_test_user_password_put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
+  request := GetRequest(apiKey, "/user/password", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
   "new_password": "new_password",
   "old_password": "old_password"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4136,7 +4136,7 @@ func Test_test_user_profile_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
+  request := GetRequest(apiKey, "/user/profile", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "city": "Orange",
@@ -4144,7 +4144,7 @@ func Test_test_user_profile_patch(t *testing.T){
   "last_name": "User"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4161,10 +4161,10 @@ func Test_test_user_profile_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
+  request := GetRequest(apiKey, "/user/profile", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4181,14 +4181,14 @@ func Test_test_user_scheduled_sends_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
+  request := GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "batch_id": "YOUR_BATCH_ID",
   "status": "pause"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4205,10 +4205,10 @@ func Test_test_user_scheduled_sends_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
+  request := GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4225,13 +4225,13 @@ func Test_test_user_scheduled_sends__batch_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+  request := GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "status": "pause"
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4248,10 +4248,10 @@ func Test_test_user_scheduled_sends__batch_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+  request := GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4268,10 +4268,10 @@ func Test_test_user_scheduled_sends__batch_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+  request := GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4288,14 +4288,14 @@ func Test_test_user_settings_enforced_tls_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
+  request := GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "require_tls": true,
   "require_valid_cert": false
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4312,10 +4312,10 @@ func Test_test_user_settings_enforced_tls_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
+  request := GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4332,13 +4332,13 @@ func Test_test_user_username_put(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
+  request := GetRequest(apiKey, "/user/username", host, "v3")
   request.Method = "PUT"
   request.RequestBody = []byte(` {
   "username": "test_username"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4355,10 +4355,10 @@ func Test_test_user_username_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
+  request := GetRequest(apiKey, "/user/username", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4375,7 +4375,7 @@ func Test_test_user_webhooks_event_settings_patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
+  request := GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "bounce": true,
@@ -4393,7 +4393,7 @@ func Test_test_user_webhooks_event_settings_patch(t *testing.T){
   "url": "url"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4410,10 +4410,10 @@ func Test_test_user_webhooks_event_settings_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
+  request := GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4430,13 +4430,13 @@ func Test_test_user_webhooks_event_test_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
+  request := GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "url": "url"
 }`)
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4453,10 +4453,10 @@ func Test_test_user_webhooks_parse_settings_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
+  request := GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4473,7 +4473,7 @@ func Test_test_user_webhooks_parse_stats_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
+  request := GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"
@@ -4483,7 +4483,7 @@ func Test_test_user_webhooks_parse_stats_get(t *testing.T){
   queryParams["offset"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4500,7 +4500,7 @@ func Test_test_whitelabel_domains_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "automatic_security": false,
@@ -4515,7 +4515,7 @@ func Test_test_whitelabel_domains_post(t *testing.T){
   "username": "john@example.com"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4532,7 +4532,7 @@ func Test_test_whitelabel_domains_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["username"] = "test_string"
@@ -4542,7 +4542,7 @@ func Test_test_whitelabel_domains_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4559,10 +4559,10 @@ func Test_test_whitelabel_domains_default_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/default", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/default", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4579,10 +4579,10 @@ func Test_test_whitelabel_domains_subuser_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4599,10 +4599,10 @@ func Test_test_whitelabel_domains_subuser_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4619,14 +4619,14 @@ func Test_test_whitelabel_domains__domain_id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "custom_spf": true,
   "default": false
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4643,10 +4643,10 @@ func Test_test_whitelabel_domains__domain_id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4663,10 +4663,10 @@ func Test_test_whitelabel_domains__domain_id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4683,13 +4683,13 @@ func Test_test_whitelabel_domains__domain_id__subuser_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "username": "jane@example.com"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4706,13 +4706,13 @@ func Test_test_whitelabel_domains__id__ips_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "ip": "192.168.0.1"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4729,10 +4729,10 @@ func Test_test_whitelabel_domains__id__ips__ip__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4749,10 +4749,10 @@ func Test_test_whitelabel_domains__id__validate_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4769,7 +4769,7 @@ func Test_test_whitelabel_ips_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/ips", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "domain": "example.com",
@@ -4777,7 +4777,7 @@ func Test_test_whitelabel_ips_post(t *testing.T){
   "subdomain": "email"
 }`)
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4794,7 +4794,7 @@ func Test_test_whitelabel_ips_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/ips", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["ip"] = "test_string"
@@ -4802,7 +4802,7 @@ func Test_test_whitelabel_ips_get(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4819,10 +4819,10 @@ func Test_test_whitelabel_ips__id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4839,10 +4839,10 @@ func Test_test_whitelabel_ips__id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4859,10 +4859,10 @@ func Test_test_whitelabel_ips__id__validate_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4879,7 +4879,7 @@ func Test_test_whitelabel_links_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "default": true,
@@ -4891,7 +4891,7 @@ func Test_test_whitelabel_links_post(t *testing.T){
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "201"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4908,13 +4908,13 @@ func Test_test_whitelabel_links_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4931,13 +4931,13 @@ func Test_test_whitelabel_links_default_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/default", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/default", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["domain"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4954,13 +4954,13 @@ func Test_test_whitelabel_links_subuser_get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["username"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -4977,13 +4977,13 @@ func Test_test_whitelabel_links_subuser_delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
   request.Method = "DELETE"
   queryParams := make(map[string]string)
   queryParams["username"] = "test_string"
   request.QueryParams = queryParams
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -5000,13 +5000,13 @@ func Test_test_whitelabel_links__id__patch(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
   request.Method = "PATCH"
   request.RequestBody = []byte(` {
   "default": true
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -5023,10 +5023,10 @@ func Test_test_whitelabel_links__id__get(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
   request.Method = "GET"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -5043,10 +5043,10 @@ func Test_test_whitelabel_links__id__delete(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
   request.Method = "DELETE"
   request.RequestHeaders["X-Mock"] = "204"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -5063,10 +5063,10 @@ func Test_test_whitelabel_links__id__validate_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
   request.Method = "POST"
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
@@ -5083,13 +5083,13 @@ func Test_test_whitelabel_links__link_id__subuser_post(t *testing.T){
   } else {
     host = "https://localhost:4010"
   }
-  request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
+  request := GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
   request.Method = "POST"
   request.RequestBody = []byte(` {
   "username": "jane@example.com"
 }`)
   request.RequestHeaders["X-Mock"] = "200"
-  response, err := sendgrid.API(request)
+  response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
