@@ -7,97 +7,117 @@ import (
 	"os"
 )
 
-apiKey := "SENDGRID_APIKEY"
-host = "https://api.sendgrid.com"
-
 ///////////////////////////////////////////////////
 // Create a transactional template.
 // POST /templates
 
-request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
-request.Method = "POST"
-request.RequestBody = []byte(` {
+func Createatransactionaltemplate.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+  request.Method = "POST"
+  request.RequestBody = []byte(` {
   "name": "example_name"
 }`)
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Retrieve all transactional templates.
 // GET /templates
 
-request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func Retrievealltransactionaltemplates.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+  request.Method = "GET"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Edit a transactional template.
 // PATCH /templates/{template_id}
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
-request.Method = "PATCH"
-request.RequestBody = []byte(` {
+func Editatransactionaltemplate.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+  request.Method = "PATCH"
+  request.RequestBody = []byte(` {
   "name": "new_example_name"
 }`)
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Retrieve a single transactional template.
 // GET /templates/{template_id}
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func Retrieveasingletransactionaltemplate.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+  request.Method = "GET"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Delete a template.
 // DELETE /templates/{template_id}
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func Deleteatemplate.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+  request.Method = "DELETE"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Create a new transactional template version.
 // POST /templates/{template_id}/versions
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
-request.Method = "POST"
-request.RequestBody = []byte(` {
+func Createanewtransactionaltemplateversion.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
+  request.Method = "POST"
+  request.RequestBody = []byte(` {
   "active": 1, 
   "html_content": "<%body%>", 
   "name": "example_version_name", 
@@ -105,79 +125,96 @@ request.RequestBody = []byte(` {
   "subject": "<%subject%>", 
   "template_id": "ddb96bbc-9b92-425e-8979-99464621b543"
 }`)
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Edit a transactional template version.
 // PATCH /templates/{template_id}/versions/{version_id}
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
-request.Method = "PATCH"
-request.RequestBody = []byte(` {
+func Editatransactionaltemplateversion.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+  request.Method = "PATCH"
+  request.RequestBody = []byte(` {
   "active": 1, 
   "html_content": "<%body%>", 
   "name": "updated_example_name", 
   "plain_content": "<%body%>", 
   "subject": "<%subject%>"
 }`)
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Retrieve a specific transactional template version.
 // GET /templates/{template_id}/versions/{version_id}
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func Retrieveaspecifictransactionaltemplateversion.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+  request.Method = "GET"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Delete a transactional template version.
 // DELETE /templates/{template_id}/versions/{version_id}
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func Deleteatransactionaltemplateversion.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+  request.Method = "DELETE"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Activate a transactional template version.
 // POST /templates/{template_id}/versions/{version_id}/activate
 
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
-request.Method = "POST"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func Activateatransactionaltemplateversion.() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
+  request.Method = "POST"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 

@@ -7,46 +7,54 @@ import (
 	"os"
 )
 
-apiKey := "SENDGRID_APIKEY"
-host = "https://api.sendgrid.com"
-
 ///////////////////////////////////////////////////
 // Create a batch ID
 // POST /mail/batch
 
-request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
-request.Method = "POST"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func CreateabatchID() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
+  request.Method = "POST"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // Validate batch ID
 // GET /mail/batch/{batch_id}
 
-request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+func ValidatebatchID() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
+  request.Method = "GET"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
 ///////////////////////////////////////////////////
 // v3 Mail Send Beta
 // POST /mail/send/beta
 
-request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
-request.Method = "POST"
-request.RequestBody = []byte(` {
+func v3MailSendBeta() void {
+  apiKey := "SENDGRID_APIKEY"
+  host = "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
+  request.Method = "POST"
+  request.RequestBody = []byte(` {
   "asm": {
     "group_id": 1, 
     "groups_to_display": [
@@ -189,12 +197,13 @@ request.RequestBody = []byte(` {
     }
   }
 }`)
-response, err := sendgrid.API(request)
-if err != nil {
-  fmt.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.ResponseBody)
-  fmt.Println(response.ResponseHeaders)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.ResponseBody)
+    fmt.Println(response.ResponseHeaders)
+  }
 }
 
