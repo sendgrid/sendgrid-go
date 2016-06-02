@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -11,7 +10,7 @@ import (
 // Retrieve a list of scopes for which this user has access.
 // GET /scopes
 
-func Retrievealistofscopesforwhichthisuserhasaccess.() {
+func Retrievealistofscopesforwhichthisuserhasaccess() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")

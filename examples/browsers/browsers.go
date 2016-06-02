@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -11,7 +10,7 @@ import (
 // Retrieve email statistics by browser. 
 // GET /browsers/stats
 
-func Retrieveemailstatisticsbybrowser.() {
+func Retrieveemailstatisticsbybrowser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")

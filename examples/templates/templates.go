@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -11,7 +10,7 @@ import (
 // Create a transactional template.
 // POST /templates
 
-func Createatransactionaltemplate.() {
+func Createatransactionaltemplate() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
@@ -33,7 +32,7 @@ func Createatransactionaltemplate.() {
 // Retrieve all transactional templates.
 // GET /templates
 
-func Retrievealltransactionaltemplates.() {
+func Retrievealltransactionaltemplates() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
@@ -52,7 +51,7 @@ func Retrievealltransactionaltemplates.() {
 // Edit a transactional template.
 // PATCH /templates/{template_id}
 
-func Editatransactionaltemplate.() {
+func Editatransactionaltemplate() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
@@ -74,7 +73,7 @@ func Editatransactionaltemplate.() {
 // Retrieve a single transactional template.
 // GET /templates/{template_id}
 
-func Retrieveasingletransactionaltemplate.() {
+func Retrieveasingletransactionaltemplate() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
@@ -93,7 +92,7 @@ func Retrieveasingletransactionaltemplate.() {
 // Delete a template.
 // DELETE /templates/{template_id}
 
-func Deleteatemplate.() {
+func Deleteatemplate() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
@@ -112,7 +111,7 @@ func Deleteatemplate.() {
 // Create a new transactional template version.
 // POST /templates/{template_id}/versions
 
-func Createanewtransactionaltemplateversion.() {
+func Createanewtransactionaltemplateversion() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
@@ -139,7 +138,7 @@ func Createanewtransactionaltemplateversion.() {
 // Edit a transactional template version.
 // PATCH /templates/{template_id}/versions/{version_id}
 
-func Editatransactionaltemplateversion.() {
+func Editatransactionaltemplateversion() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
@@ -165,7 +164,7 @@ func Editatransactionaltemplateversion.() {
 // Retrieve a specific transactional template version.
 // GET /templates/{template_id}/versions/{version_id}
 
-func Retrieveaspecifictransactionaltemplateversion.() {
+func Retrieveaspecifictransactionaltemplateversion() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
@@ -184,7 +183,7 @@ func Retrieveaspecifictransactionaltemplateversion.() {
 // Delete a transactional template version.
 // DELETE /templates/{template_id}/versions/{version_id}
 
-func Deleteatransactionaltemplateversion.() {
+func Deleteatransactionaltemplateversion() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
@@ -203,7 +202,7 @@ func Deleteatransactionaltemplateversion.() {
 // Activate a transactional template version.
 // POST /templates/{template_id}/versions/{version_id}/activate
 
-func Activateatransactionaltemplateversion.() {
+func Activateatransactionaltemplateversion() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")

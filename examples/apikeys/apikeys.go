@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -57,7 +56,7 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 // Update the name & scopes of an API Key
 // PUT /api_keys/{api_key_id}
 
-func Updatethename&scopesofanAPIKey() {
+func UpdatethenamescopesofanAPIKey() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")

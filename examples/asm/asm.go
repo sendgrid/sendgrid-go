@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -35,7 +34,7 @@ func CreateaGroup() {
 // Retrieve all suppression groups associated with the user.
 // GET /asm/groups
 
-func Retrieveallsuppressiongroupsassociatedwiththeuser.() {
+func Retrieveallsuppressiongroupsassociatedwiththeuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
@@ -54,7 +53,7 @@ func Retrieveallsuppressiongroupsassociatedwiththeuser.() {
 // Update a suppression group.
 // PATCH /asm/groups/{group_id}
 
-func Updateasuppressiongroup.() {
+func Updateasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
@@ -78,7 +77,7 @@ func Updateasuppressiongroup.() {
 // Get information on a single suppression group.
 // GET /asm/groups/{group_id}
 
-func Getinformationonasinglesuppressiongroup.() {
+func Getinformationonasinglesuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
@@ -97,7 +96,7 @@ func Getinformationonasinglesuppressiongroup.() {
 // Delete a suppression group.
 // DELETE /asm/groups/{group_id}
 
-func Deleteasuppressiongroup.() {
+func Deleteasuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
@@ -179,7 +178,7 @@ func Deleteasuppressionfromasuppressiongroup() {
 // Add recipient addresses to the global suppression group.
 // POST /asm/suppressions/global
 
-func Addrecipientaddressestotheglobalsuppressiongroup.() {
+func Addrecipientaddressestotheglobalsuppressiongroup() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")

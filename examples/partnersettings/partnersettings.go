@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -11,7 +10,7 @@ import (
 // Returns a list of all partner settings.
 // GET /partner_settings
 
-func Returnsalistofallpartnersettings.() {
+func Returnsalistofallpartnersettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
@@ -34,7 +33,7 @@ request.QueryParams = queryParams
 // Updates New Relic partner settings.
 // PATCH /partner_settings/new_relic
 
-func UpdatesNewRelicpartnersettings.() {
+func UpdatesNewRelicpartnersettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
@@ -58,7 +57,7 @@ func UpdatesNewRelicpartnersettings.() {
 // Returns all New Relic partner settings.
 // GET /partner_settings/new_relic
 
-func ReturnsallNewRelicpartnersettings.() {
+func ReturnsallNewRelicpartnersettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -56,7 +55,7 @@ func RetrieveallassignedIPs() {
 // Create an IP pool.
 // POST /ips/pools
 
-func CreateanIPpool.() {
+func CreateanIPpool() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
@@ -78,7 +77,7 @@ func CreateanIPpool.() {
 // Retrieve all IP pools.
 // GET /ips/pools
 
-func RetrieveallIPpools.() {
+func RetrieveallIPpools() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
@@ -97,7 +96,7 @@ func RetrieveallIPpools.() {
 // Update an IP pools name.
 // PUT /ips/pools/{pool_name}
 
-func UpdateanIPpoolsname.() {
+func UpdateanIPpoolsname() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
@@ -119,7 +118,7 @@ func UpdateanIPpoolsname.() {
 // Retrieve all IPs in a specified pool.
 // GET /ips/pools/{pool_name}
 
-func RetrieveallIPsinaspecifiedpool.() {
+func RetrieveallIPsinaspecifiedpool() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
@@ -138,7 +137,7 @@ func RetrieveallIPsinaspecifiedpool.() {
 // Delete an IP pool.
 // DELETE /ips/pools/{pool_name}
 
-func DeleteanIPpool.() {
+func DeleteanIPpool() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
@@ -179,7 +178,7 @@ func AddanIPaddresstoapool() {
 // Remove an IP address from a pool.
 // DELETE /ips/pools/{pool_name}/ips/{ip}
 
-func RemoveanIPaddressfromapool.() {
+func RemoveanIPaddressfromapool() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -11,7 +10,7 @@ import (
 // Get a user's account information.
 // GET /user/account
 
-func Getauser'saccountinformation.() {
+func Getauser'saccountinformation() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
@@ -281,7 +280,7 @@ func UpdateEnforcedTLSsettings() {
 // Retrieve current Enforced TLS settings.
 // GET /user/settings/enforced_tls
 
-func RetrievecurrentEnforcedTLSsettings.() {
+func RetrievecurrentEnforcedTLSsettings() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
@@ -435,7 +434,7 @@ func RetrieveParseWebhooksettings() {
 // Retrieves Inbound Parse Webhook statistics.
 // GET /user/webhooks/parse/stats
 
-func RetrievesInboundParseWebhookstatistics.() {
+func RetrievesInboundParseWebhookstatistics() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")

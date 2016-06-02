@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"os"
@@ -85,7 +84,7 @@ request.QueryParams = queryParams
 // Retrieve email statistics for your subusers.
 // GET /subusers/stats
 
-func Retrieveemailstatisticsforyoursubusers.() {
+func Retrieveemailstatisticsforyoursubusers() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
@@ -139,7 +138,7 @@ request.QueryParams = queryParams
 //  Retrieve the totals for each email statistic metric for all subusers.
 // GET /subusers/stats/sums
 
-func Retrievethetotalsforeachemailstatisticmetricforallsubusers.() {
+func Retrievethetotalsforeachemailstatisticmetricforallsubusers() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
@@ -167,7 +166,7 @@ request.QueryParams = queryParams
 // Enable/disable a subuser
 // PATCH /subusers/{subuser_name}
 
-func Enable/disableasubuser() {
+func Enabledisableasubuser() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host = "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
