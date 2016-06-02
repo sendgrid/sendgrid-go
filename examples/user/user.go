@@ -10,7 +10,7 @@ import (
 // Get a user's account information.
 // GET /user/account
 
-func Getauser'saccountinformation() {
+func Getausersaccountinformation() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
@@ -112,7 +112,7 @@ func Updateyourpassword() {
 // Update a user's profile
 // PATCH /user/profile
 
-func Updateauser'sprofile() {
+func Updateausersprofile() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
@@ -136,7 +136,7 @@ func Updateauser'sprofile() {
 // Get a user's profile
 // GET /user/profile
 
-func Getauser'sprofile() {
+func Getausersprofile() {
   apiKey := os.Getenv("SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
