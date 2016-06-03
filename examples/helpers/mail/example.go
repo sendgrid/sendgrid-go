@@ -200,7 +200,7 @@ func kitchenSink() string {
 }
 
 func sendHelloEmail() {
-	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
+	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 	request.Method = "POST"
 	var Body = []byte(helloEmail())
 	request.Body = Body
