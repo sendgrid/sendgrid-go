@@ -200,32 +200,32 @@ func kitchenSink() string {
 }
 
 func sendHelloEmail() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
+	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
 	request.Method = "POST"
-	var requestBody = []byte(helloEmail())
-	request.RequestBody = requestBody
+	var Body = []byte(helloEmail())
+	request.Body = Body
 	response, err := sendgrid.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 }
 
 func sendKitchenSink() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
+	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
 	request.Method = "POST"
-	var requestBody = []byte(kitchenSink())
-	request.RequestBody = requestBody
+	var Body = []byte(kitchenSink())
+	request.Body = Body
 	response, err := sendgrid.API(request)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
-		fmt.Println(response.ResponseBody)
-		fmt.Println(response.ResponseHeaders)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
 }
 
