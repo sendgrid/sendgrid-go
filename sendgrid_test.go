@@ -13,7 +13,7 @@ func TestSendGridVersion(t *testing.T) {
 }
 
 func TestGetRequest(t *testing.T) {
-	request := GetRequest("", "", "", "")
+	request := GetRequest("", "", "")
 	if request.BaseURL != "https://api.sendgrid.com" {
 		t.Error("Host default not set")
 	}
