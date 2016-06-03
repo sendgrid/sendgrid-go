@@ -13,7 +13,7 @@ import (
 func CreateAPIkeys() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
   request.Method = "POST"
   request.Body = []byte(` {
   "name": "My API Key", 
@@ -40,7 +40,7 @@ func CreateAPIkeys() {
 func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -59,7 +59,7 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 func UpdatethenamescopesofanAPIKey() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
   request.Method = "PUT"
   request.Body = []byte(` {
   "name": "A New Hope", 
@@ -85,7 +85,7 @@ func UpdatethenamescopesofanAPIKey() {
 func UpdateAPIkeys() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "name": "A New Hope"
@@ -107,7 +107,7 @@ func UpdateAPIkeys() {
 func RetrieveanexistingAPIKey() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -126,7 +126,7 @@ func RetrieveanexistingAPIKey() {
 func DeleteAPIkeys() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {

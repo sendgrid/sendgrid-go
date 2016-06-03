@@ -13,7 +13,7 @@ import (
 func Retrieveemailstatisticsbyclienttype() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/clients/stats", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/clients/stats", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"
@@ -37,7 +37,7 @@ request.QueryParams = queryParams
 func Retrievestatsbyaspecificclienttype() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/clients/{client_type}/stats", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"

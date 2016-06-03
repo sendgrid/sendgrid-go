@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-apiKey := os.Getenv("SENDGRID_APIKEY")
+apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 host := "https://api.sendgrid.com"
 ```
 
@@ -56,7 +56,7 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### GET /access_settings/activity
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/access_settings/activity", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/access_settings/activity", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["limit"] = "1"
@@ -83,7 +83,7 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### POST /access_settings/whitelist
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "ips": [
@@ -118,7 +118,7 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### GET /access_settings/whitelist
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -142,7 +142,7 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### DELETE /access_settings/whitelist
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 request.Method = "DELETE"
 request.Body = []byte(` {
   "ids": [
@@ -173,7 +173,7 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### GET /access_settings/whitelist/{rule_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -197,7 +197,7 @@ For more information, please see our [User Guide](http://sendgrid.com/docs/User_
 ### DELETE /access_settings/whitelist/{rule_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist/{rule_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -226,7 +226,7 @@ See the [API Key Permissions List](https://sendgrid.com/docs/API_Reference/Web_A
 ### POST /api_keys
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "name": "My API Key",
@@ -254,7 +254,7 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### GET /api_keys
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -278,7 +278,7 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### PUT /api_keys/{api_key_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 request.Method = "PUT"
 request.Body = []byte(` {
   "name": "A New Hope",
@@ -313,7 +313,7 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### PATCH /api_keys/{api_key_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "name": "A New Hope"
@@ -336,7 +336,7 @@ If the API Key ID does not exist an HTTP 404 will be returned.
 ### GET /api_keys/{api_key_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -364,7 +364,7 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ### DELETE /api_keys/{api_key_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -391,7 +391,7 @@ Each user can create up to 25 different suppression groups.
 ### POST /asm/groups
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "description": "A group description",
@@ -420,7 +420,7 @@ Each user can create up to 25 different suppression groups.
 ### GET /asm/groups
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -444,7 +444,7 @@ Each user can create up to 25 different suppression groups.
 ### PATCH /asm/groups/{group_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "description": "Suggestions for items our users might like.",
@@ -473,7 +473,7 @@ Each user can create up to 25 different suppression groups.
 ### GET /asm/groups/{group_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -499,7 +499,7 @@ Each user can create up to 25 different suppression groups.
 ### DELETE /asm/groups/{group_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -521,7 +521,7 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ### POST /asm/groups/{group_id}/suppressions
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "recipient_emails": [
@@ -547,7 +547,7 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ### GET /asm/groups/{group_id}/suppressions
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -567,7 +567,7 @@ Suppressions are recipient email addresses that are added to [unsubscribe groups
 ### DELETE /asm/groups/{group_id}/suppressions/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/{email}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -587,7 +587,7 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### POST /asm/suppressions/global
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "recipient_emails": [
@@ -615,7 +615,7 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### GET /asm/suppressions/global/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -635,7 +635,7 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### DELETE /asm/suppressions/global/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -660,7 +660,7 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /browsers/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/browsers/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -697,7 +697,7 @@ For more information:
 ### POST /campaigns
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "categories": [
@@ -743,7 +743,7 @@ For more information:
 ### GET /campaigns
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["limit"] = "0"
@@ -769,7 +769,7 @@ For more information:
 ### PATCH /campaigns/{campaign_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "categories": [
@@ -802,7 +802,7 @@ For more information:
 ### GET /campaigns/{campaign_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -826,7 +826,7 @@ For more information:
 ### DELETE /campaigns/{campaign_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -848,7 +848,7 @@ For more information:
 ### PATCH /campaigns/{campaign_id}/schedules
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "send_at": 1489451436
@@ -873,7 +873,7 @@ For more information:
 ### POST /campaigns/{campaign_id}/schedules
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "send_at": 1489771528
@@ -898,7 +898,7 @@ For more information:
 ### GET /campaigns/{campaign_id}/schedules
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -923,7 +923,7 @@ For more information:
 ### DELETE /campaigns/{campaign_id}/schedules
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -947,7 +947,7 @@ For more information:
 ### POST /campaigns/{campaign_id}/schedules/now
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/now", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/now", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -971,7 +971,7 @@ For more information:
 ### POST /campaigns/{campaign_id}/schedules/test
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/campaigns/{campaign_id}/schedules/test", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/test", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "to": "your.email@example.com"
@@ -997,7 +997,7 @@ Categories can help organize your email analytics by enabling you to tag emails 
 ### GET /categories
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/categories", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["category"] = "test_string"
@@ -1024,7 +1024,7 @@ Categories allow you to group your emails together according to broad topics tha
 ### GET /categories/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/categories/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -1054,7 +1054,7 @@ Categories allow you to group your emails together according to broad topics tha
 ### GET /categories/stats/sums
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/categories/stats/sums", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -1088,7 +1088,7 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /clients/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/clients/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/clients/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["aggregated_by"] = "day"
@@ -1121,7 +1121,7 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /clients/{client_type}/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/clients/{client_type}/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/clients/{client_type}/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["aggregated_by"] = "day"
@@ -1149,7 +1149,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### POST /contactdb/custom_fields
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "name": "pet",
@@ -1173,7 +1173,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/custom_fields
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1193,7 +1193,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/custom_fields/{custom_field_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_field_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1213,7 +1213,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### DELETE /contactdb/custom_fields/{custom_field_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/custom_fields/{custom_field_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_field_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1233,7 +1233,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/lists
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "name": "your list name"
@@ -1256,7 +1256,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/lists
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1276,7 +1276,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/lists
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists", host)
 request.Method = "DELETE"
 request.Body = []byte(` [
   1,
@@ -1303,7 +1303,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### PATCH /contactdb/lists/{list_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "name": "newlistname"
@@ -1329,7 +1329,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/lists/{list_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["list_id"] = "0"
@@ -1352,7 +1352,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/lists/{list_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
 request.Method = "DELETE"
 queryParams := make(map[string]string)
 queryParams["delete_contacts"] = "true"
@@ -1377,7 +1377,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/lists/{list_id}/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients", host)
 request.Method = "POST"
 request.Body = []byte(` [
   "recipient_id1",
@@ -1401,7 +1401,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/lists/{list_id}/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["page"] = "1"
@@ -1426,7 +1426,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/lists/{list_id}/recipients/{recipient_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1446,7 +1446,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/lists/{list_id}/recipients/{recipient_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/lists/{list_id}/recipients/{recipient_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
 request.Method = "DELETE"
 queryParams := make(map[string]string)
 queryParams["recipient_id"] = "0"
@@ -1474,7 +1474,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### PATCH /contactdb/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients", host)
 request.Method = "PATCH"
 request.Body = []byte(` [
   {
@@ -1503,7 +1503,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### POST /contactdb/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients", host)
 request.Method = "POST"
 request.Body = []byte(` [
   {
@@ -1540,7 +1540,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["page"] = "1"
@@ -1566,7 +1566,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### DELETE /contactdb/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients", host)
 request.Method = "DELETE"
 request.Body = []byte(` [
   "recipient_id1",
@@ -1592,7 +1592,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients/billable_count
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/billable_count", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/billable_count", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1612,7 +1612,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/recipients/count
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/count", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/count", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1641,7 +1641,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/recipients/search
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/search", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["{field_name}"] = "test_string"
@@ -1664,7 +1664,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients/{recipient_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1684,7 +1684,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### DELETE /contactdb/recipients/{recipient_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1706,7 +1706,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 ### GET /contactdb/recipients/{recipient_id}/lists
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/recipients/{recipient_id}/lists", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}/lists", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1726,7 +1726,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 ### GET /contactdb/reserved_fields
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/reserved_fields", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/reserved_fields", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1766,7 +1766,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### POST /contactdb/segments
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "conditions": [
@@ -1812,7 +1812,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### GET /contactdb/segments
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/segments", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1834,7 +1834,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### PATCH /contactdb/segments/{segment_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "conditions": [
@@ -1871,7 +1871,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### GET /contactdb/segments/{segment_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["segment_id"] = "0"
@@ -1898,7 +1898,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### DELETE /contactdb/segments/{segment_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
 request.Method = "DELETE"
 queryParams := make(map[string]string)
 queryParams["delete_contacts"] = "true"
@@ -1923,7 +1923,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 ### GET /contactdb/segments/{segment_id}/recipients
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/contactdb/segments/{segment_id}/recipients", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}/recipients", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["page"] = "1"
@@ -1961,7 +1961,7 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /devices/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/devices/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/devices/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["aggregated_by"] = "day"
@@ -1993,7 +1993,7 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /geo/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/geo/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/geo/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -2026,7 +2026,7 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### GET /ips
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["subuser"] = "test_string"
@@ -2053,7 +2053,7 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### GET /ips/assigned
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/assigned", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/assigned", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2079,7 +2079,7 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### POST /ips/pools
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "name": "marketing"
@@ -2106,7 +2106,7 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### GET /ips/pools
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2130,7 +2130,7 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### PUT /ips/pools/{pool_name}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 request.Method = "PUT"
 request.Body = []byte(` {
   "name": "new_pool_name"
@@ -2157,7 +2157,7 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### GET /ips/pools/{pool_name}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2181,7 +2181,7 @@ If an IP pool is NOT specified for an email, it will use any IP available, inclu
 ### DELETE /ips/pools/{pool_name}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2203,7 +2203,7 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### POST /ips/pools/{pool_name}/ips
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "ip": "0.0.0.0"
@@ -2228,7 +2228,7 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### DELETE /ips/pools/{pool_name}/ips/{ip}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips/{ip}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips/{ip}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2250,7 +2250,7 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### POST /ips/warmup
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "ip": "0.0.0.0"
@@ -2275,7 +2275,7 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### GET /ips/warmup
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2297,7 +2297,7 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### GET /ips/warmup/{ip_address}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2319,7 +2319,7 @@ For more general information about warming up IPs, please see our [Classroom](ht
 ### DELETE /ips/warmup/{ip_address}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/warmup/{ip_address}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2341,7 +2341,7 @@ A single IP address or a range of IP addresses may be dedicated to an account in
 ### GET /ips/{ip_address}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/ips/{ip_address}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/ips/{ip_address}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2368,7 +2368,7 @@ More Information:
 ### POST /mail/batch
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail/batch", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2392,7 +2392,7 @@ More Information:
 ### GET /mail/batch/{batch_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail/batch/{batch_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2417,7 +2417,7 @@ For more detailed information about how to use the v3 Mail Send endpoint, please
 ### POST /mail/send/beta
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail/send/beta", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "asm": {
@@ -2583,7 +2583,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["limit"] = "1"
@@ -2609,7 +2609,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/address_whitelist
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -2638,7 +2638,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/address_whitelist
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2660,7 +2660,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/bcc
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "email": "email@example.com",
@@ -2686,7 +2686,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/bcc
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2708,7 +2708,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/bounce_purge
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -2735,7 +2735,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/bounce_purge
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2757,7 +2757,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/footer
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -2784,7 +2784,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/footer
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2806,7 +2806,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/forward_bounce
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "email": "example@example.com",
@@ -2832,7 +2832,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/forward_bounce
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2854,7 +2854,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/forward_spam
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "email": "",
@@ -2880,7 +2880,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/forward_spam
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2902,7 +2902,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/plain_content
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": false
@@ -2927,7 +2927,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/plain_content
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2949,7 +2949,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/spam_check
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -2976,7 +2976,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/spam_check
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3000,7 +3000,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### PATCH /mail_settings/template
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -3028,7 +3028,7 @@ Mail settings allow you to tell SendGrid specific things to do to every email th
 ### GET /mail_settings/template
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3053,7 +3053,7 @@ Advanced Stats provide a more in-depth view of your email statistics and the act
 ### GET /mailbox_providers/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/mailbox_providers/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/mailbox_providers/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -3084,7 +3084,7 @@ Our partner settings allow you to integrate your SendGrid account with our partn
 ### GET /partner_settings
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/partner_settings", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["limit"] = "1"
@@ -3110,7 +3110,7 @@ By integrating with New Relic, you can send your SendGrid email statistics to yo
 ### PATCH /partner_settings/new_relic
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enable_subuser_statistics": true,
@@ -3137,7 +3137,7 @@ By integrating with New Relic, you can send your SendGrid email statistics to yo
 ### GET /partner_settings/new_relic
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3160,7 +3160,7 @@ API Keys can be used to authenticate the use of [SendGrids v3 Web API](https://s
 ### GET /scopes
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/scopes", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/scopes", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3183,7 +3183,7 @@ Parent accounts will see aggregated stats for their account and all subuser acco
 ### GET /stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["aggregated_by"] = "day"
@@ -3216,7 +3216,7 @@ For more information about Subusers:
 ### POST /subusers
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "email": "John@example.com",
@@ -3248,7 +3248,7 @@ For more information about Subusers:
 ### GET /subusers
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["username"] = "test_string"
@@ -3273,7 +3273,7 @@ This endpoint allows you to request the reputations for your subusers.
 ### GET /subusers/reputations
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/reputations", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/reputations", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["usernames"] = "test_string"
@@ -3300,7 +3300,7 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -3333,7 +3333,7 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/stats/monthly
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/stats/monthly", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/stats/monthly", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["subuser"] = "test_string"
@@ -3364,7 +3364,7 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/stats/sums
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/stats/sums", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/stats/sums", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["end_date"] = "2016-04-01"
@@ -3396,7 +3396,7 @@ For more information about Subusers:
 ### PATCH /subusers/{subuser_name}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "disabled": false
@@ -3422,7 +3422,7 @@ For more information about Subusers:
 ### DELETE /subusers/{subuser_name}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3445,7 +3445,7 @@ More information:
 ### PUT /subusers/{subuser_name}/ips
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/ips", host)
 request.Method = "PUT"
 request.Body = []byte(` [
   "127.0.0.1"
@@ -3466,7 +3466,7 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### PUT /subusers/{subuser_name}/monitor
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
 request.Method = "PUT"
 request.Body = []byte(` {
   "email": "example@example.com",
@@ -3488,7 +3488,7 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### POST /subusers/{subuser_name}/monitor
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "email": "example@example.com",
@@ -3510,7 +3510,7 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### GET /subusers/{subuser_name}/monitor
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3528,7 +3528,7 @@ Subuser monitor settings allow you to receive a sample of an outgoing message by
 ### DELETE /subusers/{subuser_name}/monitor
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3553,7 +3553,7 @@ For more information, see our [User Guide](https://sendgrid.com/docs/User_Guide/
 ### GET /subusers/{subuser_name}/stats/monthly
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/stats/monthly", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/stats/monthly", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["date"] = "test_string"
@@ -3585,7 +3585,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/blocks
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["start_time"] = "1"
@@ -3618,7 +3618,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/blocks
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
 request.Method = "DELETE"
 request.Body = []byte(` {
   "delete_all": false,
@@ -3647,7 +3647,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/blocks/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3669,7 +3669,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/blocks/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3694,7 +3694,7 @@ For more information see:
 ### GET /suppression/bounces
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["start_time"] = "0"
@@ -3726,7 +3726,7 @@ Note: the `delete_all` and `emails` parameters should be used independently of e
 ### DELETE /suppression/bounces
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
 request.Method = "DELETE"
 request.Body = []byte(` {
   "delete_all": true,
@@ -3759,7 +3759,7 @@ For more information see:
 ### GET /suppression/bounces/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3785,7 +3785,7 @@ For more information see:
 ### DELETE /suppression/bounces/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
 request.Method = "DELETE"
 queryParams := make(map[string]string)
 queryParams["email_address"] = "example@example.com"
@@ -3812,7 +3812,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/invalid_emails
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["start_time"] = "1"
@@ -3847,7 +3847,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/invalid_emails
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
 request.Method = "DELETE"
 request.Body = []byte(` {
   "delete_all": false,
@@ -3878,7 +3878,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/invalid_emails/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3902,7 +3902,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/invalid_emails/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3924,7 +3924,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/spam_report/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3946,7 +3946,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/spam_report/{email}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3968,7 +3968,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### GET /suppression/spam_reports
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["start_time"] = "1"
@@ -4001,7 +4001,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/User
 ### DELETE /suppression/spam_reports
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
 request.Method = "DELETE"
 request.Body = []byte(` {
   "delete_all": false,
@@ -4028,7 +4028,7 @@ A global suppression (or global unsubscribe) is an email address of a recipient 
 ### GET /suppression/unsubscribes
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/suppression/unsubscribes", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/suppression/unsubscribes", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["start_time"] = "1"
@@ -4059,7 +4059,7 @@ Transactional templates are templates created specifically for transactional ema
 ### POST /templates
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "name": "example_name"
@@ -4084,7 +4084,7 @@ Transactional templates are templates created specifically for transactional ema
 ### GET /templates
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4107,7 +4107,7 @@ Transactional templates are templates created specifically for transactional ema
 ### PATCH /templates/{template_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "name": "new_example_name"
@@ -4133,7 +4133,7 @@ Transactional templates are templates created specifically for transactional ema
 ### GET /templates/{template_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4156,7 +4156,7 @@ Transactional templates are templates created specifically for transactional ema
 ### DELETE /templates/{template_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4179,7 +4179,7 @@ For more information about transactional templates, please see our [User Guide](
 ### POST /templates/{template_id}/versions
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "active": 1,
@@ -4215,7 +4215,7 @@ For more information about transactional templates, please see our [User Guide](
 ### PATCH /templates/{template_id}/versions/{version_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "active": 1,
@@ -4250,7 +4250,7 @@ For more information about transactional templates, please see our [User Guide](
 ### GET /templates/{template_id}/versions/{version_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4278,7 +4278,7 @@ For more information about transactional templates, please see our [User Guide](
 ### DELETE /templates/{template_id}/versions/{version_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4307,7 +4307,7 @@ For more information about transactional templates, please see our [User Guide](
 ### POST /templates/{template_id}/versions/{version_id}/activate
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}/activate", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}/activate", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4332,7 +4332,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["limit"] = "1"
@@ -4358,7 +4358,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/click
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true
@@ -4383,7 +4383,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/click
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/click", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4409,7 +4409,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/google_analytics
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -4443,7 +4443,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/google_analytics
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/google_analytics", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4467,7 +4467,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/open
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true
@@ -4494,7 +4494,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/open
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/open", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4518,7 +4518,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### PATCH /tracking_settings/subscription
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "enabled": true,
@@ -4550,7 +4550,7 @@ For more information about tracking, please see our [User Guide](https://sendgri
 ### GET /tracking_settings/subscription
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/tracking_settings/subscription", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4579,7 +4579,7 @@ For more information about your user profile:
 ### GET /user/account
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/account", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/account", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4599,7 +4599,7 @@ Your monthly credit allotment limits the number of emails you may send before in
 ### GET /user/credits
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/credits", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/credits", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4623,7 +4623,7 @@ For more information about your user profile:
 ### PUT /user/email
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/email", host)
 request.Method = "PUT"
 request.Body = []byte(` {
   "email": "example@example.com"
@@ -4650,7 +4650,7 @@ For more information about your user profile:
 ### GET /user/email
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/email", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4674,7 +4674,7 @@ For more information about your user profile:
 ### PUT /user/password
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/password", host)
 request.Method = "PUT"
 request.Body = []byte(` {
   "new_password": "new_password",
@@ -4704,7 +4704,7 @@ It should be noted that any one or more of the parameters can be updated via the
 ### PATCH /user/profile
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/profile", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "city": "Orange",
@@ -4731,7 +4731,7 @@ For more information about your user profile:
 ### GET /user/profile
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/profile", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4754,7 +4754,7 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### POST /user/scheduled_sends
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "batch_id": "YOUR_BATCH_ID",
@@ -4778,7 +4778,7 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### GET /user/scheduled_sends
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4798,7 +4798,7 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### PATCH /user/scheduled_sends/{batch_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "status": "pause"
@@ -4821,7 +4821,7 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### GET /user/scheduled_sends/{batch_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4841,7 +4841,7 @@ The Cancel Scheduled Sends feature allows the customer to cancel a scheduled sen
 ### DELETE /user/scheduled_sends/{batch_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4863,7 +4863,7 @@ The Enforced TLS settings specify whether or not the recipient is required to su
 ### PATCH /user/settings/enforced_tls
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "require_tls": true,
@@ -4889,7 +4889,7 @@ The Enforced TLS settings specify whether or not the recipient is required to su
 ### GET /user/settings/enforced_tls
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4913,7 +4913,7 @@ For more information about your user profile:
 ### PUT /user/username
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/username", host)
 request.Method = "PUT"
 request.Body = []byte(` {
   "username": "test_username"
@@ -4940,7 +4940,7 @@ For more information about your user profile:
 ### GET /user/username
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/username", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -4964,7 +4964,7 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
 ### PATCH /user/webhooks/event/settings
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "bounce": true,
@@ -5003,7 +5003,7 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
 ### GET /user/webhooks/event/settings
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5025,7 +5025,7 @@ Common uses of this data are to remove unsubscribes, react to spam reports, dete
 ### POST /user/webhooks/event/test
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/test", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "url": "url"
@@ -5048,7 +5048,7 @@ SendGrid can parse the attachments and contents of incoming emails. The Parse AP
 ### GET /user/webhooks/parse/settings
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/settings", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5070,7 +5070,7 @@ There are a number of pre-made integrations for the SendGrid Parse Webhook which
 ### GET /user/webhooks/parse/stats
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/user/webhooks/parse/stats", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/stats", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["aggregated_by"] = "day"
@@ -5106,7 +5106,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "automatic_security": false,
@@ -5141,7 +5141,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["username"] = "test_string"
@@ -5175,7 +5175,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains/default
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/default", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5204,7 +5204,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains/subuser
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5233,7 +5233,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### DELETE /whitelabel/domains/subuser
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/subuser", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5255,7 +5255,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### PATCH /whitelabel/domains/{domain_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "custom_spf": true,
@@ -5282,7 +5282,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### GET /whitelabel/domains/{domain_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5304,7 +5304,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### DELETE /whitelabel/domains/{domain_id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5333,7 +5333,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains/{domain_id}/subuser
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}/subuser", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "username": "jane@example.com"
@@ -5363,7 +5363,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains/{id}/ips
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "ip": "192.168.0.1"
@@ -5394,7 +5394,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### DELETE /whitelabel/domains/{id}/ips/{ip}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips/{ip}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5421,7 +5421,7 @@ For more information on whitelabeling, please see our [User Guide](https://sendg
 ### POST /whitelabel/domains/{id}/validate
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/validate", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5445,7 +5445,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/ips
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "domain": "example.com",
@@ -5474,7 +5474,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/ips
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["ip"] = "test_string"
@@ -5501,7 +5501,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/ips/{id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5523,7 +5523,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### DELETE /whitelabel/ips/{id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5545,7 +5545,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/ips/{id}/validate
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/ips/{id}/validate", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5567,7 +5567,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/links
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "default": true,
@@ -5598,7 +5598,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["limit"] = "1"
@@ -5630,7 +5630,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links/default
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/default", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/default", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["domain"] = "test_string"
@@ -5659,7 +5659,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links/subuser
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["username"] = "test_string"
@@ -5688,7 +5688,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### DELETE /whitelabel/links/subuser
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/subuser", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
 request.Method = "DELETE"
 queryParams := make(map[string]string)
 queryParams["username"] = "test_string"
@@ -5713,7 +5713,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### PATCH /whitelabel/links/{id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 request.Method = "PATCH"
 request.Body = []byte(` {
   "default": true
@@ -5738,7 +5738,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### GET /whitelabel/links/{id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5760,7 +5760,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### DELETE /whitelabel/links/{id}
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5782,7 +5782,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/links/{id}/validate
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}/validate", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5808,7 +5808,7 @@ For more information, please see our [User Guide](https://sendgrid.com/docs/API_
 ### POST /whitelabel/links/{link_id}/subuser
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{link_id}/subuser", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "username": "jane@example.com"

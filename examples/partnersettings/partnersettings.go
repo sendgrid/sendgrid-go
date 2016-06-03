@@ -13,7 +13,7 @@ import (
 func Returnsalistofallpartnersettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/partner_settings", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/partner_settings", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
@@ -36,7 +36,7 @@ request.QueryParams = queryParams
 func UpdatesNewRelicpartnersettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enable_subuser_statistics": true, 
@@ -60,7 +60,7 @@ func UpdatesNewRelicpartnersettings() {
 func ReturnsallNewRelicpartnersettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {

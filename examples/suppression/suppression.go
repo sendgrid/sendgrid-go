@@ -13,7 +13,7 @@ import (
 func Retrieveallblocks() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -38,7 +38,7 @@ request.QueryParams = queryParams
 func Deleteblocks() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
   request.Method = "DELETE"
   request.Body = []byte(` {
   "delete_all": false, 
@@ -64,7 +64,7 @@ func Deleteblocks() {
 func Retrieveaspecificblock() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -83,7 +83,7 @@ func Retrieveaspecificblock() {
 func Deleteaspecificblock() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/blocks/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -102,7 +102,7 @@ func Deleteaspecificblock() {
 func Retrieveallbounces() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "0"
@@ -125,7 +125,7 @@ request.QueryParams = queryParams
 func Deletebounces() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
   request.Method = "DELETE"
   request.Body = []byte(` {
   "delete_all": true, 
@@ -151,7 +151,7 @@ func Deletebounces() {
 func RetrieveaBounce() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -170,7 +170,7 @@ func RetrieveaBounce() {
 func Deleteabounce() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/bounces/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
   request.Method = "DELETE"
   queryParams := make(map[string]string)
   queryParams["email_address"] = "example@example.com"
@@ -192,7 +192,7 @@ request.QueryParams = queryParams
 func Retrieveallinvalidemails() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -217,7 +217,7 @@ request.QueryParams = queryParams
 func Deleteinvalidemails() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
   request.Method = "DELETE"
   request.Body = []byte(` {
   "delete_all": false, 
@@ -243,7 +243,7 @@ func Deleteinvalidemails() {
 func Retrieveaspecificinvalidemail() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -262,7 +262,7 @@ func Retrieveaspecificinvalidemail() {
 func Deleteaspecificinvalidemail() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -281,7 +281,7 @@ func Deleteaspecificinvalidemail() {
 func Retrieveaspecificspamreport() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -300,7 +300,7 @@ func Retrieveaspecificspamreport() {
 func Deleteaspecificspamreport() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_report/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -319,7 +319,7 @@ func Deleteaspecificspamreport() {
 func Retrieveallspamreports() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"
@@ -344,7 +344,7 @@ request.QueryParams = queryParams
 func Deletespamreports() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
   request.Method = "DELETE"
   request.Body = []byte(` {
   "delete_all": false, 
@@ -370,7 +370,7 @@ func Deletespamreports() {
 func Retrieveallglobalsuppressions() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/suppression/unsubscribes", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/suppression/unsubscribes", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["start_time"] = "1"

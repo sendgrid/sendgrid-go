@@ -13,7 +13,7 @@ import (
 func Retrieveallmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["limit"] = "1"
@@ -36,7 +36,7 @@ request.QueryParams = queryParams
 func Updateaddresswhitelistmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enabled": true, 
@@ -62,7 +62,7 @@ func Updateaddresswhitelistmailsettings() {
 func Retrieveaddresswhitelistmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -81,7 +81,7 @@ func Retrieveaddresswhitelistmailsettings() {
 func UpdateBCCmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "email": "email@example.com", 
@@ -104,7 +104,7 @@ func UpdateBCCmailsettings() {
 func RetrieveallBCCmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -123,7 +123,7 @@ func RetrieveallBCCmailsettings() {
 func Updatebouncepurgemailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enabled": true, 
@@ -147,7 +147,7 @@ func Updatebouncepurgemailsettings() {
 func Retrievebouncepurgemailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -166,7 +166,7 @@ func Retrievebouncepurgemailsettings() {
 func Updatefootermailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enabled": true, 
@@ -190,7 +190,7 @@ func Updatefootermailsettings() {
 func Retrievefootermailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -209,7 +209,7 @@ func Retrievefootermailsettings() {
 func Updateforwardbouncemailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "email": "example@example.com", 
@@ -232,7 +232,7 @@ func Updateforwardbouncemailsettings() {
 func Retrieveforwardbouncemailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -251,7 +251,7 @@ func Retrieveforwardbouncemailsettings() {
 func Updateforwardspammailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "email": "", 
@@ -274,7 +274,7 @@ func Updateforwardspammailsettings() {
 func Retrieveforwardspammailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -293,7 +293,7 @@ func Retrieveforwardspammailsettings() {
 func Updateplaincontentmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enabled": false
@@ -315,7 +315,7 @@ func Updateplaincontentmailsettings() {
 func Retrieveplaincontentmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -334,7 +334,7 @@ func Retrieveplaincontentmailsettings() {
 func Updatespamcheckmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enabled": true, 
@@ -358,7 +358,7 @@ func Updatespamcheckmailsettings() {
 func Retrievespamcheckmailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -377,7 +377,7 @@ func Retrievespamcheckmailsettings() {
 func Updatetemplatemailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "enabled": true, 
@@ -400,7 +400,7 @@ func Updatetemplatemailsettings() {
 func Retrievelegacytemplatemailsettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {

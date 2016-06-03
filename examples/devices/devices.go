@@ -13,7 +13,7 @@ import (
 func Retrieveemailstatisticsbydevicetype() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/devices/stats", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/devices/stats", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"

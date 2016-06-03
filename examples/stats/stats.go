@@ -13,7 +13,7 @@ import (
 func Retrieveglobalemailstatistics() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/stats", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/stats", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["aggregated_by"] = "day"

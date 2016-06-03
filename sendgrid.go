@@ -6,14 +6,11 @@ import "github.com/sendgrid/rest" // depends on version 2.0.0
 const Version = "3.0.0"
 
 // GetRequest returns a default request object.
-func GetRequest(key string, endpoint string, host string, version string) rest.Request {
+func GetRequest(key string, endpoint string, host string) rest.Request {
 	if host == "" {
 		host = "https://api.sendgrid.com"
 	}
-	if version == "" {
-		version = "v3"
-	}
-	baseURL := host + "/" + version + endpoint
+	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
 	requestHeaders["Content-Type"] = "application/json"
 	requestHeaders["Authorization"] = "Bearer " + key

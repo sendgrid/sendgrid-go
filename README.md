@@ -106,7 +106,7 @@ b, err := json.Marshal(m)
 if err != nil {
     fmt.Println(err)
 }
-request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
+request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 request.Method = "POST"
 var requestBody = []byte(string(b))
 request.Body = requestBody
@@ -130,7 +130,7 @@ import (
 )
 
 func main() {
-    request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/api_keys", "https://api.sendgrid.com", "v3")
+    request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/api_keys", "https://api.sendgrid.com")
     request.Method = "GET"
 
     response, err := sendgrid.API(request)

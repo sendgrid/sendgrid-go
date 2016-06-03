@@ -13,7 +13,7 @@ import (
 func CreateaGroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
   request.Method = "POST"
   request.Body = []byte(` {
   "description": "A group description", 
@@ -37,7 +37,7 @@ func CreateaGroup() {
 func Retrieveallsuppressiongroupsassociatedwiththeuser() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -56,7 +56,7 @@ func Retrieveallsuppressiongroupsassociatedwiththeuser() {
 func Updateasuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
   request.Method = "PATCH"
   request.Body = []byte(` {
   "description": "Suggestions for items our users might like.", 
@@ -80,7 +80,7 @@ func Updateasuppressiongroup() {
 func Getinformationonasinglesuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -99,7 +99,7 @@ func Getinformationonasinglesuppressiongroup() {
 func Deleteasuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -118,7 +118,7 @@ func Deleteasuppressiongroup() {
 func Addsuppressionstoasuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
   request.Method = "POST"
   request.Body = []byte(` {
   "recipient_emails": [
@@ -143,7 +143,7 @@ func Addsuppressionstoasuppressiongroup() {
 func Retrieveallsuppressionsforasuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -162,7 +162,7 @@ func Retrieveallsuppressionsforasuppressiongroup() {
 func Deleteasuppressionfromasuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/{email}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -181,7 +181,7 @@ func Deleteasuppressionfromasuppressiongroup() {
 func Addrecipientaddressestotheglobalsuppressiongroup() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global", host)
   request.Method = "POST"
   request.Body = []byte(` {
   "recipient_emails": [
@@ -206,7 +206,7 @@ func Addrecipientaddressestotheglobalsuppressiongroup() {
 func RetrieveaGlobalSuppression() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -225,7 +225,7 @@ func RetrieveaGlobalSuppression() {
 func DeleteaGlobalSuppression() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global/{email}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {

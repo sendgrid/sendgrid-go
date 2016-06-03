@@ -13,7 +13,7 @@ import (
 func Retrieveemailstatisticsbybrowser() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/browsers/stats", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/browsers/stats", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"

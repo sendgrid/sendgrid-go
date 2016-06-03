@@ -13,7 +13,7 @@ import (
 func Retrieveallcategories() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/categories", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/categories", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["category"] = "test_string"
@@ -37,7 +37,7 @@ request.QueryParams = queryParams
 func RetrieveEmailStatisticsforCategories() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/categories/stats", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/categories/stats", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"
@@ -64,7 +64,7 @@ request.QueryParams = queryParams
 func Retrievesumsofemailstatsforeachcategory() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/categories/stats/sums", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/categories/stats/sums", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["end_date"] = "2016-04-01"

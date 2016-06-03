@@ -13,7 +13,7 @@ import (
 func CreateabatchID() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail/batch", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail/batch", host)
   request.Method = "POST"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -32,7 +32,7 @@ func CreateabatchID() {
 func ValidatebatchID() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail/batch/{batch_id}", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail/batch/{batch_id}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -51,7 +51,7 @@ func ValidatebatchID() {
 func v3MailSendBeta() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/mail/send/beta", host, "v3")
+  request := sendgrid.GetRequest(apiKey, "/v3/mail/send/beta", host)
   request.Method = "POST"
   request.Body = []byte(` {
   "asm": {
