@@ -102,7 +102,6 @@ subject := "Hello World from the SendGrid Go Library"
 to := mail.NewEmail("Example User", "test@example.com")
 content := mail.NewContent("text/plain", "some text here")
 m := mail.NewV3MailInit(from, subject, to, content)
-
 b, err := json.Marshal(m)
 if err != nil {
     fmt.Println(err)
@@ -110,14 +109,14 @@ if err != nil {
 request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/mail/send/beta", "https://api.sendgrid.com", "v3")
 request.Method = "POST"
 var requestBody = []byte(string(b))
-request.RequestBody = requestBody
+request.Body = requestBody
 response, err := sendgrid.API(request)
 if err != nil {
     fmt.Println(err)
 } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
 }
 ```
 
@@ -139,8 +138,8 @@ func main() {
         fmt.Println(err)
     } else {
         fmt.Println(response.StatusCode)
-        fmt.Println(response.ResponseBody)
-        fmt.Println(response.ResponseHeaders)
+        fmt.Println(response.Body)
+        fmt.Println(response.Headers)
     }
 }
 ```

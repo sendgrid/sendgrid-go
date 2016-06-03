@@ -24,8 +24,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -38,7 +38,7 @@ func Updateaddresswhitelistmailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/address_whitelist", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enabled": true, 
   "list": [
     "email1@example.com", 
@@ -50,8 +50,8 @@ func Updateaddresswhitelistmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -69,8 +69,8 @@ func Retrieveaddresswhitelistmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -83,7 +83,7 @@ func UpdateBCCmailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/bcc", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "email@example.com", 
   "enabled": false
 }`)
@@ -92,8 +92,8 @@ func UpdateBCCmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -111,8 +111,8 @@ func RetrieveallBCCmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -125,7 +125,7 @@ func Updatebouncepurgemailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/bounce_purge", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enabled": true, 
   "hard_bounces": 5, 
   "soft_bounces": 5
@@ -135,8 +135,8 @@ func Updatebouncepurgemailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -154,8 +154,8 @@ func Retrievebouncepurgemailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -168,7 +168,7 @@ func Updatefootermailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/footer", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enabled": true, 
   "html_content": "...", 
   "plain_content": "..."
@@ -178,8 +178,8 @@ func Updatefootermailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -197,8 +197,8 @@ func Retrievefootermailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -211,7 +211,7 @@ func Updateforwardbouncemailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_bounce", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "example@example.com", 
   "enabled": true
 }`)
@@ -220,8 +220,8 @@ func Updateforwardbouncemailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -239,8 +239,8 @@ func Retrieveforwardbouncemailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -253,7 +253,7 @@ func Updateforwardspammailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/forward_spam", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "", 
   "enabled": false
 }`)
@@ -262,8 +262,8 @@ func Updateforwardspammailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -281,8 +281,8 @@ func Retrieveforwardspammailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -295,7 +295,7 @@ func Updateplaincontentmailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/plain_content", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enabled": false
 }`)
   response, err := sendgrid.API(request)
@@ -303,8 +303,8 @@ func Updateplaincontentmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -322,8 +322,8 @@ func Retrieveplaincontentmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -336,7 +336,7 @@ func Updatespamcheckmailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/spam_check", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enabled": true, 
   "max_score": 5, 
   "url": "url"
@@ -346,8 +346,8 @@ func Updatespamcheckmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -365,8 +365,8 @@ func Retrievespamcheckmailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -379,7 +379,7 @@ func Updatetemplatemailsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/mail_settings/template", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enabled": true, 
   "html_content": "<% body %>"
 }`)
@@ -388,8 +388,8 @@ func Updatetemplatemailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -407,8 +407,8 @@ func Retrievelegacytemplatemailsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

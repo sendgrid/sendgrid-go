@@ -24,8 +24,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -38,7 +38,7 @@ func UpdatesNewRelicpartnersettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/partner_settings/new_relic", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "enable_subuser_statistics": true, 
   "enabled": true, 
   "license_key": ""
@@ -48,8 +48,8 @@ func UpdatesNewRelicpartnersettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -67,8 +67,8 @@ func ReturnsallNewRelicpartnersettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

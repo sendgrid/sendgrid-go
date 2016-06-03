@@ -1,7 +1,7 @@
 // Package sendgrid provides a simple interface to interact with the SendGrid API
 package sendgrid
 
-import "github.com/sendgrid/rest"
+import "github.com/sendgrid/rest" // depends on version 2.0.0
 
 const Version = "3.0.0"
 
@@ -19,8 +19,8 @@ func GetRequest(key string, endpoint string, host string, version string) rest.R
 	requestHeaders["Authorization"] = "Bearer " + key
 	requestHeaders["User-Agent"] = "sendgrid/" + Version + ";go"
 	request := rest.Request{
-		BaseURL:        baseURL,
-		RequestHeaders: requestHeaders,
+		BaseURL: baseURL,
+		Headers: requestHeaders,
 	}
 	return request
 }

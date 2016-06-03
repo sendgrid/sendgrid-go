@@ -23,8 +23,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -37,7 +37,7 @@ func AddoneormoreIPstothewhitelist() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "ips": [
     {
       "ip": "192.168.1.1"
@@ -55,8 +55,8 @@ func AddoneormoreIPstothewhitelist() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -74,8 +74,8 @@ func RetrievealistofcurrentlywhitelistedIPs() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -88,7 +88,7 @@ func RemoveoneormoreIPsfromthewhitelist() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/access_settings/whitelist", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "ids": [
     1, 
     2, 
@@ -100,8 +100,8 @@ func RemoveoneormoreIPsfromthewhitelist() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -119,8 +119,8 @@ func RetrieveaspecificwhitelistedIP() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -138,8 +138,8 @@ func RemoveaspecificIPfromthewhitelist() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

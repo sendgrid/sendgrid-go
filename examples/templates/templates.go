@@ -15,7 +15,7 @@ func Createatransactionaltemplate() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "example_name"
 }`)
   response, err := sendgrid.API(request)
@@ -23,8 +23,8 @@ func Createatransactionaltemplate() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -42,8 +42,8 @@ func Retrievealltransactionaltemplates() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -56,7 +56,7 @@ func Editatransactionaltemplate() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "new_example_name"
 }`)
   response, err := sendgrid.API(request)
@@ -64,8 +64,8 @@ func Editatransactionaltemplate() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -83,8 +83,8 @@ func Retrieveasingletransactionaltemplate() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -102,8 +102,8 @@ func Deleteatemplate() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -116,7 +116,7 @@ func Createanewtransactionaltemplateversion() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "active": 1, 
   "html_content": "<%body%>", 
   "name": "example_version_name", 
@@ -129,8 +129,8 @@ func Createanewtransactionaltemplateversion() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -143,7 +143,7 @@ func Editatransactionaltemplateversion() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/templates/{template_id}/versions/{version_id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "active": 1, 
   "html_content": "<%body%>", 
   "name": "updated_example_name", 
@@ -155,8 +155,8 @@ func Editatransactionaltemplateversion() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -174,8 +174,8 @@ func Retrieveaspecifictransactionaltemplateversion() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -193,8 +193,8 @@ func Deleteatransactionaltemplateversion() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -212,8 +212,8 @@ func Activateatransactionaltemplateversion() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

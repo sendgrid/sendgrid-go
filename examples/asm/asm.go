@@ -15,7 +15,7 @@ func CreateaGroup() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "description": "A group description", 
   "is_default": false, 
   "name": "A group name"
@@ -25,8 +25,8 @@ func CreateaGroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -44,8 +44,8 @@ func Retrieveallsuppressiongroupsassociatedwiththeuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -58,7 +58,7 @@ func Updateasuppressiongroup() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "description": "Suggestions for items our users might like.", 
   "id": 103, 
   "name": "Item Suggestions"
@@ -68,8 +68,8 @@ func Updateasuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -87,8 +87,8 @@ func Getinformationonasinglesuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -106,8 +106,8 @@ func Deleteasuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -120,7 +120,7 @@ func Addsuppressionstoasuppressiongroup() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/groups/{group_id}/suppressions", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "recipient_emails": [
     "test1@example.com", 
     "test2@example.com"
@@ -131,8 +131,8 @@ func Addsuppressionstoasuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -150,8 +150,8 @@ func Retrieveallsuppressionsforasuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -169,8 +169,8 @@ func Deleteasuppressionfromasuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -183,7 +183,7 @@ func Addrecipientaddressestotheglobalsuppressiongroup() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/asm/suppressions/global", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "recipient_emails": [
     "test1@example.com", 
     "test2@example.com"
@@ -194,8 +194,8 @@ func Addrecipientaddressestotheglobalsuppressiongroup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -213,8 +213,8 @@ func RetrieveaGlobalSuppression() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -232,8 +232,8 @@ func DeleteaGlobalSuppression() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

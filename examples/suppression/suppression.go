@@ -26,8 +26,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -40,7 +40,7 @@ func Deleteblocks() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/suppression/blocks", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "delete_all": false, 
   "emails": [
     "example1@example.com", 
@@ -52,8 +52,8 @@ func Deleteblocks() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -71,8 +71,8 @@ func Retrieveaspecificblock() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -90,8 +90,8 @@ func Deleteaspecificblock() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -113,8 +113,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -127,7 +127,7 @@ func Deletebounces() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/suppression/bounces", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "delete_all": true, 
   "emails": [
     "example@example.com", 
@@ -139,8 +139,8 @@ func Deletebounces() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -158,8 +158,8 @@ func RetrieveaBounce() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -180,8 +180,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -205,8 +205,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -219,7 +219,7 @@ func Deleteinvalidemails() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/suppression/invalid_emails", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "delete_all": false, 
   "emails": [
     "example1@example.com", 
@@ -231,8 +231,8 @@ func Deleteinvalidemails() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -250,8 +250,8 @@ func Retrieveaspecificinvalidemail() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -269,8 +269,8 @@ func Deleteaspecificinvalidemail() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -288,8 +288,8 @@ func Retrieveaspecificspamreport() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -307,8 +307,8 @@ func Deleteaspecificspamreport() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -332,8 +332,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -346,7 +346,7 @@ func Deletespamreports() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/suppression/spam_reports", host, "v3")
   request.Method = "DELETE"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "delete_all": false, 
   "emails": [
     "example1@example.com", 
@@ -358,8 +358,8 @@ func Deletespamreports() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -383,8 +383,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

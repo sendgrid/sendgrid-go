@@ -15,7 +15,7 @@ func Createadomainwhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "automatic_security": false, 
   "custom_spf": true, 
   "default": true, 
@@ -32,8 +32,8 @@ func Createadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -58,8 +58,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -77,8 +77,8 @@ func Getthedefaultdomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -96,8 +96,8 @@ func Listthedomainwhitelabelassociatedwiththegivenuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -115,8 +115,8 @@ func Disassociateadomainwhitelabelfromagivenuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -129,7 +129,7 @@ func Updateadomainwhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "custom_spf": true, 
   "default": false
 }`)
@@ -138,8 +138,8 @@ func Updateadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -157,8 +157,8 @@ func Retrieveadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -176,8 +176,8 @@ func Deleteadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -190,7 +190,7 @@ func Associateadomainwhitelabelwithagivenuser() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{domain_id}/subuser", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "username": "jane@example.com"
 }`)
   response, err := sendgrid.API(request)
@@ -198,8 +198,8 @@ func Associateadomainwhitelabelwithagivenuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -212,7 +212,7 @@ func AddanIPtoadomainwhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/domains/{id}/ips", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "ip": "192.168.0.1"
 }`)
   response, err := sendgrid.API(request)
@@ -220,8 +220,8 @@ func AddanIPtoadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -239,8 +239,8 @@ func RemoveanIPfromadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -258,8 +258,8 @@ func Validateadomainwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -272,7 +272,7 @@ func CreateanIPwhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/ips", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "domain": "example.com", 
   "ip": "192.168.1.1", 
   "subdomain": "email"
@@ -282,8 +282,8 @@ func CreateanIPwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -306,8 +306,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -325,8 +325,8 @@ func RetrieveanIPwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -344,8 +344,8 @@ func DeleteanIPwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -363,8 +363,8 @@ func ValidateanIPwhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -377,7 +377,7 @@ func CreateaLinkWhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/links", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "default": true, 
   "domain": "example.com", 
   "subdomain": "mail"
@@ -391,8 +391,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -413,8 +413,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -435,8 +435,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -457,8 +457,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -479,8 +479,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -493,7 +493,7 @@ func UpdateaLinkWhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "default": true
 }`)
   response, err := sendgrid.API(request)
@@ -501,8 +501,8 @@ func UpdateaLinkWhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -520,8 +520,8 @@ func RetrieveaLinkWhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -539,8 +539,8 @@ func DeleteaLinkWhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -558,8 +558,8 @@ func ValidateaLinkWhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -572,7 +572,7 @@ func AssociateaLinkWhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/whitelabel/links/{link_id}/subuser", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "username": "jane@example.com"
 }`)
   response, err := sendgrid.API(request)
@@ -580,8 +580,8 @@ func AssociateaLinkWhitelabel() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

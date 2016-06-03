@@ -20,8 +20,8 @@ func Getausersaccountinformation() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -39,8 +39,8 @@ func Retrieveyourcreditbalance() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -53,7 +53,7 @@ func Updateyouraccountemailaddress() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/email", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "example@example.com"
 }`)
   response, err := sendgrid.API(request)
@@ -61,8 +61,8 @@ func Updateyouraccountemailaddress() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -80,8 +80,8 @@ func Retrieveyouraccountemailaddress() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -94,7 +94,7 @@ func Updateyourpassword() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/password", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "new_password": "new_password", 
   "old_password": "old_password"
 }`)
@@ -103,8 +103,8 @@ func Updateyourpassword() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -117,7 +117,7 @@ func Updateausersprofile() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/profile", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "city": "Orange", 
   "first_name": "Example", 
   "last_name": "User"
@@ -127,8 +127,8 @@ func Updateausersprofile() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -146,8 +146,8 @@ func Getausersprofile() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -160,7 +160,7 @@ func Cancelorpauseascheduledsend() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "batch_id": "YOUR_BATCH_ID", 
   "status": "pause"
 }`)
@@ -169,8 +169,8 @@ func Cancelorpauseascheduledsend() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -188,8 +188,8 @@ func Retrieveallscheduledsends() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -202,7 +202,7 @@ func Updateuserscheduledsendinformation() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/scheduled_sends/{batch_id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "status": "pause"
 }`)
   response, err := sendgrid.API(request)
@@ -210,8 +210,8 @@ func Updateuserscheduledsendinformation() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -229,8 +229,8 @@ func Retrievescheduledsend() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -248,8 +248,8 @@ func Deleteacancellationorpauseofascheduledsend() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -262,7 +262,7 @@ func UpdateEnforcedTLSsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/settings/enforced_tls", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "require_tls": true, 
   "require_valid_cert": false
 }`)
@@ -271,8 +271,8 @@ func UpdateEnforcedTLSsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -290,8 +290,8 @@ func RetrievecurrentEnforcedTLSsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -304,7 +304,7 @@ func Updateyourusername() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/username", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "username": "test_username"
 }`)
   response, err := sendgrid.API(request)
@@ -312,8 +312,8 @@ func Updateyourusername() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -331,8 +331,8 @@ func Retrieveyourusername() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -345,7 +345,7 @@ func UpdateEventNotificationSettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/settings", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "bounce": true, 
   "click": true, 
   "deferred": true, 
@@ -365,8 +365,8 @@ func UpdateEventNotificationSettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -384,8 +384,8 @@ func RetrieveEventWebhooksettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -398,7 +398,7 @@ func TestEventNotificationSettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/user/webhooks/event/test", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "url": "url"
 }`)
   response, err := sendgrid.API(request)
@@ -406,8 +406,8 @@ func TestEventNotificationSettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -425,8 +425,8 @@ func RetrieveParseWebhooksettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -451,8 +451,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

@@ -15,7 +15,7 @@ func CreateSubuser() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "John@example.com", 
   "ips": [
     "1.1.1.1", 
@@ -29,8 +29,8 @@ func CreateSubuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -53,8 +53,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -75,8 +75,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -102,8 +102,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -129,8 +129,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -157,8 +157,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -171,7 +171,7 @@ func Enabledisableasubuser() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "disabled": false
 }`)
   response, err := sendgrid.API(request)
@@ -179,8 +179,8 @@ func Enabledisableasubuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -198,8 +198,8 @@ func Deleteasubuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -212,7 +212,7 @@ func UpdateIPsassignedtoasubuser() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/ips", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` [
+  request.Body = []byte(` [
   "127.0.0.1"
 ]`)
   response, err := sendgrid.API(request)
@@ -220,8 +220,8 @@ func UpdateIPsassignedtoasubuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -234,7 +234,7 @@ func UpdateMonitorSettingsforasubuser() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "example@example.com", 
   "frequency": 500
 }`)
@@ -243,8 +243,8 @@ func UpdateMonitorSettingsforasubuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -257,7 +257,7 @@ func Createmonitorsettings() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/subusers/{subuser_name}/monitor", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "email": "example@example.com", 
   "frequency": 50000
 }`)
@@ -266,8 +266,8 @@ func Createmonitorsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -285,8 +285,8 @@ func Retrievemonitorsettingsforasubuser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -304,8 +304,8 @@ func Deletemonitorsettings() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -330,8 +330,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

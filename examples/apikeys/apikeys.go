@@ -15,7 +15,7 @@ func CreateAPIkeys() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "My API Key", 
   "scopes": [
     "mail.send", 
@@ -28,8 +28,8 @@ func CreateAPIkeys() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -47,8 +47,8 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -61,7 +61,7 @@ func UpdatethenamescopesofanAPIKey() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "A New Hope", 
   "scopes": [
     "user.profile.read", 
@@ -73,8 +73,8 @@ func UpdatethenamescopesofanAPIKey() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -87,7 +87,7 @@ func UpdateAPIkeys() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/api_keys/{api_key_id}", host, "v3")
   request.Method = "PATCH"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "A New Hope"
 }`)
   response, err := sendgrid.API(request)
@@ -95,8 +95,8 @@ func UpdateAPIkeys() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -114,8 +114,8 @@ func RetrieveanexistingAPIKey() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -133,8 +133,8 @@ func DeleteAPIkeys() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 

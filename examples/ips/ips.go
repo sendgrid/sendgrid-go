@@ -27,8 +27,8 @@ request.QueryParams = queryParams
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -46,8 +46,8 @@ func RetrieveallassignedIPs() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -60,7 +60,7 @@ func CreateanIPpool() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "marketing"
 }`)
   response, err := sendgrid.API(request)
@@ -68,8 +68,8 @@ func CreateanIPpool() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -87,8 +87,8 @@ func RetrieveallIPpools() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -101,7 +101,7 @@ func UpdateanIPpoolsname() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}", host, "v3")
   request.Method = "PUT"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "name": "new_pool_name"
 }`)
   response, err := sendgrid.API(request)
@@ -109,8 +109,8 @@ func UpdateanIPpoolsname() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -128,8 +128,8 @@ func RetrieveallIPsinaspecifiedpool() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -147,8 +147,8 @@ func DeleteanIPpool() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -161,7 +161,7 @@ func AddanIPaddresstoapool() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/pools/{pool_name}/ips", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "ip": "0.0.0.0"
 }`)
   response, err := sendgrid.API(request)
@@ -169,8 +169,8 @@ func AddanIPaddresstoapool() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -188,8 +188,8 @@ func RemoveanIPaddressfromapool() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -202,7 +202,7 @@ func AddanIPtowarmup() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/ips/warmup", host, "v3")
   request.Method = "POST"
-  request.RequestBody = []byte(` {
+  request.Body = []byte(` {
   "ip": "0.0.0.0"
 }`)
   response, err := sendgrid.API(request)
@@ -210,8 +210,8 @@ func AddanIPtowarmup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -229,8 +229,8 @@ func RetrieveallIPscurrentlyinwarmup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -248,8 +248,8 @@ func RetrievewarmupstatusforaspecificIPaddress() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -267,8 +267,8 @@ func RemoveanIPfromwarmup() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
@@ -286,8 +286,8 @@ func RetrieveallIPpoolsanIPaddressbelongsto() {
     fmt.Println(err)
   } else {
     fmt.Println(response.StatusCode)
-    fmt.Println(response.ResponseBody)
-    fmt.Println(response.ResponseHeaders)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
   }
 }
 
