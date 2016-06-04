@@ -1,0 +1,12 @@
+{
+	"ImportPath": "github.com/sendgrid/sendgrid-go",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v62",
+	"Deps": [
+		{
+			"ImportPath": "github.com/sendgrid/rest",
+			"Comment": "v2.0.0",
+			"Rev": "7c7b4914b7c950b7f7ba48de93f91423dde3d4c9"
+		}
+	]
+}
