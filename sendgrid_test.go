@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 	} else {
 		// By default prism runs on localhost:4010
 		// Leanrn how to configure prism here: https://designer.stoplight.io/docs/prism
-		testHost = "http://localhost:4011"
+		testHost = "http://localhost:4010"
 	}
 
 	prismPath += "/prism"
