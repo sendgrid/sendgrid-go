@@ -1,7 +1,6 @@
 package sendgrid
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -31,17 +30,17 @@ func TestMain(m *testing.M) {
 	prismCmd = exec.Command(prismPath, prismArgs...)
 
 	// If you want to see prism's ouput uncomment below.
-	prismReader, err := prismCmd.StdoutPipe()
-	if err != nil {
-		fmt.Println("Error creating StdoutPipe for Cmd", err)
-	}
+	// prismReader, err := prismCmd.StdoutPipe()
+	// if err != nil {
+	// 	fmt.Println("Error creating StdoutPipe for Cmd", err)
+	// }
 
-	scanner := bufio.NewScanner(prismReader)
-	go func() {
-		for scanner.Scan() {
-			fmt.Printf("prism | %s\n", scanner.Text())
-		}
-	}()
+	// scanner := bufio.NewScanner(prismReader)
+	// go func() {
+	// 	for scanner.Scan() {
+	// 		fmt.Printf("prism | %s\n", scanner.Text())
+	// 	}
+	// }()
 
 	go func() {
 		fmt.Println("Start Prism")
