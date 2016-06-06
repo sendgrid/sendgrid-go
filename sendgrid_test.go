@@ -18,13 +18,9 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	if os.Getenv("TRAVIS") == "true" {
-		testHost = os.Getenv("MOCK_HOST")
-	} else {
-		// By default prism runs on localhost:4010
-		// Leanrn how to configure prism here: https://designer.stoplight.io/docs/prism
-		testHost = "http://localhost:4010"
-	}
+	// By default prism runs on localhost:4010
+	// Leanrn how to configure prism here: https://designer.stoplight.io/docs/prism
+	testHost = "http://localhost:4010"
 
 	prismPath += "/prism"
 	if runtime.GOOS == "windows" {
