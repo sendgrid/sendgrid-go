@@ -18,11 +18,6 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	defer func() {
-		if prismCmd != nil && prismCmd.Process != nil {
-			prismCmd.Process.Kill()
-		}
-	}()
 	if os.Getenv("TRAVIS") == "true" {
 		testHost = os.Getenv("MOCK_HOST")
 	} else {
@@ -63,7 +58,13 @@ func TestMain(m *testing.M) {
 	duration := time.Second * 15
 	time.Sleep(duration)
 
-	os.Exit(m.Run())
+	exitCode := m.Run()
+	if prismCmd != nil {
+		prismCmd.Process.Kill()
+		prismCmd = nil
+	}
+
+	os.Exit(exitCode)
 }
 
 func TestSendGridVersion(t *testing.T) {
