@@ -2,7 +2,6 @@ package main
 // This is an example of the Mail helper, located here: /helpers/mail
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
@@ -193,7 +192,7 @@ func kitchenSink() []byte {
 }
 
 func sendHelloEmail() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
+	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 	request.Method = "POST"
 	var Body = helloEmail()
 	request.Body = Body
@@ -208,7 +207,7 @@ func sendHelloEmail() {
 }
 
 func sendKitchenSink() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
+	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 	request.Method = "POST"
 	var Body = kitchenSink()
 	request.Body = Body
