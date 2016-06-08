@@ -1,5 +1,10 @@
 package mail
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type SGMailV3 struct {
 	From             *Email             `json:"from,omitempty"`
 	Subject          string             `json:"subject,omitempty"`
@@ -145,6 +150,14 @@ func NewV3MailInit(from *Email, subject string, to *Email, content *Content) *SG
 	m.AddPersonalizations(p)
 	m.AddContent(content)
 	return m
+}
+
+func GetRequestBody(m *SGMailV3) []byte {
+	b, err := json.Marshal(m)
+	if err != nil {
+			fmt.Println(err)
+	}
+	return []byte(string(b))
 }
 
 func (s *SGMailV3) AddPersonalizations(p ...*Personalization) *SGMailV3 {

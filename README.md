@@ -83,7 +83,7 @@ import "github.com/sendgrid/sendgrid-go"
 
 ## Dependencies
 
-- The SendGrid Service, starting at the [free level](https://sendgrid.com/free?source=sendgrid-go))
+- The SendGrid Service, starting at the [free level](https://sendgrid.com/free?source=sendgrid-go)
 - [rest](https://github.com/sendgrid/rest)
 
 # Quick Start
@@ -102,14 +102,10 @@ subject := "Hello World from the SendGrid Go Library"
 to := mail.NewEmail("Example User", "test@example.com")
 content := mail.NewContent("text/plain", "some text here")
 m := mail.NewV3MailInit(from, subject, to, content)
-b, err := json.Marshal(m)
-if err != nil {
-    fmt.Println(err)
-}
+
 request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 request.Method = "POST"
-var requestBody = []byte(string(b))
-request.Body = requestBody
+request.Body = mail.GetRequestBody(m)
 response, err := sendgrid.API(request)
 if err != nil {
     fmt.Println(err)

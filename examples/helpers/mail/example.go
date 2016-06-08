@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	//"../../.." // to test against the downloaded version
+	//"../../../../sendgrid-go/helpers/mail" // to test against the downloaded version
 	"os"
 )
 
 // Minimum required to send an email
-func helloEmail() string {
+func helloEmail() []byte {
 
 	address := "test@example.com"
 	name := "Example User"
@@ -25,16 +27,11 @@ func helloEmail() string {
 	name = "Example User"
 	email := mail.NewEmail(name, address)
 	m.Personalizations[0].AddTos(email)
-
-	b, err := json.Marshal(m)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return string(b)
+	return mail.GetRequestBody(m)
 }
 
 // Fully populated Mail object
-func kitchenSink() string {
+func kitchenSink() []byte {
 	m := mail.NewV3Mail()
 	address := "test@example.com"
 	name := "Example User"
@@ -192,17 +189,13 @@ func kitchenSink() string {
 	replyToEmail := mail.NewEmail("Example User", "test@example.com")
 	m.SetReplyTo(replyToEmail)
 
-	b, err := json.Marshal(m)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return string(b)
+	return mail.GetRequestBody(m)
 }
 
 func sendHelloEmail() {
-	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 	request.Method = "POST"
-	var Body = []byte(helloEmail())
+	var Body = helloEmail()
 	request.Body = Body
 	response, err := sendgrid.API(request)
 	if err != nil {
@@ -215,9 +208,9 @@ func sendHelloEmail() {
 }
 
 func sendKitchenSink() {
-	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send/beta", "https://api.sendgrid.com")
 	request.Method = "POST"
-	var Body = []byte(kitchenSink())
+	var Body = kitchenSink()
 	request.Body = Body
 	response, err := sendgrid.API(request)
 	if err != nil {
