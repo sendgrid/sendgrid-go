@@ -15,13 +15,6 @@ func RetrieveallIPaddresses() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/ips", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["subuser"] = "test_string"
-queryParams["ip"] = "test_string"
-queryParams["limit"] = "1"
-queryParams["exclude_whitelabels"] = "true"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

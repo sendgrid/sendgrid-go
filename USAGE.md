@@ -70,6 +70,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add one or more IPs to the whitelist
 
 **This endpoint allows you to add one or more IP addresses to your IP whitelist.**
@@ -107,6 +108,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a list of currently whitelisted IPs
 
 **This endpoint allows you to retrieve a list of IP addresses that are currently whitelisted.**
@@ -129,6 +131,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Remove one or more IPs from the whitelist
 
 **This endpoint allows you to remove one or more IPs from your IP whitelist.**
@@ -160,6 +163,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a specific whitelisted IP
 
 **This endpoint allows you to retreive a specific IP address that has been whitelisted.**
@@ -184,6 +188,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Remove a specific IP from the whitelist
 
 **This endpoint allows you to remove a specific IP address from your IP whitelist.**
@@ -208,6 +213,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="api_keys"></a>
 # API KEYS
 
@@ -245,6 +251,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all API Keys belonging to the authenticated user
 
 **This endpoint allows you to retrieve all API Keys that belong to the authenticated user.**
@@ -265,6 +272,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update the name & scopes of an API Key
 
 **This endpoint allows you to update the name and scopes of a given API key.**
@@ -296,6 +304,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update API keys
 
 **This endpoint allows you to update the name of an existing API Key.**
@@ -327,6 +336,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve an existing API Key
 
 **This endpoint allows you to retrieve a single api key.**
@@ -347,6 +357,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete API keys
 
 **This endpoint allows you to revoke an existing API Key**
@@ -375,12 +386,13 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="asm"></a>
 # ASM
 
-## Create a Group
+## Create a new suppression group
 
-**This endoint allows you to create a new suppression group.**
+**This endpoint allows you to create a new suppression group.**
 
 Suppression groups, or unsubscribe groups, are specific types or categories of email that you would like your recipients to be able to unsubscribe from. For example: Daily Newsletters, Invoices, System Alerts.
 
@@ -394,9 +406,9 @@ Each user can create up to 25 different suppression groups.
 request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
 request.Method = "POST"
 request.Body = []byte(` {
-  "description": "A group description",
-  "is_default": false,
-  "name": "A group name"
+  "description": "Suggestions for products our users might like.",
+  "is_default": true,
+  "name": "Product Suggestions"
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
@@ -407,21 +419,21 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
-## Retrieve all suppression groups associated with the user.
 
-**This endpoint allows you to retrieve a list of all suppression groups created by this user.**
+## Retrieve information about multiple suppression groups
 
-Suppression groups, or unsubscribe groups, are specific types or categories of email that you would like your recipients to be able to unsubscribe from. For example: Daily Newsletters, Invoices, System Alerts.
+**This endpoint allows you to retrieve information about multiple suppression groups.**
 
-The **name** and **description** of the unsubscribe group will be visible by recipients when they are managing their subscriptions.
-
-Each user can create up to 25 different suppression groups.
+This endpoint will return information for each group ID that you include in your request. To add a group ID to your request, simply append `&id=` followed by the group ID.
 
 ### GET /asm/groups
 
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
 request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["id"] = "1"
+request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
   fmt.Println(err)
@@ -431,6 +443,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a suppression group.
 
 **This endpoint allows you to update or change a suppression group.**
@@ -460,6 +473,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Get information on a single suppression group.
 
 **This endpoint allows you to retrieve a single suppression group.**
@@ -484,6 +498,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a suppression group.
 
 **This endpoint allows you to delete a suppression group.**
@@ -510,6 +525,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add suppressions to a suppression group
 
 **This endpoint allows you to add email addresses to an unsubscribe group.**
@@ -538,6 +554,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all suppressions for a suppression group
 
 **This endpoint allows you to retrieve all suppressed email addresses belonging to the given group.**
@@ -558,6 +575,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a suppression from a suppression group
 
 **This endpoint allows you to remove a suppressed email address from the given suppression group.**
@@ -578,6 +596,28 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
+## Retrieve all suppressions
+
+**This endpoint allows you to retrieve a list of all suppressions.**
+
+Suppressions are email addresses that can be added to [groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html) to prevent certain types of emails from being delivered to those addresses.
+
+### GET /asm/suppressions
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
 ## Add recipient addresses to the global suppression group.
 
 **This endpoint allows you to add one or more email addresses to the global suppressions group.**
@@ -604,6 +644,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a Global Suppression
 
 **This endpoint allows you to retrieve a global suppression. You can also use this endpoint to confirm if an email address is already globally suppresed.**
@@ -626,6 +667,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a Global Suppression
 
 **This endpoint allows you to remove an email address from the global suppressions group.**
@@ -646,6 +688,28 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
+## Retrieve all suppression groups for an email address
+
+**This endpoint will return a list of all suppression groups, indicating if the given email address is suppressed for each group.**
+
+Suppressions are email addresses that can be added to [groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html) to prevent certain types of emails from being delivered to those addresses.
+
+### GET /asm/suppressions/{email}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/{email}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
 <a name="browsers"></a>
 # BROWSERS
 
@@ -679,6 +743,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="campaigns"></a>
 # CAMPAIGNS
 
@@ -728,6 +793,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all Campaigns
 
 **This endpoint allows you to retrieve a list of all of your campaigns.**
@@ -758,6 +824,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a Campaign
 
 Update a campaign. This is especially useful if you only set up the campaign using POST /campaigns, but didn't set many of the parameters.
@@ -789,6 +856,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a single campaign
 
 **This endpoint allows you to retrieve a specific campaign.**
@@ -813,6 +881,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a Campaign
 
 **This endpoint allows you to delete a specific campaign.**
@@ -837,6 +906,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a Scheduled Campaign
 
 **This endpoint allows to you change the scheduled time and date for a campaign to be sent.**
@@ -862,6 +932,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Schedule a Campaign
 
 **This endpoint allows you to schedule a specific date and time for your campaign to be sent.**
@@ -887,6 +958,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## View Scheduled Time of a Campaign
 
 **This endpoint allows you to retrieve the date and time that the given campaign has been scheduled to be sent.**
@@ -909,6 +981,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Unschedule a Scheduled Campaign
 
 **This endpoint allows you to unschedule a campaign that has already been scheduled to be sent.**
@@ -934,6 +1007,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Send a Campaign
 
 **This endpoint allows you to immediately send a campaign at the time you make the API call.**
@@ -958,6 +1032,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Send a Test Campaign
 
 **This endpoint allows you to send a test campaign.**
@@ -985,6 +1060,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="categories"></a>
 # CATEGORIES
 
@@ -1013,6 +1089,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Email Statistics for Categories
 
 **This endpoint allows you to retrieve all of your email statistics for each of your categories.**
@@ -1043,6 +1120,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?]
 
 **This endpoint allows you to retrieve the total sum of each email statistic for every category over the given date range.**
@@ -1074,6 +1152,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="clients"></a>
 # CLIENTS
 
@@ -1104,6 +1183,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve stats by a specific client type.
 
 **This endpoint allows you to retrieve your email statistics segmented by a specific client type.**
@@ -1137,6 +1217,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="contactdb"></a>
 # CONTACTDB
 
@@ -1164,6 +1245,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all custom fields
 
 **This endpoint allows you to retrieve all custom fields.**
@@ -1184,6 +1266,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a Custom Field
 
 **This endpoint allows you to retrieve a custom field by ID.**
@@ -1204,6 +1287,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a Custom Field
 
 **This endpoint allows you to delete a custom field by ID.**
@@ -1224,6 +1308,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create a List
 
 **This endpoint allows you to create a list for your recipients.**
@@ -1247,6 +1332,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all lists
 
 **This endpoint allows you to retrieve all of your recipient lists. If you don't have any lists, an empty array will be returned.**
@@ -1267,6 +1353,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete Multiple lists
 
 **This endpoint allows you to delete multiple recipient lists.**
@@ -1293,6 +1380,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a List
 
 **This endpoint allows you to update the name of one of your recipient lists.**
@@ -1320,6 +1408,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a single list
 
 This endpoint allows you to retrieve a single recipient list.
@@ -1343,6 +1432,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a List
 
 **This endpoint allows you to delete a specific recipient list with the given ID.**
@@ -1366,6 +1456,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add Multiple Recipients to a List
 
 **This endpoint allows you to add multiple recipients to a list.**
@@ -1392,6 +1483,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all recipients on a List
 
 **This endpoint allows you to retrieve all recipients on the list with the given ID.**
@@ -1417,6 +1509,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add a Single Recipient to a List
 
 **This endpoint allows you to add a single recipient to a list.**
@@ -1437,6 +1530,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a Single Recipient from a Single List
 
 **This endpoint allows you to delete a single recipient from a list.**
@@ -1461,6 +1555,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Recipient
 
 **This endpoint allows you to update one or more recipients.**
@@ -1492,6 +1587,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add recipients
 
 **This endpoint allows you to add a Marketing Campaigns recipient.**
@@ -1528,6 +1624,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve recipients
 
 **This endpoint allows you to retrieve all of your Marketing Campaigns recipients.**
@@ -1555,6 +1652,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete Recipient
 
 **This endpoint allows you to deletes one or more recipients.**
@@ -1581,6 +1679,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve the count of billable recipients
 
 **This endpoint allows you to retrieve the number of Marketing Campaigns recipients that you will be billed for.**
@@ -1603,6 +1702,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a Count of Recipients
 
 **This endpoint allows you to retrieve the total number of Marketing Campaigns recipients.**
@@ -1623,6 +1723,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve recipients matching search criteria
 
 **This endpoint allows you to perform a search on all of your Marketing Campaigns recipients.**
@@ -1655,6 +1756,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a single recipient
 
 **This endpoint allows you to retrieve a single recipient by ID from your contact database.**
@@ -1675,6 +1777,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a Recipient
 
 **This endpoint allows you to delete a single recipient with the given ID from your contact database.**
@@ -1695,6 +1798,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve the lists that a recipient is on
 
 **This endpoint allows you to retrieve the lists that a given recipient belongs to.**
@@ -1717,6 +1821,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve reserved fields
 
 **This endpoint allows you to list all fields that are reserved and can't be used for custom field names.**
@@ -1737,6 +1842,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create a Segment
 
 **This endpoint allows you to create a segment.**
@@ -1801,6 +1907,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all segments
 
 **This endpoint allows you to retrieve all of your segments.**
@@ -1823,6 +1930,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a segment
 
 **This endpoint allows you to update a segment.**
@@ -1860,6 +1968,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a segment
 
 **This endpoint allows you to retrieve a single segment with the given ID.**
@@ -1885,6 +1994,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a segment
 
 **This endpoint allows you to delete a segment from your recipients database.**
@@ -1912,6 +2022,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve recipients on a segment
 
 **This endpoint allows you to retrieve all of the recipients in a segment with the given ID.**
@@ -1938,6 +2049,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="devices"></a>
 # DEVICES
 
@@ -1979,6 +2091,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="geo"></a>
 # GEO
 
@@ -2012,6 +2125,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="ips"></a>
 # IPS
 
@@ -2044,6 +2158,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all assigned IPs
 
 **This endpoint allows you to retrieve only assigned IP addresses.**
@@ -2064,6 +2179,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create an IP pool.
 
 **This endpoint allows you to create an IP pool.**
@@ -2093,6 +2209,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all IP pools.
 
 **This endpoint allows you to retreive all of your IP pools.**
@@ -2117,6 +2234,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update an IP pools name.
 
 **This endpoint allows you to update the name of an IP pool.**
@@ -2144,6 +2262,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all IPs in a specified pool.
 
 **This endpoint allows you to list all of the IP addresses that are in a specific IP pool.**
@@ -2168,6 +2287,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete an IP pool.
 
 **This endpoint allows you to delete an IP pool.**
@@ -2192,6 +2312,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add an IP address to a pool
 
 **This endpoint allows you to add an IP address to an IP pool.**
@@ -2217,6 +2338,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Remove an IP address from a pool.
 
 **This endpoint allows you to remove an IP address from an IP pool.**
@@ -2239,6 +2361,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add an IP to warmup
 
 **This endpoint allows you to enter an IP address into warmup mode.**
@@ -2264,6 +2387,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all IPs currently in warmup
 
 **This endpoint allows you to retrieve all of your IP addresses that are currently warming up.**
@@ -2286,6 +2410,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve warmup status for a specific IP address
 
 **This endpoint allows you to retrieve the warmup status for a specific IP address.**
@@ -2308,6 +2433,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Remove an IP from warmup
 
 **This endpoint allows you to remove an IP address from warmup mode.**
@@ -2330,6 +2456,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all IP pools an IP address belongs to
 
 **This endpoint allows you to see which IP pools a particular IP address has been added to.**
@@ -2352,6 +2479,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="mail"></a>
 # MAIL
 
@@ -2379,6 +2507,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Validate batch ID
 
 **This endpoint allows you to validate a batch ID.**
@@ -2403,6 +2532,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## v3 Mail Send Beta
 
 This endpoint allows you to send email over SendGrids v3 Web API, the most recent version of our API. If you are looking for documentation about the v2 Mail Send endpoint, please see our [v2 API Reference](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
@@ -2415,6 +2545,7 @@ For an overview of the v3 Mail Send endpoint, please visit our [v3 API Reference
 For more detailed information about how to use the v3 Mail Send endpoint, please visit our [Classroom](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/index.html).
 
 ### POST /mail/send/beta
+This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/v3beta/helpers/mail/README.md).
 
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/mail/send/beta", host)
@@ -2571,6 +2702,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="mail_settings"></a>
 # MAIL SETTINGS
 
@@ -2598,6 +2730,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update address whitelist mail settings
 
 **This endpoint allows you to update your current email address whitelist settings.**
@@ -2627,6 +2760,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve address whitelist mail settings
 
 **This endpoint allows you to retrieve your current email address whitelist settings.**
@@ -2649,6 +2783,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update BCC mail settings
 
 **This endpoint allows you to update your current BCC mail settings.**
@@ -2675,6 +2810,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all BCC mail settings
 
 **This endpoint allows you to retrieve your current BCC mail settings.**
@@ -2697,6 +2833,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update bounce purge mail settings
 
 **This endpoint allows you to update your current bounce purge settings.**
@@ -2724,6 +2861,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve bounce purge mail settings
 
 **This endpoint allows you to retrieve your current bounce purge settings.**
@@ -2746,6 +2884,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update footer mail settings
 
 **This endpoint allows you to update your current Footer mail settings.**
@@ -2773,6 +2912,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve footer mail settings
 
 **This endpoint allows you to retrieve your current Footer mail settings.**
@@ -2795,6 +2935,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update forward bounce mail settings
 
 **This endpoint allows you to update your current bounce forwarding mail settings.**
@@ -2821,6 +2962,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve forward bounce mail settings
 
 **This endpoint allows you to retrieve your current bounce forwarding mail settings.**
@@ -2843,6 +2985,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update forward spam mail settings
 
 **This endpoint allows you to update your current Forward Spam mail settings.**
@@ -2869,6 +3012,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve forward spam mail settings
 
 **This endpoint allows you to retrieve your current Forward Spam mail settings.**
@@ -2891,6 +3035,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update plain content mail settings
 
 **This endpoint allows you to update your current Plain Content mail settings.**
@@ -2916,6 +3061,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve plain content mail settings
 
 **This endpoint allows you to retrieve your current Plain Content mail settings.**
@@ -2938,6 +3084,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update spam check mail settings
 
 **This endpoint allows you to update your current spam checker mail settings.**
@@ -2965,6 +3112,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve spam check mail settings
 
 **This endpoint allows you to retrieve your current Spam Checker mail settings.**
@@ -2987,6 +3135,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update template mail settings
 
 **This endpoint allows you to update your current legacy email template settings.**
@@ -3015,6 +3164,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve legacy template mail settings
 
 **This endpoint allows you to retrieve your current legacy email template settings.**
@@ -3039,6 +3189,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="mailbox_providers"></a>
 # MAILBOX PROVIDERS
 
@@ -3072,6 +3223,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="partner_settings"></a>
 # PARTNER SETTINGS
 
@@ -3099,6 +3251,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Updates New Relic partner settings.
 
 **This endpoint allows you to update or change your New Relic partner settings.**
@@ -3126,6 +3279,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Returns all New Relic partner settings.
 
 **This endpoint allows you to retrieve your current New Relic partner settings.**
@@ -3148,6 +3302,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="scopes"></a>
 # SCOPES
 
@@ -3171,6 +3326,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="stats"></a>
 # STATS
 
@@ -3201,6 +3357,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="subusers"></a>
 # SUBUSERS
 
@@ -3236,6 +3393,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## List all Subusers
 
 This endpoint allows you to retrieve a list of all of your subusers. You can choose to retrieve specific subusers as well as limit the results that come back from the API.
@@ -3264,6 +3422,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Subuser Reputations
 
 Subuser sender reputations give a good idea how well a sender is doing with regards to how recipients and recipient servers react to the mail that is being received. When a bounce, spam report, or other negative action happens on a sent email, it will effect your sender rating.
@@ -3287,6 +3446,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve email statistics for your subusers.
 
 **This endpoint allows you to retrieve the email statistics for the given subusers.**
@@ -3319,6 +3479,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve monthly stats for all subusers
 
 **This endpoint allows you to retrieve the monthly email statistics for all subusers over the given date range.**
@@ -3352,6 +3513,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ##  Retrieve the totals for each email statistic metric for all subusers.
 
 **This endpoint allows you to retrieve the total sums of each email statistic metric for all subusers over the given date range.**
@@ -3384,6 +3546,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Enable/disable a subuser
 
 This endpoint allows you to enable or disable a subuser.
@@ -3410,6 +3573,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a subuser
 
 This endpoint allows you to delete a subuser. This is a permanent action, once deleted a subuser cannot be retrieved.
@@ -3433,6 +3597,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update IPs assigned to a subuser
 
 Each subuser should be assigned to an IP address, from which all of this subuser's mail will be sent. Often, this is the same IP as the parent account, but each subuser can have their own, or multiple, IP addresses as well.
@@ -3459,6 +3624,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Monitor Settings for a subuser
 
 Subuser monitor settings allow you to receive a sample of an outgoing message by a specific customer at a specific frequency of emails.
@@ -3481,6 +3647,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create monitor settings
 
 Subuser monitor settings allow you to receive a sample of an outgoing message by a specific customer at a specific frequency of emails.
@@ -3503,6 +3670,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve monitor settings for a subuser
 
 Subuser monitor settings allow you to receive a sample of an outgoing message by a specific customer at a specific frequency of emails.
@@ -3521,6 +3689,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete monitor settings
 
 Subuser monitor settings allow you to receive a sample of an outgoing message by a specific customer at a specific frequency of emails.
@@ -3539,6 +3708,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve the monthly email statistics for a single subuser
 
 **This endpoint allows you to retrive the monthly email statistics for a specific subuser.**
@@ -3571,6 +3741,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="suppression"></a>
 # SUPPRESSION
 
@@ -3602,6 +3773,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete blocks
 
 **This endpoint allows you to delete all email addresses on your blocks list.**
@@ -3636,6 +3808,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a specific block
 
 **This endpoint allows you to retrieve a specific email address from your blocks list.**
@@ -3658,6 +3831,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a specific block
 
 **This endpoint allows you to delete a specific email address from your blocks list.**
@@ -3680,6 +3854,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all bounces
 
 **This endpoint allows you to retrieve all of your bounces.**
@@ -3709,6 +3884,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete bounces
 
 **This endpoint allows you to delete all of your bounces. You can also use this endpoint to remove a specific email address from your bounce list.**
@@ -3744,6 +3920,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a Bounce
 
 **This endpoint allows you to retrieve a specific bounce for a given email address.**
@@ -3770,6 +3947,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a bounce
 
 **This endpoint allows you to remove an email address from your bounce list.**
@@ -3799,6 +3977,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all invalid emails
 
 **This endpoint allows you to retrieve a list of all invalid email addresses.**
@@ -3829,6 +4008,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete invalid emails
 
 **This endpoint allows you to remove email addresses from your invalid email address list.**
@@ -3865,6 +4045,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a specific invalid email
 
 **This endpoint allows you to retrieve a specific invalid email addresses.**
@@ -3889,6 +4070,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a specific invalid email
 
 **This endpoint allows you to remove a specific email address from the invalid email address list.**
@@ -3913,6 +4095,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a specific spam report
 
 **This endpoint allows you to retrieve a specific spam report.**
@@ -3935,6 +4118,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a specific spam report
 
 **This endpoint allows you to delete a specific spam report.**
@@ -3957,6 +4141,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all spam reports
 
 **This endpoint allows you to retrieve all spam reports.**
@@ -3985,6 +4170,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete spam reports
 
 **This endpoint allows you to delete your spam reports.**
@@ -4019,6 +4205,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all global suppressions
 
 **This endpoint allows you to retrieve a list of all email address that are globally suppressed.**
@@ -4045,6 +4232,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="templates"></a>
 # TEMPLATES
 
@@ -4073,6 +4261,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all transactional templates.
 
 **This endpoint allows you to retrieve all transactional templates.**
@@ -4095,6 +4284,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Edit a transactional template.
 
 **This endpoint allows you to edit a transactional template.**
@@ -4121,6 +4311,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a single transactional template.
 
 **This endpoint allows you to retrieve a single transactional template.**
@@ -4144,6 +4335,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a template.
 
 **This endpoint allows you to delete a transactional template.**
@@ -4167,6 +4359,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create a new transactional template version.
 
 **This endpoint allows you to create a new version of a template.**
@@ -4198,6 +4391,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Edit a transactional template version.
 
 **This endpoint allows you to edit a version of one of your transactional templates.**
@@ -4233,6 +4427,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a specific transactional template version.
 
 **This endpoint allows you to retrieve a specific version of a template.**
@@ -4261,6 +4456,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a transactional template version.
 
 **This endpoint allows you to delete one of your transactional template versions.**
@@ -4289,6 +4485,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Activate a transactional template version.
 
 **This endpoint allows you to activate a version of one of your templates.**
@@ -4318,6 +4515,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="tracking_settings"></a>
 # TRACKING SETTINGS
 
@@ -4347,6 +4545,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Click Tracking Settings
 
 **This endpoint allows you to change your current click tracking setting. You can enable, or disable, click tracking using this endpoint.**
@@ -4372,6 +4571,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Click Track Settings
 
 **This endpoint allows you to retrieve your current click tracking setting.**
@@ -4394,6 +4594,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Google Analytics Settings
 
 **This endpoint allows you to update your current setting for Google Analytics.**
@@ -4428,6 +4629,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Google Analytics Settings
 
 **This endpoint allows you to retrieve your current setting for Google Analytics.**
@@ -4454,6 +4656,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Open Tracking Settings
 
 **This endpoint allows you to update your current settings for open tracking.**
@@ -4481,6 +4684,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Get Open Tracking Settings
 
 **This endpoint allows you to retrieve your current settings for open tracking.**
@@ -4505,6 +4709,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Subscription Tracking Settings
 
 **This endpoint allows you to update your current settings for subscription tracking.**
@@ -4537,6 +4742,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Subscription Tracking Settings
 
 **This endpoint allows you to retrieve your current settings for subscription tracking.**
@@ -4561,6 +4767,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="user"></a>
 # USER
 
@@ -4590,6 +4797,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve your credit balance
 
 **This endpoint allows you to retrieve the current credit balance for your account.**
@@ -4610,6 +4818,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update your account email address
 
 **This endpoint allows you to update the email address currently on file for your account.**
@@ -4637,6 +4846,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve your account email address
 
 **This endpoint allows you to retrieve the email address currently on file for your account.**
@@ -4661,6 +4871,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update your password
 
 **This endpoint allows you to update your password.**
@@ -4689,6 +4900,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a user's profile
 
 **This endpoint allows you to update your current profile details.**
@@ -4720,6 +4932,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Get a user's profile
 
 Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
@@ -4742,6 +4955,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Cancel or pause a scheduled send
 
 **This endpoint allows you to cancel or pause an email that has been scheduled to be sent.**
@@ -4769,6 +4983,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all scheduled sends
 
 **This endpoint allows you to retrieve all cancel/paused scheduled send information.**
@@ -4789,6 +5004,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update user scheduled send information
 
 **This endpoint allows you to update the status of a scheduled send for the given `batch_id`.**
@@ -4812,6 +5028,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve scheduled send
 
 **This endpoint allows you to retrieve the cancel/paused scheduled send information for a specific `batch_id`.**
@@ -4832,6 +5049,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a cancellation or pause of a scheduled send
 
 **This endpoint allows you to delete the cancellation/pause of a scheduled send.**
@@ -4852,6 +5070,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Enforced TLS settings
 
 **This endpoint allows you to update your current Enforced TLS settings.**
@@ -4878,6 +5097,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve current Enforced TLS settings.
 
 **This endpoint allows you to retrieve your current Enforced TLS settings.**
@@ -4900,6 +5120,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update your username
 
 **This endpoint allows you to update the username for your account.**
@@ -4927,6 +5148,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve your username
 
 **This endpoint allows you to retrieve your current account username.**
@@ -4951,6 +5173,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update Event Notification Settings
 
 **This endpoint allows you to update your current event webhook settings.**
@@ -4990,6 +5213,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Event Webhook settings
 
 **This endpoint allows you to retrieve your current event webhook settings.**
@@ -5014,6 +5238,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Test Event Notification Settings
 
 **This endpoint allows you to test your event webhook by sending a fake event notification post to the provided URL.**
@@ -5039,6 +5264,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Parse Webhook settings
 
 **This endpoint allows you to retrieve your current inbound parse webhook settings.**
@@ -5059,6 +5285,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieves Inbound Parse Webhook statistics.
 
 **This endpoint allows you to retrieve the statistics for your Parse Webhook useage.**
@@ -5088,6 +5315,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 <a name="whitelabel"></a>
 # WHITELABEL
 
@@ -5129,6 +5357,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## List all domain whitelabels.
 
 **This endpoint allows you to retrieve a list of all domain whitelabels you have created.**
@@ -5159,6 +5388,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Get the default domain whitelabel.
 
 **This endpoint allows you to retrieve the default whitelabel for a domain.**
@@ -5186,6 +5416,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## List the domain whitelabel associated with the given user.
 
 **This endpoint allows you to retrieve all of the whitelabels that have been assigned to a specific subuser.**
@@ -5215,6 +5446,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Disassociate a domain whitelabel from a given user.
 
 **This endpoint allows you to disassociate a specific whitelabel from a subuser.**
@@ -5244,6 +5476,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a domain whitelabel.
 
 **This endpoint allows you to update the settings for a domain whitelabel.**
@@ -5270,6 +5503,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a domain whitelabel.
 
 **This endpoint allows you to retrieve a specific domain whitelabel.**
@@ -5293,6 +5527,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a domain whitelabel.
 
 **This endpoint allows you to delete a domain whitelabel.**
@@ -5315,6 +5550,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Associate a domain whitelabel with a given user.
 
 **This endpoint allows you to associate a specific domain whitelabel with a subuser.**
@@ -5347,6 +5583,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Add an IP to a domain whitelabel.
 
 **This endpoint allows you to add an IP address to a domain whitelabel.**
@@ -5377,6 +5614,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Remove an IP from a domain whitelabel.
 
 **This endpoint allows you to remove a domain's IP address from that domain's whitelabel.**
@@ -5405,6 +5643,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Validate a domain whitelabel.
 
 **This endpoint allows you to validate a domain whitelabel. If it fails, it will return an error message describing why the whitelabel could not be validated.**
@@ -5432,6 +5671,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create an IP whitelabel
 
 **This endpoint allows you to create an IP whitelabel.**
@@ -5461,6 +5701,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all IP whitelabels
 
 **This endpoint allows you to retrieve all of the IP whitelabels that have been createdy by this account.**
@@ -5490,6 +5731,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve an IP whitelabel
 
 **This endpoint allows you to retrieve an IP whitelabel.**
@@ -5512,6 +5754,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete an IP whitelabel
 
 **This endpoint allows you to delete an IP whitelabel.**
@@ -5534,6 +5777,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Validate an IP whitelabel
 
 **This endpoint allows you to validate an IP whitelabel.**
@@ -5556,6 +5800,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Create a Link Whitelabel
 
 **This endpoint allows you to create a new link whitelabel.**
@@ -5587,6 +5832,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve all link whitelabels
 
 **This endpoint allows you to retrieve all link whitelabels.**
@@ -5612,6 +5858,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a Default Link Whitelabel
 
 **This endpoint allows you to retrieve the default link whitelabel.**
@@ -5644,6 +5891,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve Associated Link Whitelabel
 
 **This endpoint allows you to retrieve the associated link whitelabel for a subuser.**
@@ -5673,6 +5921,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Disassociate a Link Whitelabel
 
 **This endpoint allows you to disassociate a link whitelabel from a subuser.**
@@ -5702,6 +5951,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Update a Link Whitelabel
 
 **This endpoint allows you to update a specific link whitelabel. You can use this endpoint to change a link whitelabel's default status.**
@@ -5727,6 +5977,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Retrieve a Link Whitelabel
 
 **This endpoint allows you to retrieve a specific link whitelabel.**
@@ -5749,6 +6000,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Delete a Link Whitelabel
 
 **This endpoint allows you to delete a link whitelabel.**
@@ -5771,6 +6023,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Validate a Link Whitelabel
 
 **This endpoint allows you to validate a link whitelabel.**
@@ -5793,6 +6046,7 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 ## Associate a Link Whitelabel
 
 **This endpoint allows you to associate a link whitelabel with a subuser account.**
@@ -5822,4 +6076,5 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
+
 

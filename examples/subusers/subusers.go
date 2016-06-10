@@ -43,11 +43,6 @@ func ListallSubusers() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/subusers", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
-queryParams["limit"] = "0"
-queryParams["offset"] = "0"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -67,9 +62,6 @@ func RetrieveSubuserReputations() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/subusers/reputations", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["usernames"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -89,14 +81,6 @@ func Retrieveemailstatisticsforyoursubusers() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/subusers/stats", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
-queryParams["aggregated_by"] = "day"
-queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-queryParams["start_date"] = "2016-01-01"
-queryParams["subusers"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -116,14 +100,6 @@ func Retrievemonthlystatsforallsubusers() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/subusers/stats/monthly", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["subuser"] = "test_string"
-queryParams["limit"] = "1"
-queryParams["sort_by_metric"] = "test_string"
-queryParams["offset"] = "1"
-queryParams["date"] = "test_string"
-queryParams["sort_by_direction"] = "asc"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -143,15 +119,6 @@ func Retrievethetotalsforeachemailstatisticmetricforallsubusers() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/subusers/stats/sums", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
-queryParams["aggregated_by"] = "day"
-queryParams["limit"] = "1"
-queryParams["sort_by_metric"] = "test_string"
-queryParams["offset"] = "1"
-queryParams["start_date"] = "2016-01-01"
-queryParams["sort_by_direction"] = "asc"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -318,13 +285,6 @@ func Retrievethemonthlyemailstatisticsforasinglesubuser() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/stats/monthly", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["date"] = "test_string"
-queryParams["sort_by_direction"] = "asc"
-queryParams["limit"] = "0"
-queryParams["sort_by_metric"] = "test_string"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

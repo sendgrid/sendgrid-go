@@ -15,9 +15,6 @@ func Retrieveallrecentaccessattempts() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/access_settings/activity", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

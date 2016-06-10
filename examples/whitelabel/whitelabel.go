@@ -46,13 +46,6 @@ func Listalldomainwhitelabels() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
-queryParams["domain"] = "test_string"
-queryParams["exclude_subusers"] = "true"
-queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -296,11 +289,6 @@ func RetrieveallIPwhitelabels() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["ip"] = "test_string"
-queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -382,10 +370,6 @@ func CreateaLinkWhitelabel() {
   "domain": "example.com", 
   "subdomain": "mail"
 }`)
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -405,9 +389,6 @@ func Retrievealllinkwhitelabels() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -427,9 +408,6 @@ func RetrieveaDefaultLinkWhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/default", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["domain"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -449,9 +427,6 @@ func RetrieveAssociatedLinkWhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -471,9 +446,6 @@ func DisassociateaLinkWhitelabel() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
   request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["username"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

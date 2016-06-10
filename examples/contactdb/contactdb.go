@@ -164,9 +164,6 @@ func UpdateaList() {
   request.Body = []byte(` {
   "name": "newlistname"
 }`)
-  queryParams := make(map[string]string)
-  queryParams["list_id"] = "0"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -186,9 +183,6 @@ func Retrieveasinglelist() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["list_id"] = "0"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -208,9 +202,6 @@ func DeleteaList() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
   request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["delete_contacts"] = "true"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -253,11 +244,6 @@ func RetrieveallrecipientsonaList() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["page"] = "1"
-queryParams["page_size"] = "1"
-queryParams["list_id"] = "0"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -296,10 +282,6 @@ func DeleteaSingleRecipientfromaSingleList() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
   request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["recipient_id"] = "0"
-queryParams["list_id"] = "0"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -378,10 +360,6 @@ func Retrieverecipients() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["page"] = "1"
-queryParams["page_size"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -462,9 +440,6 @@ func Retrieverecipientsmatchingsearchcriteria() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["{field_name}"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -634,9 +609,6 @@ func Updateasegment() {
   "list_id": 5, 
   "name": "The Millers"
 }`)
-  queryParams := make(map[string]string)
-  queryParams["segment_id"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -656,9 +628,6 @@ func Retrieveasegment() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["segment_id"] = "0"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -678,9 +647,6 @@ func Deleteasegment() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
   request.Method = "DELETE"
-  queryParams := make(map[string]string)
-  queryParams["delete_contacts"] = "true"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -700,10 +666,6 @@ func Retrieverecipientsonasegment() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}/recipients", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["page"] = "1"
-queryParams["page_size"] = "1"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

@@ -47,6 +47,7 @@ func ValidatebatchID() {
 ///////////////////////////////////////////////////
 // v3 Mail Send Beta
 // POST /mail/send/beta
+// This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/v3beta/helpers/mail/README.md).
 
 func v3MailSendBeta() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

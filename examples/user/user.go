@@ -439,13 +439,6 @@ func RetrievesInboundParseWebhookstatistics() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/stats", host)
   request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["aggregated_by"] = "day"
-queryParams["limit"] = "test_string"
-queryParams["start_date"] = "2016-01-01"
-queryParams["end_date"] = "2016-04-01"
-queryParams["offset"] = "test_string"
-request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
