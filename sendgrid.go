@@ -12,7 +12,6 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	}
 	baseURL := host + endpoint
 	requestHeaders := make(map[string]string)
-	requestHeaders["Content-Type"] = "application/json"
 	requestHeaders["Authorization"] = "Bearer " + key
 	requestHeaders["User-Agent"] = "sendgrid/" + Version + ";go"
 	request := rest.Request{

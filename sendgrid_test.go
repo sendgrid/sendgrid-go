@@ -17,9 +17,6 @@ func TestGetRequest(t *testing.T) {
 	if request.BaseURL != "https://api.sendgrid.com" {
 		t.Error("Host default not set")
 	}
-	if request.Headers["Content-Type"] != "application/json" {
-		t.Error("Wrong default content type")
-	}
 	if request.Headers["Authorization"] != "Bearer " {
 		t.Error("Wrong default Authorization")
 	}
@@ -30,9 +27,6 @@ func TestGetRequest(t *testing.T) {
 	request = GetRequest("API_KEY", "/v3/endpoint", "https://test.api.com")
 	if request.BaseURL != "https://test.api.com/v3/endpoint" {
 		t.Error("Host not set correctly")
-	}
-	if request.Headers["Content-Type"] != "application/json" {
-		t.Error("Wrong content type")
 	}
 	if request.Headers["Authorization"] != "Bearer API_KEY" {
 		t.Error("Wrong Authorization")
