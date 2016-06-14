@@ -89,7 +89,7 @@ source ./sendgrid.env
 ##### Execute: #####
 
 * Check out the documentation for [Web API v3 endpoints](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html).
-* Review the corresponding [example](https://github.com/sendgrid/sendgrid-go/blob/v3beta/examples).
+* Review the corresponding [example](https://github.com/sendgrid/sendgrid-go/blob/master/examples).
 * Update the file
 
 ```bash
@@ -112,9 +112,9 @@ The main function that does the heavy lifting (and external entry point) is `API
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go).
+All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go).
 
-For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/v3beta/sendgrid_test.go) file with unit tests as you modify the code.
+For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go) file with unit tests as you modify the code.
 
 To run the tests:
 

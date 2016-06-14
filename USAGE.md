@@ -2533,7 +2533,7 @@ if err != nil {
 }
 ```
 
-## v3 Mail Send Beta
+## v3 Mail Send
 
 This endpoint allows you to send email over SendGrids v3 Web API, the most recent version of our API. If you are looking for documentation about the v2 Mail Send endpoint, please see our [v2 API Reference](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
@@ -2544,11 +2544,11 @@ For an overview of the v3 Mail Send endpoint, please visit our [v3 API Reference
 
 For more detailed information about how to use the v3 Mail Send endpoint, please visit our [Classroom](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/index.html).
 
-### POST /mail/send/beta
-This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/v3beta/helpers/mail/README.md).
+### POST /mail/send
+This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/mail/README.md).
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/v3/mail/send/beta", host)
+request := sendgrid.GetRequest(apiKey, "/v3/mail/send", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "asm": {
