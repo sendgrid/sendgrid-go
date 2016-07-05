@@ -412,14 +412,101 @@ func TestEventNotificationSettings() {
 }
 
 ///////////////////////////////////////////////////
-// Retrieve Parse Webhook settings
+// Create a parse setting
+// POST /user/webhooks/parse/settings
+
+func Createaparsesetting() {
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+  host := "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
+  request.Method = "POST"
+  request.Body = []byte(` {
+  "hostname": "myhostname.com", 
+  "send_raw": false, 
+  "spam_check": true, 
+  "url": "http://email.myhosthame.com"
+}`)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+
+///////////////////////////////////////////////////
+// Retrieve all parse settings
 // GET /user/webhooks/parse/settings
 
-func RetrieveParseWebhooksettings() {
+func Retrieveallparsesettings() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
   request.Method = "GET"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+
+///////////////////////////////////////////////////
+// Update a parse setting
+// PATCH /user/webhooks/parse/settings/{hostname}
+
+func Updateaparsesetting() {
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+  host := "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+  request.Method = "PATCH"
+  request.Body = []byte(` {
+  "send_raw": true, 
+  "spam_check": false, 
+  "url": "http://newdomain.com/parse"
+}`)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+
+///////////////////////////////////////////////////
+// Retrieve a specific parse setting
+// GET /user/webhooks/parse/settings/{hostname}
+
+func Retrieveaspecificparsesetting() {
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+  host := "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+  request.Method = "GET"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+
+///////////////////////////////////////////////////
+// Delete a parse setting
+// DELETE /user/webhooks/parse/settings/{hostname}
+
+func Deleteaparsesetting() {
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+  host := "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+  request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

@@ -18,6 +18,7 @@ host := "https://api.sendgrid.com"
 # Table of Contents
 
 * [ACCESS SETTINGS](#access_settings)
+* [ALERTS](#alerts)
 * [API KEYS](#api_keys)
 * [ASM](#asm)
 * [BROWSERS](#browsers)
@@ -214,6 +215,142 @@ if err != nil {
 }
 ```
 
+<a name="alerts"></a>
+# ALERTS
+
+## Create a new Alert
+
+**This endpoint allows you to create a new alert.**
+
+Alerts allow you to specify an email address to receive notifications regarding your email usage or statistics.
+* Usage alerts allow you to set the threshold at which an alert will be sent.
+* Stats notifications allow you to set how frequently you would like to receive email statistics reports. For example, "daily", "weekly", or "monthly".
+
+For more information about alerts, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/alerts.html).
+
+### POST /alerts
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/alerts", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "email_to": "example@example.com",
+  "frequency": "daily",
+  "type": "stats_notification"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve all alerts
+
+**This endpoint allows you to retieve all of your alerts.**
+
+Alerts allow you to specify an email address to receive notifications regarding your email usage or statistics.
+* Usage alerts allow you to set the threshold at which an alert will be sent.
+* Stats notifications allow you to set how frequently you would like to receive email statistics reports. For example, "daily", "weekly", or "monthly".
+
+For more information about alerts, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/alerts.html).
+
+### GET /alerts
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/alerts", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Update an alert
+
+**This endpoint allows you to update an alert.**
+
+Alerts allow you to specify an email address to receive notifications regarding your email usage or statistics.
+* Usage alerts allow you to set the threshold at which an alert will be sent.
+* Stats notifications allow you to set how frequently you would like to receive email statistics reports. For example, "daily", "weekly", or "monthly".
+
+For more information about alerts, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/alerts.html).
+
+### PATCH /alerts/{alert_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+request.Method = "PATCH"
+request.Body = []byte(` {
+  "email_to": "example@example.com"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve a specific alert
+
+**This endpoint allows you to retrieve a specific alert.**
+
+Alerts allow you to specify an email address to receive notifications regarding your email usage or statistics.
+* Usage alerts allow you to set the threshold at which an alert will be sent.
+* Stats notifications allow you to set how frequently you would like to receive email statistics reports. For example, "daily", "weekly", or "monthly".
+
+For more information about alerts, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/alerts.html).
+
+### GET /alerts/{alert_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Delete an alert
+
+**This endpoint allows you to delete an alert.**
+
+Alerts allow you to specify an email address to receive notifications regarding your email usage or statistics.
+* Usage alerts allow you to set the threshold at which an alert will be sent.
+* Stats notifications allow you to set how frequently you would like to receive email statistics reports. For example, "daily", "weekly", or "monthly".
+
+For more information about alerts, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/alerts.html).
+
+### DELETE /alerts/{alert_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
 <a name="api_keys"></a>
 # API KEYS
 
@@ -236,6 +373,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
 request.Method = "POST"
 request.Body = []byte(` {
   "name": "My API Key",
+  "sample": "data",
   "scopes": [
     "mail.send",
     "alerts.create",
@@ -263,6 +401,9 @@ The API Keys feature allows customers to be able to generate an API Key credenti
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
 request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
+request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
   fmt.Println(err)
@@ -426,6 +567,10 @@ if err != nil {
 
 This endpoint will return information for each group ID that you include in your request. To add a group ID to your request, simply append `&id=` followed by the group ID.
 
+Suppressions are a list of email addresses that will not receive content sent under a given [group](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html).
+
+Suppression groups, or [unsubscribe groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html), allow you to label a category of content that you regularly send. This gives your recipients the ability to opt out of a specific set of your email. For example, you might define a group for your transactional email, and one for your marketing email so that your users can continue recieving your transactional email witout having to receive your marketing content.
+
 ### GET /asm/groups
 
 ```go
@@ -576,6 +721,36 @@ if err != nil {
 }
 ```
 
+## Search for suppressions within a group
+
+**This endpoint allows you to search a suppression group for multiple suppressions.**
+
+When given a list of email addresses and a group ID, this endpoint will return only the email addresses that have been unsubscribed from the given group.
+
+Suppressions are a list of email addresses that will not receive content sent under a given [group](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html).
+
+### POST /asm/groups/{group_id}/suppressions/search
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/search", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "recipient_emails": [
+    "exists1@example.com",
+    "exists2@example.com",
+    "doesnotexists@example.com"
+  ]
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
 ## Delete a suppression from a suppression group
 
 **This endpoint allows you to remove a suppressed email address from the given suppression group.**
@@ -601,7 +776,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all suppressions.**
 
-Suppressions are email addresses that can be added to [groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html) to prevent certain types of emails from being delivered to those addresses.
+Suppressions are a list of email addresses that will not receive content sent under a given [group](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html).
 
 ### GET /asm/suppressions
 
@@ -691,9 +866,9 @@ if err != nil {
 
 ## Retrieve all suppression groups for an email address
 
-**This endpoint will return a list of all suppression groups, indicating if the given email address is suppressed for each group.**
+**This endpoint returns the list of all groups that the given email address has been unsubscribed from.**
 
-Suppressions are email addresses that can be added to [groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html) to prevent certain types of emails from being delivered to those addresses.
+Suppressions are a list of email addresses that will not receive content sent under a given [group](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html).
 
 ### GET /asm/suppressions/{email}
 
@@ -812,8 +987,8 @@ For more information:
 request := sendgrid.GetRequest(apiKey, "/v3/campaigns", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
-queryParams["limit"] = "0"
-queryParams["offset"] = "0"
+queryParams["limit"] = "1"
+queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1397,7 +1572,7 @@ request.Body = []byte(` {
   "name": "newlistname"
 }`)
 queryParams := make(map[string]string)
-queryParams["list_id"] = "0"
+queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1421,7 +1596,7 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
-queryParams["list_id"] = "0"
+queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1498,7 +1673,7 @@ request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["page"] = "1"
 queryParams["page_size"] = "1"
-queryParams["list_id"] = "0"
+queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1543,8 +1718,8 @@ The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.co
 request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
 request.Method = "DELETE"
 queryParams := make(map[string]string)
-queryParams["recipient_id"] = "0"
-queryParams["list_id"] = "0"
+queryParams["recipient_id"] = "1"
+queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -1745,6 +1920,7 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
+queryParams["%7Bfield_name%7D"] = "test_string"
 queryParams["{field_name}"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
@@ -1983,7 +2159,7 @@ For more information about segments in Marketing Campaigns, please see our [User
 request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
-queryParams["segment_id"] = "0"
+queryParams["segment_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -2639,13 +2815,8 @@ request.Body = []byte(` {
       "send_at": 1409348513,
       "subject": "Hello, World!",
       "substitutions": {
-        "sub": {
-          "%name%": [
-            "John",
-            "Jane",
-            "Sam"
-          ]
-        }
+        "id": "substitutions",
+        "type": "object"
       },
       "to": [
         {
@@ -3410,8 +3581,8 @@ request := sendgrid.GetRequest(apiKey, "/v3/subusers", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["username"] = "test_string"
-queryParams["limit"] = "0"
-queryParams["offset"] = "0"
+queryParams["limit"] = "1"
+queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -3728,7 +3899,7 @@ request.Method = "GET"
 queryParams := make(map[string]string)
 queryParams["date"] = "test_string"
 queryParams["sort_by_direction"] = "asc"
-queryParams["limit"] = "0"
+queryParams["limit"] = "1"
 queryParams["sort_by_metric"] = "test_string"
 queryParams["offset"] = "1"
 request.QueryParams = queryParams
@@ -3872,8 +4043,8 @@ For more information see:
 request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
-queryParams["start_time"] = "0"
-queryParams["end_time"] = "0"
+queryParams["start_time"] = "1"
+queryParams["end_time"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
@@ -5265,17 +5436,112 @@ if err != nil {
 }
 ```
 
-## Retrieve Parse Webhook settings
+## Create a parse setting
 
-**This endpoint allows you to retrieve your current inbound parse webhook settings.**
+**This endpoint allows you to create a new inbound parse setting.**
 
-SendGrid can parse the attachments and contents of incoming emails. The Parse API will POST the parsed email to a URL that you specify. For more information, see our Inbound [Parse Webhook documentation](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+
+### POST /user/webhooks/parse/settings
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "hostname": "myhostname.com",
+  "send_raw": false,
+  "spam_check": true,
+  "url": "http://email.myhosthame.com"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve all parse settings
+
+**This endpoint allows you to retrieve all of your current inbound parse settings.**
+
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### GET /user/webhooks/parse/settings
 
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
 request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Update a parse setting
+
+**This endpoint allows you to update a specific inbound parse setting.**
+
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+
+### PATCH /user/webhooks/parse/settings/{hostname}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+request.Method = "PATCH"
+request.Body = []byte(` {
+  "send_raw": true,
+  "spam_check": false,
+  "url": "http://newdomain.com/parse"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve a specific parse setting
+
+**This endpoint allows you to retrieve a specific inbound parse setting.**
+
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+
+### GET /user/webhooks/parse/settings/{hostname}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Delete a parse setting
+
+**This endpoint allows you to delete a specific inbound parse setting.**
+
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+
+### DELETE /user/webhooks/parse/settings/{hostname}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
   fmt.Println(err)

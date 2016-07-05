@@ -34,6 +34,9 @@ func TestGetRequest(t *testing.T) {
 	if request.Headers["User-Agent"] != "sendgrid/"+Version+";go" {
 		t.Error("Wrong User Agent")
 	}
+	if request.Headers["Accept"] != "application/json" {
+		t.Error("Wrong Accept header")
+	}
 }
 
 func Test_test_access_settings_activity_get(t *testing.T){
@@ -179,6 +182,114 @@ func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T){
 	}
 }
 
+func Test_test_alerts_post(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/alerts", host)
+  request.Method = "POST"
+  request.Body = []byte(` {
+  "email_to": "example@example.com",
+  "frequency": "daily",
+  "type": "stats_notification"
+}`)
+  request.Headers["X-Mock"] = "201"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 201 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_alerts_get(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/alerts", host)
+  request.Method = "GET"
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_alerts__alert_id__patch(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+  request.Method = "PATCH"
+  request.Body = []byte(` {
+  "email_to": "example@example.com"
+}`)
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_alerts__alert_id__get(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+  request.Method = "GET"
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_alerts__alert_id__delete(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+  request.Method = "DELETE"
+  request.Headers["X-Mock"] = "204"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 204 {
+		t.Error("Wrong status code returned")
+	}
+}
+
 func Test_test_api_keys_post(t *testing.T){
   apiKey := "SENDGRID_APIKEY"
   host := ""
@@ -191,6 +302,7 @@ func Test_test_api_keys_post(t *testing.T){
   request.Method = "POST"
   request.Body = []byte(` {
   "name": "My API Key",
+  "sample": "data",
   "scopes": [
     "mail.send",
     "alerts.create",
@@ -217,6 +329,9 @@ func Test_test_api_keys_get(t *testing.T){
   }
   request := GetRequest(apiKey, "/v3/api_keys", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["limit"] = "1"
+  request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
   if err != nil {
@@ -328,16 +443,16 @@ func Test_test_asm_groups_post(t *testing.T){
   request := GetRequest(apiKey, "/v3/asm/groups", host)
   request.Method = "POST"
   request.Body = []byte(` {
-  "description": "A group description",
-  "is_default": false,
-  "name": "A group name"
+  "description": "Suggestions for products our users might like.",
+  "is_default": true,
+  "name": "Product Suggestions"
 }`)
-  request.Headers["X-Mock"] = "200"
+  request.Headers["X-Mock"] = "201"
   response, err := API(request)
   if err != nil {
 		fmt.Println(err)
 	}
-  if response.StatusCode != 200 {
+  if response.StatusCode != 201 {
 		t.Error("Wrong status code returned")
 	}
 }
@@ -352,6 +467,9 @@ func Test_test_asm_groups_get(t *testing.T){
   }
   request := GetRequest(apiKey, "/v3/asm/groups", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["id"] = "1"
+  request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
   if err != nil {
@@ -473,6 +591,33 @@ func Test_test_asm_groups__group_id__suppressions_get(t *testing.T){
 	}
 }
 
+func Test_test_asm_groups__group_id__suppressions_search_post(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/search", host)
+  request.Method = "POST"
+  request.Body = []byte(` {
+  "recipient_emails": [
+    "exists1@example.com",
+    "exists2@example.com",
+    "doesnotexists@example.com"
+  ]
+}`)
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
 func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T){
   apiKey := "SENDGRID_APIKEY"
   host := ""
@@ -489,6 +634,26 @@ func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T){
 		fmt.Println(err)
 	}
   if response.StatusCode != 204 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_asm_suppressions_get(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/asm/suppressions", host)
+  request.Method = "GET"
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
 		t.Error("Wrong status code returned")
 	}
 }
@@ -555,6 +720,26 @@ func Test_test_asm_suppressions_global__email__delete(t *testing.T){
 		fmt.Println(err)
 	}
   if response.StatusCode != 204 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_asm_suppressions__email__get(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/asm/suppressions/{email}", host)
+  request.Method = "GET"
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
 		t.Error("Wrong status code returned")
 	}
 }
@@ -638,8 +823,8 @@ func Test_test_campaigns_get(t *testing.T){
   request := GetRequest(apiKey, "/v3/campaigns", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
-  queryParams["limit"] = "0"
-  queryParams["offset"] = "0"
+  queryParams["limit"] = "1"
+  queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -1148,7 +1333,7 @@ func Test_test_contactdb_lists__list_id__patch(t *testing.T){
   "name": "newlistname"
 }`)
   queryParams := make(map[string]string)
-  queryParams["list_id"] = "0"
+  queryParams["list_id"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -1171,7 +1356,7 @@ func Test_test_contactdb_lists__list_id__get(t *testing.T){
   request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
-  queryParams["list_id"] = "0"
+  queryParams["list_id"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -1243,7 +1428,7 @@ func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T){
   queryParams := make(map[string]string)
   queryParams["page"] = "1"
   queryParams["page_size"] = "1"
-  queryParams["list_id"] = "0"
+  queryParams["list_id"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -1286,8 +1471,8 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *tes
   request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
   request.Method = "DELETE"
   queryParams := make(map[string]string)
-  queryParams["recipient_id"] = "0"
-  queryParams["list_id"] = "0"
+  queryParams["recipient_id"] = "1"
+  queryParams["list_id"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "204"
   response, err := API(request)
@@ -1459,6 +1644,7 @@ func Test_test_contactdb_recipients_search_get(t *testing.T){
   request := GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
+  queryParams["%7Bfield_name%7D"] = "test_string"
   queryParams["{field_name}"] = "test_string"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
@@ -1661,7 +1847,7 @@ func Test_test_contactdb_segments__segment_id__get(t *testing.T){
   request := GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
-  queryParams["segment_id"] = "0"
+  queryParams["segment_id"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -2114,7 +2300,7 @@ func Test_test_mail_batch__batch_id__get(t *testing.T){
 	}
 }
 
-func Test_test_mail_send_beta_post(t *testing.T){
+func Test_test_mail_send_post(t *testing.T){
   apiKey := "SENDGRID_APIKEY"
   host := ""
   if (os.Getenv("TRAVIS") == "true") {
@@ -2122,7 +2308,7 @@ func Test_test_mail_send_beta_post(t *testing.T){
   } else {
     host = "http://localhost:4010"
   }
-  request := GetRequest(apiKey, "/v3/mail/send/beta", host)
+  request := GetRequest(apiKey, "/v3/mail/send", host)
   request.Method = "POST"
   request.Body = []byte(` {
   "asm": {
@@ -2213,13 +2399,8 @@ func Test_test_mail_send_beta_post(t *testing.T){
       "send_at": 1409348513,
       "subject": "Hello, World!",
       "substitutions": {
-        "sub": {
-          "%name%": [
-            "John",
-            "Jane",
-            "Sam"
-          ]
-        }
+        "id": "substitutions",
+        "type": "object"
       },
       "to": [
         {
@@ -2887,8 +3068,8 @@ func Test_test_subusers_get(t *testing.T){
   request.Method = "GET"
   queryParams := make(map[string]string)
   queryParams["username"] = "test_string"
-  queryParams["limit"] = "0"
-  queryParams["offset"] = "0"
+  queryParams["limit"] = "1"
+  queryParams["offset"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -3175,7 +3356,7 @@ func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T){
   queryParams := make(map[string]string)
   queryParams["date"] = "test_string"
   queryParams["sort_by_direction"] = "asc"
-  queryParams["limit"] = "0"
+  queryParams["limit"] = "1"
   queryParams["sort_by_metric"] = "test_string"
   queryParams["offset"] = "1"
   request.QueryParams = queryParams
@@ -3293,8 +3474,8 @@ func Test_test_suppression_bounces_get(t *testing.T){
   request := GetRequest(apiKey, "/v3/suppression/bounces", host)
   request.Method = "GET"
   queryParams := make(map[string]string)
-  queryParams["start_time"] = "0"
-  queryParams["end_time"] = "0"
+  queryParams["start_time"] = "1"
+  queryParams["end_time"] = "1"
   request.QueryParams = queryParams
   request.Headers["X-Mock"] = "200"
   response, err := API(request)
@@ -4439,6 +4620,32 @@ func Test_test_user_webhooks_event_test_post(t *testing.T){
 	}
 }
 
+func Test_test_user_webhooks_parse_settings_post(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
+  request.Method = "POST"
+  request.Body = []byte(` {
+  "hostname": "myhostname.com",
+  "send_raw": false,
+  "spam_check": true,
+  "url": "http://email.myhosthame.com"
+}`)
+  request.Headers["X-Mock"] = "201"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 201 {
+		t.Error("Wrong status code returned")
+	}
+}
+
 func Test_test_user_webhooks_parse_settings_get(t *testing.T){
   apiKey := "SENDGRID_APIKEY"
   host := ""
@@ -4455,6 +4662,71 @@ func Test_test_user_webhooks_parse_settings_get(t *testing.T){
 		fmt.Println(err)
 	}
   if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_user_webhooks_parse_settings__hostname__patch(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+  request.Method = "PATCH"
+  request.Body = []byte(` {
+  "send_raw": true,
+  "spam_check": false,
+  "url": "http://newdomain.com/parse"
+}`)
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_user_webhooks_parse_settings__hostname__get(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+  request.Method = "GET"
+  request.Headers["X-Mock"] = "200"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_user_webhooks_parse_settings__hostname__delete(t *testing.T){
+  apiKey := "SENDGRID_APIKEY"
+  host := ""
+  if (os.Getenv("TRAVIS") == "true") {
+    host = os.Getenv("MOCK_HOST")
+  } else {
+    host = "http://localhost:4010"
+  }
+  request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+  request.Method = "DELETE"
+  request.Headers["X-Mock"] = "204"
+  response, err := API(request)
+  if err != nil {
+		fmt.Println(err)
+	}
+  if response.StatusCode != 204 {
 		t.Error("Wrong status code returned")
 	}
 }

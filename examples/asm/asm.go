@@ -156,6 +156,32 @@ func Retrieveallsuppressionsforasuppressiongroup() {
 }
 
 ///////////////////////////////////////////////////
+// Search for suppressions within a group
+// POST /asm/groups/{group_id}/suppressions/search
+
+func Searchforsuppressionswithinagroup() {
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+  host := "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/search", host)
+  request.Method = "POST"
+  request.Body = []byte(` {
+  "recipient_emails": [
+    "exists1@example.com", 
+    "exists2@example.com", 
+    "doesnotexists@example.com"
+  ]
+}`)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+
+///////////////////////////////////////////////////
 // Delete a suppression from a suppression group
 // DELETE /asm/groups/{group_id}/suppressions/{email}
 
