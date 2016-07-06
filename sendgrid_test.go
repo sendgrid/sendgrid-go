@@ -3,8 +3,65 @@ package sendgrid
 import (
 	"fmt"
 	"os"
+  "os/exec"
+  "runtime"
 	"testing"
+  "time"
 )
+
+var (
+	testAPIKey = "SENDGRID_APIKEY"
+	testHost   = ""
+	prismPath  = "./prism/" + runtime.GOOS + "/" + runtime.GOARCH
+	prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
+	prismCmd   *exec.Cmd
+)
+
+func TestMain(m *testing.M) {
+	// By default prism runs on localhost:4010
+	// Leanrn how to configure prism here: https://designer.stoplight.io/docs/prism
+	testHost = "http://localhost:4010"
+
+	prismPath += "/prism"
+	if runtime.GOOS == "windows" {
+		prismPath += ".exe"
+	}
+
+	prismCmd = exec.Command(prismPath, prismArgs...)
+
+	// If you want to see prism's ouput uncomment below.
+	// prismReader, err := prismCmd.StdoutPipe()
+	// if err != nil {
+	// 	fmt.Println("Error creating StdoutPipe for Cmd", err)
+	// }
+
+	// scanner := bufio.NewScanner(prismReader)
+	// go func() {
+	// 	for scanner.Scan() {
+	// 		fmt.Printf("prism | %s\n", scanner.Text())
+	// 	}
+	// }()
+
+	go func() {
+		fmt.Println("Start Prism")
+		err := prismCmd.Start()
+		if err != nil {
+			fmt.Println("Error starting prism", err)
+		}
+	}()
+
+	// Need to give prism enough time to launch!
+	duration := time.Second * 15
+	time.Sleep(duration)
+
+	exitCode := m.Run()
+	if prismCmd != nil {
+		prismCmd.Process.Kill()
+		prismCmd = nil
+	}
+
+	os.Exit(exitCode)
+}
 
 func TestSendGridVersion(t *testing.T) {
 	if Version != "3.0.0" {
