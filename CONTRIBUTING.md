@@ -127,8 +127,6 @@ go test -v
 
 Generally, we follow the style guidelines as suggested by the official language. However, we ask that you conform to the styles that already exist in the library. If you wish to deviate, please explain your reasoning.
 
-Generally, we follow the style guidelines as suggested by the official language. However, we ask that you conform to the styles that already exist in the library. If you wish to deviate, please explain your reasoning.
-
 - [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
 
 Please run your code through:

@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.2] - 2016-07-07
+### Added
+- Tests now mocked automatically against [prism](https://stoplight.io/prism/)
+
 ## [3.0.1] - 2016-07-05
 ### Added
 - Accept: application/json header per https://sendgrid.com/docs/API_Reference/Web_API_v3/How_To_Use_The_Web_API_v3/requests.html
