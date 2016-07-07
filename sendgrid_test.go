@@ -13,7 +13,7 @@ var (
 	testAPIKey = "SENDGRID_APIKEY"
 	testHost   = ""
 	//prismPath  = "./prism/" + runtime.GOOS + "/" + runtime.GOARCH
-	prismPath = "$GOPATH/bin"
+	prismPath = os.Getenv("GOPATH")+ "/bin"
   prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
 	prismCmd   *exec.Cmd
 )
