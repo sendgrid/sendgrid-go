@@ -233,7 +233,7 @@ func TestV3SetMailSettings(t *testing.T) {
 		t.Errorf("Mail Settings should not be nil")
 	}
 
-	if !m.MailSettings.BCC.Enable {
+	if !*m.MailSettings.BCC.Enable {
 		t.Errorf("BCC should be anabled in Mail Settings")
 	}
 }
@@ -251,7 +251,7 @@ func TestV3SetTrackingSettings(t *testing.T) {
 		t.Errorf("Tracking Settings should not be nil")
 	}
 
-	if !m.TrackingSettings.ClickTracking.Enable {
+	if !*m.TrackingSettings.ClickTracking.Enable {
 		t.Errorf("Click Tracking should be enabled")
 	}
 }
@@ -508,7 +508,7 @@ func TestV3MailSettingsSetBCC(t *testing.T) {
 		t.Errorf("BCC should not be nil")
 	}
 
-	if !m.BCC.Enable {
+	if !*m.BCC.Enable {
 		t.Errorf("BCC should be enabled")
 	}
 }
@@ -519,7 +519,7 @@ func TestV3MailSettingsSetBypassListManagement(t *testing.T) {
 		t.Errorf("BypassListManagement should not be nil")
 	}
 
-	if !m.BypassListManagement.Enable {
+	if !*m.BypassListManagement.Enable {
 		t.Errorf("BypassListManagement should be enabled")
 	}
 }
@@ -530,7 +530,7 @@ func TestV3MailSettingsSetSandboxMode(t *testing.T) {
 		t.Errorf("SandboxMode should not be nil")
 	}
 
-	if !m.SandboxMode.Enable {
+	if !*m.SandboxMode.Enable {
 		t.Errorf("SandboxMode should be enabled")
 	}
 }
@@ -544,7 +544,7 @@ func TestV3MailSettingsSpamCheckSettings(t *testing.T) {
 	s.SetSpamThreshold(1)
 	m.SetSpamCheckSettings(s)
 
-	if !m.SpamCheckSetting.Enable {
+	if !*m.SpamCheckSetting.Enable {
 		t.Errorf("SpamCheckSettings should be enabled")
 	}
 
@@ -563,7 +563,7 @@ func TestV3MailSettingsSetFooter(t *testing.T) {
 		t.Errorf("Footer should not be nil")
 	}
 
-	if !m.Footer.Enable {
+	if !*m.Footer.Enable {
 		t.Errorf("Footer should be enabled")
 	}
 }
@@ -586,7 +586,7 @@ func TestV3TrackingSettingsSetClickTracking(t *testing.T) {
 		t.Errorf("Click Tracking should not be nil")
 	}
 
-	if !ts.ClickTracking.Enable {
+	if !*ts.ClickTracking.Enable {
 		t.Errorf("Click Tracking should be enabled")
 	}
 }
@@ -599,7 +599,7 @@ func TestV3TrackingSettingsSetOpenTracking(t *testing.T) {
 		t.Errorf("Open Tracking should not be nil")
 	}
 
-	if !ts.OpenTracking.Enable {
+	if !*ts.OpenTracking.Enable {
 		t.Errorf("Open Tracking should be enabled")
 	}
 
@@ -662,7 +662,7 @@ func TestV3NewBCCSetting(t *testing.T) {
 func TestV3BCCSettingSetEnable(t *testing.T) {
 	b := NewBCCSetting().SetEnable(true)
 
-	if !b.Enable {
+	if !*b.Enable {
 		t.Errorf("BCCSetting should be enabled")
 	}
 }
@@ -688,7 +688,7 @@ func TestV3NewFooterSetting(t *testing.T) {
 func TestV3FooterSettingSetEnable(t *testing.T) {
 	f := NewFooterSetting().SetEnable(true)
 
-	if !f.Enable {
+	if !*f.Enable {
 		t.Errorf("FooterSetting should be enabled")
 	}
 }
@@ -722,7 +722,7 @@ func TestV3NewOpenTrackingSetting(t *testing.T) {
 func TestV3OpenTrackingSettingSetEnable(t *testing.T) {
 	f := NewOpenTrackingSetting().SetEnable(true)
 
-	if !f.Enable {
+	if !*f.Enable {
 		t.Errorf("OpenTrackingSetting should be enabled")
 	}
 
@@ -748,7 +748,7 @@ func TestV3NewSubscriptionTrackingSetting(t *testing.T) {
 func TestV3NewSubscriptionTrackingSetEnable(t *testing.T) {
 	s := NewSubscriptionTrackingSetting().SetEnable(true)
 
-	if !s.Enable {
+	if !*s.Enable {
 		t.Errorf("SubscriptionTracking should be enabled")
 	}
 }
@@ -834,7 +834,7 @@ func TestV3NewSetting(t *testing.T) {
 		t.Errorf("NewSetting() shouldn't return nil")
 	}
 
-	if !s.Enable {
+	if !*s.Enable {
 		t.Errorf("NewSetting(true) should retun a setting with Enabled = true")
 	}
 }
@@ -859,11 +859,11 @@ func TestV3NewClickTrackingSetting(t *testing.T) {
 	c.SetEnable(true)
 	c.SetEnableText(false)
 
-	if !c.Enable {
+	if !*c.Enable {
 		t.Error("Click Tracking should be enabled")
 	}
 
-	if c.EnableText {
+	if *c.EnableText {
 		t.Error("Enable Text should not be enabled")
 	}
 }
@@ -876,7 +876,7 @@ func TestV3NewSpamCheckSetting(t *testing.T) {
 	s.SetSpamThreshold(spamThreshold)
 	s.SetPostToURL(postToURL)
 
-	if !s.Enable {
+	if !*s.Enable {
 		t.Error("SpamCheck should be enabled")
 	}
 
@@ -896,11 +896,11 @@ func TestV3NewSandboxModeSetting(t *testing.T) {
 	spamCheck.SetPostToURL("http://wwww.google.com")
 	s := NewSandboxModeSetting(true, true, spamCheck)
 
-	if !s.Enable {
+	if !*s.Enable {
 		t.Error("Sandbox Mode should be enabled")
 	}
 
-	if !s.ForwardSpam {
+	if !*s.ForwardSpam {
 		t.Error("ForwardSpam should be enabled")
 	}
 
