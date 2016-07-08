@@ -119,7 +119,7 @@ For the purposes of contributing to this repo, please update the [`sendgrid_test
 To run the tests:
 
 ```bash
-go test -v
+go test -v ./...
 ```
 
 <a name="style_guidelines_and_naming_conventions"></a>
