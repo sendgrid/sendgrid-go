@@ -343,7 +343,7 @@ func TestV3PersonalizationAddCCs(t *testing.T) {
 }
 
 func TestV3PersonalizationAddBCCs(t *testing.T) {
-  bccs := []*Email{
+	bccs := []*Email{
 		NewEmail("Example User", "test@example.com"),
 		NewEmail("Example User", "test@example.com"),
 	}

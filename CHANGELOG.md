@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.3] - 2016-07-08
+### Fixed
+- [Can't disable subscription tracking #68](https://github.com/sendgrid/sendgrid-go/issues/68)
+
 ## [3.0.2] - 2016-07-07
 ### Added
 - Tests now mocked automatically against [prism](https://stoplight.io/prism/)

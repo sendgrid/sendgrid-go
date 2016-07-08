@@ -81,12 +81,12 @@ type TrackingSettings struct {
 }
 
 type BccSetting struct {
-	Enable *bool   `json:"enable,omitempty"`
+	Enable *bool  `json:"enable,omitempty"`
 	Email  string `json:"email,omitempty"`
 }
 
 type FooterSetting struct {
-	Enable *bool   `json:"enable,omitempty"`
+	Enable *bool  `json:"enable,omitempty"`
 	Text   string `json:"text,omitempty"`
 	Html   string `json:"html,omitempty"`
 }
@@ -97,31 +97,31 @@ type ClickTrackingSetting struct {
 }
 
 type OpenTrackingSetting struct {
-	Enable          *bool   `json:"enable,omitempty"`
+	Enable          *bool  `json:"enable,omitempty"`
 	SubstitutionTag string `json:"substitution_tag,omitempty"`
 }
 
 type SandboxModeSetting struct {
-	Enable      *bool              `json:"enable,omitempty"`
-	ForwardSpam *bool              `json:"forward_spam,omitempty"`
+	Enable      *bool             `json:"enable,omitempty"`
+	ForwardSpam *bool             `json:"forward_spam,omitempty"`
 	SpamCheck   *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
 type SpamCheckSetting struct {
-	Enable        *bool   `json:"enable,omitempty"`
+	Enable        *bool  `json:"enable,omitempty"`
 	SpamThreshold int    `json:"threshold,omitempty"`
 	PostToURL     string `json:"post_to_url,omitempty"`
 }
 
 type SubscriptionTrackingSetting struct {
-	Enable          *bool   `json:"enable,omitempty"`
+	Enable          *bool  `json:"enable,omitempty"`
 	Text            string `json:"text,omitempty"`
 	Html            string `json:"html,omitempty"`
 	SubstitutionTag string `json:"substitution_tag,omitempty"`
 }
 
 type GaSetting struct {
-	Enable          *bool   `json:"enable,omitempty"`
+	Enable          *bool  `json:"enable,omitempty"`
 	CampaignSource  string `json:"utm_source,omitempty"`
 	CampaignTerm    string `json:"utm_term,omitempty"`
 	CampaignContent string `json:"utm_content,omitempty"`
@@ -155,7 +155,7 @@ func NewV3MailInit(from *Email, subject string, to *Email, content *Content) *SG
 func GetRequestBody(m *SGMailV3) []byte {
 	b, err := json.Marshal(m)
 	if err != nil {
-			fmt.Println(err)
+		fmt.Println(err)
 	}
 	return []byte(string(b))
 }
@@ -414,7 +414,7 @@ func NewBCCSetting() *BccSetting {
 }
 
 func (b *BccSetting) SetEnable(enable bool) *BccSetting {
-  setEnable := new(bool)
+	setEnable := new(bool)
 	*setEnable = enable
 	b.Enable = setEnable
 	return b
