@@ -7,48 +7,30 @@ import (
 )
 
 ///////////////////////////////////////////////////
-// Retrieve all recent access attempts
-// GET /access_settings/activity
+// Create a Sender Identity
+// POST /senders
 
-func Retrieveallrecentaccessattempts() {
+func CreateaSenderIdentity() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/access_settings/activity", host)
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
-  request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-    fmt.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
-}
-
-///////////////////////////////////////////////////
-// Add one or more IPs to the whitelist
-// POST /access_settings/whitelist
-
-func AddoneormoreIPstothewhitelist() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
+  request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
   request.Method = "POST"
   request.Body = []byte(` {
-  "ips": [
-    {
-      "ip": "192.168.1.1"
-    }, 
-    {
-      "ip": "192.*.*.*"
-    }, 
-    {
-      "ip": "192.168.1.3/32"
-    }
-  ]
+  "address": "123 Elm St.", 
+  "address_2": "Apt. 456", 
+  "city": "Denver", 
+  "country": "United States", 
+  "from": {
+    "email": "from@example.com", 
+    "name": "Example INC"
+  }, 
+  "nickname": "My Sender ID", 
+  "reply_to": {
+    "email": "replyto@example.com", 
+    "name": "Example INC"
+  }, 
+  "state": "Colorado", 
+  "zip": "80202"
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
@@ -61,13 +43,13 @@ func AddoneormoreIPstothewhitelist() {
 }
 
 ///////////////////////////////////////////////////
-// Retrieve a list of currently whitelisted IPs
-// GET /access_settings/whitelist
+// Get all Sender Identities
+// GET /senders
 
-func RetrievealistofcurrentlywhitelistedIPs() {
+func GetallSenderIdentities() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
+  request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -80,20 +62,30 @@ func RetrievealistofcurrentlywhitelistedIPs() {
 }
 
 ///////////////////////////////////////////////////
-// Remove one or more IPs from the whitelist
-// DELETE /access_settings/whitelist
+// Update a Sender Identity
+// PATCH /senders/{sender_id}
 
-func RemoveoneormoreIPsfromthewhitelist() {
+func UpdateaSenderIdentity() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
-  request.Method = "DELETE"
+  request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+  request.Method = "PATCH"
   request.Body = []byte(` {
-  "ids": [
-    1, 
-    2, 
-    3
-  ]
+  "address": "123 Elm St.", 
+  "address_2": "Apt. 456", 
+  "city": "Denver", 
+  "country": "United States", 
+  "from": {
+    "email": "from@example.com", 
+    "name": "Example INC"
+  }, 
+  "nickname": "My Sender ID", 
+  "reply_to": {
+    "email": "replyto@example.com", 
+    "name": "Example INC"
+  }, 
+  "state": "Colorado", 
+  "zip": "80202"
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
@@ -106,13 +98,13 @@ func RemoveoneormoreIPsfromthewhitelist() {
 }
 
 ///////////////////////////////////////////////////
-// Retrieve a specific whitelisted IP
-// GET /access_settings/whitelist/{rule_id}
+// View a Sender Identity
+// GET /senders/{sender_id}
 
-func RetrieveaspecificwhitelistedIP() {
+func ViewaSenderIdentity() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
+  request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
@@ -125,14 +117,33 @@ func RetrieveaspecificwhitelistedIP() {
 }
 
 ///////////////////////////////////////////////////
-// Remove a specific IP from the whitelist
-// DELETE /access_settings/whitelist/{rule_id}
+// Delete a Sender Identity
+// DELETE /senders/{sender_id}
 
-func RemoveaspecificIPfromthewhitelist() {
+func DeleteaSenderIdentity() {
   apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
   host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
+  request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
   request.Method = "DELETE"
+  response, err := sendgrid.API(request)
+  if err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+
+///////////////////////////////////////////////////
+// Resend Sender Identity Verification
+// POST /senders/{sender_id}/resend_verification
+
+func ResendSenderIdentityVerification() {
+  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+  host := "https://api.sendgrid.com"
+  request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
+  request.Method = "POST"
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

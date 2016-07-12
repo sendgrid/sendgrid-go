@@ -34,6 +34,7 @@ host := "https://api.sendgrid.com"
 * [MAILBOX PROVIDERS](#mailbox_providers)
 * [PARTNER SETTINGS](#partner_settings)
 * [SCOPES](#scopes)
+* [SENDERS](#senders)
 * [STATS](#stats)
 * [SUBUSERS](#subusers)
 * [SUPPRESSION](#suppression)
@@ -1920,7 +1921,6 @@ The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](
 request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
 request.Method = "GET"
 queryParams := make(map[string]string)
-queryParams["%7Bfield_name%7D"] = "test_string"
 queryParams["{field_name}"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
@@ -3488,6 +3488,173 @@ API Keys can be used to authenticate the use of [SendGrids v3 Web API](https://s
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/scopes", host)
 request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+<a name="senders"></a>
+# SENDERS
+
+## Create a Sender Identity
+
+**This endpoint allows you to create a new sender identity.**
+
+*You may create up to 100 unique sender identities.*
+
+Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+
+### POST /senders
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "address": "123 Elm St.",
+  "address_2": "Apt. 456",
+  "city": "Denver",
+  "country": "United States",
+  "from": {
+    "email": "from@example.com",
+    "name": "Example INC"
+  },
+  "nickname": "My Sender ID",
+  "reply_to": {
+    "email": "replyto@example.com",
+    "name": "Example INC"
+  },
+  "state": "Colorado",
+  "zip": "80202"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Get all Sender Identities
+
+**This endpoint allows you to retrieve a list of all sender identities that have been created for your account.**
+
+Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+
+### GET /senders
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Update a Sender Identity
+
+**This endpoint allows you to update a sender identity.**
+
+Updates to `from.email` require re-verification. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+
+Partial updates are allowed, but fields that are marked as "required" in the POST (create) endpoint must not be nil if that field is included in the PATCH request.
+
+### PATCH /senders/{sender_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+request.Method = "PATCH"
+request.Body = []byte(` {
+  "address": "123 Elm St.",
+  "address_2": "Apt. 456",
+  "city": "Denver",
+  "country": "United States",
+  "from": {
+    "email": "from@example.com",
+    "name": "Example INC"
+  },
+  "nickname": "My Sender ID",
+  "reply_to": {
+    "email": "replyto@example.com",
+    "name": "Example INC"
+  },
+  "state": "Colorado",
+  "zip": "80202"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## View a Sender Identity
+
+**This endpoint allows you to retrieve a specific sender identity.**
+
+Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+
+### GET /senders/{sender_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Delete a Sender Identity
+
+**This endoint allows you to delete one of your sender identities.**
+
+Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+
+### DELETE /senders/{sender_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  fmt.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Resend Sender Identity Verification
+
+**This enpdoint allows you to resend a sender identity verification email.**
+
+Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+
+### POST /senders/{sender_id}/resend_verification
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
+request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
   fmt.Println(err)

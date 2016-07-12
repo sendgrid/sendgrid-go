@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.4] - 2016-07-12
+### Added
+- Update docs, unit tests and examples to include Sender ID
+### Fixed
+- Missing example query params for the examples
+
 ## [3.0.3] - 2016-07-08
 ### Fixed
 - [Can't disable subscription tracking #68](https://github.com/sendgrid/sendgrid-go/issues/68)

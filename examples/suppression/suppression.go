@@ -15,6 +15,12 @@ func Retrieveallblocks() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["start_time"] = "1"
+  queryParams["limit"] = "1"
+  queryParams["end_time"] = "1"
+  queryParams["offset"] = "1"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -98,6 +104,10 @@ func Retrieveallbounces() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["start_time"] = "1"
+  queryParams["end_time"] = "1"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -162,6 +172,9 @@ func Deleteabounce() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
   request.Method = "DELETE"
+  queryParams := make(map[string]string)
+  queryParams["email_address"] = "example@example.com"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -181,6 +194,12 @@ func Retrieveallinvalidemails() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["start_time"] = "1"
+  queryParams["limit"] = "1"
+  queryParams["end_time"] = "1"
+  queryParams["offset"] = "1"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -302,6 +321,12 @@ func Retrieveallspamreports() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["start_time"] = "1"
+  queryParams["limit"] = "1"
+  queryParams["end_time"] = "1"
+  queryParams["offset"] = "1"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)
@@ -347,6 +372,12 @@ func Retrieveallglobalsuppressions() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/suppression/unsubscribes", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["start_time"] = "1"
+  queryParams["limit"] = "1"
+  queryParams["end_time"] = "1"
+  queryParams["offset"] = "1"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

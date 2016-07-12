@@ -39,6 +39,9 @@ func Retrieveinformationaboutmultiplesuppressiongroups() {
   host := "https://api.sendgrid.com"
   request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
   request.Method = "GET"
+  queryParams := make(map[string]string)
+  queryParams["id"] = "1"
+  request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
     fmt.Println(err)

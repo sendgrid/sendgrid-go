@@ -1385,7 +1385,6 @@ func Test_test_contactdb_recipients_search_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
 	request.Method = "GET"
 	queryParams := make(map[string]string)
-	queryParams["%7Bfield_name%7D"] = "test_string"
 	queryParams["{field_name}"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
@@ -2472,6 +2471,130 @@ func Test_test_scopes_get(t *testing.T) {
 		fmt.Println(err)
 	}
 	if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_senders_post(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	host := "http://localhost:4010"
+	request := GetRequest(apiKey, "/v3/senders", host)
+	request.Method = "POST"
+	request.Body = []byte(` {
+  "address": "123 Elm St.",
+  "address_2": "Apt. 456",
+  "city": "Denver",
+  "country": "United States",
+  "from": {
+    "email": "from@example.com",
+    "name": "Example INC"
+  },
+  "nickname": "My Sender ID",
+  "reply_to": {
+    "email": "replyto@example.com",
+    "name": "Example INC"
+  },
+  "state": "Colorado",
+  "zip": "80202"
+}`)
+	request.Headers["X-Mock"] = "201"
+	response, err := API(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if response.StatusCode != 201 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_senders_get(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	host := "http://localhost:4010"
+	request := GetRequest(apiKey, "/v3/senders", host)
+	request.Method = "GET"
+	request.Headers["X-Mock"] = "200"
+	response, err := API(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_senders__sender_id__patch(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	host := "http://localhost:4010"
+	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+	request.Method = "PATCH"
+	request.Body = []byte(` {
+  "address": "123 Elm St.",
+  "address_2": "Apt. 456",
+  "city": "Denver",
+  "country": "United States",
+  "from": {
+    "email": "from@example.com",
+    "name": "Example INC"
+  },
+  "nickname": "My Sender ID",
+  "reply_to": {
+    "email": "replyto@example.com",
+    "name": "Example INC"
+  },
+  "state": "Colorado",
+  "zip": "80202"
+}`)
+	request.Headers["X-Mock"] = "200"
+	response, err := API(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_senders__sender_id__get(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	host := "http://localhost:4010"
+	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+	request.Method = "GET"
+	request.Headers["X-Mock"] = "200"
+	response, err := API(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if response.StatusCode != 200 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_senders__sender_id__delete(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	host := "http://localhost:4010"
+	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+	request.Method = "DELETE"
+	request.Headers["X-Mock"] = "204"
+	response, err := API(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if response.StatusCode != 204 {
+		t.Error("Wrong status code returned")
+	}
+}
+
+func Test_test_senders__sender_id__resend_verification_post(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	host := "http://localhost:4010"
+	request := GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
+	request.Method = "POST"
+	request.Headers["X-Mock"] = "204"
+	response, err := API(request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if response.StatusCode != 204 {
 		t.Error("Wrong status code returned")
 	}
 }
