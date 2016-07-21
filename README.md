@@ -1,27 +1,14 @@
-[![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go) [![GoDoc](https://godoc.org/github.com/sendgrid/rest?status.png)](http://godoc.org/github.com/sendgrid/sendgrid-go)
+[![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 
-**This library allows you to quickly and easily use the SendGrid Web API via Go.**
+**This library allows you to quickly and easily use the SendGrid Web API v3 via Go.**
 
-# Announcements
+Version 3.X.X of this library provides full support for all SendGrid [Web API v3](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html) endpoints, including the new [v3 /mail/send](https://sendgrid.com/blog/introducing-v3mailsend-sendgrids-new-mail-endpoint).
 
-**BREAKING CHANGE as of 2016.06.14**
+This library represents the beginning of a new path for SendGrid. We want this library to be community driven and SendGrid led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) or simply upvote or comment on existing issues or pull requests.
 
-Version `3.X.X` is a breaking change for the entire library.
+Please browse the rest of this README for further detail.
 
-Version 3.X.X brings you full support for all Web API v3 endpoints. We
-have the following resources to get you started quickly:
-
--   [SendGrid
-    Documentation](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html)
--   [Usage
-    Documentation](https://github.com/sendgrid/sendgrid-go/tree/master/USAGE.md)
--   [Example
-    Code](https://github.com/sendgrid/sendgrid-go/tree/master/examples)
--   [Migration from v2 to v3](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/how_to_migrate_from_v2_to_v3_mail_send.html)
-
-Thank you for your continued support!
-
-All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md).
+We appreciate your continued support, thank you!
 
 # Installation
 
@@ -32,7 +19,7 @@ All updates to this library is documented in our [CHANGELOG](https://github.com/
 
 ## Setup Environment Variables
 
-Update your environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys).
+Update the development environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys), for example:
 
 ```bash
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
@@ -55,6 +42,11 @@ import "github.com/sendgrid/sendgrid-go"
 # Quick Start
 
 ## Hello Email
+
+The following is the minimum needed code to send an email with the [/mail/send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail) ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L32) is a full example):
+
+### With Mail Helper Class
+
 ```go
 package main
 
@@ -86,6 +78,12 @@ func main() {
 }
 ```
 
+The `NewV3MailInit` constructor creates a [personalization object](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html) for you. [Here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L28) is an example of how to add to it.
+
+### Without Mail Helper Class
+
+The following is the minimum needed code to send an email without the /mail/send Helper ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/mail/mail.go#L47) is a full example):
+
 ## General v3 Web API Usage
 
 ```go
@@ -98,9 +96,29 @@ import (
 )
 
 func main() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/api_keys", "https://api.sendgrid.com")
-	request.Method = "GET"
-
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	request.Body = []byte(` {
+	"personalizations": [
+		{
+			"to": [
+				{
+					"email": "test@example.com"
+				}
+			],
+			"subject": "Hello World from the SendGrid Go Library!"
+		}
+	],
+	"from": {
+		"email": "test@example.com"
+	},
+	"content": [
+		{
+			"type": "text/plain",
+			"value": "Hello, Email!"
+		}
+	]
+}`)
 	response, err := sendgrid.API(request)
 	if err != nil {
 		fmt.Println(err)
@@ -115,17 +133,22 @@ func main() {
 # Usage
 
 - [SendGrid Docs](https://sendgrid.com/docs/API_Reference/index.html)
-- [Usage Docs](https://github.com/sendgrid/sendgrid-go/tree/master/USAGE.md)
+- [Library Usage Docs](https://github.com/sendgrid/sendgrid-go/tree/master/USAGE.md)
 - [Example Code](https://github.com/sendgrid/sendgrid-go/tree/master/examples)
+- [How-to: Migration from v2 to v3](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/how_to_migrate_from_v2_to_v3_mail_send.html)
 - [v3 Web API Mail Send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail/README.md)
 
-## Roadmap
+# Announcements
 
-If you are interested in the future direction of this project, please take a look at our [milestones](https://github.com/sendgrid/sendgrid-go/milestones). We would love to hear your feedback.
+All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases).
 
-## How to Contribute
+# Roadmap
 
-We encourage contribution to our libraries, please see our [CONTRIBUTING](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md) guide for details.
+If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/pulls). We would love to hear your feedback.
+
+# How to Contribute
+
+We encourage contribution to our libraries (you might even score some nifty swag), please see our [CONTRIBUTING](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) guide for details.
 
 Quick links:
 
