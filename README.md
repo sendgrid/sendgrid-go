@@ -84,8 +84,6 @@ The `NewV3MailInit` constructor creates a [personalization object](https://sendg
 
 The following is the minimum needed code to send an email without the /mail/send Helper ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/mail/mail.go#L47) is a full example):
 
-## General v3 Web API Usage
-
 ```go
 package main
 
@@ -119,6 +117,32 @@ func main() {
 		}
 	]
 }`)
+	response, err := sendgrid.API(request)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+```
+
+## General v3 Web API Usage
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/sendgrid/sendgrid-go"
+	"os"
+)
+
+func main() {
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/api_keys", "https://api.sendgrid.com")
+	request.Method = "GET"
+
 	response, err := sendgrid.API(request)
 	if err != nil {
 		fmt.Println(err)
