@@ -2,7 +2,7 @@ language: go
 go:
 - '1.6'
 before_script:
-- ./prism.sh
+- $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 notifications:
   hipchat:
     rooms:
