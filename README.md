@@ -181,6 +181,10 @@ Quick links:
 - [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#cla)
 - [Improvements to the Codebase](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#improvements_to_the_codebase)
 
+# Troubleshooting
+
+Please see our [troubleshooting guide](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) for common library issues.
+
 # About
 
 sendgrid-go is guided and supported by the SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).

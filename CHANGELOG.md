@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.6] - 2016-07-26 ##
+### Added
+- [Troubleshooting](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) section
+
 ## [3.0.5] - 2016-07-20
 ### Added
 - README updates
