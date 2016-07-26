@@ -2,7 +2,7 @@ language: go
 go:
 - '1.6'
 before_script:
-- "curl https://raw.githubusercontent.com/stoplightio/prism/master/install.sh | sh"
+- "curl https://raw.githubusercontent.com/sendgrid/sendgrid-python/master/test/prism.sh | sh"
 notifications:
   hipchat:
     rooms:
