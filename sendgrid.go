@@ -30,5 +30,3 @@ var DefaultClient = rest.DefaultClient
 func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }
-
-

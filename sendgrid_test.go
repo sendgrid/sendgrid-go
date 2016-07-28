@@ -1,9 +1,9 @@
 package sendgrid
 
 import (
-	"github.com/sendgrid/rest"
 	"bytes"
 	"fmt"
+	"github.com/sendgrid/rest"
 	"io"
 	"net/http"
 	"net/http/httptest"
