@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.0] - 2016-07-28
+- Dependency update to v2.2.0 of [sendGrid-rest](https://github.com/sendgrid/rest/releases/tag/v2.2.0)
+- Pull [#9](https://github.com/sendgrid/rest/pull/9): Allow for setting a custom HTTP client
+- [Here](https://github.com/sendgrid/rest/blob/master/rest_test.go#L127) is an example of usage
+- This enables usage of the [sendgrid-go library](https://github.com/sendgrid/sendgrid-go) on [Google App Engine (GAE)](https://cloud.google.com/appengine/)
+- Special thanks to [Chris Broadfoot](https://github.com/broady) and [Sridhar Venkatakrishnan](https://github.com/sridharv) for providing code and feedback!
+
 ## [3.0.6] - 2016-07-26 ##
 ### Added
 - [Troubleshooting](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) section
