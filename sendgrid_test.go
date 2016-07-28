@@ -4,9 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 	"testing"
 	"time"
 )
@@ -93,7 +96,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestSendGridVersion(t *testing.T) {
-	if Version != "3.0.0" {
+	if Version != "3.1.0" {
 		t.Error("SendGrid version does not match")
 	}
 }
@@ -122,6 +125,27 @@ func TestGetRequest(t *testing.T) {
 	}
 	if request.Headers["Accept"] != "application/json" {
 		t.Error("Wrong Accept header")
+	}
+}
+
+func TestCustomHTTPClient(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Millisecond * 20)
+		fmt.Fprintln(w, "{\"message\": \"success\"}")
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	_, err := custom.API(request)
+	if err == nil {
+		t.Error("A timeout did not trigger as expected")
+	}
+	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+		t.Error("We did not receive the Timeout error")
 	}
 }
 

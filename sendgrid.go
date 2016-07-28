@@ -1,9 +1,10 @@
 // Package sendgrid provides a simple interface to interact with the SendGrid API
 package sendgrid
 
-import "github.com/sendgrid/rest" // depends on version 2.0.0
+import "github.com/sendgrid/rest" // depends on version 2.2.0
 
-const Version = "3.0.0"
+// Version is this client library's current version
+const Version = "3.1.0"
 
 // GetRequest returns a default request object.
 func GetRequest(key string, endpoint string, host string) rest.Request {
@@ -22,11 +23,17 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	return request
 }
 
+// Client allows us to set a custom HTTP Client
+type Client struct {
+  rest.Client
+}
+
+// DefaultClient is used if no custom HTTP client is defined
+var DefaultClient = rest.DefaultClient
+
 // API sets up the request to the SendGrid API, this is main interface.
 func API(request rest.Request) (*rest.Response, error) {
-	response, err := rest.API(request)
-	if err != nil {
-		return nil, err
-	}
-	return response, nil
+	return DefaultClient.API(request)
 }
+
+
