@@ -1,6 +1,7 @@
 package sendgrid
 
 import (
+	"github.com/sendgrid/rest"
 	"bytes"
 	"fmt"
 	"io"
@@ -138,7 +139,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	host := fakeServer.URL
 	request := GetRequest(apiKey, "/v3/test_endpoint", host)
 	request.Method = "GET"
-	var custom Client
+	var custom rest.Client
 	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
 	_, err := custom.API(request)
 	if err == nil {

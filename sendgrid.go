@@ -23,11 +23,6 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	return request
 }
 
-// Client allows us to set a custom HTTP Client
-type Client struct {
-  rest.Client
-}
-
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = rest.DefaultClient
 
