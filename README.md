@@ -1,228 +1,195 @@
-# Special Announcement
-
-We have released a [v3 beta branch](https://github.com/sendgrid/sendgrid-go/tree/v3beta) for this library that supports our new v3 Mail Send endpoint which is in open beta. The v3/mail/send/beta endpoint is not a production endpoint, so you should not integrate with it for your production email sending. However, when we make this an officially released feature it will be available at v3/mail/send.
-
-Please try it out and let us know what you think about the endpoint and the library in the [issues area of this repo](https://github.com/sendgrid/sendgrid-go/issues), all of your feedback will be taken into account to influence the endpoint and this library.
-
-Beginning with v3/mail/send/beta, the new version of our library will only support v3 endpoints.. Once this endpoint is out of beta, we will update the endpoint, removing the “/beta” from the URI. At this point, the v3 beta branch will be merged to master and will be our official library going forward. This means that we will no longer formally support the v2 mail.send.json endpoint in any of our libraries.
-
-So long as you are not automatically pulling new versions of the library into your production code base, your integration will not break regardless of which endpoint you’re using. By the way, don't pull new versions into your production code base, because breaking changes break things.
-
-The /api/mail.send.json endpoint, known as v2 mail send, is NOT going away. It will continue to work as it always has, happily sending your emails along as if nothing happened.
-
-# SendGrid-Go
-[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.png)](http://godoc.org/github.com/sendgrid/sendgrid-go) 
-Visit the GoDoc.
-
 [![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
-SendGrid Helper Library to send emails very easily using Go.
 
-### Warning
+**This library allows you to quickly and easily use the SendGrid Web API v3 via Go.**
 
-Version ``2.x.x`` drops support for Go versions < 1.3.
+Version 3.X.X of this library provides full support for all SendGrid [Web API v3](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html) endpoints, including the new [v3 /mail/send](https://sendgrid.com/blog/introducing-v3mailsend-sendgrids-new-mail-endpoint).
 
-Version ``1.2.x`` behaves differently in the ``AddTo`` method. In the past this method defaulted to using the ``SMTPAPI`` header. Now you must explicitly call the ``SMTPAPIHeader.AddTo`` method. More on the ``SMTPAPI`` section.
+This library represents the beginning of a new path for SendGrid. We want this library to be community driven and SendGrid led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) or simply upvote or comment on existing issues or pull requests.
 
-## Installation
+Please browse the rest of this README for further detail.
+
+We appreciate your continued support, thank you!
+
+# Installation
+
+## Prerequisites
+
+- Go version 1.6
+- The SendGrid service, starting at the [free level](https://sendgrid.com/free?source=sendgrid-go)
+
+## Setup Environment Variables
+
+Update the development environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys), for example:
 
 ```bash
-go get github.com/sendgrid/sendgrid-go
-
-# Or pin the version with gopkg
-go get gopkg.in/sendgrid/sendgrid-go.v1
-
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
 echo "sendgrid.env" >> .gitignore
-
+source ./sendgrid.env
 ```
 
-## Example
+## Install Package
+
+`go get github.com/sendgrid/sendgrid-go`
+
+```go
+import "github.com/sendgrid/sendgrid-go"
+```
+
+## Dependencies
+
+- [rest](https://github.com/sendgrid/rest)
+
+# Quick Start
+
+## Hello Email
+
+The following is the minimum needed code to send an email with the [/mail/send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail) ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L32) is a full example):
+
+### With Mail Helper Class
 
 ```go
 package main
 
 import (
-        "fmt"
-        "github.com/sendgrid/sendgrid-go"
-		"os"
+	"fmt"
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"os"
 )
 
 func main() {
-	sendgridKey := os.Getenv("SENDGRID_API_KEY")
-	if sendgridKey == "" {
-	  			fmt.Println("Environment variable SENDGRID_API_KEY is undefined. Did you forget to source sendgrid.env?")
-	  			os.Exit(1);
+	from := mail.NewEmail("Example User", "test@example.com")
+	subject := "Hello World from the SendGrid Go Library"
+	to := mail.NewEmail("Example User", "test@example.com")
+	content := mail.NewContent("text/plain", "some text here")
+	m := mail.NewV3MailInit(from, subject, to, content)
+
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	request.Body = mail.GetRequestBody(m)
+	response, err := sendgrid.API(request)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
 	}
-    sg := sendgrid.NewSendGridClientWithApiKey(sendgridKey)
-    message := sendgrid.NewMail()
-    message.AddTo("community@sendgrid.com")
-    message.AddToName("SendGrid Community Dev Team")
-    message.SetSubject("SendGrid Testing")
-    message.SetText("WIN")
-    message.SetFrom("you@yourdomain.com")
-    if r := sg.Send(message); r == nil {
-                fmt.Println("Email sent!")
-        } else {
-                fmt.Println(r)
-        }
 }
 ```
 
-## Usage
+The `NewV3MailInit` constructor creates a [personalization object](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html) for you. [Here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L28) is an example of how to add to it.
 
-To begin using this library, call `NewSendGridClientWithApiKey` with a SendGrid API Key.  
+### Without Mail Helper Class
 
-### Creating a Client
-
-```go
-sg := sendgrid.NewSendGridClientWithApiKey("sendgrid_api_key")
-```
-
-### Creating a Mail
-```go
-message := sendgrid.NewMail()
-```
-
-### Adding Recipients
+The following is the minimum needed code to send an email without the /mail/send Helper ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/mail/mail.go#L47) is a full example):
 
 ```go
-message.AddTo("example@sendgrid.com") // Returns error if email string is not valid RFC 5322
-// or
-address, _ := mail.ParseAddress("Example <example@sendgrid.com>")
-message.AddRecipient(address) // Receives a vaild mail.Address
-```
+package main
 
-### Adding BCC Recipients
+import (
+	"fmt"
+	"github.com/sendgrid/sendgrid-go"
+	"os"
+)
 
-Same concept as regular recipient excepts the methods are:
-
-*   AddBcc
-*   AddBccRecipient
-
-### Setting the Subject
-
-```go
-message.SetSubject("New email")
-```
-
-### Set Text or HTML
-
-```go
-message.SetText("Add Text Here..")
-//or
-message.SetHTML("<html><body>Stuff, you know?</body></html>")
-```
-### Set From
-
-```go
-message.SetFrom("example@lol.com")
-```
-### Set File Attachments
-
-```go
-message.AddAttachment("text.txt", file) // file needs to implement the io.Reader interface
-//or
-message.AddAttachmentFromStream("filename", "some file content")
-```
-### Adding ContentIDs
-
-```go
-message.AddContentID("id", "content")
-```
-
-## SendGrid's  [X-SMTPAPI](http://sendgrid.com/docs/API_Reference/SMTP_API/)
-
-If you wish to use the X-SMTPAPI on your own app, you can use the [SMTPAPI Go library](https://github.com/sendgrid/smtpapi-go).
-
-
-### Recipients
-
-```go
-message.SMTPAPIHeader.AddTo("addTo@mailinator.com")
-// or
-tos := []string{"test@test.com", "test@email.com"}
-message.SMTPAPIHeader.AddTos(tos)
-// or
-message.SMTPAPIHeader.SetTos(tos)
-```
-
-### [Substitutions](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
-
-```go
-message.AddSubstitution("key", "value")
-// or
-values := []string{"value1", "value2"}
-message.AddSubstitutions("key", values)
-//or
-sub := make(map[string][]string)
-sub["key"] = values
-message.SetSubstitutions(sub)
-```
-
-### [Section](http://sendgrid.com/docs/API_Reference/SMTP_API/section_tags.html)
-
-```go
-message.AddSection("section", "value")
-// or
-sections := make(map[string]string)
-sections["section"] = "value"
-message.SetSections(sections)
-```
-
-### [Category](http://sendgrid.com/docs/Delivery_Metrics/categories.html)
-
-```go
-message.AddCategory("category")
-// or
-categories := []string{"setCategories"}
-message.AddCategories(categories)
-// or
-message.SetCategories(categories)
-```
-
-### [Unique Arguments](http://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html)
-
-```go
-message.AddUniqueArg("key", "value")
-// or
-args := make(map[string]string)
-args["key"] = "value"
-message.SetUniqueArgs(args)
-```
-
-### [Filters](http://sendgrid.com/docs/API_Reference/SMTP_API/apps.html)
-
-```go
-message.AddFilter("filter", "setting", "value")
-// or
-filter := &Filter{
-  Settings: make(map[string]string),
+func main() {
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	request.Body = []byte(` {
+	"personalizations": [
+		{
+			"to": [
+				{
+					"email": "test@example.com"
+				}
+			],
+			"subject": "Hello World from the SendGrid Go Library!"
+		}
+	],
+	"from": {
+		"email": "test@example.com"
+	},
+	"content": [
+		{
+			"type": "text/plain",
+			"value": "Hello, Email!"
+		}
+	]
+}`)
+	response, err := sendgrid.API(request)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
-filter.Settings["enable"] = "1"
-filter.Settings["text/plain"] = "You can haz footers!"
-message.SetFilter("footer", filter)
 ```
 
-### JSONString
+## General v3 Web API Usage
 
 ```go
-message.JSONString() //returns a JSON string representation of the headers
+package main
+
+import (
+	"fmt"
+	"github.com/sendgrid/sendgrid-go"
+	"os"
+)
+
+func main() {
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/api_keys", "https://api.sendgrid.com")
+	request.Method = "GET"
+
+	response, err := sendgrid.API(request)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
 ```
 
-Kudos to [Matthew Zimmerman](https://github.com/mzimmerman) for this example.
+# Usage
 
-###Tests
+- [SendGrid Docs](https://sendgrid.com/docs/API_Reference/index.html)
+- [Library Usage Docs](https://github.com/sendgrid/sendgrid-go/tree/master/USAGE.md)
+- [Example Code](https://github.com/sendgrid/sendgrid-go/tree/master/examples)
+- [How-to: Migration from v2 to v3](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/how_to_migrate_from_v2_to_v3_mail_send.html)
+- [v3 Web API Mail Send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail/README.md)
 
-Please run the test suite in before sending a pull request.
+# Announcements
 
-```bash
-go test -v
-```
+All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases).
 
-### TODO:
-* Add Versioning
-* Add proper support for BCC
+# Roadmap
 
-##MIT License
+If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/pulls). We would love to hear your feedback.
 
-Enjoy. Feel free to make pull requests :)
+# How to Contribute
+
+We encourage contribution to our libraries (you might even score some nifty swag), please see our [CONTRIBUTING](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) guide for details.
+
+Quick links:
+
+- [Feature Request](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#feature_request)
+- [Bug Reports](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#submit_a_bug_report)
+- [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#cla)
+- [Improvements to the Codebase](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#improvements_to_the_codebase)
+
+# Troubleshooting
+
+Please see our [troubleshooting guide](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) for common library issues.
+
+# About
+
+sendgrid-go is guided and supported by the SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).
+
+sendgrid-go is maintained and funded by SendGrid, Inc. The names and logos for sendgrid-go are trademarks of SendGrid, Inc.
+
+![SendGrid Logo]
+(https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)

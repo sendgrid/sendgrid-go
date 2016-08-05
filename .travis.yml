@@ -1,7 +1,8 @@
 language: go
 go:
-- '1.3'
-- tip
+- '1.6'
+before_script:
+- $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 notifications:
   hipchat:
     rooms:
@@ -9,6 +10,6 @@ notifications:
     template:
     - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository}
       Build %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
-      <a href="https://github.com/sendgrid/docs/commits/%{commit}">View on GitHub</a>'
+      <a href="https://github.com/sendgrid/%{repository}/commits/%{commit}">View on GitHub</a>'
     format: html
     notify: true
