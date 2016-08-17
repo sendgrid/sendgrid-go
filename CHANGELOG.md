@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.2.0] - 2016-08-17
+### Added
+- Merged pull request: [make contents var args in NewV3MailInit](https://github.com/sendgrid/sendgrid-go/pull/75)
+- The `NewV3MailInit` [Mail Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail) constructor can now take in multiple content objects.
+- Thanks to [Adrien Delorme](https://github.com/azr) for the pull request!
+
 ## [3.1.0] - 2016-07-28
 - Dependency update to v2.2.0 of [sendGrid-rest](https://github.com/sendgrid/rest/releases/tag/v2.2.0)
 - Pull [#9](https://github.com/sendgrid/rest/pull/9): Allow for setting a custom HTTP client

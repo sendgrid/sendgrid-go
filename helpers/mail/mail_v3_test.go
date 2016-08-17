@@ -26,6 +26,30 @@ func TestV3NewMail(t *testing.T) {
 	}
 }
 
+func TestV3NewMailInit(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Hello World from the SendGrid Go Library"
+	to := NewEmail("Example User", "test@example.com")
+	content := NewContent("text/plain", "some text here")
+	m := NewV3MailInit(from, subject, to, content)
+
+	if m == nil {
+		t.Errorf("NewV3MailInit() shouldn't return nil")
+	}
+
+	if m.From == nil {
+		t.Errorf("From shouldn't be nil")
+	}
+
+	if m.Personalizations == nil {
+		t.Errorf("Personalizations shouldn't be nil")
+	}
+
+	if m.Content == nil {
+		t.Errorf("Content shouldn't be nil")
+	}
+}
+
 func TestV3AddPersonalizations(t *testing.T) {
 	numOfPersonalizations := rand.New(rand.NewSource(99)).Intn(10)
 	personalizations := make([]*Personalization, 0)
