@@ -141,14 +141,14 @@ func NewV3Mail() *SGMailV3 {
 	}
 }
 
-func NewV3MailInit(from *Email, subject string, to *Email, content *Content) *SGMailV3 {
+func NewV3MailInit(from *Email, subject string, to *Email, content ...*Content) *SGMailV3 {
 	m := new(SGMailV3)
 	m.SetFrom(from)
 	m.Subject = subject
 	p := NewPersonalization()
 	p.AddTos(to)
 	m.AddPersonalizations(p)
-	m.AddContent(content)
+	m.AddContent(content...)
 	return m
 }
 
