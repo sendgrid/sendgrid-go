@@ -180,7 +180,7 @@ func main() {
 <a name="use_cases">
 # Use Cases
 
-[Examples of common API use cases](https://github.com/sendgrid/sendgrid-java/blob/master/USE_CASES.md), such as how to send an email with a transactional template.
+[Examples of common API use cases](https://github.com/sendgrid/sendgrid-go/blob/master/USE_CASES.md), such as how to send an email with a transactional template.
 
 <a name="announcements"></a>
 # Announcements
