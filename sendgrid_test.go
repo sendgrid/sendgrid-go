@@ -3,7 +3,6 @@ package sendgrid
 import (
 	"bytes"
 	"fmt"
-	"github.com/sendgrid/rest"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -13,12 +12,14 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/sendgrid/rest"
 )
 
 var (
 	testAPIKey = "SENDGRID_APIKEY"
 	testHost   = ""
-	prismPath  = os.Getenv("GOPATH") + "/bin"
+	prismPath  = "/usr/local/bin"
 	prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
 	prismCmd   *exec.Cmd
 	buffer     bytes.Buffer
