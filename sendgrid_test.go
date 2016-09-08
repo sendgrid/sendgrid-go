@@ -3,7 +3,6 @@ package sendgrid
 import (
 	"bytes"
 	"fmt"
-	"github.com/sendgrid/rest"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -13,12 +12,14 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/sendgrid/rest"
 )
 
 var (
 	testAPIKey = "SENDGRID_APIKEY"
 	testHost   = ""
-	prismPath  = os.Getenv("GOPATH") + "/bin"
+	prismPath  = "prism"
 	prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
 	prismCmd   *exec.Cmd
 	buffer     bytes.Buffer
@@ -31,7 +32,6 @@ func TestMain(m *testing.M) {
 	// Learn how to configure prism here: https://designer.stoplight.io/docs/prism
 	testHost = "http://localhost:4010"
 
-	prismPath += "/prism"
 	if runtime.GOOS == "windows" {
 		prismPath += ".exe"
 	}
@@ -57,6 +57,19 @@ func TestMain(m *testing.M) {
 		} else {
 			fmt.Fprintf(os.Stderr, "Please download the Windows binary (https://github.com/stoplightio/prism/releases) and place it in your $GOPATH/bin directory")
 			os.Exit(1)
+		}
+	} else {
+		updatePrismCmd := exec.Command(prismPath, "up")
+		err := updatePrismCmd.Start()
+		if err != nil {
+			fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
+		} else {
+			fmt.Println("Waiting for prism to update...")
+			err = updatePrismCmd.Wait()
+			if err != nil {
+				fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
+			}
+			fmt.Println("Prism is now up to date!")
 		}
 	}
 
