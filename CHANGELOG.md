@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.2.2] - 2016-09-08
+### Added
+- Merged pull request: [update prismPath and update prism binary](https://github.com/sendgrid/sendgrid-go/pull/80)
+- Special thanks to [Tom Pytleski](https://github.com/pytlesk4) for the pull request
+
 ## [3.2.1] - 2016-08-24
 ### Added
 - Table of Contents in the README
