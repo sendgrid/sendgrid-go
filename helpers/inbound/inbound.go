@@ -46,24 +46,66 @@ func inboundHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	if strings.HasPrefix(mediaType, "multipart/") {
+		fmt.Println("================MESSAGE RECEIVED===============")
 		mr := multipart.NewReader(r.Body, params["boundary"])
+		parsedEmail := make(map[string]string)
+		emailHeader := make(map[string]string)
 		for {
 			p, err := mr.NextPart()
+			// We have found an attachment
+			if err == nil && p.FileName() != "" {
+				fmt.Println("FileName: ", p.FileName())
+				contentType := p.Header.Get("Content-Type")
+				fmt.Println("Content-Type: ", contentType)
+				contents, err := ioutil.ReadAll(p)
+				if err != nil {
+					log.Fatal(err)
+				}
+				// Binary file contents
+				fmt.Println("Contents: ", contents)
+				// Only works with text files, this is just for testing
+				fmt.Println("Contents Decoded: ", string(contents))
+			}
 			if err == io.EOF {
-				fmt.Printf("%s\n", "End of File")
+				// We have finished parsing
+				for key, value := range parsedEmail {
+					fmt.Println("Key:", key, " Value:", value)
+				}
+				for key, value := range emailHeader {
+					fmt.Println("eKey:", key, " eValue:", value)
+				}
 				w.WriteHeader(http.StatusOK)
 				return
 			}
 			if err != nil {
 				log.Fatal(err)
 			}
-			slurp, err := ioutil.ReadAll(p)
+			value, err := ioutil.ReadAll(p)
 			if err != nil {
 				log.Fatal(err)
 			}
 			header := p.Header.Get("Content-Disposition")
-			header = header[17 : len(header)-1]
-			fmt.Printf("%q: %q\n", header, slurp)
+
+			if strings.Contains(header, "filename") != true {
+				header = header[17 : len(header)-1]
+				parsedEmail[header] = string(value)
+			} else {
+				header = header[11 :]
+				f := strings.Split(header, "=")
+				parsedEmail[f[1][1:len(f[1])-11]] = f[2][1:len(f[2])-1]
+			}
+			if header == "headers" {
+				s := strings.Split(string(value), "\n")
+				var a []string
+				for _, v := range s {
+					t := strings.Split(string(v), ": ")
+					a = append(a, t...)
+				}
+				for i := 0; i < len(a)-1; i += 2 {
+					emailHeader[a[i]] = a[i+1]
+				}
+			}
+			delete(parsedEmail, "headers")
 		}
 	}
 }
