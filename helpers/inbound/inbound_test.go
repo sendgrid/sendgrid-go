@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestLoadConfig(t *testing.T) {
-	conf := LoadConfig("./conf.json")
+	conf := loadConfig("./conf.json")
 	if conf.Endpoint == "" {
 		t.Errorf("conf.json did not load correctly, Endpoint empty")
 	}
