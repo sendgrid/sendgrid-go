@@ -53,6 +53,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(string(mediaType))
 	if strings.HasPrefix(mediaType, "multipart/") {
 		mr := multipart.NewReader(request.Body, params["boundary"])
 		parsedEmail := make(map[string]string)
