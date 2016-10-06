@@ -157,33 +157,21 @@ func GetRequestBody(m *SGMailV3) []byte {
 	if err != nil {
 		fmt.Println(err)
 	}
-	return []byte(string(b))
+	return b
 }
 
 func (s *SGMailV3) AddPersonalizations(p ...*Personalization) *SGMailV3 {
-	if s.Personalizations == nil {
-		s.Personalizations = make([]*Personalization, 0)
-	}
 	s.Personalizations = append(s.Personalizations, p...)
-
 	return s
 }
 
 func (s *SGMailV3) AddContent(c ...*Content) *SGMailV3 {
-	if s.Content == nil {
-		s.Content = make([]*Content, 0)
-	}
 	s.Content = append(s.Content, c...)
-
 	return s
 }
 
 func (s *SGMailV3) AddAttachment(a ...*Attachment) *SGMailV3 {
-	if s.Attachments == nil {
-		s.Attachments = make([]*Attachment, 0)
-	}
 	s.Attachments = append(s.Attachments, a...)
-
 	return s
 }
 
@@ -221,10 +209,6 @@ func (s *SGMailV3) SetHeader(key string, value string) *SGMailV3 {
 }
 
 func (s *SGMailV3) AddCategories(category ...string) *SGMailV3 {
-	if s.Categories == nil {
-		s.Categories = make([]string, 0)
-	}
-
 	s.Categories = append(s.Categories, category...)
 	return s
 }
@@ -347,10 +331,6 @@ func (a *Asm) SetGroupID(groupID int) *Asm {
 }
 
 func (a *Asm) AddGroupsToDisplay(groupsToDisplay ...int) *Asm {
-	if a.GroupsToDisplay == nil {
-		a.GroupsToDisplay = make([]int, 0)
-	}
-
 	a.GroupsToDisplay = append(a.GroupsToDisplay, groupsToDisplay...)
 	return a
 }
@@ -414,9 +394,8 @@ func NewBCCSetting() *BccSetting {
 }
 
 func (b *BccSetting) SetEnable(enable bool) *BccSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	b.Enable = setEnable
+	setEnable := enable
+	b.Enable = &setEnable
 	return b
 }
 
@@ -430,9 +409,8 @@ func NewFooterSetting() *FooterSetting {
 }
 
 func (f *FooterSetting) SetEnable(enable bool) *FooterSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	f.Enable = setEnable
+	setEnable := enable
+	f.Enable = &setEnable
 	return f
 }
 
@@ -451,9 +429,8 @@ func NewOpenTrackingSetting() *OpenTrackingSetting {
 }
 
 func (o *OpenTrackingSetting) SetEnable(enable bool) *OpenTrackingSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	o.Enable = setEnable
+	setEnable := enable
+	o.Enable = &setEnable
 	return o
 }
 
@@ -467,9 +444,8 @@ func NewSubscriptionTrackingSetting() *SubscriptionTrackingSetting {
 }
 
 func (s *SubscriptionTrackingSetting) SetEnable(enable bool) *SubscriptionTrackingSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	s.Enable = setEnable
+	setEnable := enable
+	s.Enable = &setEnable
 	return s
 }
 
@@ -493,9 +469,8 @@ func NewGaSetting() *GaSetting {
 }
 
 func (g *GaSetting) SetEnable(enable bool) *GaSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	g.Enable = setEnable
+	setEnable := enable
+	g.Enable = &setEnable
 	return g
 }
 
@@ -525,9 +500,8 @@ func (g *GaSetting) SetCampaignMedium(campaignMedium string) *GaSetting {
 }
 
 func NewSetting(enable bool) *Setting {
-	setEnable := new(bool)
-	*setEnable = enable
-	return &Setting{Enable: setEnable}
+	setEnable := enable
+	return &Setting{Enable: &setEnable}
 }
 
 func NewEmail(name string, address string) *Email {
@@ -549,16 +523,14 @@ func NewClickTrackingSetting() *ClickTrackingSetting {
 }
 
 func (c *ClickTrackingSetting) SetEnable(enable bool) *ClickTrackingSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	c.Enable = setEnable
+	setEnable := enable
+	c.Enable = &setEnable
 	return c
 }
 
 func (c *ClickTrackingSetting) SetEnableText(enableText bool) *ClickTrackingSetting {
-	setEnable := new(bool)
-	*setEnable = enableText
-	c.EnableText = setEnable
+	setEnable := enableText
+	c.EnableText = &setEnable
 	return c
 }
 
@@ -567,9 +539,8 @@ func NewSpamCheckSetting() *SpamCheckSetting {
 }
 
 func (s *SpamCheckSetting) SetEnable(enable bool) *SpamCheckSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	s.Enable = setEnable
+	setEnable := enable
+	s.Enable = &setEnable
 	return s
 }
 
@@ -584,13 +555,11 @@ func (s *SpamCheckSetting) SetPostToURL(postToURL string) *SpamCheckSetting {
 }
 
 func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSetting) *SandboxModeSetting {
-	setEnable := new(bool)
-	*setEnable = enable
-	setForwardSpam := new(bool)
-	*setForwardSpam = forwardSpam
+	setEnable := enable
+	setForwardSpam := forwardSpam
 	return &SandboxModeSetting{
-		Enable:      setEnable,
-		ForwardSpam: setForwardSpam,
+		Enable:      &setEnable,
+		ForwardSpam: &setForwardSpam,
 		SpamCheck:   spamCheck,
 	}
 }
