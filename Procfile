@@ -1,1 +1,1 @@
-web: helpers/inbound/inbound
+web: ./inbound
