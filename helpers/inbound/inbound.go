@@ -196,6 +196,10 @@ func main() {
 		conf := loadConfig("./conf.json")
 		http.HandleFunc("/", indexHandler)
 		http.HandleFunc(conf.Endpoint, inboundHandler)
-		http.ListenAndServe(conf.Port, nil)
+		port := os.Getenv("PORT")
+		if port == "" {
+			port = conf.Port
+		}
+		http.ListenAndServe(port, nil)
 	}
 }
