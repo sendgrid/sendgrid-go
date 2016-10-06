@@ -56,7 +56,6 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(mediaType))
 	if strings.HasPrefix(mediaType, "multipart/") {
 		mr := multipart.NewReader(request.Body, params["boundary"])
 		parsedEmail := make(map[string]string)
@@ -172,6 +171,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 
 func main() {
 	if len(os.Args) > 1 {
+		// Test Sender
 		path := os.Args[1]
 		host := os.Args[2]
 		file, err := ioutil.ReadFile(path)
@@ -188,13 +188,9 @@ func main() {
 			Headers: Headers,
 			Body:    file,
 		}
-		response, err := rest.API(request)
+		_, err = rest.API(request)
 		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println(response.StatusCode)
-			fmt.Println(response.Body)
-			fmt.Println(response.Headers)
+			log.Fatal("Check your Filepath. ", err)
 		}
 	} else {
 		conf := loadConfig("./conf.json")
