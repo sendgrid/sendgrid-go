@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.2.3] - 2016-10-10
+### Added
+- [Pull #91](https://github.com/sendgrid/sendgrid-go/pull/91): Simplified code in mail helper
+- Big thanks to [Roberto Ortega](https://github.com/berto) for the pull request!
+
 ## [3.2.2] - 2016-09-08
 ### Added
 - Merged pull request: [update prismPath and update prism binary](https://github.com/sendgrid/sendgrid-go/pull/80)
