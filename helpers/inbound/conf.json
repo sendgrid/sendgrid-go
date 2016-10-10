@@ -1,0 +1,4 @@
+{
+    "endpoint": "/inbound",
+    "port": ":8000"
+}
