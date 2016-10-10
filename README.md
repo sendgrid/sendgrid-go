@@ -16,6 +16,7 @@ We appreciate your continued support, thank you!
 
 * [Installation](#installation)
 * [Quick Start](#quick_start)
+* [Processing Inbound Email](#inbound)
 * [Usage](#usage)
 * [Use Cases](#use_cases)
 * [Announcements](#announcements)
@@ -169,6 +170,12 @@ func main() {
 	}
 }
 ```
+
+
+<a name="inbound"></a>
+# Processing Inbound Email
+
+Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/inbound) for utilizing our Inbound Parse webhook.
 
 <a name="usage"></a>
 # Usage

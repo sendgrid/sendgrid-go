@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.3.0] - 2016-10-10
+### Added
+- [Pull #92](https://github.com/sendgrid/sendgrid-go/pull/92): Inbound Parse Webhook support
+- Checkout the [README](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/inbound) for details.
+
 ## [3.2.3] - 2016-10-10
 ### Added
 - [Pull #91](https://github.com/sendgrid/sendgrid-go/pull/91): Simplified code in mail helper
