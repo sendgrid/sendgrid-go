@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"log"
 	"os"
 )
 
@@ -26,7 +27,7 @@ func CreateAPIkeys() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -48,7 +49,7 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -74,7 +75,7 @@ func UpdatethenamescopesofanAPIKey() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -96,7 +97,7 @@ func UpdateAPIkeys() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -115,7 +116,7 @@ func RetrieveanexistingAPIKey() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -134,7 +135,7 @@ func DeleteAPIkeys() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)

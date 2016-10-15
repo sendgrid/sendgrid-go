@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"log"
 	"os"
 )
 
@@ -21,7 +22,7 @@ func Retrieveallmailsettings() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -47,7 +48,7 @@ func Updateaddresswhitelistmailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -66,7 +67,7 @@ func Retrieveaddresswhitelistmailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -89,7 +90,7 @@ func UpdateBCCmailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -108,7 +109,7 @@ func RetrieveallBCCmailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -132,7 +133,7 @@ func Updatebouncepurgemailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -151,7 +152,7 @@ func Retrievebouncepurgemailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -175,7 +176,7 @@ func Updatefootermailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -194,7 +195,7 @@ func Retrievefootermailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -217,7 +218,7 @@ func Updateforwardbouncemailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -236,7 +237,7 @@ func Retrieveforwardbouncemailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -259,7 +260,7 @@ func Updateforwardspammailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -278,7 +279,7 @@ func Retrieveforwardspammailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -300,7 +301,7 @@ func Updateplaincontentmailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -319,7 +320,7 @@ func Retrieveplaincontentmailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -343,7 +344,7 @@ func Updatespamcheckmailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -362,7 +363,7 @@ func Retrievespamcheckmailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -385,7 +386,7 @@ func Updatetemplatemailsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -404,7 +405,7 @@ func Retrievelegacytemplatemailsettings() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)

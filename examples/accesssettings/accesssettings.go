@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
-	"os"
 	"log"
+	"os"
 )
 
 ///////////////////////////////////////////////////

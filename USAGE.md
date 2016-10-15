@@ -8,6 +8,7 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"log"
 	"os"
 )
 
@@ -65,7 +66,7 @@ queryParams["limit"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -103,7 +104,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -126,7 +127,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -158,7 +159,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -183,7 +184,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}"
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -208,7 +209,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}"
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -241,7 +242,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -266,7 +267,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/alerts", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -294,7 +295,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -319,7 +320,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -344,7 +345,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -383,7 +384,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -407,7 +408,7 @@ queryParams["limit"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -439,7 +440,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -471,7 +472,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -492,7 +493,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -521,7 +522,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -554,7 +555,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -582,7 +583,7 @@ queryParams["id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -612,7 +613,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -637,7 +638,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -664,7 +665,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -693,7 +694,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -714,7 +715,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions",
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -744,7 +745,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -765,7 +766,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/{
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -786,7 +787,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -813,7 +814,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -836,7 +837,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", ho
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -857,7 +858,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", ho
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -878,7 +879,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -912,7 +913,7 @@ queryParams["start_date"] = "2016-01-01"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -962,7 +963,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -993,7 +994,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1025,7 +1026,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1050,7 +1051,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1075,7 +1076,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1101,7 +1102,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1127,7 +1128,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1150,7 +1151,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", 
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1176,7 +1177,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", 
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1201,7 +1202,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/no
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1229,7 +1230,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1258,7 +1259,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1289,7 +1290,7 @@ queryParams["categories"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1321,7 +1322,7 @@ queryParams["sort_by_direction"] = "asc"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1352,7 +1353,7 @@ queryParams["end_date"] = "2016-04-01"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1386,7 +1387,7 @@ queryParams["end_date"] = "2016-04-01"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1414,7 +1415,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1435,7 +1436,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1456,7 +1457,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_fiel
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1477,7 +1478,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_fiel
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1501,7 +1502,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1522,7 +1523,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1549,7 +1550,7 @@ request.Body = []byte(` [
 ]`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1577,7 +1578,7 @@ queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1601,7 +1602,7 @@ queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1625,7 +1626,7 @@ queryParams["delete_contacts"] = "true"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1652,7 +1653,7 @@ request.Body = []byte(` [
 ]`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1678,7 +1679,7 @@ queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1699,7 +1700,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1724,7 +1725,7 @@ queryParams["list_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1756,7 +1757,7 @@ request.Body = []byte(` [
 ]`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1793,7 +1794,7 @@ request.Body = []byte(` [
 ]`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1821,7 +1822,7 @@ queryParams["page_size"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1848,7 +1849,7 @@ request.Body = []byte(` [
 ]`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1871,7 +1872,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/billable_count"
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1892,7 +1893,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/count", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1925,7 +1926,7 @@ queryParams["{field_name}"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1946,7 +1947,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}"
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1967,7 +1968,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}"
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -1990,7 +1991,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}/
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2011,7 +2012,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/reserved_fields", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2076,7 +2077,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2099,7 +2100,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/contactdb/segments", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2137,7 +2138,7 @@ queryParams["segment_id"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2163,7 +2164,7 @@ queryParams["segment_id"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2191,7 +2192,7 @@ queryParams["delete_contacts"] = "true"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2218,7 +2219,7 @@ queryParams["page_size"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2260,7 +2261,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2294,7 +2295,7 @@ queryParams["start_date"] = "2016-01-01"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2327,7 +2328,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2348,7 +2349,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/assigned", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2378,7 +2379,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2403,7 +2404,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/pools", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2431,7 +2432,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2456,7 +2457,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2481,7 +2482,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2507,7 +2508,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2530,7 +2531,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips/{ip}", hos
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2556,7 +2557,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2579,7 +2580,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2602,7 +2603,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2625,7 +2626,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2648,7 +2649,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/ips/{ip_address}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2676,7 +2677,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail/batch", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2701,7 +2702,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail/batch/{batch_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2866,7 +2867,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2894,7 +2895,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2924,7 +2925,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2947,7 +2948,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", ho
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2974,7 +2975,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -2997,7 +2998,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3025,7 +3026,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3048,7 +3049,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3076,7 +3077,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3099,7 +3100,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3126,7 +3127,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3149,7 +3150,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3176,7 +3177,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3199,7 +3200,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3225,7 +3226,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3248,7 +3249,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3276,7 +3277,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3299,7 +3300,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3328,7 +3329,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3353,7 +3354,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3387,7 +3388,7 @@ queryParams["start_date"] = "2016-01-01"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3415,7 +3416,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3443,7 +3444,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3466,7 +3467,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3490,7 +3491,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/scopes", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3533,7 +3534,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3554,7 +3555,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3594,7 +3595,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3615,7 +3616,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3636,7 +3637,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3657,7 +3658,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verificat
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3688,7 +3689,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3724,7 +3725,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3753,7 +3754,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3777,7 +3778,7 @@ queryParams["usernames"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3810,7 +3811,7 @@ queryParams["subusers"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3844,7 +3845,7 @@ queryParams["sort_by_direction"] = "asc"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3877,7 +3878,7 @@ queryParams["sort_by_direction"] = "asc"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3904,7 +3905,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3928,7 +3929,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3955,7 +3956,7 @@ request.Body = []byte(` [
 ]`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -3978,7 +3979,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4001,7 +4002,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4020,7 +4021,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", ho
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4039,7 +4040,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", ho
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4072,7 +4073,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4104,7 +4105,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4139,7 +4140,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4162,7 +4163,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4185,7 +4186,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4215,7 +4216,7 @@ queryParams["end_time"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4251,7 +4252,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4278,7 +4279,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4308,7 +4309,7 @@ queryParams["email_address"] = "example@example.com"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4339,7 +4340,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4376,7 +4377,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4401,7 +4402,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}",
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4426,7 +4427,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}",
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4449,7 +4450,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", ho
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4472,7 +4473,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", ho
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4501,7 +4502,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4536,7 +4537,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4563,7 +4564,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4592,7 +4593,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4615,7 +4616,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4642,7 +4643,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4666,7 +4667,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4690,7 +4691,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4722,7 +4723,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4758,7 +4759,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4787,7 +4788,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{ve
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4816,7 +4817,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{ve
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4846,7 +4847,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{ve
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4876,7 +4877,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4902,7 +4903,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4925,7 +4926,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4960,7 +4961,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -4987,7 +4988,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics",
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5015,7 +5016,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5040,7 +5041,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5073,7 +5074,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5098,7 +5099,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", hos
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5128,7 +5129,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/account", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5149,7 +5150,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/credits", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5177,7 +5178,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5202,7 +5203,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/email", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5231,7 +5232,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5263,7 +5264,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5286,7 +5287,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/profile", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5314,7 +5315,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5335,7 +5336,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5359,7 +5360,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5380,7 +5381,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", ho
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5401,7 +5402,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", ho
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5428,7 +5429,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5451,7 +5452,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5479,7 +5480,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5504,7 +5505,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/username", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5544,7 +5545,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5569,7 +5570,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5595,7 +5596,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5622,7 +5623,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5643,7 +5644,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5669,7 +5670,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5690,7 +5691,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostna
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5711,7 +5712,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostna
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5741,7 +5742,7 @@ queryParams["offset"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5783,7 +5784,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5814,7 +5815,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5842,7 +5843,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5872,7 +5873,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5902,7 +5903,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5929,7 +5930,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5953,7 +5954,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", hos
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -5976,7 +5977,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", hos
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6009,7 +6010,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6040,7 +6041,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6069,7 +6070,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", h
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6097,7 +6098,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", h
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6127,7 +6128,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6157,7 +6158,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6180,7 +6181,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6203,7 +6204,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6226,7 +6227,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6258,7 +6259,7 @@ queryParams["offset"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6284,7 +6285,7 @@ queryParams["limit"] = "1"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6317,7 +6318,7 @@ queryParams["domain"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6347,7 +6348,7 @@ queryParams["username"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6377,7 +6378,7 @@ queryParams["username"] = "test_string"
 request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6403,7 +6404,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6426,7 +6427,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6449,7 +6450,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 request.Method = "DELETE"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6472,7 +6473,7 @@ request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", hos
 request.Method = "POST"
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)
@@ -6502,7 +6503,7 @@ request.Body = []byte(` {
 }`)
 response, err := sendgrid.API(request)
 if err != nil {
-  fmt.Println(err)
+  log.Println(err)
 } else {
   fmt.Println(response.StatusCode)
   fmt.Println(response.Body)

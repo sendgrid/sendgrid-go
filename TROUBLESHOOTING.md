@@ -49,7 +49,7 @@ func main() {
 	request.Body = mail.GetRequestBody(m)
 	response, err := sendgrid.API(request)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.Body)

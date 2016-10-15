@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"log"
 	"os"
 )
 
@@ -26,7 +27,7 @@ func CreateSubuser() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -50,7 +51,7 @@ func ListallSubusers() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -72,7 +73,7 @@ func RetrieveSubuserReputations() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -99,7 +100,7 @@ func Retrieveemailstatisticsforyoursubusers() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -126,7 +127,7 @@ func Retrievemonthlystatsforallsubusers() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -154,7 +155,7 @@ func Retrievethetotalsforeachemailstatisticmetricforallsubusers() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -176,7 +177,7 @@ func Enabledisableasubuser() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -195,7 +196,7 @@ func Deleteasubuser() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -217,7 +218,7 @@ func UpdateIPsassignedtoasubuser() {
 ]`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -240,7 +241,7 @@ func UpdateMonitorSettingsforasubuser() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -263,7 +264,7 @@ func Createmonitorsettings() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -282,7 +283,7 @@ func Retrievemonitorsettingsforasubuser() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -301,7 +302,7 @@ func Deletemonitorsettings() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -327,7 +328,7 @@ func Retrievethemonthlyemailstatisticsforasinglesubuser() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)

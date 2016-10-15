@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"log"
 	"os"
 )
 
@@ -29,7 +30,7 @@ func Createadomainwhitelabel() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -55,7 +56,7 @@ func Listalldomainwhitelabels() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -74,7 +75,7 @@ func Getthedefaultdomainwhitelabel() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -93,7 +94,7 @@ func Listthedomainwhitelabelassociatedwiththegivenuser() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -112,7 +113,7 @@ func Disassociateadomainwhitelabelfromagivenuser() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -135,7 +136,7 @@ func Updateadomainwhitelabel() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -154,7 +155,7 @@ func Retrieveadomainwhitelabel() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -173,7 +174,7 @@ func Deleteadomainwhitelabel() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -195,7 +196,7 @@ func Associateadomainwhitelabelwithagivenuser() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -217,7 +218,7 @@ func AddanIPtoadomainwhitelabel() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -236,7 +237,7 @@ func RemoveanIPfromadomainwhitelabel() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -255,7 +256,7 @@ func Validateadomainwhitelabel() {
   request.Method = "POST"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -279,7 +280,7 @@ func CreateanIPwhitelabel() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -303,7 +304,7 @@ func RetrieveallIPwhitelabels() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -322,7 +323,7 @@ func RetrieveanIPwhitelabel() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -341,7 +342,7 @@ func DeleteanIPwhitelabel() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -360,7 +361,7 @@ func ValidateanIPwhitelabel() {
   request.Method = "POST"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -388,7 +389,7 @@ func CreateaLinkWhitelabel() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -410,7 +411,7 @@ func Retrievealllinkwhitelabels() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -432,7 +433,7 @@ func RetrieveaDefaultLinkWhitelabel() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -454,7 +455,7 @@ func RetrieveAssociatedLinkWhitelabel() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -476,7 +477,7 @@ func DisassociateaLinkWhitelabel() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -498,7 +499,7 @@ func UpdateaLinkWhitelabel() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -517,7 +518,7 @@ func RetrieveaLinkWhitelabel() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -536,7 +537,7 @@ func DeleteaLinkWhitelabel() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -555,7 +556,7 @@ func ValidateaLinkWhitelabel() {
   request.Method = "POST"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -577,7 +578,7 @@ func AssociateaLinkWhitelabel() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)

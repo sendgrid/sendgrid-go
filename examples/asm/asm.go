@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"log"
 	"os"
 )
 
@@ -22,7 +23,7 @@ func Createanewsuppressiongroup() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -44,7 +45,7 @@ func Retrieveinformationaboutmultiplesuppressiongroups() {
   request.QueryParams = queryParams
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -68,7 +69,7 @@ func Updateasuppressiongroup() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -87,7 +88,7 @@ func Getinformationonasinglesuppressiongroup() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -106,7 +107,7 @@ func Deleteasuppressiongroup() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -131,7 +132,7 @@ func Addsuppressionstoasuppressiongroup() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -150,7 +151,7 @@ func Retrieveallsuppressionsforasuppressiongroup() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -176,7 +177,7 @@ func Searchforsuppressionswithinagroup() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -195,7 +196,7 @@ func Deleteasuppressionfromasuppressiongroup() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -214,7 +215,7 @@ func Retrieveallsuppressions() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -239,7 +240,7 @@ func Addrecipientaddressestotheglobalsuppressiongroup() {
 }`)
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -258,7 +259,7 @@ func RetrieveaGlobalSuppression() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -277,7 +278,7 @@ func DeleteaGlobalSuppression() {
   request.Method = "DELETE"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
@@ -296,7 +297,7 @@ func Retrieveallsuppressiongroupsforanemailaddress() {
   request.Method = "GET"
   response, err := sendgrid.API(request)
   if err != nil {
-    fmt.Println(err)
+    log.Println(err)
   } else {
     fmt.Println(response.StatusCode)
     fmt.Println(response.Body)
