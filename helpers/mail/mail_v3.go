@@ -2,7 +2,7 @@ package mail
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 )
 
 type SGMailV3 struct {
@@ -155,7 +155,7 @@ func NewV3MailInit(from *Email, subject string, to *Email, content ...*Content) 
 func GetRequestBody(m *SGMailV3) []byte {
 	b, err := json.Marshal(m)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	return b
 }

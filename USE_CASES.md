@@ -48,6 +48,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/sendgrid/sendgrid-go"
@@ -69,7 +70,7 @@ func main() {
 	request.Body = mail.GetRequestBody(m)
 	response, err := sendgrid.API(request)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.Body)
@@ -85,6 +86,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/sendgrid/sendgrid-go"
@@ -121,7 +123,7 @@ func main() {
 }`)
 	response, err := sendgrid.API(request)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	} else {
 		fmt.Println(response.StatusCode)
 		fmt.Println(response.Body)
