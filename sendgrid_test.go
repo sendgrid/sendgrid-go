@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 	"time"
 
 	"github.com/sendgrid/rest"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 var (
@@ -1943,7 +1945,8 @@ func Test_test_send_client(t *testing.T) {
 	client := NewSendClient(apiKey)
 	// override the base url for test purposes
 	client.Request.BaseURL = "http://localhost:4010/v3/mail/send"
-	client.Request.Body = []byte(` {
+
+	emailBytes := []byte(` {
 		"asm": {
 			"group_id": 1,
 			"groups_to_display": [
@@ -2047,12 +2050,6 @@ func Test_test_send_client(t *testing.T) {
 			"email": "sam.smith@example.com",
 			"name": "Sam Smith"
 		},
-		"sections": {
-			"section": {
-			":sectionName1": "section 1 text",
-			":sectionName2": "section 2 text"
-			}
-		},
 		"send_at": 1409348513,
 		"subject": "Hello, World!",
 		"template_id": "[YOUR TEMPLATE ID GOES HERE]",
@@ -2080,12 +2077,18 @@ func Test_test_send_client(t *testing.T) {
 			"text": "If you would like to unsubscribe and stop receiveing these emails <% click here %>."
 			}
 		}
-		}`)
+	}`)
+	email := &mail.SGMailV3{}
+	if err := json.Unmarshal(emailBytes, email); err != nil {
+		fmt.Println("Unmarshal error: ", err)
+	}
+
 	client.Request.Headers["X-Mock"] = "202"
-	response, err := API(client.Request)
+	response, err := client.Send(email)
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	if response.StatusCode != 202 {
 		t.Error("Wrong status code returned")
 	}
