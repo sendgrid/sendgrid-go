@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"testing"
@@ -33,6 +34,7 @@ func TestMain(m *testing.M) {
 	testHost = "http://localhost:4010"
 
 	if runtime.GOOS == "windows" {
+		prismPath = filepath.Join(os.Getenv("GOPATH"), "bin", prismPath)
 		prismPath += ".exe"
 	}
 
