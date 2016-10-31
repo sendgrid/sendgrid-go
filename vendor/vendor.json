@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "2maWQ1yZbk4iipKQmxpb447hxSA=",
+			"path": "github.com/sendgrid/rest",
+			"revision": "3ec51b4f1754e13e92409355851a0a82e9a06461",
+			"revisionTime": "2016-10-14T18:48:02Z"
+		}
+	],
+	"rootPath": "github.com/sendgrid/sendgrid-go"
+}
