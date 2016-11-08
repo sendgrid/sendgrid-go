@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [3.3.1] - 2016-10-18
+### Fixed
 - [Pull #95](https://github.com/sendgrid/sendgrid-go/pull/95): Use log instead of fmt for printing errors
 - Big thanks to [Gábor Lipták](https://github.com/gliptak) for the pull request!
 
