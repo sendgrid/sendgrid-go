@@ -77,9 +77,9 @@ import (
 
 func main() {
 	from := mail.NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
+	subject := "Sending with SendGrid is Fun"
 	to := mail.NewEmail("Example User", "test@example.com")
-	content := mail.NewContent("text/plain", "some text here")
+	content := mail.NewContent("text/plain", "and easy to do anywhere, even with Go")
 	m := mail.NewV3MailInit(from, subject, to, content)
 
 	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
@@ -123,7 +123,7 @@ func main() {
 					"email": "test@example.com"
 				}
 			],
-			"subject": "Hello World from the SendGrid Go Library!"
+			"subject": "Sending with SendGrid is Fun"
 		}
 	],
 	"from": {
@@ -132,7 +132,7 @@ func main() {
 	"content": [
 		{
 			"type": "text/plain",
-			"value": "Hello, Email!"
+			"value": "and easy to do anywhere, even with Go"
 		}
 	]
 }`)
