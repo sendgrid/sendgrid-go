@@ -47,10 +47,6 @@ source ./sendgrid.env
 
 `go get github.com/sendgrid/sendgrid-go`
 
-```go
-import "github.com/sendgrid/sendgrid-go"
-```
-
 ## Dependencies
 
 - [rest](https://github.com/sendgrid/rest)
