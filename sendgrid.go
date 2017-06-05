@@ -22,7 +22,6 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	}
 	return request
 }
-
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = rest.DefaultClient
 
