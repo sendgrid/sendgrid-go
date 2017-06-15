@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.4.0] - 2017-06-14
+### Added
+- [Pull #96](https://github.com/sendgrid/sendgrid-go/pull/96): Send a Single Email to a Single Recipient
+- Big thanks to [Oranagwa Osmond](https://github.com/andela-ooranagwa) for the pull request!
+
 ## [3.3.1] - 2016-10-18
 ### Fixed
 - [Pull #95](https://github.com/sendgrid/sendgrid-go/pull/95): Use log instead of fmt for printing errors
