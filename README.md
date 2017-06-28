@@ -73,9 +73,9 @@ import (
 )
 
 func main() {
-	from := mail.NewEmail("Example User", "dx@sendgrid.com")
+	from := mail.NewEmail("Example User", "test@example.com")
 	subject := "Sending with SendGrid is Fun"
-	to := mail.NewEmail("Example User", "elmer.thomas@sendgrid.com")
+	to := mail.NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
