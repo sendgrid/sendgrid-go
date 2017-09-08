@@ -3,6 +3,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 # Table of Contents
 
 * [Transactional Templates](#transactional_templates)
+* [CustomArgs](#customargs)
 
 <a name="transactional_templates"></a>
 # Transactional Templates
@@ -26,7 +27,7 @@ Template Body:
 ```html
 <html>
 <head>
-	<title></title>
+  <title></title>
 </head>
 <body>
 Hello -name-,
@@ -47,35 +48,35 @@ I hope you are having a great day in -city- :)
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
+  "fmt"
+  "log"
+  "os"
 
-	"github.com/sendgrid/sendgrid-go"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+  "github.com/sendgrid/sendgrid-go"
+  "github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 func main() {
-	from := mail.NewEmail("Example User", "test@example.com")
-	subject := "I'm replacing the subject tag"
-	to := mail.NewEmail("Example User", "test@example.com")
-	content := mail.NewContent("text/html", "I'm replacing the <strong>body tag</strong>")
-	m := mail.NewV3MailInit(from, subject, to, content)
-	m.Personalizations[0].SetSubstitution("-name-", "Example User")
-	m.Personalizations[0].SetSubstitution("-city-", "Denver")
-	m.SetTemplateID("13b8f94f-bcae-4ec6-b752-70d6cb59f932")
+  from := mail.NewEmail("Example User", "test@example.com")
+  subject := "I'm replacing the subject tag"
+  to := mail.NewEmail("Example User", "test@example.com")
+  content := mail.NewContent("text/html", "I'm replacing the <strong>body tag</strong>")
+  m := mail.NewV3MailInit(from, subject, to, content)
+  m.Personalizations[0].SetSubstitution("-name-", "Example User")
+  m.Personalizations[0].SetSubstitution("-city-", "Denver")
+  m.SetTemplateID("13b8f94f-bcae-4ec6-b752-70d6cb59f932")
 
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
-	request.Method = "POST"
-	request.Body = mail.GetRequestBody(m)
-	response, err := sendgrid.API(request)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+  request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+  request.Method = "POST"
+  request.Body = mail.GetRequestBody(m)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
 }
 ```
 
@@ -85,17 +86,17 @@ func main() {
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
+  "fmt"
+  "log"
+  "os"
 
-	"github.com/sendgrid/sendgrid-go"
+  "github.com/sendgrid/sendgrid-go"
 )
 
 func main() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
-	request.Method = "POST"
-	request.Body = []byte(` {
+  request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+  request.Method = "POST"
+  request.Body = []byte(` {
     "personalizations": [
         {
             "to": [
@@ -104,10 +105,10 @@ func main() {
                 }
             ],
             "subject": "I'm replacing the subject tag",
-						"substitutions": {
-							"-name-": "Example User",
-							"-city-": "Denver"
-						},
+            "substitutions": {
+              "-name-": "Example User",
+              "-city-": "Denver"
+            },
         }
     ],
     "from": {
@@ -121,13 +122,118 @@ func main() {
     ],
     "template_id": "13b8f94f-bcae-4ec6-b752-70d6cb59f932"
 }`)
-	response, err := sendgrid.API(request)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+  response, err := sendgrid.API(request)
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+```
+
+<a name="customargs"></a>
+# CustomArgs
+
+## With Mail Helper Class
+
+```go
+package main
+
+import (
+  "fmt"
+  "log"
+  "os"
+
+  "github.com/sendgrid/sendgrid-go"
+  "github.com/sendgrid/sendgrid-go/helpers/mail"
+)
+
+func main() {
+  from := mail.NewEmail("Example User", "test@example.com")
+  subject := "CustomArgs can be fun"
+  to := mail.NewEmail("Example User", "test@example.com")
+  content := mail.NewContent("text/html", "<html>\n<head>\n\t<title></title>\n</head>\n<body>\nHello -name-,\n<br /><br/>\nI'm glad you are trying out the CustomArgs feature!\n<br /><br/>\nI hope you are having a great day in -city- :)\n<br /><br/>\n</body>\n</html>")
+  m := mail.NewV3MailInit(from, subject, to, content)
+  m.Personalizations[0].SetSubstitution("-name-", "Example User")
+  m.Personalizations[0].SetSubstitution("-city-", "Denver")
+  m.Personalizations[0].SetCustomArg("user_id", "343")
+  m.Personalizations[0].SetCustomArg("batch_id", "3")
+
+  m.SetCustomArg("campaign", "welcome")
+  m.SetCustomArg("weekday", "morning")
+
+  request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+  request.Method = "POST"
+  request.Body = mail.GetRequestBody(m)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+```
+
+## Without Mail Helper Class
+
+```go
+package main
+
+import (
+  "fmt"
+  "log"
+  "os"
+
+  "github.com/sendgrid/sendgrid-go"
+)
+
+func main() {
+  request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+  request.Method = "POST"
+  request.Body = []byte(` {
+    "personalizations": [
+        {
+            "to": [
+                {
+                    "email": "test@example.com"
+                }
+            ],
+            "subject": "CustomArgs can be fun",
+            "substitutions": {
+              "-name-": "Example User",
+              "-city-": "Denver"
+            }, 
+            "custom_args": {
+              "user_id": "343", 
+              "batch_id": "3"
+            }
+        }
+    ],
+    "from": {
+        "email": "test@example.com"
+    },
+    "content": [
+        {
+            "type": "text/html",
+            "value": "<html>\n<head>\n\t<title></title>\n</head>\n<body>\nHello -name-,\n<br /><br/>\nI'm glad you are trying out the CustomArgs feature!\n<br /><br/>\nI hope you are having a great day in -city- :)\n<br /><br/>\n</body>\n</html>"
+        }
+    ], 
+    "custom_args": {
+      "campaign": "welcome",
+      "weekday": "morning"
+    } 
+}`)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
 }
 ```
