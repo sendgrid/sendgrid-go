@@ -79,7 +79,7 @@ func TestMain(m *testing.M) {
 
 	prismCmd = exec.Command(prismPath, prismArgs...)
 
-	// If you want to see prism's ouput uncomment below.
+	// If you want to see prism's output uncomment below.
 	// prismReader, err := prismCmd.StdoutPipe()
 	// if err != nil {
 	// 	fmt.Println("Error creating StdoutPipe for Cmd", err)
