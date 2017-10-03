@@ -4,6 +4,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 
 * [Transactional Templates](#transactional_templates)
 * [CustomArgs](#customargs)
+* [Personalizations](#personalizations)
 
 <a name="transactional_templates"></a>
 # Transactional Templates
@@ -604,15 +605,24 @@ func main() {
   request.Body = []byte(`{
   "personalizations": [{
       "to": [{
-          "email": "test@example.com"
+          "email": "test1@example.com"
       }],
       "substitutions": {
           "%fname%": "recipient",
           "%CustomerID%": "CUSTOMER ID GOES HERE"
       },
       "subject": "YOUR SUBJECT LINE GOES HERE"
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -653,8 +663,17 @@ func main() {
           "%CustomerID%": "CUSTOMER ID GOES HERE"
       },
       "subject": "YOUR SUBJECT LINE GOES HERE"
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -695,8 +714,17 @@ func main() {
           "%CustomerID%": "CUSTOMER ID GOES HERE"
       },
       "subject": "YOUR SUBJECT LINE GOES HERE"
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -739,8 +767,17 @@ func main() {
           "%fname%": "recipient",
           "%CustomerID%": "CUSTOMER ID GOES HERE"
       }
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -782,8 +819,17 @@ func main() {
           "%CustomerID%": "CUSTOMER ID GOES HERE"
       },
       "subject": "YOUR SUBJECT LINE GOES HERE"
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -828,8 +874,17 @@ func main() {
           "%CustomerID%": "CUSTOMER ID GOES HERE"
       },
       "subject": "YOUR SUBJECT LINE GOES HERE"
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -890,8 +945,17 @@ func main() {
           "%CustomerID%": 55
       },
       "subject": "YOUR SUBJECT LINE GOES HERE"
-  }]
-}`)
+  }],
+  "from": {
+    "email": "test@example.com"
+  },
+  "content": [
+      {
+          "type": "text/html",
+          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+      }
+  ]
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
