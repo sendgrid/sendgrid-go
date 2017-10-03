@@ -176,7 +176,7 @@ func TestV3SetHeader(t *testing.T) {
 func TestV3AddCategory(t *testing.T) {
 	m := NewV3Mail()
 
-	categories := []string{"cats", "dogs", "hamburgers", "cheezeburgers"}
+	categories := []string{"cats", "dogs", "hamburgers", "cheeseburgers"}
 
 	m.AddCategories(categories...)
 
