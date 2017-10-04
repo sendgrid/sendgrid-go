@@ -1,6 +1,10 @@
 language: go
 go:
 - '1.6'
+- '1.7'
+- '1.8'
+- '1.9'
+- 'tip'
 before_script:
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 notifications:
