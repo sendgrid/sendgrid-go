@@ -1,0 +1,17 @@
+{
+	"ImportPath": "github.com/NafisFaysal/sendgrid-go",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/sendgrid/rest",
+			"Comment": "v2.4.0-1-g14de1ac",
+			"Rev": "14de1ac72d9ae5c3c0d7c02164c52ebd3b951a4e"
+		},
+		{
+			"ImportPath": "github.com/sendgrid/sendgrid-go/helpers/mail",
+			"Comment": "v3.4.1-10-g1dd3e54",
+			"Rev": "1dd3e5450bafb1ef317b03c934f6a89064669201"
+		}
+	]
+}
