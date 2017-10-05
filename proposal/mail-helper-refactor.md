@@ -2,7 +2,7 @@
 
 The following code assumes you are storing the API key in an environment variable (recommended).
 
-This is the minimum code needed to send an message.
+This is the minimum code needed to send a message.
 
 ```go
 package main
@@ -98,6 +98,12 @@ func main() {
         message := &mail.Message{
                 From: mail.Email{"from@example.com", "Example Sender"},
         }
+	
+	// mail.To struct encompasses the personalizations for the recipient
+	// You can add substitutions, categories, custom arguments, etc. for each recipient to the corresponding mail.To
+	// object.
+	// Learn more about personalization [here](https://sendgrid.com/docs/API_Reference/api_v3.html)
+	// and [here](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html)
 
         to1 := &mail.To{
                 "Email": "test1@example.com",
@@ -212,7 +218,7 @@ func main() {
         message.AddTo(to2)
 
         // If you need to add more [Personalizations](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html),
-        // here is an example of adding another Personalization by passing in a personalization index
+        // Here is an example of adding another Personalization by passing in a personalization index
 
         // Global message level methods
         message.SetFrom(&mail.Email{"from@example.com", "Example Sender"})
