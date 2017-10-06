@@ -34,6 +34,7 @@ Click the "Clone or download" green button in [GitHub](https://github.com/sendgr
 <a name="error"></a>
 ## Error Messages
 
+An error is returned if caused by client policy (such as CheckRedirect), or failure to speak HTTP (such as a network connectivity problem).
 To read the error message returned by SendGrid's API:
 
 ```go
@@ -55,6 +56,17 @@ func main() {
 		fmt.Println(response.Body)
 		fmt.Println(response.Headers)
 	}
+}
+```
+__CAUTION__: A non-2xx status code doesn't cause an error on sendgrid.API and the application have to verify the response:
+
+```golang
+resp, err := sendgrid.API(request)
+if err != nil {
+	return err
+}
+if resp.StatusCode >= 400 {
+	return fmt.Errorf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
 }
 ```
 
