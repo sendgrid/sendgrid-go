@@ -1164,7 +1164,7 @@ func main() {
        "-great_day-": "I hope you are having a great day in -city- :)"
      }
    }
- }`)
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
@@ -1212,10 +1212,8 @@ func main() {
   // add `personalization` to `m`
   m.AddPersonalizations(personalization)
   
-  // create new *Attachment (.txt file)
-  a_txt := mail.NewAttachment()
-  
   // read/attach .txt file
+  a_txt := mail.NewAttachment()
   dat, err := ioutil.ReadFile("testing.txt")
   if err != nil {
     fmt.Println(err)
@@ -1227,10 +1225,8 @@ func main() {
   a_txt.SetDisposition("attachment")
   a_txt.SetContentID("Test Document")
   
-  // create new *Attachment (.pdf file)
-  a_pdf := mail.NewAttachment()
-
   // read/attach .pdf file
+  a_pdf := mail.NewAttachment()
   dat, err = ioutil.ReadFile("testing.pdf")
   if err != nil {
     fmt.Println(err)
@@ -1241,11 +1237,9 @@ func main() {
   a_pdf.SetFilename("testing.pdf")
   a_pdf.SetDisposition("attachment")
   a_pdf.SetContentID("Test Attachment")
-  
-  // create new *Attachment (.jpg file)
-  a_jpg := mail.NewAttachment()
 
-  // read/attach .pdf file
+  // read/attach .jpg file
+  a_jpg := mail.NewAttachment()
   dat, err = ioutil.ReadFile("testing.jpg")
   if err != nil {
     fmt.Println(err)
@@ -1257,7 +1251,7 @@ func main() {
   a_jpg.SetDisposition("attachment")
   a_jpg.SetContentID("Test Attachment")
   
-  // add `a_txt` and `a_pdf` to `m`
+  // add `a_txt`, `a_pdf` and `a_jpg` to `m`
   m.AddAttachment(a_txt)
   m.AddAttachment(a_pdf)
   m.AddAttachment(a_jpg)  
@@ -1336,7 +1330,7 @@ func main() {
           "type": "pdf"
         }
      ]
- }`)
+  }`)
   response, err := sendgrid.API(request)
   if err != nil {
     log.Println(err)
