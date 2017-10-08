@@ -986,11 +986,11 @@ func TestV3GeneratePlaintext(t *testing.T) {
 	}
 
 	if len(m.Content) != 2 {
-		t.Fatalf("Content should have 2 entries, found %d", 1)
+		t.Fatalf("Content should have 2 entries, found %d", len(m.Content))
 	}
 
 	if m.Content[0].Type != "text/plain" {
-		t.Errorf("Expected additional type to be text/plain, got: %v", m.Content[1].Type)
+		t.Errorf("Expected first type to be text/plain, got: %v", m.Content[1].Type)
 	}
 
 	expectPlaintext := `*************************
