@@ -209,7 +209,8 @@ func helloEmailAutogeneratePlaintext() []byte {
 		panic(err)
 	}
 
-	m := mail.NewV3MailInit(from, subject, to, html, plaintext)
+	// if text/plain and text/html are set, text/plain should be first
+	m := mail.NewV3MailInit(from, subject, to, plaintext, html)
 	address = "test2@example.com"
 	name = "Example User"
 	email := mail.NewEmail(name, address)
