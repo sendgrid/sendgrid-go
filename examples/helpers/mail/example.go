@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 
-	sendgrid "github.com/hacktoberfest/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	//"../../.." // to test against the downloaded version
 	//"../../../../sendgrid-go/helpers/mail" // to test against the downloaded version
@@ -193,7 +193,6 @@ func kitchenSink() []byte {
 	return mail.GetRequestBody(m)
 }
 
-// Minimum required to send an email
 func helloEmailAutogeneratePlaintext() []byte {
 	address := "test@example.com"
 	name := "Example User"
