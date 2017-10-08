@@ -972,7 +972,7 @@ func TestV3GeneratePlaintext(t *testing.T) {
 
 	plaintext, err := NewPlaintextContentFromHTML(html.Value)
 	if err != nil {
-		t.Error("NewPlaintextContentFromHTML should not return nil")
+		t.Errorf("NewPlaintextContentFromHTML should not return an error, got: %v", err)
 	}
 
 	m := NewV3MailInit(from, subject, to, plaintext, html)
