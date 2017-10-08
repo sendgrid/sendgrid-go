@@ -10,6 +10,8 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Attachments](#attachments)
 * [How to View Email Statistics](#email_stats)
 * [How to Setup a Domain Whitelabel](#whitelabel_domain)
+* [Deployments](#deployments)
+  * [DigitalOcean](#digitalocean)
 
 <a name="transactional_templates"></a>
 # Transactional Templates
@@ -1389,6 +1391,109 @@ Find more information about all of SendGrid's whitelabeling related documentatio
 
 To create a Domain Whitelabel Via the API:
 ```
+ }`)
+   response, err := sendgrid.API(request)
+   if err != nil {
+     log.Println(err)
+   } else {
+     fmt.Println(response.StatusCode)
+     fmt.Println(response.Body)
+     fmt.Println(response.Headers)
+   }
+ }
+ ```
+
+<a name="deployments"></a>
+
+ # Deployments
+
+<a name="digitalocean"></a>
+
+ ## DigitalOcean
+
+ ### Setup
+
+ To begin, spin up a new droplet by going to the Droplets tab and selecting 'Create Droplet'. Select an OS (for this tutorial I'll be using Ubuntu 16.04.3 x64), price tier, and region, and optionally add your SSH key (outside the scope of this article, but [DigitalOcean has some great tutorials on the subject](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-freebsd-server)). Once the droplet is spun up, open the web console or SSH into it (if you didn't specify an SSH key, your password should be emailed to you), log in, and let's begin setting up our droplet for deployment!
+
+ To begin, on a new droplet it's best to always run a quick update and upgrade:
+
+ ```
+ $ apt update && apt upgrade -y
+ ```
+
+ Next, we'll install Go. I found the easiest way to download an updated version of Go is to use a custom repository, as shown below. 
+
+ ```
+ $ add-apt-repository ppa:longsleep/golang-backports
+ $ apt update
+ $ apt install golang-go -y
+ $ go version
+ go version go1.8.3 linux/amd64
+ ```
+ 
+ If you'd feel more comfortable getting Go from official sources, the default `golang-go` installs 1.6.2 (at the time of this writing).
+
+ Next, since we'll be storing  sensitive credentials in our deployment, we should create a non-root user to store our repo, giving it a sensible password.
+
+ ```
+ $ adduser sendgrid
+ $ su - sendgrid
+ ```
+
+ (Note: if you're using an SSH key, make sure to create an `authorized_keys` file on the new user and add your public key to it) 
+
+ Now that we're logged into our new account, let's create a folder for our Git repo that we'll push to when deploying code.
+ 
+ ```
+ $ cd ~
+ $ mkdir repo && cd repo
+ $ mkdir sendgridHello.git && cd sendgridHello.git
+ ```
+
+ Next, we'll initialize our Git repo. Here, I'm initializing it as a bare repo since we'll be pushing to it from our development environment.
+
+ ```
+ $ git init --bare
+ Initialized empty Git repository in /home/sendgrid/sendgridHello.git/
+ ```
+
+ Next, we'll create a working tree for our repo, which will be where our files end up when we push them to the repo. 
+
+ ```
+ $ cd ~
+ $ mkdir helloEmail
+ ```
+
+ Finally, we need to tell our Git repo to move our files to this location using a `post-receive` hook.
+
+ ```
+ $ nano ~/repo/sendgridHello.git/hooks/post-receive
+ ```
+
+ Insert the following into the file:
+
+ ```bash
+ #!/bin/sh
+ git --work-tree=/home/sendgrid/helloEmail --git-dir=/home/sendgrid/repo/sendgridHello.git checkout -f
+ ```
+
+ Exit out of the Nano editor, then give the file execute permissions:
+
+ ```
+ $ chmod +x ~/repo/sendgridHello.git/hooks/post-receive
+ ```
+
+ ### "Hello Email" code
+
+ Now in our development environment, we'll want to create a Git repo to house our code, so that we can push it to our droplet when we're ready to deploy. Open a folder, then initialize your repository:
+
+ ```
+ $ git init
+ ```
+
+ Next, we'll add a basic "Hello, World!"-esque program to our repo, adapted from the example on the README. Create a file called `email.go`, then insert the following code, replacing `<your-email-address>` with a valid email address you'll send your test mail to:
+
+ ```go
 package main
 
 import (
@@ -1397,26 +1502,18 @@ import (
 	"os"
 
 	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 func main() {
-	apiKey := os.Getenv("SENDGRID_API_KEY")
-	host := "https://api.sendgrid.com"
-	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
-	request.Method = "POST"
-	request.Body = []byte(` {
-  "automatic_security": false, 
-  "custom_spf": true, 
-  "default": true, 
-  "domain": "example.com", 
-  "ips": [
-    "192.168.1.1", 
-    "192.168.1.2"
-  ], 
- "subdomain": "SUBDOMAIN", 
- "username": "YOUR_SENDGRID_SUBUSER_NAME"
-}`)
-	response, err := sendgrid.API(request)
+	from := mail.NewEmail("SendGrid Test", "test@example.com")
+	subject := "Hello, Email!"
+	to := mail.NewEmail("Test Recipient", "<your-email-address>")
+	plainTextContent := "This is a test message sent from sendgrid-go."
+	htmlContent := "<strong>Isn't this cool?</strong>"
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+	response, err := client.Send(message)
 	if err != nil {
 		log.Println(err)
 	} else {
@@ -1425,4 +1522,58 @@ func main() {
 		fmt.Println(response.Headers)
 	}
 }
-```
+ ```
+
+ Next, we'll commit this file to our local repo:
+
+ ```
+ $ git add email.go
+ $ git commit -m "Added basic email program"
+ [master (root-commit) 0329e67] Added basic email program
+ 1 file changed, 28 insertions(+)
+ create mode 100644 email.go
+ ```
+
+ Finally, we'll add our droplet as a remote on the repo and push to it.
+
+ ```
+ $ git remote add deploy sendgrid@SERVER_ADDRESS:/home/sendgrid/repo/sendgridHello.git
+ $ git push deploy master
+ Counting objects: 3, done.
+ Delta compression using up to 4 threads.
+ Compressing objects: 100% (2/2), done.
+ Writing objects: 100% (3/3), 621 bytes | 621.00 KiB/s, done.
+ Total 3 (delta 0), reused 0 (delta 0)
+ To <SERVER_ADDRESS>:/home/sendgrid/repo/sendgridHello.git
+  * [new branch]      master -> master
+ ```
+
+ ### Running the program
+
+ Signing back into our droplet, we have just a couple more steps before we can run the program. First, we need to set up our SendGrid API key to be used by our program (you can get one by going [here](https://app.sendgrid.com/settings/api_keys)). Using the procedure provided on the README, we'll add our key to a file, making sure to add it to our .gitignore:
+
+ ```
+ $ cd ~/helloEmail
+ $ echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
+ $ echo "sendgrid.env" > .gitignore
+ $ source ./sendgrid.env
+ ```
+
+ Next, we need to download the `sendgrid-go` library: 
+ 
+ ```
+ $ go get github.com/sendgrid/sendgrid-go
+ ```
+
+ Finally, we can run the program!
+
+ ```
+ $ cd ~/helloEmail
+ $ go run email.go
+ ```
+
+ If you get an HTTP 202 response, perfect! Though the email may not send immediately (new accounts are often flagged for manual review), a 202 indicates that everything worked perfectly on your end and the email is waiting to be sent on SendGrid's end. If you get an HTTP 401, make sure that you correctly set your API key as an environment variable.
+
+ ### Closing dicussion
+
+ This was a very basic example of how to set up a deployment server and push code to it using Git. I encourage you to look at more rounded options like Jenkins if you continue to expand your program (this is out of the scope of this tutorial), or if you stick with a basic Git setup, play around with more hooks on the server to automate as much of the deployment process as possible. Deployment is one of the trickier things to get right, especially if you're starting from scratch, but it's also one part of the development process that can often be automated to save an *immense* amount of time in the long run.
