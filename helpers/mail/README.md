@@ -3,6 +3,7 @@
 ## Dependencies
 
 - [rest](https://github.com/sendgrid/rest)
+- [textplain](https://github.com/mailproto/textplain)
 
 # Quick Start
 
