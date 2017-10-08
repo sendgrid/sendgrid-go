@@ -968,8 +968,14 @@ func TestV3GeneratePlaintext(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
 	subject := "Hello World from the SendGrid Go Library"
 	to := NewEmail("Example User", "test@example.com")
-	content := NewContent("text/html", "<html><body><h1>Hello World From Sendgrid</h1><p>Thanks for auto-generating this</p></body></html>")
-	m := NewV3MailInit(from, subject, to, content)
+	html := NewContent("text/html", "<html><body><h1>Hello World From Sendgrid</h1><p>Thanks for auto-generating this</p></body></html>")
+
+	plaintext, err := NewPlaintextContentFromHTML(html.Value)
+	if err != nil {
+		t.Error("NewPlaintextContentFromHTML should not return nil")
+	}
+
+	m := NewV3MailInit(from, subject, to, plaintext, html)
 
 	if m == nil {
 		t.Errorf("NewV3MailInit() shouldn't return nil")
@@ -979,18 +985,11 @@ func TestV3GeneratePlaintext(t *testing.T) {
 		t.Fatalf("Content should not be nil")
 	}
 
-	plaintext, err := NewPlaintextContentFromHTML(m.Content[0].Value)
-	if err != nil {
-		t.Error("NewPlaintextContentFromHTML should not return nil")
-	}
-
-	m.AddContent(plaintext)
-
 	if len(m.Content) != 2 {
 		t.Fatalf("Content should have 2 entries, found %d", 1)
 	}
 
-	if m.Content[1].Type != "text/plain" {
+	if m.Content[0].Type != "text/plain" {
 		t.Errorf("Expected additional type to be text/plain, got: %v", m.Content[1].Type)
 	}
 
@@ -1000,7 +999,7 @@ Hello World From Sendgrid
 
 Thanks for auto-generating this`
 
-	if plain := m.Content[1].Value; plain != expectPlaintext {
+	if plain := m.Content[0].Value; plain != expectPlaintext {
 		t.Errorf("Wrong plaintext value, want:\n%v, got:\n%v", expectPlaintext, plain)
 	}
 
