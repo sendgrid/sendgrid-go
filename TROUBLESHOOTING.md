@@ -58,7 +58,7 @@ func main() {
 	}
 }
 ```
-__CAUTION__: A non-2xx status code doesn't cause an error on sendgrid.API and the application have to verify the response:
+__CAUTION__: A non-2xx status code doesn't cause an error on sendgrid.API and the application has to verify the response:
 
 ```golang
 resp, err := sendgrid.API(request)
