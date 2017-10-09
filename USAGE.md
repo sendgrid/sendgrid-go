@@ -571,7 +571,7 @@ This endpoint will return information for each group ID that you include in your
 
 Suppressions are a list of email addresses that will not receive content sent under a given [group](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html).
 
-Suppression groups, or [unsubscribe groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html), allow you to label a category of content that you regularly send. This gives your recipients the ability to opt out of a specific set of your email. For example, you might define a group for your transactional email, and one for your marketing email so that your users can continue receiving your transactional email witout having to receive your marketing content.
+Suppression groups, or [unsubscribe groups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html), allow you to label a category of content that you regularly send. This gives your recipients the ability to opt out of a specific set of your email. For example, you might define a group for your transactional email, and one for your marketing email so that your users can continue receiving your transactional email without having to receive your marketing content.
 
 ### GET /asm/groups
 
@@ -3482,7 +3482,7 @@ if err != nil {
 
 **This endpoint returns a list of all scopes that this user has access to.**
 
-API Keys can be used to authenticate the use of [SendGrids v3 Web API](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html), or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html). API Keys may be assigned certain permissions, or scopes, that limit which API endpoints they are able to access. For a more detailed explanation of how you can use API Key permissios, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/api_keys.html#-API-Key-Permissions) or [Classroom](https://sendgrid.com/docs/Classroom/Basics/API/api_key_permissions.html).
+API Keys can be used to authenticate the use of [SendGrids v3 Web API](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html), or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html). API Keys may be assigned certain permissions, or scopes, that limit which API endpoints they are able to access. For a more detailed explanation of how you can use API Key permissions, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/api_keys.html#-API-Key-Permissions) or [Classroom](https://sendgrid.com/docs/Classroom/Basics/API/api_key_permissions.html).
 
 ### GET /scopes
 
@@ -3626,7 +3626,7 @@ if err != nil {
 
 ## Delete a Sender Identity
 
-**This endoint allows you to delete one of your sender identities.**
+**This endpoint allows you to delete one of your sender identities.**
 
 Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
 
@@ -4050,7 +4050,7 @@ if err != nil {
 
 ## Retrieve the monthly email statistics for a single subuser
 
-**This endpoint allows you to retrive the monthly email statistics for a specific subuser.**
+**This endpoint allows you to retrieve the monthly email statistics for a specific subuser.**
 
 While you can always view the statistics for all email activity on your account, subuser statistics enable you to view specific segments of your stats for your subusers. Emails sent, bounces, and spam reports are always tracked for subusers. Unsubscribes, clicks, and opens are tracked if you have enabled the required settings.
 
@@ -4703,7 +4703,7 @@ if err != nil {
 
 **This endpoint allows you to create a new version of a template.**
 
-Each transactional template can have multiple versions, each version with its own subject and content. Each user can have up to 300 versions across across all templates.
+Each transactional template can have multiple versions, each version with its own subject and content. Each user can have up to 300 versions across all templates.
 
 For more information about transactional templates, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Transactional_Templates/index.html).
 
@@ -4735,7 +4735,7 @@ if err != nil {
 
 **This endpoint allows you to edit a version of one of your transactional templates.**
 
-Each transactional template can have multiple versions, each version with its own subject and content. Each user can have up to 300 versions across across all templates.
+Each transactional template can have multiple versions, each version with its own subject and content. Each user can have up to 300 versions across all templates.
 
 For more information about transactional templates, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Transactional_Templates/index.html).
 
@@ -6331,7 +6331,7 @@ if err != nil {
 **This endpoint allows you to retrieve the associated link whitelabel for a subuser.**
 
 Link whitelables can be associated with subusers from the parent account. This functionality allows
-subusers to send mail using their parent's linke whitelabels. To associate a link whitelabel, the parent account
+subusers to send mail using their parent's link whitelabels. To associate a link whitelabel, the parent account
 must first create a whitelabel and validate it. The parent may then associate that whitelabel with a subuser via the API or the Subuser Management page in the user interface.
 
 Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
@@ -6361,7 +6361,7 @@ if err != nil {
 **This endpoint allows you to disassociate a link whitelabel from a subuser.**
 
 Link whitelables can be associated with subusers from the parent account. This functionality allows
-subusers to send mail using their parent's linke whitelabels. To associate a link whitelabel, the parent account
+subusers to send mail using their parent's link whitelabels. To associate a link whitelabel, the parent account
 must first create a whitelabel and validate it. The parent may then associate that whitelabel with a subuser via the API or the Subuser Management page in the user interface.
 
 Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
@@ -6486,7 +6486,7 @@ if err != nil {
 **This endpoint allows you to associate a link whitelabel with a subuser account.**
 
 Link whitelables can be associated with subusers from the parent account. This functionality allows
-subusers to send mail using their parent's linke whitelabels. To associate a link whitelabel, the parent account
+subusers to send mail using their parent's link whitelabels. To associate a link whitelabel, the parent account
 must first create a whitelabel and validate it. The parent may then associate that whitelabel with a subuser via the API or the Subuser Management page in the user interface.
 
 Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
