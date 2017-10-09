@@ -66,6 +66,9 @@ if err != nil {
 	return err
 }
 if resp.StatusCode >= 400 {
+	// something goes wrong and you have to handle (returning an error to the user or logging the problem)
+	log.Printf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
+	// OR
 	return fmt.Errorf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
 }
 ```
