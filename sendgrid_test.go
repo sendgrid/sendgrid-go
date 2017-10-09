@@ -79,7 +79,7 @@ func TestMain(m *testing.M) {
 
 	prismCmd = exec.Command(prismPath, prismArgs...)
 
-	// If you want to see prism's ouput uncomment below.
+	// If you want to see prism's output uncomment below.
 	// prismReader, err := prismCmd.StdoutPipe()
 	// if err != nil {
 	// 	fmt.Println("Error creating StdoutPipe for Cmd", err)
@@ -2076,7 +2076,7 @@ func Test_test_send_client(t *testing.T) {
 			"enable": true,
 			"html": "If you would like to unsubscribe and stop receiving these emails <% clickhere %>.",
 			"substitution_tag": "<%click here%>",
-			"text": "If you would like to unsubscribe and stop receiveing these emails <% click here %>."
+			"text": "If you would like to unsubscribe and stop receiving these emails <% click here %>."
 			}
 		}
 	}`)
@@ -2235,7 +2235,7 @@ func Test_test_mail_send_post(t *testing.T) {
       "enable": true,
       "html": "If you would like to unsubscribe and stop receiving these emails <% clickhere %>.",
       "substitution_tag": "<%click here%>",
-      "text": "If you would like to unsubscribe and stop receiveing these emails <% click here %>."
+      "text": "If you would like to unsubscribe and stop receiving these emails <% click here %>."
     }
   }
 }`)

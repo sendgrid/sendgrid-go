@@ -382,7 +382,7 @@ func main() {
   // populate `personalization` with data
   to := mail.NewEmail("Example User", "test1@example.com")
   cc1 := mail.NewEmail("Example CC", "test2@example.com")
-  bcc1 := mail.NewEmail("Exmaple BCC", "test3@example.com")
+  bcc1 := mail.NewEmail("Example BCC", "test3@example.com")
   
   personalization.AddTos(to)
   personalization.AddCCs(cc1)
