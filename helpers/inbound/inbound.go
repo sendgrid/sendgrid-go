@@ -102,7 +102,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 				log.Fatal(err)
 			}
 			header := p.Header.Get("Content-Disposition")
-			if strings.Contains(header, "filename") != true {
+			if !strings.Contains(header, "filename") {
 				header = header[17 : len(header)-1]
 				parsedEmail[header] = string(value)
 			} else {
