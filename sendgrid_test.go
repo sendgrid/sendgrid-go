@@ -170,7 +170,7 @@ func TestCustomHTTPClient(t *testing.T) {
 
 func TestRequestRetry_rateLimit(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Until(time.Now().Add(1*time.Second)).Seconds())))
+		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Now().Add(1*time.Second).Unix())))
 		w.WriteHeader(http.StatusTooManyRequests)
 	}))
 	defer fakeServer.Close()
@@ -239,7 +239,7 @@ func TestRequestAsync(t *testing.T) {
 
 func TestRequestAsync_rateLimit(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Until(time.Now().Add(1*time.Second)).Seconds())))
+		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Now().Add(1*time.Second).Unix())))
 		w.WriteHeader(http.StatusTooManyRequests)
 	}))
 	defer fakeServer.Close()
