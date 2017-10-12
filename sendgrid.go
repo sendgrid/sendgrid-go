@@ -4,6 +4,7 @@ package sendgrid
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/sendgrid/rest" // depends on version 2.2.0
@@ -56,37 +57,66 @@ func NewSendClient(key string) *Client {
 var DefaultClient = rest.DefaultClient
 
 // API sets up the request to the SendGrid API, this is main interface.
+// This function is deprecated. Please use the MakeRequest or
+// MakeRequestAsync functions.
 func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }
 
-// Request attempts a request asynchronously in a new go
+// MakeRequest attemps a SendGrid request synchronously.
+func MakeRequest(request rest.Request) (*rest.Response, error) {
+	return DefaultClient.API(request)
+}
+
+// MakeRequestRetry a synchronous request, but retry in the event of a rate
+// limited response.
+func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
+	retry := 0
+	var response *rest.Response
+	var err error
+
+	for {
+		response, err = DefaultClient.API(request)
+		if err != nil {
+			return nil, err
+		}
+
+		if response.StatusCode != http.StatusTooManyRequests {
+			return response, nil
+		}
+
+		if retry > rateLimitRetry {
+			return nil, errors.New("Rate limit retry exceeded")
+		}
+		retry++
+
+		resetTime := time.Now().Add(rateLimitSleep * time.Millisecond)
+
+		reset, ok := response.Headers["X-RateLimit-Reset"]
+		if ok && len(reset) > 0 {
+			t, err := strconv.Atoi(reset[0])
+			if err == nil {
+				resetTime = time.Unix(int64(t), 0)
+			}
+		}
+		time.Sleep(time.Until(resetTime))
+	}
+}
+
+// MakeRequestAsync attempts a request asynchronously in a new go
 // routine. This function returns two channels: responses
 // and errors. This function will retry in the case of a
 // rate limit.
-func Request(request rest.Request) (chan *rest.Response, chan error) {
+func MakeRequestAsync(request rest.Request) (chan *rest.Response, chan error) {
 	r := make(chan *rest.Response)
 	e := make(chan error)
 
 	go func() {
-		retry := 0
-		for {
-			response, err := DefaultClient.API(request)
-			if err != nil {
-				e <- err
-				return
-			}
-
-			if response.StatusCode == http.StatusTooManyRequests {
-				if retry > rateLimitRetry {
-					e <- errors.New("Rate limit retry exceeded")
-					return
-				}
-				retry++
-				time.Sleep(rateLimitSleep * time.Millisecond)
-				continue
-			}
-
+		response, err := MakeRequestRetry(request)
+		if err != nil {
+			e <- err
+		}
+		if response != nil {
 			r <- response
 		}
 	}()
