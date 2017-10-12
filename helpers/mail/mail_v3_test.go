@@ -1,6 +1,8 @@
 package mail
 
 import (
+	"encoding/json"
+	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -875,6 +877,35 @@ func TestV3NewEmail(t *testing.T) {
 
 	if e.Address != address {
 		t.Errorf("Address should be %s, got %s", address, e.Address)
+	}
+}
+
+func TestV3NewSingleEmail(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Sending with SendGrid is Fun"
+	to := NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
+
+	message := NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+
+	m, _ := json.Marshal(message)
+	fmt.Println(string(m))
+
+	if message == nil {
+		t.Errorf("NewV3MailInit() shouldn't return nil")
+	}
+
+	if message.From == nil {
+		t.Errorf("From shouldn't be nil")
+	}
+
+	if message.Subject != subject {
+		t.Errorf("Subject should be %s, got %s", subject, message.Subject)
+	}
+
+	if message.Content == nil {
+		t.Errorf("Content shouldn't be nil")
 	}
 }
 

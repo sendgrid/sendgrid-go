@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,6 +16,7 @@ import (
 	"time"
 
 	"github.com/sendgrid/rest"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 var (
@@ -77,7 +79,7 @@ func TestMain(m *testing.M) {
 
 	prismCmd = exec.Command(prismPath, prismArgs...)
 
-	// If you want to see prism's ouput uncomment below.
+	// If you want to see prism's output uncomment below.
 	// prismReader, err := prismCmd.StdoutPipe()
 	// if err != nil {
 	// 	fmt.Println("Error creating StdoutPipe for Cmd", err)
@@ -1940,6 +1942,160 @@ func Test_test_mail_batch__batch_id__get(t *testing.T) {
 	}
 }
 
+func Test_test_send_client(t *testing.T) {
+	apiKey := "SENDGRID_APIKEY"
+	client := NewSendClient(apiKey)
+	// override the base url for test purposes
+	client.Request.BaseURL = "http://localhost:4010/v3/mail/send"
+
+	emailBytes := []byte(` {
+		"asm": {
+			"group_id": 1,
+			"groups_to_display": [
+			1,
+			2,
+			3
+			]
+		},
+		"attachments": [
+			{
+			"content": "[BASE64 encoded content block here]",
+			"content_id": "ii_139db99fdb5c3704",
+			"disposition": "inline",
+			"filename": "file1.jpg",
+			"name": "file1",
+			"type": "jpg"
+			}
+		],
+		"batch_id": "[YOUR BATCH ID GOES HERE]",
+		"categories": [
+			"category1",
+			"category2"
+		],
+		"content": [
+			{
+			"type": "text/html",
+			"value": "<html><p>Hello, world!</p><img src=[CID GOES HERE]></img></html>"
+			}
+		],
+		"custom_args": {
+			"New Argument 1": "New Value 1",
+			"activationAttempt": "1",
+			"customerAccountNumber": "[CUSTOMER ACCOUNT NUMBER GOES HERE]"
+		},
+		"from": {
+			"email": "sam.smith@example.com",
+			"name": "Sam Smith"
+		},
+		"headers": {},
+		"ip_pool_name": "[YOUR POOL NAME GOES HERE]",
+		"mail_settings": {
+			"bcc": {
+			"email": "ben.doe@example.com",
+			"enable": true
+			},
+			"bypass_list_management": {
+			"enable": true
+			},
+			"footer": {
+			"enable": true,
+			"html": "<p>Thanks</br>The SendGrid Team</p>",
+			"text": "Thanks,/n The SendGrid Team"
+			},
+			"sandbox_mode": {
+			"enable": false
+			},
+			"spam_check": {
+			"enable": true,
+			"post_to_url": "http://example.com/compliance",
+			"threshold": 3
+			}
+		},
+		"personalizations": [
+			{
+			"bcc": [
+				{
+				"email": "sam.doe@example.com",
+				"name": "Sam Doe"
+				}
+			],
+			"cc": [
+				{
+				"email": "jane.doe@example.com",
+				"name": "Jane Doe"
+				}
+			],
+			"custom_args": {
+				"New Argument 1": "New Value 1",
+				"activationAttempt": "1",
+				"customerAccountNumber": "[CUSTOMER ACCOUNT NUMBER GOES HERE]"
+			},
+			"headers": {
+				"X-Accept-Language": "en",
+				"X-Mailer": "MyApp"
+			},
+			"send_at": 1409348513,
+			"subject": "Hello, World!",
+			"substitutions": {
+				"id": "substitutions",
+				"type": "object"
+			},
+			"to": [
+				{
+				"email": "john.doe@example.com",
+				"name": "John Doe"
+				}
+			]
+			}
+		],
+		"reply_to": {
+			"email": "sam.smith@example.com",
+			"name": "Sam Smith"
+		},
+		"send_at": 1409348513,
+		"subject": "Hello, World!",
+		"template_id": "[YOUR TEMPLATE ID GOES HERE]",
+		"tracking_settings": {
+			"click_tracking": {
+			"enable": true,
+			"enable_text": true
+			},
+			"ganalytics": {
+			"enable": true,
+			"utm_campaign": "[NAME OF YOUR REFERRER SOURCE]",
+			"utm_content": "[USE THIS SPACE TO DIFFERENTIATE YOUR EMAIL FROM ADS]",
+			"utm_medium": "[NAME OF YOUR MARKETING MEDIUM e.g. email]",
+			"utm_name": "[NAME OF YOUR CAMPAIGN]",
+			"utm_term": "[IDENTIFY PAID KEYWORDS HERE]"
+			},
+			"open_tracking": {
+			"enable": true,
+			"substitution_tag": "%opentrack"
+			},
+			"subscription_tracking": {
+			"enable": true,
+			"html": "If you would like to unsubscribe and stop receiving these emails <% clickhere %>.",
+			"substitution_tag": "<%click here%>",
+			"text": "If you would like to unsubscribe and stop receiving these emails <% click here %>."
+			}
+		}
+	}`)
+	email := &mail.SGMailV3{}
+	if err := json.Unmarshal(emailBytes, email); err != nil {
+		fmt.Println("Unmarshal error: ", err)
+	}
+
+	client.Request.Headers["X-Mock"] = "202"
+	response, err := client.Send(email)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if response.StatusCode != 202 {
+		t.Error("Wrong status code returned")
+	}
+}
+
 func Test_test_mail_send_post(t *testing.T) {
 	apiKey := "SENDGRID_APIKEY"
 	host := "http://localhost:4010"
@@ -2079,7 +2235,7 @@ func Test_test_mail_send_post(t *testing.T) {
       "enable": true,
       "html": "If you would like to unsubscribe and stop receiving these emails <% clickhere %>.",
       "substitution_tag": "<%click here%>",
-      "text": "If you would like to unsubscribe and stop receiveing these emails <% click here %>."
+      "text": "If you would like to unsubscribe and stop receiving these emails <% click here %>."
     }
   }
 }`)

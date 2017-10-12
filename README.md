@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
+[![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
 
-Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
+**NEW:** Subscribe to email [notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
 **This library allows you to quickly and easily use the SendGrid Web API v3 via Go.**
 
@@ -64,35 +65,34 @@ The following is the minimum needed code to send an email with the [/mail/send H
 package main
 
 import (
-    "fmt"
-    "github.com/sendgrid/sendgrid-go"
-    "github.com/sendgrid/sendgrid-go/helpers/mail"
-    "log"
-    "os"
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 func main() {
-    from := mail.NewEmail("Example User", "test@example.com")
-    subject := "Sending with SendGrid is Fun"
-    to := mail.NewEmail("Example User", "test@example.com")
-    content := mail.NewContent("text/plain", "and easy to do anywhere, even with Go")
-    m := mail.NewV3MailInit(from, subject, to, content)
-
-    request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
-    request.Method = "POST"
-    request.Body = mail.GetRequestBody(m)
-    response, err := sendgrid.API(request)
-    if err != nil {
-        log.Println(err)
-    } else {
-        fmt.Println(response.StatusCode)
-        fmt.Println(response.Body)
-        fmt.Println(response.Headers)
-    }
+	from := mail.NewEmail("Example User", "test@example.com")
+	subject := "Sending with SendGrid is Fun"
+	to := mail.NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+	response, err := client.Send(message)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 ```
 
-The `NewV3MailInit` constructor creates a [personalization object](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html) for you. [Here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L28) is an example of how to add to it.
+The `NewEmail` constructor creates a [personalization object](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html) for you. [Here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L28) is an example of how to add to it.
 
 ### Without Mail Helper Class
 
@@ -185,7 +185,7 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 - [How-to: Migration from v2 to v3](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/how_to_migrate_from_v2_to_v3_mail_send.html)
 - [v3 Web API Mail Send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail/README.md)
 
-<a name="use_cases">
+<a name="use_cases"></a>
 # Use Cases
 
 [Examples of common API use cases](https://github.com/sendgrid/sendgrid-go/blob/master/USE_CASES.md), such as how to send an email with a transactional template.
@@ -195,7 +195,7 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
 
-All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases).
+All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
 <a name="roadmap"></a>
 # Roadmap
