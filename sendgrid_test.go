@@ -257,10 +257,8 @@ func TestRequestAsync_rateLimit(t *testing.T) {
 		t.Error("Received a valid response")
 		return
 	case err := <-e:
-		if err == nil {
-			if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
-				t.Error("We did not receive the rate limit error")
-			}
+		if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+			t.Error("We did not receive the rate limit error")
 		}
 	case <-time.After(10 * time.Second):
 		t.Error("Timed out waiting for an error")
