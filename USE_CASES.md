@@ -1344,7 +1344,7 @@ func main() {
 ```
 
 <a name="slack-events"></a>
-#Integrations - Slack Events
+# Integrations - Slack Events
 
 This tutorial will go over how to setup a simple integration with Slack that allows an email to be triggered based on some defined event. You'll need the following to complete this tutorial.
 
