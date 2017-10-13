@@ -8,7 +8,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Substitutions](#substitutions)
 * [Sections](#sections)
 * [Attachments](#attachments)
-* [Integrations - Slack Events](#slack)
+* [Integrations - Slack Events](#slack-events)
 
 <a name="transactional_templates"></a>
 # Transactional Templates
@@ -1346,66 +1346,67 @@ func main() {
 <a name="slack-events"></a>
 #Integrations - Slack Events
 
-This tutorial will go over how to setup a simple integration with Slack that allows an email to be triggered based on some defined event. Pre-requisites for this tutorial include:
+This tutorial will go over how to setup a simple integration with Slack that allows an email to be triggered based on some defined event. You'll need the following to complete this tutorial.
 
 * SendGrid API Key
-* SendGrid Transactional Template
 * Slack account & Valid Slack Workspace
-* Slack API key
-* ngrok (if you do not have an publically accessible web endpoint)
+* ngrok (if you do not have an publicly accessible web endpoint)
+
+The following example will explore the basic setup of an endpoint for the [Slack Events API](https://api.slack.com/events-api) that will listen for a specific [event type](https://api.slack.com/events), and then react by using SendGrid's mail send to send a customized message.
+
+We will be listening for a [message event](https://api.slack.com/events/message) with the text `sendgrid|test email body.|from@example.com|to@example.com`, which will trigger an email sent from a specified address to the specified address.
 
 ### Credential Storage
 
 It's not a good practice to directly insert API keys (or any authorization information) into your script. As an alternative, please save your credentials in their respective `.env` files, with the following command:
 ```
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
-echo "export SLACK_API_KEY='YOUR_API_KEY'" > slack.env
-echo "sendgrid.env" >> .gitignore
-echo "slack.env" >> .gitignore
 source ./sendgrid.env
-source ./slack.env
 ```
-
-### Example Overview
-
-In this example we will explore how to setup an endpoint for the [Slack Events API](https://api.slack.com/events-api) that will listen for a specific event type, and then react by using SendGrid's mail send to send a customized message.
-
-We will be listening for a [message event](https://api.slack.com/events/message) with the text `send starred test@email.com`, which will trigger an email sent to the specified address with all starred items as attachments.
 
 ### Slack Setup
 
 Once you have a functional Slack workspace running, you'll need to:
 
-* Create a Slack [app](https://api.slack.com/apps), and then click on it for further configuration.
-* On the sidebar under Features select *Event Subscriptions*.
-* Toggle "On" for Enable Events. We will insert a Request URL later.
-* Under Subscribe to Workspace Events, click `Add Workspace Event` and add the [message.channels](https://api.slack.com/events/message.channels) event type.
+1. Create a Slack [app](https://api.slack.com/apps), and then click on it for further configuration.
 
+2. On the sidebar under Features select *Event Subscriptions*.
+
+3. Toggle **On** for Enable Events. We will insert a Request URL later.
+
+4. Under Subscribe to Workspace Events, click `Add Workspace Event` and add the [message.channels](https://api.slack.com/events/message.channels) event type.
+
+Once you've setup your new app the following the steps above, you can now install it to any given workspace. At that point you're done! No Slack API key/OAuth setup required - Slack takes care of that for you internally when you install an app to a workspace from the UI.
 
 ### Setting up a Webhook
 
-Slack's Event API requires a Request URL - an HTTP endpoint that is capable of accepting POST requests. Since we are assuming a development environment, we will be using [ngrok](https://ngrok.com/) to expose a locally available endpoint for testing purposes. Please follow installation instructions, and continue this tutorial once you are able to run `./ngrok http <port number>`.
+Now that you have an installed Slack app configured with **Event Subscriptions** turned **On**, we need to setup a server and a web endpoint that accepts POST HTTP requests. Once we have a functional endpoint, we will insert the endpoint URL into the field *Request URL* on the **Events Subscriptions** page.
 
-First, let's setup a basic server and endpoint that will listen for and consume events in real-time:
+Let's setup a basic server that will run on a specified port:
 
 ```go
-//starts server on given port at localhost.
+//this import contains all dependencies used in the example.
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+  "strings"
+  "os"
+  "github.com/sendgrid/sendgrid-go"
+  "github.com/sendgrid/sendgrid-go/helpers/mail"
+)
+
+//starts server on given port at localhost e.g. 8080, 5000
 func startServer(port string) error {
-	portNum := fmt.Sprintf(":%v", port)
-	fmt.Printf("Currently listening on http://localhost:%v ", portNum)
-	err := http.ListenAndServe(portNum, nil)
-	return err
+  	portNum := fmt.Sprintf(":%v", port)
+  	fmt.Printf("Currently listening on http://localhost:%v ", portNum)
+  	err := http.ListenAndServe(portNum, nil)
+  	return err
 }
-
-//
-
 ```
 
-Going back to the Event Subscriptions settings page for your Slack app, insert a valid request URL (if ngrok-generated - use the provided base URL appended with your endpoint slug e.g. http://d770fcbd.ngrok.io/post_events).
-
-You'll be asked to have your endpoint return a response containing the value of `challenge` for verification purposes.
-
-We'll need to model Slack's Event API JSON responses as Go structs in order to properly unmarshal them.
+Before you can save a new endpoint URL into the **Request URL** field, you'll be asked to have your endpoint return an HTTP response containing the value of `challenge` for verification purposes. We'll need to model Slack's Event API JSON responses as well as the verification JSON object as Go structs in order to properly unmarshal them, and decode raw data we'll be receiving from the endpoint.
 
 ```go
 //SlackPostVerification contains attributes that Slack needs to verify URL works.
@@ -1416,6 +1417,8 @@ type SlackPostVerification struct {
 }
 
 //Event encapsulates actual data we want from that posted to the webhook.
+//Please note that this is NOT the complete set of JSON key values from Slack's API
+//but a selection of those relevant to the example.
 type Event struct {
   Channel string `json:"channel"`
   Text    string `json:"text"`
@@ -1431,29 +1434,152 @@ type SlackMessageEvent struct {
 }
 ```
 
-Now we can add code to our endpoint that will properly decode incoming request bodies, and then write a response containing the provided `challenger` value.
+With these models, we can now build our endpoint. We'll want it to
+
+1. Only accept POST requests.
+
+2. Decode raw JSON data into useful structs.
+
+3. Be able to return required response containing the `challenge` value, but also parse and operate
+on the event data.
 
 ```go
+//slackEventEndpoint accepts POST requests, which will contain slack events.
+func slackEventEndpoint(w http.ResponseWriter, req *http.Request) {
+  // only accept POST requests
+	if req.Method != http.MethodPost {
+		w.WriteHeader(405)
+	} else {
 
-decoder := json.NewDecoder(req.Body)
-var slackMessage SlackMessageEvent
-if err := decoder.Decode(&slackMessage); err != nil {
-  log.Fatal(err)
+		// translate body to JSON
+		decoder := json.NewDecoder(req.Body)
+		var slackMessage SlackMessageEvent
+		if err := decoder.Decode(&slackMessage); err != nil {
+			log.Fatal(err)
+		}
+
+		// return challenge as part of response.
+    var response SlackPostVerification
+    response.Challenge = slackMessage.Challenge
+    if resp, err := json.Marshal(response); err != nil {
+      log.Fatal(err)
+    } else {
+      w.Header().Set("Content-Type", "application/json")
+      w.Write(resp)
+      }
+
+    // parse consumed message - send Email based on params.
+    // We will insert this code in the next section
+	}
 }
-
-// return challenge as part of response.
-var response SlackPostVerification
-response.Challenge = slackMessage.Challenge
-if resp, err := json.Marshal(response); err != nil {
-  log.Fatal(err)
-} else {
-  fmt.Print("RESP", resp)
-  w.Header().Set("Content-Type", "application/json")
-  w.Write(resp)
-}
-
 ```
 
-This should verify our request URL. Click "Save Changes".
+Now that we have an a functional endpoint, it's time to associate it with our server. When our server runs, `/post_events` can receive incoming POST requests.
 
-### Sending Mail
+```go
+func main() {
+	http.HandleFunc("/slack_events", slackEventEndpoint) // <your_base_url>/post_events will be our endpoint.
+	err := startServer("8080")
+	if err != nil {
+		log.Println(err)
+	}
+}
+```
+
+With all these pieces in place, it's time to insert our request URL into Slack. Since we are assuming a development environment, we will be using [ngrok](https://ngrok.com/) to expose a locally available endpoint. Please follow installation [instructions](https://ngrok.com/download), and continue this tutorial once you are able to successfully run `./ngrok http <port number>`. Running this command will create a publicly accessible URL that tunnels to your localhost at the specified port, e.g. `http://a123bcde.ngrok.io`.
+
+Just insert `<your_base_url>/post_events` into Slack, and make sure it verifies in the UI (`challenge` value was accepted). Your endpoint should now be accepting events as you submit messages in any channel on your Slack workspace.
+
+### Sending Mail based on Events
+
+Now that we've laid out the infrastructure (Slack setup, server, endpoint), we can start handling incoming Slack events. In this case we are listening for the [message.channels](https://api.slack.com/events/message.channels) event type, and in the previous section we created Go structs to help us decode this event data.
+
+We need to now add code that will:
+
+1. Handle a `message.channels` event and parse out individual text components. We expect the format of a command to be `sendgrid|test email body.|from@example.com|to@example.com`.
+
+2. Build a mail object using the SendGrid-Go API library.
+
+3. Send the email.
+
+```go
+/slackEventEndpoint accepts POST requests, which will contain slack events.
+func slackEventEndpoint(w http.ResponseWriter, req *http.Request) {
+  // only accept POST requests
+	if req.Method != http.MethodPost {
+		w.WriteHeader(405)
+	} else {
+
+		// translate body to JSON
+		decoder := json.NewDecoder(req.Body)
+		var slackMessage SlackMessageEvent
+		if err := decoder.Decode(&slackMessage); err != nil {
+			log.Fatal(err)
+		}
+
+		// return challenge as part of response.
+    var response SlackPostVerification
+    response.Challenge = slackMessage.Challenge
+    if resp, err := json.Marshal(response); err != nil {
+      log.Fatal(err)
+    } else {
+      w.Header().Set("Content-Type", "application/json")
+      w.Write(resp)
+      }
+    // parse consumed message - send Email based on params.
+    eventParsed := parseMessageEvent(slackMessage.Event)
+    if eventParsed[0] == "sendgrid" {
+      if len(eventParsed) == 4 {
+        m := convertEventMail(eventParsed)
+        sendSGMessage(m)
+      }
+    }
+	}
+}
+
+//parseMessageEvent reads the text field of `Event`, and splits it into
+// ["<cmd>", "<body>", "<from_address>", "<to_address>"]
+func parseMessageEvent(e Event) []string {
+    eventParsed := strings.Split(e.Text, "|")
+    return eventParsed
+}
+
+//convertEventMail takes relevant info from Event and populates a mail object.
+func convertEventMail(eventParsed []string) *mail.SGMailV3 {
+  m := mail.NewV3Mail()
+  from := mail.NewEmail("From Slack Channel", eventParsed[2])
+  content := mail.NewContent("text/html", eventParsed[1])
+  to := mail.NewEmail("", eventParsed[3])
+  p := mail.NewPersonalization()
+
+  m.SetFrom(from)
+  m.AddContent(content)
+  p.AddTos(to)
+  p.Subject = "Message sent from Slack!"
+  m.AddPersonalizations(p)
+  return m
+}
+
+//sendSGMessage wraps SendGrid library
+func sendSGMessage(m *mail.SGMailV3) {
+  request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+  request.Method = "POST"
+  request.Body = mail.GetRequestBody(m)
+  response, err := sendgrid.API(request)
+
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+  return
+}
+```
+
+###Conclusion
+
+Now when we submit a message of the format `sendgrid|test email body.|from@example.com|to@example.com` in any channel on our Slack workspace, our endpoint will process the event data and then send an email using SendGrid based on these text arguments.
+
+We covered a basic integration - but there's many different [event types](https://api.slack.com/events/api) that Slack offers, and so the types of operational efficiencies that can be built are plentiful.
