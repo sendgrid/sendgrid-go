@@ -8,6 +8,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Substitutions](#substitutions)
 * [Sections](#sections)
 * [Attachments](#attachments)
+* [Deployments](#deployments)
 
 <a name="transactional_templates"></a>
 # Transactional Templates
@@ -1341,3 +1342,163 @@ func main() {
   }
 }
 ```
+<a name="deployments"></a>
+# Deployments
+## Google App Engine
+
+### Setup
+#### Create a project
+In order to deploy your application to Google App Engine, you must first create a Cloud Platform project and App Engine application using the Cloud Platform Console.
+
+To do this, go to [App Engine](https://console.cloud.google.com/projectselector/appengine/create?lang=go&st=true&_ga=2.6200051.-1972623632.1507938170). 
+
+From here, you may either select an existing project or create a new one. Once you have created a project, select a region. After Google App Engine initializes the backend services for your app, you are good to go.
+
+#### Install the SDK
+If you have already configured the SDK you may skip this step, otherwise you will need to install the SDK to deploy your app to Google App Engine.
+
+Follow the steps to [Download the SDK](https://cloud.google.com/appengine/docs/standard/go/download).
+Once you have the ```gcloud``` tool installed, make sure it is configured to use the project you created earlier.
+If you are having trouble with the ```gcloud``` tool, take a look at the [```gcloud``` reference](https://cloud.google.com/sdk/gcloud/reference/).
+
+### Example app
+The following is a simple Go app which allows you to send a "Hello World" type email to someone with a simple POST request.
+```go
+package hellosendgrid
+
+import (
+	"encoding/json"
+	"net/http"
+	"os"
+
+	"golang.org/x/net/context"
+
+	"github.com/sendgrid/rest"
+
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/urlfetch"
+)
+
+type EmailSettings struct {
+	Email string `json:"email"`
+	Name  string `json:"name"`
+}
+
+func init() {
+	http.HandleFunc("/send", handler)
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	// Make sure it is a POST request
+	if r.Method == "POST" {
+		// Grab request body
+		settings := EmailSettings{}
+		err := json.NewDecoder(r.Body).Decode(&settings)
+		if err != nil {
+			http.Error(w, "Failed to decode body", http.StatusInternalServerError)
+			return
+		}
+		//Send the email
+		response, err := SendEmail(settings, ctx)
+		// Make sure there were no errors sending the email
+		if err != nil || response.StatusCode < 200 || response.StatusCode >= 300 {
+			http.Error(w, response.Body, response.StatusCode)
+			return
+		}
+		w.WriteHeader(response.StatusCode)
+		w.Write([]byte("Successfully sent email"))
+	} else {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	}
+}
+
+func SendEmail(settings EmailSettings, ctx context.Context) (status *rest.Response, err error) {
+	// NOTE!
+	// Google app engine does not allow the use of the net/http client. Therefore, you must use urlfetch to make HTTP requests in app engine.
+	// https://cloud.google.com/appengine/docs/standard/go/issue-requests
+	sendgrid.DefaultClient.HTTPClient = urlfetch.Client(ctx)
+
+	from := mail.NewEmail("Hello User", "test@example.com")
+	subject := "Sending with SendGrid is Fun!"
+	to := mail.NewEmail(settings.Name, settings.Email)
+	plainTextContent := "and easy to do anywhere, even with Go"
+	htmlContent := "<strong>and easy to do anywhere, even with Go"
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+
+	response, err := client.Send(message)
+	return response, err
+}
+```
+#### App settings
+In order to run you app on Google App Engine, you must have a ```app.yaml``` file in the application's root directory.
+This file contains information about your application code.
+For more information about the ```app.yaml``` file, please view the [```app.yaml``` reference](https://cloud.google.com/appengine/docs/standard/go/config/appref).
+```yaml
+runtime: go
+api_version: go1
+
+env_variables:
+  SENDGRID_API_KEY: 'YOUR_API_KEY'
+
+handlers:
+- url: /.*
+  script: _go_app
+```
+**NOTE**
+Your API Key should be kept secret. If your ```app.yaml``` file contains your key, make sure to not check it into source control.
+
+### Testing your app
+The Google Cloud SDK has a tool for testing your app locally so that you can see how your app works before you actually deploy it.
+If you installed the SDK correctly, you should have a tool called ```dev_appserver.py```. To run your app locally, just call ```dev_appserver.py app.yaml``` from the directory where your app is located. 
+You should see something like the following in your terminal after running the command.
+```
+INFO     2017-10-15 17:47:30,338 devappserver2.py:105] Skipping SDK update check.
+INFO     2017-10-15 17:47:30,362 api_server.py:300] Starting API server at: http://localhost:45941
+INFO     2017-10-15 17:47:30,513 dispatcher.py:251] Starting module "default" running at: http://localhost:8080
+INFO     2017-10-15 17:47:30,513 admin_server.py:116] Starting admin server at: http://localhost:8000
+```
+At this point, your app is running at ```localhost:8080``` and ready to test!
+Let's test the app with ```curl```. To test this app, simply send a POST request to ```localhost:8080/send``` with a JSON body in the following format. 
+```json 
+{
+  "email": "test@example.com",
+  "name": "Example User"
+}
+```
+The email/name field is the address and name of the recipient.
+With ```curl```, the command would look like the following,
+
+```curl -X POST -d '{"email": "test@example", "name": "Example User"}' localhost:8080/send```
+
+If you see ```Successfully sent email``` in your terminal, the app sent the email successfully! 
+
+If you have any trouble running the ```dev_appserver.py``` command, take a look at the [development server reference](https://cloud.google.com/appengine/docs/standard/go/tools/using-local-server).
+
+### Deployment
+After successfully testing the app, you are now ready to deploy!
+To deploy, run the following command from the root of your app directory, ```gcloud app deploy app.yaml```. After running the command you should see something like the following.
+```
+Services to deploy:
+
+descriptor:      [/path/to/yourApp/app.yaml]
+source:          [/path/to/yourApp]
+target project:  [YourProjectId]
+target service:  [default]
+target version:  [VersionId]
+target url:      [https://YourProjectId.appspot.com]
+
+
+Do you want to continue (Y/n)?
+```
+Keep note of the target url, that is where the app will be located.
+
+Once you continue, the app will be uploaded and deployed to Google App Engine!
+
+### Final notes
+* Google App Engine does not allow the use of the ```net/http``` package, you must use [urlfetch](https://cloud.google.com/appengine/docs/standard/python/issue-requests) to issue HTTP(S) requests.
+* In general it is bad practice to store keys in your code base. The best way would be to use [Cloud Key Management Service](https://cloud.google.com/kms/) which is a cloud-hosted key management service for Google Cloud Platform.
