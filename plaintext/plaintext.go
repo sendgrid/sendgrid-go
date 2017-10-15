@@ -66,7 +66,7 @@ func FromHTML(input io.Reader, output io.Writer) error {
                             if !strings.HasPrefix(aHref, "http") {
                                 if strings.HasPrefix(aHref, "//") {
                                     aHref = "http:" + aHref
-                                } else if strings.HasPrefix(aHref, "/") {
+                                } else if strings.HasPrefix(aHref, "/") || strings.HasPrefix(aHref, ".") {
                                     aHref = "" // ignore internal/relative links
                                 }
                             }
