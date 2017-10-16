@@ -970,7 +970,10 @@ func main() {
   }
 }
 ```
-### View Email Statistics
+<a name="email_stats"></a>
+### How to View Email Statistics
+You can find documentation for how to view your email statistics via the UI [here](https://app.sendgrid.com/statistics). 
+To view Email Statistics via the API:
 ```
 package main
 
@@ -1005,6 +1008,10 @@ func main() {
 }
 ```
 ### Create a Domain Whitelabel
+You can find documentation for how to setup a domain whitelabel via the UI [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/setup_domain_whitelabel.html).
+Find more information about all of SendGrid's whitelabeling related documentation [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/index.html).
+
+To create a Domain Whitelabel Via the API:
 ```
 package main
 
