@@ -8,6 +8,8 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Substitutions](#substitutions)
 * [Sections](#sections)
 * [Attachments](#attachments)
+* [View Statistics](#email_stats)
+* [Create White Lable Domain](#whitelabel_domain)
 
 <a name="transactional_templates"></a>
 # Transactional Templates
@@ -1007,6 +1009,7 @@ func main() {
 	}
 }
 ```
+<a name="whitelabel_domain"></a>
 ### Create a Domain Whitelabel
 You can find documentation for how to setup a domain whitelabel via the UI [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/setup_domain_whitelabel.html).
 Find more information about all of SendGrid's whitelabeling related documentation [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/index.html).
