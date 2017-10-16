@@ -2,6 +2,7 @@
 package sendgrid
 
 import (
+	"os"
 	"errors"
         "regexp"
 	"github.com/sendgrid/rest" // depends on version 2.2.0
