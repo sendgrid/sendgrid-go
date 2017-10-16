@@ -2,6 +2,8 @@
 package sendgrid
 
 import (
+	"errors"
+        "regexp"
 	"github.com/sendgrid/rest" // depends on version 2.2.0
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -47,4 +49,15 @@ var DefaultClient = rest.DefaultClient
 // API sets up the request to the SendGrid API, this is main interface.
 func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
+}
+
+func CheckSecrets(stringTocheck string) (int, error) {
+	var secret = regexp.MustCompile(`SG.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+`)
+	fmt.Println(secret.MatchString(stringTocheck))
+	if secret.MatchString(stringTocheck) == true {
+		fmt.Println("Error")
+		return -1, errors.New("Error: Do not send secrets!")
+		os.Exit(3)
+	}
+	return 0, nil
 }
