@@ -970,7 +970,79 @@ func main() {
   }
 }
 ```
+### View Email Statistics
+```
+package main
 
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/sendgrid/sendgrid-go"
+)
+
+func main() {
+	apiKey := os.Getenv("SENDGRID_API_KEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/stats", host)
+	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["aggregated_by"] = "day"
+	queryParams["limit"] = "1"
+	queryParams["start_date"] = "2017-01-01"
+	queryParams["end_date"] = "2017-10-12"
+	queryParams["offset"] = "1"
+	request.QueryParams = queryParams
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+```
+### Create a Domain Whitelabel
+```
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/sendgrid/sendgrid-go"
+)
+
+func main() {
+	apiKey := os.Getenv("SENDGRID_API_KEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
+	request.Method = "POST"
+	request.Body = []byte(` {
+  "automatic_security": false, 
+  "custom_spf": true, 
+  "default": true, 
+  "domain": "example.com", 
+  "ips": [
+    "192.168.1.1", 
+    "192.168.1.2"
+  ], 
+ "subdomain": "SUBDOMAIN", 
+ "username": "YOUR_SENDGRID_SUBUSER_NAME"
+}`)
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+```
 <a name="substitutions"></a>
 # Substitutions
  
