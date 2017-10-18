@@ -2,8 +2,6 @@
 package sendgrid
 
 import (
-	"os"
-	"fmt"
 	"errors"
         "regexp"
 	"github.com/sendgrid/rest" // depends on version 2.2.0
@@ -56,11 +54,8 @@ func API(request rest.Request) (*rest.Response, error) {
 // Checks sent email content for presence of an API key.
 func CheckSecrets(stringTocheck string) (int, error) {
 	var secret = regexp.MustCompile(`SG.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+`)
-	fmt.Println(secret.MatchString(stringTocheck))
 	if secret.MatchString(stringTocheck) == true {
-		fmt.Println("Error")
-		return -1, errors.New("Error: Do not send secrets!")
-		os.Exit(3)
-	}
+	return -1, errors.New("Error: Do not send secrets!")
+			}
 	return 0, nil
 }
