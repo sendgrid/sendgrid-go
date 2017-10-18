@@ -51,11 +51,11 @@ func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }
 
-// Checks sent email content for presence of an API key.
-func CheckSecrets(stringTocheck string) (int, error) {
+// Checks email content for presence of an API key before sending.
+func CheckSecrets(plainTextContent string, htmlContent string) (int, error) {
 	var secret = regexp.MustCompile(`SG.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+`)
-	if secret.MatchString(stringTocheck) == true {
-	return -1, errors.New("Error: Do not send secrets!")
-			}
+	if secret.MatchString(plainTextContent) == true || secret.MatchString(htmlContent) == true {
+		return -1, errors.New("Error: API key found in email content. Do not send secrets! ")
+	}
 	return 0, nil
 }
