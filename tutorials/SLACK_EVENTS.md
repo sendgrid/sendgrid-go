@@ -10,6 +10,8 @@
 * [Getting Starred Items](#starred)
 * [Conclusion](#conclusion)
 
+### Overview
+
 This tutorial will go over how to setup a simple integration with Slack that allows an email to be triggered based on some defined event. You'll need the following to complete this tutorial.
 
 * SendGrid API Key
@@ -21,7 +23,7 @@ The following example will explore the basic setup of an endpoint for the [Slack
 
 Slack is a communal space, where knowledge is shared and conversations are had at sometimes overwhelming levels. Slack offers a few ways of keeping track of things, including starring or pinning messages or files. We can use SendGrid and transactional email to help us maintain alternate copies of information we need from Slack.
 
-We will be listening for a [message event](https://api.slack.com/events/message) with the text `sgstarred|to@example.com`, which we'll treat as a command to trigger an email containing the summary of the last 5 starred items on one's Slack workspace in order to help us track things. The [stars.list](https://api.slack.com/methods/stars.list) endpoint will be used to get these starred items.
+We will be listening for a [message event](https://api.slack.com/events/message) with the text `sgstarred|to@example.com`, which we'll treat as a command to trigger an email containing the summary of the starred items on one's Slack workspace in order to help us track things. The [stars.list](https://api.slack.com/methods/stars.list) endpoint will be used to get these starred items.
 
 <a name="credentials"></a>
 ### Credential Storage
@@ -276,7 +278,7 @@ func populateStarred(emailBody string) string {
 <a name="triggered_mail"></a>
 ### Event Triggered Mail
 
-Now that we've laid out the infrastructure (Slack setup, server, API helpers functions and endpoint), we can start handling incoming Slack events. In this case we are listening for the [message.channels](https://api.slack.com/events/message.channels) event type, and in the previous section we created Go structs to help us decode this event data.
+Now that we've laid out the infrastructure (Slack setup, server, API helpers functions and endpoint), we can start handling incoming Slack events. We are listening for the [message.channels](https://api.slack.com/events/message.channels) event type, and in the previous section we created Go structs to help us decode this event data.
 
 We need to now add code that will:
 
@@ -334,6 +336,7 @@ func convertEventMail(eventParsed []string) *mail.SGMailV3 {
 	from := mail.NewEmail("From Slack Channel", "<a_from_address>")
 	mailBody := "<p>Hi there!\nHere are the five most recent starred items on Slack:<p></br>"
 
+	// using our helper functions to make Slack API calls
 	withStarred := populateStarred(mailBody)
 	content := mail.NewContent("text/html", withStarred)
 	to := mail.NewEmail("", eventParsed[1])
