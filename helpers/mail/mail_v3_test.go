@@ -475,7 +475,7 @@ func TestV3AttachmentSetContentID(t *testing.T) {
 	}
 }
 
-func TestV3AttachmentSetDispotition(t *testing.T) {
+func TestV3AttachmentSetDisposition(t *testing.T) {
 	disposition := "inline"
 	a := NewAttachment().SetDisposition(disposition)
 
@@ -861,7 +861,7 @@ func TestV3NewSetting(t *testing.T) {
 	}
 
 	if !*s.Enable {
-		t.Errorf("NewSetting(true) should retun a setting with Enabled = true")
+		t.Errorf("NewSetting(true) should return a setting with Enabled = true")
 	}
 }
 
