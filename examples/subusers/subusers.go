@@ -7,8 +7,7 @@ import (
 	"os"
 )
 
-// CreateSubuser
-// Create Subuser
+// CreateSubuser : Creates a Subuser
 // POST /subusers
 func CreateSubuser() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
