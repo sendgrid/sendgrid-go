@@ -1,4 +1,5 @@
 package main
+
 // This is an example of the Mail helper, located here: /helpers/mail
 
 import (
@@ -134,7 +135,7 @@ func kitchenSink() []byte {
 	asm.AddGroupsToDisplay(99)
 	m.SetASM(asm)
 
-  // This must be a valid [batch ID](https://sendgrid.com/docs/API_Reference/SMTP_API/scheduling_parameters.html) to work
+	// This must be a valid [batch ID](https://sendgrid.com/docs/API_Reference/SMTP_API/scheduling_parameters.html) to work
 	// m.SetBatchID("sendgrid_batch_id")
 
 	m.SetIPPoolID("23")
