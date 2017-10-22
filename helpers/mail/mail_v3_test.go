@@ -78,7 +78,7 @@ func TestV3AddContent(t *testing.T) {
 	m.AddContent(content...)
 
 	if len(m.Content) != numOfContent {
-		t.Errorf("Mail should have %d contents, got %d contents", len(content), len(m.Content))
+		t.Errorf("Mail should have %d contents, got %d contents", numOfContent, len(m.Content))
 	}
 }
 
@@ -93,7 +93,7 @@ func TestV3AddAttachment(t *testing.T) {
 	m.AddAttachment(attachment...)
 
 	if len(m.Attachments) != numOfAttachments {
-		t.Errorf("Mail should have %d attachments, got %d attachments", len(attachment), len(m.Attachments))
+		t.Errorf("Mail should have %d attachments, got %d attachments", numOfAttachments, len(m.Attachments))
 	}
 }
 
@@ -176,7 +176,7 @@ func TestV3SetHeader(t *testing.T) {
 func TestV3AddCategory(t *testing.T) {
 	m := NewV3Mail()
 
-	categories := []string{"cats", "dogs", "hamburgers", "cheezeburgers"}
+	categories := []string{"cats", "dogs", "hamburgers", "cheeseburgers"}
 
 	m.AddCategories(categories...)
 
