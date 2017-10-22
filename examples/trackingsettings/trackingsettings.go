@@ -12,7 +12,7 @@ import (
 // GET /tracking_settings
 
 func RetrieveTrackingSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings", host)
 	request.Method = "GET"
@@ -35,7 +35,7 @@ func RetrieveTrackingSettings() {
 // PATCH /tracking_settings/click
 
 func UpdateClickTrackingSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
 	request.Method = "PATCH"
@@ -57,7 +57,7 @@ func UpdateClickTrackingSettings() {
 // GET /tracking_settings/click
 
 func RetrieveClickTrackSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
 	request.Method = "GET"
@@ -76,7 +76,7 @@ func RetrieveClickTrackSettings() {
 // PATCH /tracking_settings/google_analytics
 
 func UpdateGoogleAnalyticsSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
 	request.Method = "PATCH"
@@ -103,7 +103,7 @@ func UpdateGoogleAnalyticsSettings() {
 // GET /tracking_settings/google_analytics
 
 func RetrieveGoogleAnalyticsSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
 	request.Method = "GET"
@@ -122,7 +122,7 @@ func RetrieveGoogleAnalyticsSettings() {
 // PATCH /tracking_settings/open
 
 func UpdateOpenTrackingSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
 	request.Method = "PATCH"
@@ -144,7 +144,7 @@ func UpdateOpenTrackingSettings() {
 // GET /tracking_settings/open
 
 func GetOpenTrackingSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
 	request.Method = "GET"
@@ -163,7 +163,7 @@ func GetOpenTrackingSettings() {
 // PATCH /tracking_settings/subscription
 
 func UpdateSubscriptionTrackingSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
 	request.Method = "PATCH"
@@ -190,7 +190,7 @@ func UpdateSubscriptionTrackingSettings() {
 // GET /tracking_settings/subscription
 
 func RetrieveSubscriptionTrackingSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
 	request.Method = "GET"
