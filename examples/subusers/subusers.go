@@ -7,10 +7,9 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
+// CreateSubuser
 // Create Subuser
 // POST /subusers
-
 func CreateSubuser() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
