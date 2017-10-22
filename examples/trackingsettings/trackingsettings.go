@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 ///////////////////////////////////////////////////
@@ -12,22 +13,22 @@ import (
 // GET /tracking_settings
 
 func RetrieveTrackingSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings", host)
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
-  queryParams["offset"] = "1"
-  request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings", host)
+	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["limit"] = "1"
+	queryParams["offset"] = "1"
+	request.QueryParams = queryParams
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -35,21 +36,21 @@ func RetrieveTrackingSettings() {
 // PATCH /tracking_settings/click
 
 func UpdateClickTrackingSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
-  request.Method = "PATCH"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
+	request.Method = "PATCH"
+	request.Body = []byte(` {
   "enabled": true
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -57,18 +58,18 @@ func UpdateClickTrackingSettings() {
 // GET /tracking_settings/click
 
 func RetrieveClickTrackSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
+	request.Method = "GET"
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -76,11 +77,11 @@ func RetrieveClickTrackSettings() {
 // PATCH /tracking_settings/google_analytics
 
 func UpdateGoogleAnalyticsSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
-  request.Method = "PATCH"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
+	request.Method = "PATCH"
+	request.Body = []byte(` {
   "enabled": true, 
   "utm_campaign": "website", 
   "utm_content": "", 
@@ -88,14 +89,14 @@ func UpdateGoogleAnalyticsSettings() {
   "utm_source": "sendgrid.com", 
   "utm_term": ""
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -103,18 +104,18 @@ func UpdateGoogleAnalyticsSettings() {
 // GET /tracking_settings/google_analytics
 
 func RetrieveGoogleAnalyticsSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
+	request.Method = "GET"
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -122,21 +123,21 @@ func RetrieveGoogleAnalyticsSettings() {
 // PATCH /tracking_settings/open
 
 func UpdateOpenTrackingSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
-  request.Method = "PATCH"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
+	request.Method = "PATCH"
+	request.Body = []byte(` {
   "enabled": true
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -144,18 +145,18 @@ func UpdateOpenTrackingSettings() {
 // GET /tracking_settings/open
 
 func GetOpenTrackingSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/open", host)
+	request.Method = "GET"
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -163,11 +164,11 @@ func GetOpenTrackingSettings() {
 // PATCH /tracking_settings/subscription
 
 func UpdateSubscriptionTrackingSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
-  request.Method = "PATCH"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
+	request.Method = "PATCH"
+	request.Body = []byte(` {
   "enabled": true, 
   "html_content": "html content", 
   "landing": "landing page html", 
@@ -175,14 +176,14 @@ func UpdateSubscriptionTrackingSettings() {
   "replace": "replacement tag", 
   "url": "url"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -190,20 +191,20 @@ func UpdateSubscriptionTrackingSettings() {
 // GET /tracking_settings/subscription
 
 func RetrieveSubscriptionTrackingSettings() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
+	request.Method = "GET"
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 func main() {
-    // add your function calls here
+	// add your function calls here
 }

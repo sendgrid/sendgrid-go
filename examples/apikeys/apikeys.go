@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 ///////////////////////////////////////////////////
@@ -12,11 +13,11 @@ import (
 // POST /api_keys
 
 func CreateAPIkeys() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
-  request.Method = "POST"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
+	request.Method = "POST"
+	request.Body = []byte(` {
   "name": "My API Key", 
   "sample": "data", 
   "scopes": [
@@ -25,14 +26,14 @@ func CreateAPIkeys() {
     "alerts.read"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -40,21 +41,21 @@ func CreateAPIkeys() {
 // GET /api_keys
 
 func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["limit"] = "1"
-  request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
+	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["limit"] = "1"
+	request.QueryParams = queryParams
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -62,25 +63,25 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 // PUT /api_keys/{api_key_id}
 
 func UpdatethenamescopesofanAPIKey() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
-  request.Method = "PUT"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request.Method = "PUT"
+	request.Body = []byte(` {
   "name": "A New Hope", 
   "scopes": [
     "user.profile.read", 
     "user.profile.update"
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -88,21 +89,21 @@ func UpdatethenamescopesofanAPIKey() {
 // PATCH /api_keys/{api_key_id}
 
 func UpdateAPIkeys() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
-  request.Method = "PATCH"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request.Method = "PATCH"
+	request.Body = []byte(` {
   "name": "A New Hope"
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -110,18 +111,18 @@ func UpdateAPIkeys() {
 // GET /api_keys/{api_key_id}
 
 func RetrieveanexistingAPIKey() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
-  request.Method = "GET"
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request.Method = "GET"
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -129,20 +130,20 @@ func RetrieveanexistingAPIKey() {
 // DELETE /api_keys/{api_key_id}
 
 func DeleteAPIkeys() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
-  request.Method = "DELETE"
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request.Method = "DELETE"
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 func main() {
-    // add your function calls here
+	// add your function calls here
 }

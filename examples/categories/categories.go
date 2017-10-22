@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 ///////////////////////////////////////////////////
@@ -12,23 +13,23 @@ import (
 // GET /categories
 
 func Retrieveallcategories() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/categories", host)
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["category"] = "test_string"
-  queryParams["limit"] = "1"
-  queryParams["offset"] = "1"
-  request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/categories", host)
+	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["category"] = "test_string"
+	queryParams["limit"] = "1"
+	queryParams["offset"] = "1"
+	request.QueryParams = queryParams
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -36,26 +37,26 @@ func Retrieveallcategories() {
 // GET /categories/stats
 
 func RetrieveEmailStatisticsforCategories() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/categories/stats", host)
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
-  queryParams["aggregated_by"] = "day"
-  queryParams["limit"] = "1"
-  queryParams["offset"] = "1"
-  queryParams["start_date"] = "2016-01-01"
-  queryParams["categories"] = "test_string"
-  request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/categories/stats", host)
+	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["end_date"] = "2016-04-01"
+	queryParams["aggregated_by"] = "day"
+	queryParams["limit"] = "1"
+	queryParams["offset"] = "1"
+	queryParams["start_date"] = "2016-01-01"
+	queryParams["categories"] = "test_string"
+	request.QueryParams = queryParams
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -63,29 +64,29 @@ func RetrieveEmailStatisticsforCategories() {
 // GET /categories/stats/sums
 
 func Retrievesumsofemailstatsforeachcategory() {
-  apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
-  host := "https://api.sendgrid.com"
-  request := sendgrid.GetRequest(apiKey, "/v3/categories/stats/sums", host)
-  request.Method = "GET"
-  queryParams := make(map[string]string)
-  queryParams["end_date"] = "2016-04-01"
-  queryParams["aggregated_by"] = "day"
-  queryParams["limit"] = "1"
-  queryParams["sort_by_metric"] = "test_string"
-  queryParams["offset"] = "1"
-  queryParams["start_date"] = "2016-01-01"
-  queryParams["sort_by_direction"] = "asc"
-  request.QueryParams = queryParams
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/categories/stats/sums", host)
+	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["end_date"] = "2016-04-01"
+	queryParams["aggregated_by"] = "day"
+	queryParams["limit"] = "1"
+	queryParams["sort_by_metric"] = "test_string"
+	queryParams["offset"] = "1"
+	queryParams["start_date"] = "2016-01-01"
+	queryParams["sort_by_direction"] = "asc"
+	request.QueryParams = queryParams
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 func main() {
-    // add your function calls here
+	// add your function calls here
 }
