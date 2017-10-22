@@ -3,6 +3,7 @@ package mail
 import (
 	"encoding/json"
 	"log"
+	"net/mail"
 )
 
 type SGMailV3 struct {
@@ -568,4 +569,12 @@ func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSe
 		ForwardSpam: &setForwardSpam,
 		SpamCheck:   spamCheck,
 	}
+}
+
+func ParseEmail(emailInfo string) (*Email, error) {
+	e, err := mail.ParseAddress(emailInfo)
+	if err != nil {
+		return nil, err
+	}
+	return NewEmail(e.Name, e.Address), nil
 }

@@ -963,3 +963,25 @@ func TestV3NewSandboxModeSetting(t *testing.T) {
 		t.Error("SpamCheck should not be nil")
 	}
 }
+
+func TestParseEmail(t *testing.T) {
+	e, err := ParseEmail("example example <example@example.com>")
+	if err != nil {
+		t.Error("Email should have been parsed successfully")
+	}
+	expectedName := "example example"
+	if e.Name != expectedName {
+		t.Errorf("Expect email with name %s but got %s", expectedName, e.Name)
+	}
+	expectedAddress := "example@example.com"
+	if e.Address != expectedAddress {
+		t.Errorf("Expect email with address %s but got %s", expectedAddress, e.Address)
+	}
+}
+
+func TestParseInvalidEmail(t *testing.T) {
+	_, err := ParseEmail("example example <example/example.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+}
