@@ -63,7 +63,7 @@ func TestV3AddPersonalizations(t *testing.T) {
 	m.AddPersonalizations(personalizations...)
 
 	if len(m.Personalizations) != numOfPersonalizations {
-		t.Errorf("Mail should have %d personalizations, got %d personalizations", personalizations, len(m.Personalizations))
+		t.Errorf("Mail should have %d personalizations, got %d personalizations", len(personalizations), len(m.Personalizations))
 	}
 }
 
@@ -78,7 +78,7 @@ func TestV3AddContent(t *testing.T) {
 	m.AddContent(content...)
 
 	if len(m.Content) != numOfContent {
-		t.Errorf("Mail should have %d contents, got %d contents", content, len(m.Content))
+		t.Errorf("Mail should have %d contents, got %d contents", numOfContent, len(m.Content))
 	}
 }
 
@@ -93,7 +93,7 @@ func TestV3AddAttachment(t *testing.T) {
 	m.AddAttachment(attachment...)
 
 	if len(m.Attachments) != numOfAttachments {
-		t.Errorf("Mail should have %d attachments, got %d attachments", attachment, 2)
+		t.Errorf("Mail should have %d attachments, got %d attachments", numOfAttachments, len(m.Attachments))
 	}
 }
 
@@ -176,7 +176,7 @@ func TestV3SetHeader(t *testing.T) {
 func TestV3AddCategory(t *testing.T) {
 	m := NewV3Mail()
 
-	categories := []string{"cats", "dogs", "hamburgers", "cheezeburgers"}
+	categories := []string{"cats", "dogs", "hamburgers", "cheeseburgers"}
 
 	m.AddCategories(categories...)
 
@@ -226,7 +226,7 @@ func TestV3SetIPPoolID(t *testing.T) {
 
 	m.SetIPPoolID(ipPoolID)
 	if m.IPPoolID != ipPoolID {
-		t.Errorf("IP Pool ID should be %d, got %d", ipPoolID, m.IPPoolID)
+		t.Errorf("IP Pool ID should be %s, got %s", ipPoolID, m.IPPoolID)
 	}
 }
 
