@@ -288,48 +288,13 @@ func TestV3NewPersonalization(t *testing.T) {
 	if p == nil {
 		t.Errorf("NewPersonalization() shouldn't return nil")
 	}
+	validateEmailField(p.To, "To", t)
+	validateEmailField(p.CC, "CC", t)
+	validateEmailField(p.BCC, "BCC", t)
 
-	if p.To == nil {
-		t.Errorf("To shouldn't be nil")
-	}
-	if len(p.To) != 0 {
-		t.Errorf("length of To should should be 0")
-	}
-
-	if p.CC == nil {
-		t.Errorf("CC shouldn't be nil")
-	}
-	if len(p.CC) != 0 {
-		t.Errorf("length of CC should be 0")
-	}
-
-	if p.BCC == nil {
-		t.Errorf("BCC shouldn't be nil")
-	}
-	if len(p.BCC) != 0 {
-		t.Errorf("length of BCC should be 0")
-	}
-
-	if p.Headers == nil {
-		t.Errorf("Headers shouldn't be nil")
-	}
-	if len(p.Headers) != 0 {
-		t.Errorf("length of Headers should be 0")
-	}
-
-	if p.Substitutions == nil {
-		t.Errorf("Substitutions shouldn't be nil")
-	}
-	if len(p.Substitutions) != 0 {
-		t.Errorf("length of Substitutions should be 0")
-	}
-
-	if p.CustomArgs == nil {
-		t.Errorf("CustomArgs shouldn't be nil")
-	}
-	if len(p.CustomArgs) != 0 {
-		t.Errorf("length of CustomArgs should be 0")
-	}
+	validateMapField(p.Headers, "Headers", t)
+	validateMapField(p.Substitutions, "Substitutions", t)
+	validateMapField(p.CustomArgs, "CustomArgs", t)
 
 	if p.Categories == nil {
 		t.Errorf("Categories shouldn't be nil")
@@ -337,6 +302,26 @@ func TestV3NewPersonalization(t *testing.T) {
 	if len(p.Categories) != 0 {
 		t.Errorf("length of Categories should be 0")
 	}
+}
+
+func validateMapField(field map[string]string, fieldName string, t *testing.T) {
+	if field == nil {
+		t.Errorf("%s shouldn't be nil", fieldName)
+	}
+
+	if len(field) != 0 {
+		t.Errorf("length of %s should be 0", fieldName)
+	}
+}
+func validateEmailField(emailField []*Email, fieldName string, t *testing.T) {
+	if emailField == nil {
+		t.Errorf("%s should't be nil", fieldName)
+	}
+
+	if len(emailField) != 0 {
+		t.Errorf("Length of %s should be 0", fieldName)
+	}
+
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
