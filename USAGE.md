@@ -2861,7 +2861,7 @@ request.Body = []byte(` {
       "enable": true,
       "html": "If you would like to unsubscribe and stop receiving these emails <% clickhere %>.",
       "substitution_tag": "<%click here%>",
-      "text": "If you would like to unsubscribe and stop receiveing these emails <% click here %>."
+      "text": "If you would like to unsubscribe and stop receiving these emails <% click here %>."
     }
   }
 }`)
@@ -5141,7 +5141,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve the current credit balance for your account.**
 
-Your monthly credit allotment limits the number of emails you may send before incurring overage charges. For more information about credits and billing, please visit our [Clssroom](https://sendgrid.com/docs/Classroom/Basics/Billing/billing_info_and_faqs.html).
+Your monthly credit allotment limits the number of emails you may send before incurring overage charges. For more information about credits and billing, please visit our [Classroom](https://sendgrid.com/docs/Classroom/Basics/Billing/billing_info_and_faqs.html).
 
 ### GET /user/credits
 
@@ -5635,7 +5635,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all of your current inbound parse settings.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### GET /user/webhooks/parse/settings
 
@@ -5656,7 +5656,7 @@ if err != nil {
 
 **This endpoint allows you to update a specific inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### PATCH /user/webhooks/parse/settings/{hostname}
 
@@ -5682,7 +5682,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### GET /user/webhooks/parse/settings/{hostname}
 
@@ -5703,7 +5703,7 @@ if err != nil {
 
 **This endpoint allows you to delete a specific inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the contnet, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### DELETE /user/webhooks/parse/settings/{hostname}
 
@@ -5722,7 +5722,7 @@ if err != nil {
 
 ## Retrieves Inbound Parse Webhook statistics.
 
-**This endpoint allows you to retrieve the statistics for your Parse Webhook useage.**
+**This endpoint allows you to retrieve the statistics for your Parse Webhook usage.**
 
 SendGrid's Inbound Parse Webhook allows you to parse the contents and attachments of incoming emails. The Parse API can then POST the parsed emails to a URL that you specify. The Inbound Parse Webhook cannot parse messages greater than 20MB in size, including all attachments.
 
