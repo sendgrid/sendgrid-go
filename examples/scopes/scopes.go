@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Retrieve a list of scopes for which this user has access.
+// Retrievealistofscopesforwhichthisuserhasaccess : Retrieve a list of scopes for which this user has access.
 // GET /scopes
-
 func Retrievealistofscopesforwhichthisuserhasaccess() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"

@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Retrieve email statistics by country and state/province.
+// Retrieveemailstatisticsbycountryandstateprovince : Retrieve email statistics by country and state/province.
 // GET /geo/stats
-
 func Retrieveemailstatisticsbycountryandstateprovince() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"

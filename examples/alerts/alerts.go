@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Create a new Alert
+// CreateanewAlert : Create a new Alert
 // POST /alerts
-
 func CreateanewAlert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
@@ -31,10 +29,8 @@ func CreateanewAlert() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve all alerts
+// Retrieveallalerts : Retrieve all alerts
 // GET /alerts
-
 func Retrieveallalerts() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
@@ -50,10 +46,8 @@ func Retrieveallalerts() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update an alert
+// Updateanalert : Update an alert
 // PATCH /alerts/{alert_id}
-
 func Updateanalert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
@@ -72,10 +66,8 @@ func Updateanalert() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a specific alert
+// Retrieveaspecificalert : Retrieve a specific alert
 // GET /alerts/{alert_id}
-
 func Retrieveaspecificalert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
@@ -91,10 +83,8 @@ func Retrieveaspecificalert() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete an alert
+// Deleteanalert : Delete an alert
 // DELETE /alerts/{alert_id}
-
 func Deleteanalert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"

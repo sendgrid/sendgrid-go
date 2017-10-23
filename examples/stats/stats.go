@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Retrieve global email statistics
+// Retrieveglobalemailstatistics : Retrieve global email statistics
 // GET /stats
-
 func Retrieveglobalemailstatistics() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
