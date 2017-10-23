@@ -32,7 +32,7 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	return request
 }
 
-//Client.Send ...
+//Send ...
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
 	return API(cl.Request)
