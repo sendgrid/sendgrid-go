@@ -9,7 +9,7 @@
 Run the [example](https://github.com/sendgrid/sendgrid-go/tree/master/examples/mail) (make sure you have set your environment variable to include your SENDGRID_API_KEY).
 
 ```bash
-go run examples/mail/example.go
+go run examples/helpers/mail/example.go
 ```
 
 ## Usage
