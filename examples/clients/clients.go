@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrieveemailstatisticsbyclienttype Retrieve email statistics by client type.
+// GetEmailStatsByClientType Retrieve email statistics by client type.
 // GET /clients/stats
-func Retrieveemailstatisticsbyclienttype() {
+func GetEmailStatsByClientType() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/clients/stats", host)
@@ -30,9 +30,9 @@ func Retrieveemailstatisticsbyclienttype() {
 	}
 }
 
-// Retrievestatsbyaspecificclienttype Retrieve stats by a specific client type.
+// GetStatsByClientType Retrieve stats by a specific client type.
 // GET /clients/{client_type}/stats
-func Retrievestatsbyaspecificclienttype() {
+func GetStatsByClientType() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/clients/{client_type}/stats", host)

@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Createatransactionaltemplate Create a transactional template.
+// CreateTransactionalTemplate Create a transactional template.
 // POST /templates
-func Createatransactionaltemplate() {
+func CreateTransactionalTemplate() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
@@ -28,9 +28,9 @@ func Createatransactionaltemplate() {
 	}
 }
 
-// Retrievealltransactionaltemplates Retrieve all transactional templates.
+// GetTransactionalTemplates Retrieve all transactional templates.
 // GET /templates
-func Retrievealltransactionaltemplates() {
+func GetTransactionalTemplates() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
@@ -45,9 +45,9 @@ func Retrievealltransactionaltemplates() {
 	}
 }
 
-// Editatransactionaltemplate Edit a transactional template.
+// EditTransactionalTemplate Edit a transactional template.
 // PATCH /templates/{template_id}
-func Editatransactionaltemplate() {
+func EditTransactionalTemplate() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
@@ -65,9 +65,9 @@ func Editatransactionaltemplate() {
 	}
 }
 
-// Retrieveasingletransactionaltemplate Retrieve a single transactional template.
+// GetTransactionTemplate Retrieve a single transactional template.
 // GET /templates/{template_id}
-func Retrieveasingletransactionaltemplate() {
+func GetTransactionTemplate() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
@@ -82,9 +82,9 @@ func Retrieveasingletransactionaltemplate() {
 	}
 }
 
-// Deleteatemplate Delete a template.
+// DeleteTemplate Delete a template.
 // DELETE /templates/{template_id}
-func Deleteatemplate() {
+func DeleteTemplate() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}", host)
@@ -99,9 +99,9 @@ func Deleteatemplate() {
 	}
 }
 
-// Createanewtransactionaltemplateversion Create a new transactional template version.
+// CreateNewTransactionalTemplateVersion Create a new transactional template version.
 // POST /templates/{template_id}/versions
-func Createanewtransactionaltemplateversion() {
+func CreateNewTransactionalTemplateVersion() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions", host)
@@ -124,9 +124,9 @@ func Createanewtransactionaltemplateversion() {
 	}
 }
 
-// Editatransactionaltemplateversion Edit a transactional template version.
+// UpdateTransactionalTemplateversion Edit a transactional template version.
 // PATCH /templates/{template_id}/versions/{version_id}
-func Editatransactionaltemplateversion() {
+func UpdateTransactionalTemplateversion() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
@@ -148,9 +148,9 @@ func Editatransactionaltemplateversion() {
 	}
 }
 
-// Retrieveaspecifictransactionaltemplateversion Retrieve a specific transactional template version.
+// GetTransactionalTemplateVersion Retrieve a specific transactional template version.
 // GET /templates/{template_id}/versions/{version_id}
-func Retrieveaspecifictransactionaltemplateversion() {
+func GetTransactionalTemplateVersion() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
@@ -165,9 +165,9 @@ func Retrieveaspecifictransactionaltemplateversion() {
 	}
 }
 
-// Deleteatransactionaltemplateversion Delete a transactional template version.
+// DeleteTransactionalTemplateVersion Delete a transactional template version.
 // DELETE /templates/{template_id}/versions/{version_id}
-func Deleteatransactionaltemplateversion() {
+func DeleteTransactionalTemplateVersion() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
@@ -182,9 +182,9 @@ func Deleteatransactionaltemplateversion() {
 	}
 }
 
-// Activateatransactionaltemplateversion Activate a transactional template version.
+// ActivateTransactionalTemplateVersion Activate a transactional template version.
 // POST /templates/{template_id}/versions/{version_id}/activate
-func Activateatransactionaltemplateversion() {
+func ActivateTransactionalTemplateVersion() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}/activate", host)

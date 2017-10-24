@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrievealistofscopesforwhichthisuserhasaccess Retrieve a list of scopes for which this user has access.
+// GetAllowedScopesForUser Retrieve a list of scopes for which this user has access.
 // GET /scopes
-func Retrievealistofscopesforwhichthisuserhasaccess() {
+func GetAllowedScopesForUser() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/scopes", host)

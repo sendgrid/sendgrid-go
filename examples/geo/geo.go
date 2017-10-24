@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrieveemailstatisticsbycountryandstateprovince Retrieve email statistics by country and state/province.
+// GetEmailsStatsByCountryAndState Retrieve email statistics by country and state/province.
 // GET /geo/stats
-func Retrieveemailstatisticsbycountryandstateprovince() {
+func GetEmailsStatsByCountryAndState() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/geo/stats", host)
