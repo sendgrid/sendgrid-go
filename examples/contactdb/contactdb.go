@@ -46,6 +46,7 @@ func Retrieveallcustomfields() {
 	}
 }
 
+
 // RetrieveaCustomField Retrieve a Custom Field
 // GET /contactdb/custom_fields/{custom_field_id}
 func RetrieveaCustomField() {
@@ -63,6 +64,7 @@ func RetrieveaCustomField() {
 	}
 }
 
+
 // DeleteaCustomField Delete a Custom Field
 // DELETE /contactdb/custom_fields/{custom_field_id}
 func DeleteaCustomField() {
@@ -79,6 +81,7 @@ func DeleteaCustomField() {
 		fmt.Println(response.Headers)
 	}
 }
+
 
 // CreateaList Create a List
 // POST /contactdb/lists
@@ -116,6 +119,7 @@ func Retrievealllists() {
 		fmt.Println(response.Headers)
 	}
 }
+
 
 // DeleteMultiplelists Delete Multiple lists
 // DELETE /contactdb/lists
@@ -163,6 +167,7 @@ func UpdateaList() {
 	}
 }
 
+
 // Retrieveasinglelist Retrieve a single list
 // GET /contactdb/lists/{list_id}
 func Retrieveasinglelist() {
@@ -182,6 +187,7 @@ func Retrieveasinglelist() {
 		fmt.Println(response.Headers)
 	}
 }
+
 
 // DeleteaList Delete a List
 // DELETE /contactdb/lists/{list_id}
