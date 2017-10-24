@@ -9,6 +9,7 @@ import (
 // Version is this client library's current version
 const Version = "3.1.0"
 
+// Client contains rest.Request to an a API call
 type Client struct {
 	rest.Request
 }
@@ -30,11 +31,13 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	return request
 }
 
+// Send gets API rest.Response to the give request body of type SGMailV3
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
 	return API(cl.Request)
 }
 
+// NewSendClient create a new Client for a given key
 func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
