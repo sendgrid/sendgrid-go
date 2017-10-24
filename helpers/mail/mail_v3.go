@@ -2,7 +2,9 @@ package mail
 
 import (
 	"encoding/json"
+	"encoding/base64"
 	"log"
+	"io/ioutil"
 )
 
 type SGMailV3 struct {
@@ -290,6 +292,17 @@ func (p *Personalization) SetCustomArg(key string, value string) {
 
 func (p *Personalization) SetSendAt(sendAt int) {
 	p.SendAt = sendAt
+}
+
+func NewAttachmentFromFile(filename string) *Attachment {
+	a := NewAttachment()
+	dat, err := ioutil.ReadFile(filename)
+	if err != nil {
+		log.Println(err)
+	}
+	encoded := base64.StdEncoding.EncodeToString([]byte(dat))
+	a.SetContent(encoded)
+	return a
 }
 
 func NewAttachment() *Attachment {

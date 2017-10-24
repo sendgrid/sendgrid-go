@@ -438,9 +438,22 @@ func TestV3PersonalizationSetSendAt(t *testing.T) {
 	}
 }
 
+func TestV3NewAttachmentFromFile(t *testing.T) {
+	file := "attachment_test.txt"
+	a := NewAttachmentFromFile(file)
+	if a.Content != "SGVsbG8gd29ybGQhCg==" {
+		t.Errorf("a.Content was `%s`. Got %s.", a.Content, "SGVsbG8gd29ybGQhCg==")
+	}
+
+	file = "attachment_test_utf8.txt"
+	a = NewAttachmentFromFile(file)
+	if a.Content != "SGVsbG8sIOS4lueVjAo=" {
+		t.Errorf("a.Content was `%s`. Got %s.", a.Content, "SGVsbG8sIOS4lueVjAo=")
+	}
+}
+
 func TestV3NewAttachment(t *testing.T) {
 	a := NewAttachment()
-
 	if a == nil {
 		t.Errorf("NewAttachment() shouldn't return nil")
 	}
