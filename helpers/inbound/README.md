@@ -110,7 +110,7 @@ This file contains application environment variables (located in [config.json](h
 
 ## inbound.go & /sample_data
 
-This module, in conjuction with the sample data, is also used to send sample test data. It is useful for testing and development, particularly while you wait for your MX records to propogate.
+This module, in conjunction with the sample data, is also used to send sample test data. It is useful for testing and development, particularly while you wait for your MX records to propagate.
 
 <a name="testing"></a>
 # Testing the Source Code

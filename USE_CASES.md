@@ -2,7 +2,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 
 # Table of Contents
 
-* [Transactional Templates](#transactional_templates)
+* [Transactional Templates](#transactional-templates)
 * [CustomArgs](#customargs)
 * [Personalizations](#personalizations)
 * [Substitutions](#substitutions)
@@ -11,8 +11,9 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [How to View Email Statistics](#email_stats)
 * [How to Setup a Domain Whitelabel](#whitelabel_domain)
 * [Deployments](#deployments)
+  * [Google App Engine](#google_app_engine)
 
-<a name="transactional_templates"></a>
+<a name="transactional-templates"></a>
 # Transactional Templates
 
 For this example, we assume you have created a [transactional template](https://sendgrid.com/docs/User_Guide/Transactional_Templates/index.html). Following is the template content we used for testing.
@@ -1344,7 +1345,8 @@ func main() {
   }
 }
 ```
-<a name="email_stats"></a>
+
+<a name="email-stats"></a>
 ### How to View Email Statistics
 You can find documentation for how to view your email statistics via the UI [here](https://app.sendgrid.com/statistics). 
 To view Email Statistics via the API:
@@ -1382,7 +1384,7 @@ func main() {
 }
 ```
 
-<a name="whitelabel_domain"></a>
+<a name="whitelabel-domain"></a>
 ### How to Setup a Domain Whitelabel
 You can find documentation for how to setup a domain whitelabel via the UI [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/setup_domain_whitelabel.html).
 Find more information about all of SendGrid's whitelabeling related documentation [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/index.html).
@@ -1428,6 +1430,8 @@ func main() {
 ```
 <a name="deployments"></a>
 # Deployments
+
+<a name="google_app_engine"></a>
 ## Google App Engine
 
 ### Setup
