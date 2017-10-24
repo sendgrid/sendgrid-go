@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Returnsalistofallpartnersettings Returns a list of all partner settings.
+// GetAllPartnerSettings Returns a list of all partner settings.
 // GET /partner_settings
-func Returnsalistofallpartnersettings() {
+func GetAllPartnerSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings", host)
@@ -29,9 +29,9 @@ func Returnsalistofallpartnersettings() {
 	}
 }
 
-// UpdatesNewRelicpartnersettings Updates New Relic partner settings.
+// UpdateNewRelicPartnerSettings Updates New Relic partner settings.
 // PATCH /partner_settings/new_relic
-func UpdatesNewRelicpartnersettings() {
+func UpdateNewRelicPartnerSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
@@ -51,9 +51,9 @@ func UpdatesNewRelicpartnersettings() {
 	}
 }
 
-// ReturnsallNewRelicpartnersettings Returns all New Relic partner settings.
+// GetAllNewRelicPartnerSettings Returns all New Relic partner settings.
 // GET /partner_settings/new_relic
-func ReturnsallNewRelicpartnersettings() {
+func GetAllNewRelicPartnerSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)

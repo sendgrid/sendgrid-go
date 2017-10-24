@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateaSenderIdentity Creates a Sender Identity
+// CreateSenderIdentity Creates a Sender Identity
 // POST /senders
-func CreateaSenderIdentity() {
+func CreateSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
@@ -42,9 +42,9 @@ func CreateaSenderIdentity() {
 	}
 }
 
-// GetallSenderIdentities Gets all Sender Identities
+// GetAllSenderIdentities Gets all Sender Identities
 // GET /senders
-func GetallSenderIdentities() {
+func GetAllSenderIdentities() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
@@ -59,9 +59,9 @@ func GetallSenderIdentities() {
 	}
 }
 
-// UpdateaSenderIdentity Updates a Sender Identity
+// UpdateSenderIdentity Updates a Sender Identity
 // PATCH /senders/{sender_id}
-func UpdateaSenderIdentity() {
+func UpdateSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
@@ -93,9 +93,9 @@ func UpdateaSenderIdentity() {
 	}
 }
 
-// ViewaSenderIdentity Views a Sender Identity
+// GetSenderIdentity Retrieves a Sender Identity
 // GET /senders/{sender_id}
-func ViewaSenderIdentity() {
+func GetSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
@@ -110,9 +110,9 @@ func ViewaSenderIdentity() {
 	}
 }
 
-// DeleteaSenderIdentity Deletes a Sender Identity
+// DeleteSenderIdentity Deletes a Sender Identity
 // DELETE /senders/{sender_id}
-func DeleteaSenderIdentity() {
+func DeleteSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)

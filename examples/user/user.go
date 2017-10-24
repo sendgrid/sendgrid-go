@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Getausersaccountinformation Get a user's account information.
+// GetUserAccountInfo Get a user's account information.
 // GET /user/account
-func Getausersaccountinformation() {
+func GetUserAccountInfo() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/account", host)
@@ -25,9 +25,9 @@ func Getausersaccountinformation() {
 	}
 }
 
-// Retrieveyourcreditbalance Retrieve your credit balance
+// GetCreditBalance Retrieve your credit balance
 // GET /user/credits
-func Retrieveyourcreditbalance() {
+func GetCreditBalance() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/credits", host)
@@ -42,9 +42,9 @@ func Retrieveyourcreditbalance() {
 	}
 }
 
-// Updateyouraccountemailaddress Update your account email address
+// UpdateAccountEmail Update your account email address
 // PUT /user/email
-func Updateyouraccountemailaddress() {
+func UpdateAccountEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/email", host)
@@ -62,9 +62,9 @@ func Updateyouraccountemailaddress() {
 	}
 }
 
-// Retrieveyouraccountemailaddress Retrieve your account email address
+// GetAccountEmail Retrieve your account email address
 // GET /user/email
-func Retrieveyouraccountemailaddress() {
+func GetAccountEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/email", host)
@@ -79,9 +79,9 @@ func Retrieveyouraccountemailaddress() {
 	}
 }
 
-// Updateyourpassword Update your password
+// UpdatePassword Update your password
 // PUT /user/password
-func Updateyourpassword() {
+func UpdatePassword() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/password", host)
@@ -100,9 +100,9 @@ func Updateyourpassword() {
 	}
 }
 
-// Updateausersprofile Update a user's profile
+// UpdateUserProfile Update a user's profile
 // PATCH /user/profile
-func Updateausersprofile() {
+func UpdateUserProfile() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/profile", host)
@@ -122,9 +122,9 @@ func Updateausersprofile() {
 	}
 }
 
-// Getausersprofile Get a user's profile
+// GetUserProfile Get a user's profile
 // GET /user/profile
-func Getausersprofile() {
+func GetUserProfile() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/profile", host)
@@ -139,9 +139,9 @@ func Getausersprofile() {
 	}
 }
 
-// Cancelorpauseascheduledsend Cancel or pause a scheduled send
+// CancelOrPauseScheduledSend Cancel or pause a scheduled send
 // POST /user/scheduled_sends
-func Cancelorpauseascheduledsend() {
+func CancelOrPauseScheduledSend() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends", host)
@@ -160,9 +160,9 @@ func Cancelorpauseascheduledsend() {
 	}
 }
 
-// Retrieveallscheduledsends Retrieve all scheduled sends
+// GetScheduledSends Retrieve all scheduled sends
 // GET /user/scheduled_sends
-func Retrieveallscheduledsends() {
+func GetScheduledSends() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends", host)
@@ -177,9 +177,9 @@ func Retrieveallscheduledsends() {
 	}
 }
 
-// Updateuserscheduledsendinformation Update user scheduled send information
+// UpdateUserScheduledSendInfo Update user scheduled send information
 // PATCH /user/scheduled_sends/{batch_id}
-func Updateuserscheduledsendinformation() {
+func UpdateUserScheduledSendInfo() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
@@ -197,9 +197,9 @@ func Updateuserscheduledsendinformation() {
 	}
 }
 
-// Retrievescheduledsend Retrieve scheduled send
+// GetScheduledSend Retrieve scheduled send by batch id
 // GET /user/scheduled_sends/{batch_id}
-func Retrievescheduledsend() {
+func GetScheduledSend() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
@@ -214,9 +214,9 @@ func Retrievescheduledsend() {
 	}
 }
 
-// Deleteacancellationorpauseofascheduledsend Delete a cancellation or pause of a scheduled send
+// DeleteCancellationOrPauseofScheduledSend Undo a cancellation or pause of a scheduled send
 // DELETE /user/scheduled_sends/{batch_id}
-func Deleteacancellationorpauseofascheduledsend() {
+func DeleteCancellationOrPauseofScheduledSend() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
@@ -231,9 +231,9 @@ func Deleteacancellationorpauseofascheduledsend() {
 	}
 }
 
-// UpdateEnforcedTLSsettings Update Enforced TLS settings
+// UpdateEnforcedTLSSettings Update Enforced TLS settings
 // PATCH /user/settings/enforced_tls
-func UpdateEnforcedTLSsettings() {
+func UpdateEnforcedTLSSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
@@ -252,9 +252,9 @@ func UpdateEnforcedTLSsettings() {
 	}
 }
 
-// RetrievecurrentEnforcedTLSsettings Retrieve current Enforced TLS settings.
+// GetCurrentEnforcedTLSsettings Retrieve current Enforced TLS settings.
 // GET /user/settings/enforced_tls
-func RetrievecurrentEnforcedTLSsettings() {
+func GetCurrentEnforcedTLSsettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
@@ -269,9 +269,9 @@ func RetrievecurrentEnforcedTLSsettings() {
 	}
 }
 
-// Updateyourusername Update your username
+// UpdateUsername Update your username
 // PUT /user/username
-func Updateyourusername() {
+func UpdateUsername() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/username", host)
@@ -289,9 +289,9 @@ func Updateyourusername() {
 	}
 }
 
-// Retrieveyourusername Retrieve your username
+// GetUsername Retrieve your username
 // GET /user/username
-func Retrieveyourusername() {
+func GetUsername() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/username", host)
@@ -338,9 +338,9 @@ func UpdateEventNotificationSettings() {
 	}
 }
 
-// RetrieveEventWebhooksettings Retrieve Event Webhook settings
+// GetEventWebhookSettings Retrieve Event Webhook settings
 // GET /user/webhooks/event/settings
-func RetrieveEventWebhooksettings() {
+func GetEventWebhookSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
@@ -375,9 +375,9 @@ func TestEventNotificationSettings() {
 	}
 }
 
-// Createaparsesetting Create a parse setting
+// CreateParseSetting Create a parse setting
 // POST /user/webhooks/parse/settings
-func Createaparsesetting() {
+func CreateParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
@@ -398,9 +398,9 @@ func Createaparsesetting() {
 	}
 }
 
-// Retrieveallparsesettings Retrieve all parse settings
+// GetParseSettings Retrieve all parse settings
 // GET /user/webhooks/parse/settings
-func Retrieveallparsesettings() {
+func GetParseSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
@@ -415,9 +415,9 @@ func Retrieveallparsesettings() {
 	}
 }
 
-// Updateaparsesetting Update a parse setting
+// UpdateParseSetting Update a parse setting
 // PATCH /user/webhooks/parse/settings/{hostname}
-func Updateaparsesetting() {
+func UpdateParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
@@ -437,9 +437,9 @@ func Updateaparsesetting() {
 	}
 }
 
-// Retrieveaspecificparsesetting Retrieve a specific parse setting
+// GetParseSetting Retrieve a specific parse setting
 // GET /user/webhooks/parse/settings/{hostname}
-func Retrieveaspecificparsesetting() {
+func GetParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
@@ -454,9 +454,9 @@ func Retrieveaspecificparsesetting() {
 	}
 }
 
-// Deleteaparsesetting Delete a parse setting
+// DeleteParseSetting Delete a parse setting
 // DELETE /user/webhooks/parse/settings/{hostname}
-func Deleteaparsesetting() {
+func DeleteParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
@@ -471,9 +471,9 @@ func Deleteaparsesetting() {
 	}
 }
 
-// RetrievesInboundParseWebhookstatistics tRetrieves Inbound Parse Webhook statistics.
+// GetInboundParseWebhookStats Retrieves Inbound Parse Webhook statistics.
 // GET /user/webhooks/parse/stats
-func RetrievesInboundParseWebhookstatistics() {
+func GetInboundParseWebhookStats() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/stats", host)

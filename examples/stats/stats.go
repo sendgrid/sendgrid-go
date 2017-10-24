@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrieveglobalemailstatistics Retrieve global email statistics
+// GetGlobalEmailStats Retrieve global email statistics
 // GET /stats
-func Retrieveglobalemailstatistics() {
+func GetGlobalEmailStats() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/stats", host)
