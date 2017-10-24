@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
-///////////////////////////////////////////////////
-// Retrieve all categories
+// Retrieveallcategories Retrieves all categories
 // GET /categories
-
 func Retrieveallcategories() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
@@ -31,10 +30,8 @@ func Retrieveallcategories() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve Email Statistics for Categories
+// RetrieveEmailStatisticsforCategories Retrieves Email Statistics for Categories
 // GET /categories/stats
-
 func RetrieveEmailStatisticsforCategories() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
@@ -58,10 +55,8 @@ func RetrieveEmailStatisticsforCategories() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve sums of email stats for each category [Needs: Stats object defined, has category ID?]
+// Retrievesumsofemailstatsforeachcategory Retrieves sums of email stats for each category [Needs: Stats object defined, has category ID?]
 // GET /categories/stats/sums
-
 func Retrievesumsofemailstatsforeachcategory() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"

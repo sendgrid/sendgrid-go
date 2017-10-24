@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// TestV3NewMail will test New mail method
 func TestV3NewMail(t *testing.T) {
 	m := NewV3Mail()
 
