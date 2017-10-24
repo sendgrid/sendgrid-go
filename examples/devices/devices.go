@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrieveemailstatisticsbydevicetype Retrieves email statistics by device type.
+// GetStatsByDeviceType Retrieves email statistics by device type.
 // GET /devices/stats
-func Retrieveemailstatisticsbydevicetype() {
+func GetStatsByDeviceType() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/devices/stats", host)

@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// RetrieveallIPaddresses Retrieve all IP addresses
+// GetAllIPAddresses Retrieve all IP addresses
 // GET /ips
-func RetrieveallIPaddresses() {
+func GetAllIPAddresses() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips", host)
@@ -32,9 +32,9 @@ func RetrieveallIPaddresses() {
 	}
 }
 
-// RetrieveallassignedIPs Retrieve all assigned IPs
+// GetAllAssignedIPs Retrieve all assigned IPs
 // GET /ips/assigned
-func RetrieveallassignedIPs() {
+func GetAllAssignedIPs() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/assigned", host)
@@ -49,9 +49,9 @@ func RetrieveallassignedIPs() {
 	}
 }
 
-// CreateanIPpool Create an IP pool.
+// CreateIPPool Create an IP pool.
 // POST /ips/pools
-func CreateanIPpool() {
+func CreateIPPool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools", host)
@@ -69,9 +69,9 @@ func CreateanIPpool() {
 	}
 }
 
-// RetrieveallIPpools Retrieve all IP pools.
+// GetAllIPPools Retrieve all IP pools.
 // GET /ips/pools
-func RetrieveallIPpools() {
+func GetAllIPPools() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools", host)
@@ -86,9 +86,9 @@ func RetrieveallIPpools() {
 	}
 }
 
-// UpdateanIPpoolsname Update an IP pools name.
+// UpdateIPPoolsName Update an IP pools name.
 // PUT /ips/pools/{pool_name}
-func UpdateanIPpoolsname() {
+func UpdateIPPoolsName() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
@@ -106,9 +106,9 @@ func UpdateanIPpoolsname() {
 	}
 }
 
-// RetrieveallIPsinaspecifiedpool Retrieve all IPs in a specified pool.
+// GetAllIPsByPool Retrieve all IPs in a specified pool.
 // GET /ips/pools/{pool_name}
-func RetrieveallIPsinaspecifiedpool() {
+func GetAllIPsByPool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
@@ -123,9 +123,9 @@ func RetrieveallIPsinaspecifiedpool() {
 	}
 }
 
-// DeleteanIPpool Delete an IP pool.
+// DeleteIPPool Delete an IP pool.
 // DELETE /ips/pools/{pool_name}
-func DeleteanIPpool() {
+func DeleteIPPool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
@@ -140,9 +140,9 @@ func DeleteanIPpool() {
 	}
 }
 
-// AddanIPaddresstoapool Add an IP address to a pool
+// AddIPaddressToPool Add an IP address to a pool
 // POST /ips/pools/{pool_name}/ips
-func AddanIPaddresstoapool() {
+func AddIPaddressToPool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips", host)
@@ -160,9 +160,9 @@ func AddanIPaddresstoapool() {
 	}
 }
 
-// RemoveanIPaddressfromapool Remove an IP address from a pool.
+// DeleteIPAddressFromPool Remove an IP address from a pool.
 // DELETE /ips/pools/{pool_name}/ips/{ip}
-func RemoveanIPaddressfromapool() {
+func DeleteIPAddressFromPool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips/{ip}", host)
@@ -177,9 +177,9 @@ func RemoveanIPaddressfromapool() {
 	}
 }
 
-// AddanIPtowarmup Add an IP to warmup
+// AddIPToWarmup Add an IP to warmup
 // POST /ips/warmup
-func AddanIPtowarmup() {
+func AddIPToWarmup() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup", host)
@@ -197,9 +197,9 @@ func AddanIPtowarmup() {
 	}
 }
 
-// RetrieveallIPscurrentlyinwarmup Retrieve all IPs currently in warmup
+// GetAllIPsInWarmup Retrieve all IPs currently in warmup
 // GET /ips/warmup
-func RetrieveallIPscurrentlyinwarmup() {
+func GetAllIPsInWarmup() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup", host)
@@ -214,9 +214,9 @@ func RetrieveallIPscurrentlyinwarmup() {
 	}
 }
 
-// RetrievewarmupstatusforaspecificIPaddress Retrieve warmup status for a specific IP address
+// GetWarmupStatusForIP Retrieve warmup status for a specific IP address
 // GET /ips/warmup/{ip_address}
-func RetrievewarmupstatusforaspecificIPaddress() {
+func GetWarmupStatusForIP() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
@@ -231,9 +231,9 @@ func RetrievewarmupstatusforaspecificIPaddress() {
 	}
 }
 
-// RemoveanIPfromwarmup Remove an IP from warmup
+// DeleteIPFromWarmup Remove an IP from warmup
 // DELETE /ips/warmup/{ip_address}
-func RemoveanIPfromwarmup() {
+func DeleteIPFromWarmup() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
@@ -248,9 +248,9 @@ func RemoveanIPfromwarmup() {
 	}
 }
 
-// RetrieveallIPpoolsanIPaddressbelongsto Retrieve all IP pools an IP address belongs to
+// GetIPPoolsByIPAddress Retrieve all IP pools an IP address belongs to
 // GET /ips/{ip_address}
-func RetrieveallIPpoolsanIPaddressbelongsto() {
+func GetIPPoolsByIPAddress() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/ips/{ip_address}", host)

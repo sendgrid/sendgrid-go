@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateabatchID creates a batch ID
+// CreateBatchID creates a batch ID
 // POST /mail/batch
-func CreateabatchID() {
+func CreateBatchID() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail/batch", host)
@@ -25,9 +25,9 @@ func CreateabatchID() {
 	}
 }
 
-// ValidatebatchID Validates batch ID
+// ValidateBatchID Validates batch ID
 // GET /mail/batch/{batch_id}
-func ValidatebatchID() {
+func ValidateBatchID() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail/batch/{batch_id}", host)

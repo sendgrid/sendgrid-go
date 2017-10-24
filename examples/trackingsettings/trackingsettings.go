@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// RetrieveTrackingSettings Retrieve Tracking Settings
+// GetTrackingSettings Retrieve Tracking Settings
 // GET /tracking_settings
-func RetrieveTrackingSettings() {
+func GetTrackingSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings", host)
@@ -49,9 +49,9 @@ func UpdateClickTrackingSettings() {
 	}
 }
 
-// RetrieveClickTrackSettings Retrieve Click Track Settings
+// GetClickTrackSettings Retrieve Click Track Settings
 // GET /tracking_settings/click
-func RetrieveClickTrackSettings() {
+func GetClickTrackSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/click", host)
@@ -170,9 +170,9 @@ func UpdateSubscriptionTrackingSettings() {
 	}
 }
 
-// RetrieveSubscriptionTrackingSettings Retrieve Subscription Tracking Settings
+// GetSubscriptionTrackingSettings Retrieve Subscription Tracking Settings
 // GET /tracking_settings/subscription
-func RetrieveSubscriptionTrackingSettings() {
+func GetSubscriptionTrackingSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/tracking_settings/subscription", host)

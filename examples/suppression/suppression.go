@@ -8,9 +8,9 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrieveallblocks Retrieve all blocks
+// GetAllBlocks Retrieve all blocks
 // GET /suppression/blocks
-func Retrieveallblocks() {
+func GetAllBlocks() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
@@ -31,9 +31,9 @@ func Retrieveallblocks() {
 	}
 }
 
-// Deleteblocks Delete blocks
+// DeleteBlocks Delete blocks
 // DELETE /suppression/blocks
-func Deleteblocks() {
+func DeleteBlocks() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks", host)
@@ -55,9 +55,9 @@ func Deleteblocks() {
 	}
 }
 
-// Retrieveaspecificblock Retrieve a specific block
+// GetBlock Retrieve a specific block
 // GET /suppression/blocks/{email}
-func Retrieveaspecificblock() {
+func GetBlock() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
@@ -72,9 +72,9 @@ func Retrieveaspecificblock() {
 	}
 }
 
-// Deleteaspecificblock Delete a specific block
+// DeleteBlock Delete a specific block
 // DELETE /suppression/blocks/{email}
-func Deleteaspecificblock() {
+func DeleteBlock() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
@@ -89,9 +89,9 @@ func Deleteaspecificblock() {
 	}
 }
 
-// Retrieveallbounces Retrieve all bounces
+// GetAllBounces Retrieve all bounces
 // GET /suppression/bounces
-func Retrieveallbounces() {
+func GetAllBounces() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
@@ -110,9 +110,9 @@ func Retrieveallbounces() {
 	}
 }
 
-// Deletebounces Delete bounces
+// DeleteBounces Delete bounces
 // DELETE /suppression/bounces
-func Deletebounces() {
+func DeleteBounces() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces", host)
@@ -134,9 +134,9 @@ func Deletebounces() {
 	}
 }
 
-// RetrieveaBounce Retrieve a Bounce
+// GetBounce Retrieve a Bounce
 // GET /suppression/bounces/{email}
-func RetrieveaBounce() {
+func GetBounce() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
@@ -151,9 +151,9 @@ func RetrieveaBounce() {
 	}
 }
 
-// Deleteabounce Delete a bounce
+// DeleteBounce Delete a bounce
 // DELETE /suppression/bounces/{email}
-func Deleteabounce() {
+func DeleteBounce() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
@@ -171,9 +171,9 @@ func Deleteabounce() {
 	}
 }
 
-// Retrieveallinvalidemails Retrieve all invalid emails
+// GetInvalidEmails Retrieve all invalid emails
 // GET /suppression/invalid_emails
-func Retrieveallinvalidemails() {
+func GetInvalidEmails() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
@@ -194,9 +194,9 @@ func Retrieveallinvalidemails() {
 	}
 }
 
-// Deleteinvalidemails Delete invalid emails
+// DeleteInvalidEmails Delete invalid emails
 // DELETE /suppression/invalid_emails
-func Deleteinvalidemails() {
+func DeleteInvalidEmails() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
@@ -218,9 +218,9 @@ func Deleteinvalidemails() {
 	}
 }
 
-// Retrieveaspecificinvalidemail Retrieve a specific invalid email
+// GetInvalidEmail Retrieve a specific invalid email
 // GET /suppression/invalid_emails/{email}
-func Retrieveaspecificinvalidemail() {
+func GetInvalidEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
@@ -235,9 +235,9 @@ func Retrieveaspecificinvalidemail() {
 	}
 }
 
-// Deleteaspecificinvalidemail Delete a specific invalid email
+// DeleteInvalidEmail Delete a specific invalid email
 // DELETE /suppression/invalid_emails/{email}
-func Deleteaspecificinvalidemail() {
+func DeleteInvalidEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
@@ -252,9 +252,9 @@ func Deleteaspecificinvalidemail() {
 	}
 }
 
-// Retrieveaspecificspamreport Retrieve a specific spam report
+// GetSpamReport Retrieve a specific spam report
 // GET /suppression/spam_report/{email}
-func Retrieveaspecificspamreport() {
+func GetSpamReport() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
@@ -269,9 +269,9 @@ func Retrieveaspecificspamreport() {
 	}
 }
 
-// Deleteaspecificspamreport Delete a specific spam report
+// DeleteSpamReport Delete a specific spam report
 // DELETE /suppression/spam_report/{email}
-func Deleteaspecificspamreport() {
+func DeleteSpamReport() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
@@ -286,9 +286,9 @@ func Deleteaspecificspamreport() {
 	}
 }
 
-// Retrieveallspamreports Retrieve all spam reports
+// GetSpamReports Retrieve all spam reports
 // GET /suppression/spam_reports
-func Retrieveallspamreports() {
+func GetSpamReports() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
@@ -309,9 +309,9 @@ func Retrieveallspamreports() {
 	}
 }
 
-// Deletespamreports Delete spam reports
+// DeleteSpamReports Delete spam reports
 // DELETE /suppression/spam_reports
-func Deletespamreports() {
+func DeleteSpamReports() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/spam_reports", host)
@@ -333,9 +333,9 @@ func Deletespamreports() {
 	}
 }
 
-// Retrieveallglobalsuppressions Retrieve all global suppressions
+// GetGlobalSuppressions Retrieve all global suppressions
 // GET /suppression/unsubscribes
-func Retrieveallglobalsuppressions() {
+func GetGlobalSuppressions() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/suppression/unsubscribes", host)
