@@ -5,7 +5,6 @@ import (
     "io"
     "strings"
     "golang.org/x/net/html"
-    "github.com/microcosm-cc/bluemonday"
 )
 
 func FromHTMLString(input string) (string, error) {
@@ -15,11 +14,11 @@ func FromHTMLString(input string) (string, error) {
 }
 
 func FromHTML(input io.Reader, output io.Writer) error {
-    buffer := bluemonday.UGCPolicy().SanitizeReader(input)
-
-    z := html.NewTokenizer(strings.NewReader(buffer.String()))
+    z := html.NewTokenizer(input)
 
     inTags := []string{}
+    inScript := false
+    inStyle := false
     inPre := false
     inTextarea := false
     aHref := ""
@@ -33,7 +32,13 @@ func FromHTML(input io.Reader, output io.Writer) error {
             tagName, _ := z.TagName()
             tag := string(tagName)
 
-            if tag == "pre" {
+            if tag == "script" {
+                inScript = true
+                lastOut = ""
+            } else if tag == "style" {
+                inStyle = true
+                lastOut = ""
+            } else if tag == "pre" {
                 inPre = true
                 lastOut = ""
             } else if tag == "textarea" {
@@ -43,38 +48,40 @@ func FromHTML(input io.Reader, output io.Writer) error {
 
             inTags = append(inTags, tag)
 
-            if tag == "hr" {
-                if (lastOut != "\n") {
-                    output.Write([]byte("\n"))
-                }
-                output.Write([]byte("------------------------------------------------------------\n"))
-                lastOut = "\n"
-            } else if lastOut != "\n" {
-                if tag == "br" || tag == "p" || tag == "div" || tag == "h1" || tag == "h2" || tag == "h3" || tag == "h4" || tag == "h5" || tag == "h6" {
-                    output.Write([]byte("\n\n"))
+            if !inScript {
+                if tag == "hr" {
+                    if (lastOut != "\n") {
+                        output.Write([]byte("\n"))
+                    }
+                    output.Write([]byte("------------------------------------------------------------\n"))
                     lastOut = "\n"
-                } else if tag == "dd" || tag == "li" {
-                    output.Write([]byte("\n"))
-                    lastOut = "\n"
-                }
-            } else if tag == "a" {
-                for {
-                    key, val, moreAttr := z.TagAttr()
-                    if string(key) == "href" {
-                        if len(val) > 0 && val[0] != '#' {
-                            aHref = string(val)
-                            if !strings.HasPrefix(aHref, "http") {
-                                if strings.HasPrefix(aHref, "//") {
-                                    aHref = "http:" + aHref
-                                } else if strings.HasPrefix(aHref, "/") || strings.HasPrefix(aHref, ".") {
-                                    aHref = "" // ignore internal/relative links
+                } else if lastOut != "\n" {
+                    if tag == "br" || tag == "p" || tag == "div" || tag == "h1" || tag == "h2" || tag == "h3" || tag == "h4" || tag == "h5" || tag == "h6" {
+                        output.Write([]byte("\n\n"))
+                        lastOut = "\n"
+                    } else if tag == "dd" || tag == "li" {
+                        output.Write([]byte("\n"))
+                        lastOut = "\n"
+                    }
+                } else if tag == "a" {
+                    for {
+                        key, val, moreAttr := z.TagAttr()
+                        if string(key) == "href" {
+                            if len(val) > 0 && val[0] != '#' {
+                                aHref = string(val)
+                                if !strings.HasPrefix(aHref, "http") {
+                                    if strings.HasPrefix(aHref, "//") {
+                                        aHref = "http:" + aHref
+                                    } else if strings.HasPrefix(aHref, "/") || strings.HasPrefix(aHref, ".") {
+                                        aHref = "" // ignore internal/relative links
+                                    }
                                 }
                             }
+                            break
                         }
-                        break
-                    }
-                    if !moreAttr {
-                        break
+                        if !moreAttr {
+                            break
+                        }
                     }
                 }
             }
@@ -105,51 +112,64 @@ func FromHTML(input io.Reader, output io.Writer) error {
                 inTags = inTags[0:index]
             }
 
-            if lastOut != "\n" {
-                if tag == "br" || tag == "p" || tag == "div" || tag == "h1" || tag == "h2" || tag == "h3" || tag == "h4" || tag == "h5" || tag == "h6" {
-                    output.Write([]byte("\n\n"))
-                    lastOut = "\n"
-                } else if tag == "dd" || tag == "li" {
-                    output.Write([]byte("\n"))
-                    lastOut = "\n"
+            stillInTag := findTag(inTags, tag) >= 0
+            if (!stillInTag) {
+                if tag == "script" {
+                    inScript = false
+                } else if tag == "style" {
+                    inStyle = false
+                } else if tag == "pre" {
+                    inPre = false
+                } else if tag == "textarea" {
+                    inTextarea = false
                 }
             }
 
-            if tag == "pre" {
-                inPre = false
-            } else if tag == "textarea" {
-                inTextarea = false
-            } else if tag == "a" {
-                if aHref != "" {
-                    output.Write([]byte(" (" + aHref + ") "))
-                    aHref = ""
+            if !inScript {
+                if lastOut != "\n" {
+                    if tag == "br" || tag == "p" || tag == "div" || tag == "h1" || tag == "h2" || tag == "h3" || tag == "h4" || tag == "h5" || tag == "h6" {
+                        output.Write([]byte("\n\n"))
+                        lastOut = "\n"
+                    } else if tag == "dd" || tag == "li" {
+                        output.Write([]byte("\n"))
+                        lastOut = "\n"
+                    }
+                }
+
+                if tag == "a" {
+                    if aHref != "" {
+                        output.Write([]byte(" (" + aHref + ") "))
+                        aHref = ""
+                    }
                 }
             }
 
         case html.TextToken:
-            data := z.Text()
+            if !inScript && !inStyle {
+                data := z.Text()
 
-            if inPre || inTextarea {
-                output.Write(data)
-            } else if len(data) > 0 {
-                text := string(data)
+                if inPre || inTextarea {
+                    output.Write(data)
+                } else if len(data) > 0 {
+                    text := string(data)
 
-                trimmed := strings.Trim(text, " \t\n")
-                if trimmed == "" && lastOut != " " {
-                    output.Write([]byte(" "))
-                    lastOut = " "
-                } else {
-                    i := strings.Index(text, trimmed)
-                    if i > 0 {
-                        output.Write([]byte(" "))
-                    }
-                    l := len(trimmed)
-                    output.Write(data[i:i+l])
-                    if i+l < len(data) {
+                    trimmed := strings.Trim(text, " \t\n")
+                    if trimmed == "" && lastOut != " " {
                         output.Write([]byte(" "))
                         lastOut = " "
                     } else {
-                        lastOut = string(data[i:i+l])
+                        i := strings.Index(text, trimmed)
+                        if i > 0 {
+                            output.Write([]byte(" "))
+                        }
+                        l := len(trimmed)
+                        output.Write(data[i:i+l])
+                        if i+l < len(data) {
+                            output.Write([]byte(" "))
+                            lastOut = " "
+                        } else {
+                            lastOut = string(data[i:i+l])
+                        }
                     }
                 }
             }
