@@ -20,14 +20,13 @@ import (
 )
 
 var (
-	testAPIKey = "SENDGRID_APIKEY"
-	testHost   = ""
-	prismPath  = "prism"
-	prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
-	prismCmd   *exec.Cmd
-	buffer     bytes.Buffer
-	curl       *exec.Cmd
-	sh         *exec.Cmd
+	testHost  = ""
+	prismPath = "prism"
+	prismArgs = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
+	prismCmd  *exec.Cmd
+	buffer    bytes.Buffer
+	curl      *exec.Cmd
+	sh        *exec.Cmd
 )
 
 func TestMain(m *testing.M) {
