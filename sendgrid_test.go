@@ -161,7 +161,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
-	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
 }
