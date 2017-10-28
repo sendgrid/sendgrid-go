@@ -178,9 +178,10 @@ func main() {
 		if err != nil {
 			log.Fatal("Check your Filepath. ", err)
 		}
-		Headers := make(map[string]string)
-		Headers["User-Agent"] = "SendGrid-Test"
-		Headers["Content-Type"] = "multipart/form-data; boundary=xYzZY"
+		Headers := map[string]string{
+			"User-Agent": 	"SendGrid-Test",
+			"Content-Type": "multipart/form-data; boundary=xYzZY",
+		}
 		method := rest.Post
 		request := rest.Request{
 			Method:  method,
