@@ -119,6 +119,21 @@ func TestSendGridVersion(t *testing.T) {
 	}
 }
 
+func TestRepoFiles(t *testing.T) {
+	fs := []string{"Docker", "docker-compose.yml", ".env_sample", ".gitignore", ".travis.yml", ".codeclimate.yml", "CHANGELOG.md", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", ".github/ISSUE_TEMPLATE", "LICENSE.md", ".github/PULL_REQUEST_TEMPLATE", "README.md", "TROUBLESHOOTING.md", "USAGE.md", "USE_CASES.md"}
+	for _, f := range fs {
+		if _, err := os.Stat(f); os.IsNotExist(err) {
+			if strings.HasPrefix(strings.ToLower(f), "docker") {
+				if _, err := os.Stat("docker/" + f); os.IsNotExist(err) {
+					t.Errorf("Repo files do not exist: %v and %v", f, "docker/"+f)
+				}
+			} else {
+				t.Errorf("Repo file does not exist: %v", f)
+			}
+		}
+	}
+}
+
 func TestGetRequest(t *testing.T) {
 	request := GetRequest("", "", "")
 	if request.BaseURL != "https://api.sendgrid.com" {
