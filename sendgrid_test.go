@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -116,6 +117,17 @@ func TestMain(m *testing.M) {
 func TestSendGridVersion(t *testing.T) {
 	if Version != "3.1.0" {
 		t.Error("SendGrid version does not match")
+	}
+}
+
+func TestLicenseYear(t *testing.T) {
+	d, err := ioutil.ReadFile("LICENSE.txt")
+	if err != nil {
+		t.Error("Cannot read the LICENSE.txt file")
+	}
+	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
+	if !strings.Contains(string(d), l) {
+		t.Errorf("License date range is not correct, it should be: %v", l)
 	}
 }
 
