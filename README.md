@@ -1,4 +1,4 @@
-[![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
+![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
 
 [![BuildStatus](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
