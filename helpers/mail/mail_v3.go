@@ -3,6 +3,8 @@ package mail
 import (
 	"encoding/json"
 	"log"
+
+	"github.com/mailproto/textplain"
 )
 
 // SGMailV3  contains mail struct
@@ -538,6 +540,18 @@ func NewContent(contentType string, value string) *Content {
 		Type:  contentType,
 		Value: value,
 	}
+}
+
+func NewPlaintextContentFromHTML(html string) (*Content, error) {
+	converted, err := textplain.Convert(html, -1)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Content{
+		Type:  "text/plain",
+		Value: converted,
+	}, nil
 }
 
 func NewClickTrackingSetting() *ClickTrackingSetting {

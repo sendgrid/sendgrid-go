@@ -949,3 +949,44 @@ func TestV3NewSandboxModeSetting(t *testing.T) {
 		t.Error("SpamCheck should not be nil")
 	}
 }
+
+func TestV3GeneratePlaintext(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Hello World from the SendGrid Go Library"
+	to := NewEmail("Example User", "test@example.com")
+	html := NewContent("text/html", "<html><body><h1>Hello World From Sendgrid</h1><p>Thanks for auto-generating this</p></body></html>")
+
+	plaintext, err := NewPlaintextContentFromHTML(html.Value)
+	if err != nil {
+		t.Errorf("NewPlaintextContentFromHTML should not return an error, got: %v", err)
+	}
+
+	m := NewV3MailInit(from, subject, to, plaintext, html)
+
+	if m == nil {
+		t.Errorf("NewV3MailInit() shouldn't return nil")
+	}
+
+	if m.Content == nil {
+		t.Fatalf("Content should not be nil")
+	}
+
+	if len(m.Content) != 2 {
+		t.Fatalf("Content should have 2 entries, found %d", len(m.Content))
+	}
+
+	if m.Content[0].Type != "text/plain" {
+		t.Errorf("Expected first type to be text/plain, got: %v", m.Content[1].Type)
+	}
+
+	expectPlaintext := `*************************
+Hello World From Sendgrid
+*************************
+
+Thanks for auto-generating this`
+
+	if plain := m.Content[0].Value; plain != expectPlaintext {
+		t.Errorf("Wrong plaintext value, want:\n%v, got:\n%v", expectPlaintext, plain)
+	}
+
+}

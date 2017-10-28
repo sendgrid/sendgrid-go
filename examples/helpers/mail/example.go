@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	//"../../.." // to test against the downloaded version
@@ -192,10 +193,50 @@ func kitchenSink() []byte {
 	return mail.GetRequestBody(m)
 }
 
+func helloEmailAutogeneratePlaintext() []byte {
+	address := "test@example.com"
+	name := "Example User"
+	from := mail.NewEmail(name, address)
+	subject := "Hello World from the SendGrid Go Library"
+	address = "test@example.com"
+	name = "Example User"
+	to := mail.NewEmail(name, address)
+
+	html := mail.NewContent("text/html", "<html><body><h1>Some HTML text here</h1><body></html>")
+
+	plaintext, err := mail.NewPlaintextContentFromHTML(html.Value)
+	if err != nil {
+		panic(err)
+	}
+
+	// if text/plain and text/html are set, text/plain should be first
+	m := mail.NewV3MailInit(from, subject, to, plaintext, html)
+	address = "test2@example.com"
+	name = "Example User"
+	email := mail.NewEmail(name, address)
+	m.Personalizations[0].AddTos(email)
+	return mail.GetRequestBody(m)
+}
+
 func sendHelloEmail() {
 	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
 	request.Method = "POST"
 	var Body = helloEmail()
+	request.Body = Body
+	response, err := sendgrid.API(request)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+
+func sendHelloEmailAutogeneratePlaintext() {
+	request := sendgrid.GetRequest(os.Getenv("YOUR_SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	var Body = helloEmailAutogeneratePlaintext()
 	request.Body = Body
 	response, err := sendgrid.API(request)
 	if err != nil {
@@ -224,5 +265,6 @@ func sendKitchenSink() {
 
 func main() {
 	sendHelloEmail()
+	sendHelloEmailAutogeneratePlaintext()
 	sendKitchenSink()
 }
