@@ -1,13 +1,14 @@
 package main
 
 import (
+  "os"
   "fmt"
   "github.com/sendgrid/sendgrid-go"
   "log"
 )
 
 func GetAPIKey() {
-  apiKey := "JUST_A_TEST_KEY"
+  apiKey := os.Getenv("SENDGRID_API_KEY")
   host := "http://localhost:4010"
   request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
   request.Method = "GET"

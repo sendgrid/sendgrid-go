@@ -9,7 +9,7 @@ if [ -d /mnt/sendgrid-go ]; then
 fi
 
 SENDGRID_GO_VERSION=$(go run get-version.go)
-echo "Welcom to sendgrid-go docker v${SENDGRID_GO_VERSION}."
+echo "Welcome to sendgrid-go docker v${SENDGRID_GO_VERSION}."
 echo 
 
 if [ "$1" != "--no-mock" ]
@@ -22,10 +22,11 @@ else
   prism run --spec $OAI_SPEC_URL 2> /dev/null  &
 fi
 echo "To use Prism, make API calls to localhost:4010."
-
+echo "To stop Prism, run \"kill $!\" from the shell."
+ 
 echo
 echo "To test with sendgrid-go."
-echo "Mount your files directory to /data and run with \"go run [file].go\"."
+echo "Put your file in ./src, which mounted to /data in container, and run with \"go run [file].go\"."
 echo 
 
 cd /data

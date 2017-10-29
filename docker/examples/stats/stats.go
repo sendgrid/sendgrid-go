@@ -1,6 +1,7 @@
 package main
 
 import (
+  "os"
   "fmt"
   "github.com/sendgrid/sendgrid-go"
   "log"
@@ -11,7 +12,7 @@ import (
 // GET /stats
 
 func Retrieveglobalemailstatistics() {
-  apiKey := "JUST_A_TEST_KEY"
+  apiKey := os.Getenv("SENDGRID_API_KEY")
   host := "http://localhost:4010"
   request := sendgrid.GetRequest(apiKey, "/v3/stats", host)
   request.Method = "GET"

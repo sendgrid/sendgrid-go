@@ -1,38 +1,40 @@
 You can use Docker to easily try out or test sendgrid-go.
 
 # Quickstart
-1. Install Docker in your machine.
-2. Run `docker run -it -v /path/to/your-code:/data dhoeric/sendgrid-go`.
-3. Run your code with `go run your-code.go`
+1. Install Docker and docker-compose in your machine
+2. Put your code in `./src`
+3. Run `docker-compose run mock-server`
+4. Run your code with `go run your-code.go` inside container
 
 # Examples
-1. Copy and save in you local machine, e.g. `test.go`.
+1. Copy and save in `./src/test.go`, e.g. `test.go`.
 ```
 package main
 
 import (
-	"fmt"
-	"github.com/sendgrid/sendgrid-go"
-	"log"
+  "os"
+  "fmt"
+  "github.com/sendgrid/sendgrid-go"
+  "log"
 )
 
 func main() {
-	api_key := "JUST_A_TEST_KEY"
-	host := "http://localhost:4010"
-	request := sendgrid.GetRequest(api_key, "/v3/api_keys", host)
-	request.Method = "GET"
+  apiKey := os.Getenv("SENDGRID_API_KEY")
+  host := "http://localhost:4010"
+  request := sendgrid.GetRequest(apiKey, "/v3/api_keys", host)
+  request.Method = "GET"
 
-	response, err := sendgrid.API(request)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+  response, err := sendgrid.API(request)
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
 }
 ```
-2. Run `docker run -it -v $(pwd):/data dhoeric/sendgrid-go`.
+2. Run `docker-compose run mock-server`.
 3. In container, run `go run test.go`
 
 More sample codes on [Docker Examples](/docker/examples).
