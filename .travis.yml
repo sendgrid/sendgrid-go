@@ -12,6 +12,7 @@ before_script:
 script:
 - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck
 - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
+- go test -cover -v -race ./...
 notifications:
   hipchat:
     rooms:
