@@ -2,11 +2,16 @@ You can use Docker to easily try out or test sendgrid-go.
 
 # Quickstart
 1. Install Docker and docker-compose in your machine
-2. Put your code in `./src`
-3. Run `docker-compose run mock-server`
-4. Run your code with `go run your-code.go` inside container
+2. Change into the docker directory, `cd docker`
+3. run `docker-compose build`
+4. run `docker-compose up`
+5. Put the script you want to test in `./src`
+6. Run `docker-compose run mock-server`, this will open a terminal on the container
+7. Run your code with `go run your-code.go` once inside container
 
 # Examples
+You can use this as an example to show how this works. 
+
 1. Copy and save in `./src/test.go`, e.g. `test.go`.
 ```
 package main
