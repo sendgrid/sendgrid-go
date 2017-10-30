@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-// SGMailV3 ...
+// SGMailV3 contains mail struct
 type SGMailV3 struct {
 	From             *Email             `json:"from,omitempty"`
 	Subject          string             `json:"subject,omitempty"`
@@ -39,19 +39,19 @@ type Personalization struct {
 	SendAt        int               `json:"send_at,omitempty"`
 }
 
-// Email ...
+// Email holds email name and address info
 type Email struct {
 	Name    string `json:"name,omitempty"`
 	Address string `json:"email,omitempty"`
 }
 
-// Content ...
+// Content defines content of the mail body
 type Content struct {
 	Type  string `json:"type,omitempty"`
 	Value string `json:"value,omitempty"`
 }
 
-// Attachment ...
+// Attachment holds attachement information
 type Attachment struct {
 	Content     string `json:"content,omitempty"`
 	Type        string `json:"type,omitempty"`

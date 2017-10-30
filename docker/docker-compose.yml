@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  mock-server:
+    build: .
+    environment:
+      SENDGRID_API_KEY: JUST_A_TEST_KEY
+    volumes: 
+      - ./src:/data
+  
