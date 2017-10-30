@@ -22,9 +22,9 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	}
 	baseURL := host + endpoint
 	requestHeaders := map[string]string{
-		requestHeaders["Authorization"]: "Bearer " + key,
-		requestHeaders["User-Agent"]: "sendgrid/" + Version + ";go",
-		requestHeaders["Accept"]: "application/json",
+		"Authorization": "Bearer " + key,
+		"User-Agent": "sendgrid/" + Version + ";go",
+		"Accept": "application/json",
 	}
 	request := rest.Request{
 		BaseURL: baseURL,
