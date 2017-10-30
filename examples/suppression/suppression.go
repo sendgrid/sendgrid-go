@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetAllBlocks Retrieve all blocks
+// GetAllBlocks : Retrieve all blocks
 // GET /suppression/blocks
 func GetAllBlocks() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -31,7 +30,7 @@ func GetAllBlocks() {
 	}
 }
 
-// DeleteBlocks Delete blocks
+// DeleteBlocks : Delete blocks
 // DELETE /suppression/blocks
 func DeleteBlocks() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -55,7 +54,7 @@ func DeleteBlocks() {
 	}
 }
 
-// GetBlock Retrieve a specific block
+// GetBlock : Retrieve a specific block
 // GET /suppression/blocks/{email}
 func GetBlock() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -72,7 +71,7 @@ func GetBlock() {
 	}
 }
 
-// DeleteBlock Delete a specific block
+// DeleteBlock : Delete a specific block
 // DELETE /suppression/blocks/{email}
 func DeleteBlock() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -89,7 +88,7 @@ func DeleteBlock() {
 	}
 }
 
-// GetAllBounces Retrieve all bounces
+// GetAllBounces : Retrieve all bounces
 // GET /suppression/bounces
 func GetAllBounces() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -110,7 +109,7 @@ func GetAllBounces() {
 	}
 }
 
-// DeleteBounces Delete bounces
+// DeleteBounces : Delete bounces
 // DELETE /suppression/bounces
 func DeleteBounces() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -134,7 +133,7 @@ func DeleteBounces() {
 	}
 }
 
-// GetBounce Retrieve a Bounce
+// GetBounce : Retrieve a Bounce
 // GET /suppression/bounces/{email}
 func GetBounce() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -151,7 +150,7 @@ func GetBounce() {
 	}
 }
 
-// DeleteBounce Delete a bounce
+// DeleteBounce : Delete a bounce
 // DELETE /suppression/bounces/{email}
 func DeleteBounce() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -171,7 +170,7 @@ func DeleteBounce() {
 	}
 }
 
-// GetInvalidEmails Retrieve all invalid emails
+// GetInvalidEmails : Retrieve all invalid emails
 // GET /suppression/invalid_emails
 func GetInvalidEmails() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -194,7 +193,7 @@ func GetInvalidEmails() {
 	}
 }
 
-// DeleteInvalidEmails Delete invalid emails
+// DeleteInvalidEmails : Delete invalid emails
 // DELETE /suppression/invalid_emails
 func DeleteInvalidEmails() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -218,7 +217,7 @@ func DeleteInvalidEmails() {
 	}
 }
 
-// GetInvalidEmail Retrieve a specific invalid email
+// GetInvalidEmail : Retrieve a specific invalid email
 // GET /suppression/invalid_emails/{email}
 func GetInvalidEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -235,7 +234,7 @@ func GetInvalidEmail() {
 	}
 }
 
-// DeleteInvalidEmail Delete a specific invalid email
+// DeleteInvalidEmail : Delete a specific invalid email
 // DELETE /suppression/invalid_emails/{email}
 func DeleteInvalidEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -252,7 +251,7 @@ func DeleteInvalidEmail() {
 	}
 }
 
-// GetSpamReport Retrieve a specific spam report
+// GetSpamReport : Retrieve a specific spam report
 // GET /suppression/spam_report/{email}
 func GetSpamReport() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -269,7 +268,7 @@ func GetSpamReport() {
 	}
 }
 
-// DeleteSpamReport Delete a specific spam report
+// DeleteSpamReport : Delete a specific spam report
 // DELETE /suppression/spam_report/{email}
 func DeleteSpamReport() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -286,7 +285,7 @@ func DeleteSpamReport() {
 	}
 }
 
-// GetSpamReports Retrieve all spam reports
+// GetSpamReports : Retrieve all spam reports
 // GET /suppression/spam_reports
 func GetSpamReports() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -309,7 +308,7 @@ func GetSpamReports() {
 	}
 }
 
-// DeleteSpamReports Delete spam reports
+// DeleteSpamReports : Delete spam reports
 // DELETE /suppression/spam_reports
 func DeleteSpamReports() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -333,7 +332,7 @@ func DeleteSpamReports() {
 	}
 }
 
-// GetGlobalSuppressions Retrieve all global suppressions
+// GetGlobalSuppressions : Retrieve all global suppressions
 // GET /suppression/unsubscribes
 func GetGlobalSuppressions() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

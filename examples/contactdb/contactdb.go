@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateCustomField Create a Custom Field
+// CreateCustomField : Create a Custom Field
 // POST /contactdb/custom_fields
 func CreateCustomField() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -29,7 +28,7 @@ func CreateCustomField() {
 	}
 }
 
-// GetAllCustomFields Retrieve all custom fields
+// GetAllCustomFields : Retrieve all custom fields
 // GET /contactdb/custom_fields
 func GetAllCustomFields() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -47,7 +46,7 @@ func GetAllCustomFields() {
 }
 
 
-// GetCustomField Retrieve a Custom Field
+// GetCustomField : Retrieve a Custom Field
 // GET /contactdb/custom_fields/{custom_field_id}
 func GetCustomField() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -65,7 +64,7 @@ func GetCustomField() {
 }
 
 
-// DeleteCustomField Delete a Custom Field
+// DeleteCustomField : Delete a Custom Field
 // DELETE /contactdb/custom_fields/{custom_field_id}
 func DeleteCustomField() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -83,7 +82,7 @@ func DeleteCustomField() {
 }
 
 
-// CreateList Create a List
+// CreateList : Create a List
 // POST /contactdb/lists
 func CreateList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -103,7 +102,7 @@ func CreateList() {
 	}
 }
 
-// GetAllLists Retrieve all lists
+// GetAllLists : Retrieve all lists
 // GET /contactdb/lists
 func GetAllLists() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -121,7 +120,7 @@ func GetAllLists() {
 }
 
 
-// DeleteLists Delete Multiple lists
+// DeleteLists : Delete Multiple lists
 // DELETE /contactdb/lists
 func DeleteLists() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -144,7 +143,7 @@ func DeleteLists() {
 	}
 }
 
-// UpdateList Update a List
+// UpdateList : Update a List
 // PATCH /contactdb/lists/{list_id}
 func UpdateList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -168,7 +167,7 @@ func UpdateList() {
 }
 
 
-// GetList Retrieve a single list
+// GetList : Retrieve a single list
 // GET /contactdb/lists/{list_id}
 func GetList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -189,7 +188,7 @@ func GetList() {
 }
 
 
-// DeleteList Delete a List
+// DeleteList : Delete a List
 // DELETE /contactdb/lists/{list_id}
 func DeleteList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -209,7 +208,7 @@ func DeleteList() {
 	}
 }
 
-// AddRecipientsToList Add Multiple Recipients to a List
+// AddRecipientsToList : Add Multiple Recipients to a List
 // POST /contactdb/lists/{list_id}/recipients
 func AddRecipientsToList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -230,7 +229,7 @@ func AddRecipientsToList() {
 	}
 }
 
-// GetAllRecipientsByList Retrieve all recipients on a List
+// GetAllRecipientsByList : Retrieve all recipients on a List
 // GET /contactdb/lists/{list_id}/recipients
 func GetAllRecipientsByList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -252,9 +251,9 @@ func GetAllRecipientsByList() {
 	}
 }
 
-// AddRecipienttoList Add a Single Recipient to a List
+// AddRecipientToList : Add a Single Recipient to a List
 // POST /contactdb/lists/{list_id}/recipients/{recipient_id}
-func AddRecipienttoList() {
+func AddRecipientToList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
@@ -269,7 +268,7 @@ func AddRecipienttoList() {
 	}
 }
 
-// DeleteRecipientfromList Delete a Single Recipient from a Single List
+// DeleteRecipientfromList : Delete a Single Recipient from a Single List
 // DELETE /contactdb/lists/{list_id}/recipients/{recipient_id}
 func DeleteRecipientfromList() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -290,7 +289,7 @@ func DeleteRecipientfromList() {
 	}
 }
 
-// UpdateRecipient Update a Recipient
+// UpdateRecipient : Update a Recipient
 // PATCH /contactdb/recipients
 func UpdateRecipient() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -314,7 +313,7 @@ func UpdateRecipient() {
 	}
 }
 
-// AddRecipients Add recipients
+// AddRecipients : Add recipients
 // POST /contactdb/recipients
 func AddRecipients() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -345,7 +344,7 @@ func AddRecipients() {
 	}
 }
 
-// GetRecipients Retrieve recipients
+// GetRecipients : Retrieve recipients
 // GET /contactdb/recipients
 func GetRecipients() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -366,7 +365,7 @@ func GetRecipients() {
 	}
 }
 
-// DeleteRecipients Delete multiple recipients
+// DeleteRecipients : Delete multiple recipients
 // DELETE /contactdb/recipients
 func DeleteRecipients() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -387,7 +386,7 @@ func DeleteRecipients() {
 	}
 }
 
-// GetBillableRecipientsCount Retrieve the count of billable recipients
+// GetBillableRecipientsCount : Retrieve the count of billable recipients
 // GET /contactdb/recipients/billable_count
 func GetBillableRecipientsCount() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -404,7 +403,7 @@ func GetBillableRecipientsCount() {
 	}
 }
 
-// GetRecipientsCount Retrieve the count of recipients
+// GetRecipientsCount : Retrieve the count of recipients
 // GET /contactdb/recipients/count
 func GetRecipientsCount() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -421,7 +420,7 @@ func GetRecipientsCount() {
 	}
 }
 
-// SearchRecipients Retrieve recipients matching search criteria
+// SearchRecipients : Retrieve recipients matching search criteria
 // GET /contactdb/recipients/search
 func SearchRecipients() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -441,7 +440,7 @@ func SearchRecipients() {
 	}
 }
 
-// GetRecipient Retrieve a single recipient
+// GetRecipient : Retrieve a single recipient
 // GET /contactdb/recipients/{recipient_id}
 func GetRecipient() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -458,7 +457,7 @@ func GetRecipient() {
 	}
 }
 
-// DeleteRecipient Delete a Recipient
+// DeleteRecipient : Delete a Recipient
 // DELETE /contactdb/recipients/{recipient_id}
 func DeleteRecipient() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -475,7 +474,7 @@ func DeleteRecipient() {
 	}
 }
 
-// GetListsByRecipient Retrieve the lists that a recipient is on
+// GetListsByRecipient : Retrieve the lists that a recipient is on
 // GET /contactdb/recipients/{recipient_id}/lists
 func GetListsByRecipient() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -492,7 +491,7 @@ func GetListsByRecipient() {
 	}
 }
 
-// GetReservedFields Retrieve reserved fields
+// GetReservedFields : Retrieve reserved fields
 // GET /contactdb/reserved_fields
 func GetReservedFields() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -509,7 +508,7 @@ func GetReservedFields() {
 	}
 }
 
-// CreateSegment Create a Segment
+// CreateSegment : Create a Segment
 // POST /contactdb/segments
 func CreateSegment() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -550,7 +549,7 @@ func CreateSegment() {
 	}
 }
 
-// GetAllSegments Retrieve all segments
+// GetAllSegments : Retrieve all segments
 // GET /contactdb/segments
 func GetAllSegments() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -567,7 +566,7 @@ func GetAllSegments() {
 	}
 }
 
-// UpdateSegment Update a segment
+// UpdateSegment : Update a segment
 // PATCH /contactdb/segments/{segment_id}
 func UpdateSegment() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -599,7 +598,7 @@ func UpdateSegment() {
 	}
 }
 
-// GetSegment Retrieve a segment
+// GetSegment : Retrieve a segment
 // GET /contactdb/segments/{segment_id}
 func GetSegment() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -619,7 +618,7 @@ func GetSegment() {
 	}
 }
 
-// DeleteSegment Delete a segment
+// DeleteSegment : Delete a segment
 // DELETE /contactdb/segments/{segment_id}
 func DeleteSegment() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -639,7 +638,7 @@ func DeleteSegment() {
 	}
 }
 
-// GetRecipientsBySegment Retrieve recipients on a segment
+// GetRecipientsBySegment : Retrieve recipients on a segment
 // GET /contactdb/segments/{segment_id}/recipients
 func GetRecipientsBySegment() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

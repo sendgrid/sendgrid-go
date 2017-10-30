@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetStatsByDeviceType Retrieves email statistics by device type.
+// GetStatsByDeviceType : Retrieves email statistics by device type.
 // GET /devices/stats
 func GetStatsByDeviceType() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

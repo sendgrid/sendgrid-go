@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetGlobalEmailStats Retrieve global email statistics
+// GetGlobalEmailStats : Retrieve global email statistics
 // GET /stats
 func GetGlobalEmailStats() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

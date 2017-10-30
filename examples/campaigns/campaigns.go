@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateCampaign Create a Campaign
+// CreateCampaign : Create a Campaign
 // POST /campaigns
 func CreateCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -45,7 +44,7 @@ func CreateCampaign() {
 	}
 }
 
-// GetAllCampaigns Retrieve all Campaigns
+// GetAllCampaigns : Retrieve all Campaigns
 // GET /campaigns
 func GetAllCampaigns() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -66,7 +65,7 @@ func GetAllCampaigns() {
 	}
 }
 
-// UpdateCampaign Update a Campaign
+// UpdateCampaign : Update a Campaign
 // PATCH /campaigns/{campaign_id}
 func UpdateCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -92,7 +91,7 @@ func UpdateCampaign() {
 	}
 }
 
-// GetCampaign Retrieve a single campaign by id
+// GetCampaign : Retrieve a single campaign by id
 // GET /campaigns/{campaign_id}
 func GetCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -109,7 +108,7 @@ func GetCampaign() {
 	}
 }
 
-// DeleteCampaign Delete a Campaign by id
+// DeleteCampaign : Delete a Campaign by id
 // DELETE /campaigns/{campaign_id}
 func DeleteCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -126,7 +125,7 @@ func DeleteCampaign() {
 	}
 }
 
-// UpdateScheduledCampaign Update a Scheduled Campaign
+// UpdateScheduledCampaign : Update a Scheduled Campaign
 // PATCH /campaigns/{campaign_id}/schedules
 func UpdateScheduledCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -146,7 +145,7 @@ func UpdateScheduledCampaign() {
 	}
 }
 
-// ScheduleCampaign Schedule a Campaign
+// ScheduleCampaign : Schedule a Campaign
 // POST /campaigns/{campaign_id}/schedules
 func ScheduleCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -166,7 +165,7 @@ func ScheduleCampaign() {
 	}
 }
 
-// GetCampaignSchedules View Scheduled Time of a Campaign
+// GetCampaignSchedules : View Scheduled Time of a Campaign
 // GET /campaigns/{campaign_id}/schedules
 func GetCampaignSchedules() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -183,7 +182,7 @@ func GetCampaignSchedules() {
 	}
 }
 
-// UnscheduleScheduledCampaign Unschedule a Scheduled Campaign
+// UnscheduleScheduledCampaign : Unschedule a Scheduled Campaign
 // DELETE /campaigns/{campaign_id}/schedules
 func UnscheduleScheduledCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -200,7 +199,7 @@ func UnscheduleScheduledCampaign() {
 	}
 }
 
-// SendCampaign Send a Campaign
+// SendCampaign : Send a Campaign
 // POST /campaigns/{campaign_id}/schedules/now
 func SendCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -217,7 +216,7 @@ func SendCampaign() {
 	}
 }
 
-// SendTestCampaign Send a Test Campaign
+// SendTestCampaign : Send a Test Campaign
 // POST /campaigns/{campaign_id}/schedules/test
 func SendTestCampaign() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

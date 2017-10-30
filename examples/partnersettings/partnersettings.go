@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetAllPartnerSettings Returns a list of all partner settings.
+// GetAllPartnerSettings : Returns a list of all partner settings.
 // GET /partner_settings
 func GetAllPartnerSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -29,7 +28,7 @@ func GetAllPartnerSettings() {
 	}
 }
 
-// UpdateNewRelicPartnerSettings Updates New Relic partner settings.
+// UpdateNewRelicPartnerSettings : Updates New Relic partner settings.
 // PATCH /partner_settings/new_relic
 func UpdateNewRelicPartnerSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -51,7 +50,7 @@ func UpdateNewRelicPartnerSettings() {
 	}
 }
 
-// GetAllNewRelicPartnerSettings Returns all New Relic partner settings.
+// GetAllNewRelicPartnerSettings : Returns all New Relic partner settings.
 // GET /partner_settings/new_relic
 func GetAllNewRelicPartnerSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

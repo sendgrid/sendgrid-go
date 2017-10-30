@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetEmailStatsByClientType Retrieve email statistics by client type.
+// GetEmailStatsByClientType : Retrieve email statistics by client type.
 // GET /clients/stats
 func GetEmailStatsByClientType() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -30,7 +29,7 @@ func GetEmailStatsByClientType() {
 	}
 }
 
-// GetStatsByClientType Retrieve stats by a specific client type.
+// GetStatsByClientType : Retrieve stats by a specific client type.
 // GET /clients/{client_type}/stats
 func GetStatsByClientType() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetUserAccountInfo Get a user's account information.
+// GetUserAccountInfo : Get a user's account information.
 // GET /user/account
 func GetUserAccountInfo() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -25,7 +24,7 @@ func GetUserAccountInfo() {
 	}
 }
 
-// GetCreditBalance Retrieve your credit balance
+// GetCreditBalance : Retrieve your credit balance
 // GET /user/credits
 func GetCreditBalance() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -42,7 +41,7 @@ func GetCreditBalance() {
 	}
 }
 
-// UpdateAccountEmail Update your account email address
+// UpdateAccountEmail : Update your account email address
 // PUT /user/email
 func UpdateAccountEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -62,7 +61,7 @@ func UpdateAccountEmail() {
 	}
 }
 
-// GetAccountEmail Retrieve your account email address
+// GetAccountEmail : Retrieve your account email address
 // GET /user/email
 func GetAccountEmail() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -79,7 +78,7 @@ func GetAccountEmail() {
 	}
 }
 
-// UpdatePassword Update your password
+// UpdatePassword : Update your password
 // PUT /user/password
 func UpdatePassword() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -100,7 +99,7 @@ func UpdatePassword() {
 	}
 }
 
-// UpdateUserProfile Update a user's profile
+// UpdateUserProfile : Update a user's profile
 // PATCH /user/profile
 func UpdateUserProfile() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -122,7 +121,7 @@ func UpdateUserProfile() {
 	}
 }
 
-// GetUserProfile Get a user's profile
+// GetUserProfile : Get a user's profile
 // GET /user/profile
 func GetUserProfile() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -139,7 +138,7 @@ func GetUserProfile() {
 	}
 }
 
-// CancelOrPauseScheduledSend Cancel or pause a scheduled send
+// CancelOrPauseScheduledSend : Cancel or pause a scheduled send
 // POST /user/scheduled_sends
 func CancelOrPauseScheduledSend() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -160,7 +159,7 @@ func CancelOrPauseScheduledSend() {
 	}
 }
 
-// GetScheduledSends Retrieve all scheduled sends
+// GetScheduledSends : Retrieve all scheduled sends
 // GET /user/scheduled_sends
 func GetScheduledSends() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -177,7 +176,7 @@ func GetScheduledSends() {
 	}
 }
 
-// UpdateUserScheduledSendInfo Update user scheduled send information
+// UpdateUserScheduledSendInfo : Update user scheduled send information
 // PATCH /user/scheduled_sends/{batch_id}
 func UpdateUserScheduledSendInfo() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -197,7 +196,7 @@ func UpdateUserScheduledSendInfo() {
 	}
 }
 
-// GetScheduledSend Retrieve scheduled send by batch id
+// GetScheduledSend : Retrieve scheduled send by batch id
 // GET /user/scheduled_sends/{batch_id}
 func GetScheduledSend() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -214,7 +213,7 @@ func GetScheduledSend() {
 	}
 }
 
-// DeleteCancellationOrPauseofScheduledSend Undo a cancellation or pause of a scheduled send
+// DeleteCancellationOrPauseofScheduledSend : Undo a cancellation or pause of a scheduled send
 // DELETE /user/scheduled_sends/{batch_id}
 func DeleteCancellationOrPauseofScheduledSend() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -231,7 +230,7 @@ func DeleteCancellationOrPauseofScheduledSend() {
 	}
 }
 
-// UpdateEnforcedTLSSettings Update Enforced TLS settings
+// UpdateEnforcedTLSSettings : Update Enforced TLS settings
 // PATCH /user/settings/enforced_tls
 func UpdateEnforcedTLSSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -252,7 +251,7 @@ func UpdateEnforcedTLSSettings() {
 	}
 }
 
-// GetCurrentEnforcedTLSsettings Retrieve current Enforced TLS settings.
+// GetCurrentEnforcedTLSsettings : Retrieve current Enforced TLS settings.
 // GET /user/settings/enforced_tls
 func GetCurrentEnforcedTLSsettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -269,7 +268,7 @@ func GetCurrentEnforcedTLSsettings() {
 	}
 }
 
-// UpdateUsername Update your username
+// UpdateUsername : Update your username
 // PUT /user/username
 func UpdateUsername() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -289,7 +288,7 @@ func UpdateUsername() {
 	}
 }
 
-// GetUsername Retrieve your username
+// GetUsername : Retrieve your username
 // GET /user/username
 func GetUsername() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -306,7 +305,7 @@ func GetUsername() {
 	}
 }
 
-// UpdateEventNotificationSettings Update Event Notification Settings
+// UpdateEventNotificationSettings : Update Event Notification Settings
 // PATCH /user/webhooks/event/settings
 func UpdateEventNotificationSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -338,7 +337,7 @@ func UpdateEventNotificationSettings() {
 	}
 }
 
-// GetEventWebhookSettings Retrieve Event Webhook settings
+// GetEventWebhookSettings : Retrieve Event Webhook settings
 // GET /user/webhooks/event/settings
 func GetEventWebhookSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -355,7 +354,7 @@ func GetEventWebhookSettings() {
 	}
 }
 
-// TestEventNotificationSettings Test Event Notification Settings
+// TestEventNotificationSettings : Test Event Notification Settings
 // POST /user/webhooks/event/test
 func TestEventNotificationSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -375,7 +374,7 @@ func TestEventNotificationSettings() {
 	}
 }
 
-// CreateParseSetting Create a parse setting
+// CreateParseSetting : Create a parse setting
 // POST /user/webhooks/parse/settings
 func CreateParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -398,7 +397,7 @@ func CreateParseSetting() {
 	}
 }
 
-// GetParseSettings Retrieve all parse settings
+// GetParseSettings : Retrieve all parse settings
 // GET /user/webhooks/parse/settings
 func GetParseSettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -415,7 +414,7 @@ func GetParseSettings() {
 	}
 }
 
-// UpdateParseSetting Update a parse setting
+// UpdateParseSetting : Update a parse setting
 // PATCH /user/webhooks/parse/settings/{hostname}
 func UpdateParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -437,7 +436,7 @@ func UpdateParseSetting() {
 	}
 }
 
-// GetParseSetting Retrieve a specific parse setting
+// GetParseSetting : Retrieve a specific parse setting
 // GET /user/webhooks/parse/settings/{hostname}
 func GetParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -454,7 +453,7 @@ func GetParseSetting() {
 	}
 }
 
-// DeleteParseSetting Delete a parse setting
+// DeleteParseSetting : Delete a parse setting
 // DELETE /user/webhooks/parse/settings/{hostname}
 func DeleteParseSetting() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -471,7 +470,7 @@ func DeleteParseSetting() {
 	}
 }
 
-// GetInboundParseWebhookStats Retrieves Inbound Parse Webhook statistics.
+// GetInboundParseWebhookStats : Retrieves Inbound Parse Webhook statistics.
 // GET /user/webhooks/parse/stats
 func GetInboundParseWebhookStats() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

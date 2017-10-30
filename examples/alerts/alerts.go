@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateAlert Create a new Alert
+// CreateAlert : Create a new Alert
 // POST /alerts
 func CreateAlert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -30,7 +29,7 @@ func CreateAlert() {
 	}
 }
 
-// GetAlerts Retrieve all alerts
+// GetAlerts : Retrieve all alerts
 // GET /alerts
 func GetAlerts() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -47,7 +46,7 @@ func GetAlerts() {
 	}
 }
 
-// UpdateAlert Update an alert
+// UpdateAlert : Update an alert
 // PATCH /alerts/{alert_id}
 func UpdateAlert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -67,7 +66,7 @@ func UpdateAlert() {
 	}
 }
 
-// GetAlert Retrieve a specific alert
+// GetAlert : Retrieve a specific alert
 // GET /alerts/{alert_id}
 func GetAlert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -84,7 +83,7 @@ func GetAlert() {
 	}
 }
 
-// DeleteAlert Delete an alert
+// DeleteAlert : Delete an alert
 // DELETE /alerts/{alert_id}
 func DeleteAlert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

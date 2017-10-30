@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// GetRecentAccessAttempts Retrieve all recent access attempts
+// GetRecentAccessAttempts : Retrieve all recent access attempts
 // GET /access_settings/activity
 func GetRecentAccessAttempts() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -28,7 +27,7 @@ func GetRecentAccessAttempts() {
 	}
 }
 
-// AddIPsToWhitelist Add one or more IPs to the whitelist
+// AddIPsToWhitelist : Add one or more IPs to the whitelist
 // POST /access_settings/whitelist
 func AddIPsToWhitelist() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -58,7 +57,7 @@ func AddIPsToWhitelist() {
 	}
 }
 
-// GetCurrentWhitelistedIPs Retrieve a list of currently whitelisted IPs
+// GetCurrentWhitelistedIPs : Retrieve a list of currently whitelisted IPs
 // GET /access_settings/whitelist
 func GetCurrentWhitelistedIPs() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -75,7 +74,7 @@ func GetCurrentWhitelistedIPs() {
 	}
 }
 
-// RemoveIPsFromWhitelist Remove one or more IPs from the whitelist
+// RemoveIPsFromWhitelist : Remove one or more IPs from the whitelist
 // DELETE /access_settings/whitelist
 func RemoveIPsFromWhitelist() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -99,7 +98,7 @@ func RemoveIPsFromWhitelist() {
 	}
 }
 
-// GetWhitelistedIP Retrieve a specific whitelisted IP
+// GetWhitelistedIP : Retrieve a specific whitelisted IP
 // GET /access_settings/whitelist/{rule_id}
 func GetWhitelistedIP() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -116,7 +115,7 @@ func GetWhitelistedIP() {
 	}
 }
 
-// RemoveIPfromWhitelist  Remove a specific IP from the whitelist
+// RemoveIPfromWhitelist : Remove a specific IP from the whitelist
 // DELETE /access_settings/whitelist/{rule_id}
 func RemoveIPfromWhitelist() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

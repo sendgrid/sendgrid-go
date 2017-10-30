@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateSenderIdentity Creates a Sender Identity
+// CreateSenderIdentity : Creates a Sender Identity
 // POST /senders
 func CreateSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -42,7 +41,7 @@ func CreateSenderIdentity() {
 	}
 }
 
-// GetAllSenderIdentities Gets all Sender Identities
+// GetAllSenderIdentities : Gets all Sender Identities
 // GET /senders
 func GetAllSenderIdentities() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -59,7 +58,7 @@ func GetAllSenderIdentities() {
 	}
 }
 
-// UpdateSenderIdentity Updates a Sender Identity
+// UpdateSenderIdentity : Updates a Sender Identity
 // PATCH /senders/{sender_id}
 func UpdateSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -93,7 +92,7 @@ func UpdateSenderIdentity() {
 	}
 }
 
-// GetSenderIdentity Retrieves a Sender Identity
+// GetSenderIdentity : Retrieves a Sender Identity
 // GET /senders/{sender_id}
 func GetSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -110,7 +109,7 @@ func GetSenderIdentity() {
 	}
 }
 
-// DeleteSenderIdentity Deletes a Sender Identity
+// DeleteSenderIdentity : Deletes a Sender Identity
 // DELETE /senders/{sender_id}
 func DeleteSenderIdentity() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -127,7 +126,7 @@ func DeleteSenderIdentity() {
 	}
 }
 
-// ResendSenderIdentityVerification Resend Sender Identity Verification
+// ResendSenderIdentityVerification : Resend Sender Identity Verification
 // POST /senders/{sender_id}/resend_verification
 func ResendSenderIdentityVerification() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
