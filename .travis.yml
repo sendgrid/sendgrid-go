@@ -7,6 +7,16 @@ go:
 - 'tip'
 before_script:
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
+
+before_install:
+  - go get -t -v ./...
+
+script:
+  - ./go.test.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 notifications:
   hipchat:
     rooms:
