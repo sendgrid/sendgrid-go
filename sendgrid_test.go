@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -20,14 +21,13 @@ import (
 )
 
 var (
-	testAPIKey = "SENDGRID_APIKEY"
-	testHost   = ""
-	prismPath  = "prism"
-	prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
-	prismCmd   *exec.Cmd
-	buffer     bytes.Buffer
-	curl       *exec.Cmd
-	sh         *exec.Cmd
+	testHost  = ""
+	prismPath = "prism"
+	prismArgs = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
+	prismCmd  *exec.Cmd
+	buffer    bytes.Buffer
+	curl      *exec.Cmd
+	sh        *exec.Cmd
 )
 
 func TestMain(m *testing.M) {
@@ -119,6 +119,17 @@ func TestSendGridVersion(t *testing.T) {
 	}
 }
 
+func TestLicenseYear(t *testing.T) {
+	d, err := ioutil.ReadFile("LICENSE.txt")
+	if err != nil {
+		t.Error("Cannot read the LICENSE.txt file")
+	}
+	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
+	if !strings.Contains(string(d), l) {
+		t.Errorf("License date range is not correct, it should be: %v", l)
+	}
+}
+
 func TestGetRequest(t *testing.T) {
 	request := GetRequest("", "", "")
 	if request.BaseURL != "https://api.sendgrid.com" {
@@ -162,7 +173,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
-	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
 }
