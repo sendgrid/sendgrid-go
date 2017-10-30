@@ -2,9 +2,27 @@ package mail
 
 import (
 	"encoding/json"
+	"flag"
+	"fmt"
 	"log"
+
+	"github.com/ttacon/box"
+	"github.com/ttacon/pretty"
+	"golang.org/x/oauth2"
 )
 
+var (
+	clientId     = flag.String("cid", "", "OAuth Client ID")
+	clientSecret = flag.String("csec", "", "OAuth Client Secret")
+
+	accessToken  = flag.String("atok", "", "Access Token")
+	refreshToken = flag.String("rtok", "", "Refresh Token")
+
+	fileName = flag.String("file", "", "File to upload")
+	fileId   = flag.String("fid", "", "File (ID) to grab")
+)
+
+// SGMailV3 contains mail struct
 type SGMailV3 struct {
 	From             *Email             `json:"from,omitempty"`
 	Subject          string             `json:"subject,omitempty"`
@@ -25,6 +43,7 @@ type SGMailV3 struct {
 	ReplyTo          *Email             `json:"reply_to,omitempty"`
 }
 
+// Personalization holds mail body struct
 type Personalization struct {
 	To            []*Email          `json:"to,omitempty"`
 	CC            []*Email          `json:"cc,omitempty"`
@@ -37,16 +56,19 @@ type Personalization struct {
 	SendAt        int               `json:"send_at,omitempty"`
 }
 
+// Email holds email name and address info
 type Email struct {
 	Name    string `json:"name,omitempty"`
 	Address string `json:"email,omitempty"`
 }
 
+// Content defines content of the mail body
 type Content struct {
 	Type  string `json:"type,omitempty"`
 	Value string `json:"value,omitempty"`
 }
 
+// Attachment holds attachement information
 type Attachment struct {
 	Content     string `json:"content,omitempty"`
 	Type        string `json:"type,omitempty"`
@@ -56,11 +78,13 @@ type Attachment struct {
 	ContentID   string `json:"content_id,omitempty"`
 }
 
+// Asm contains Grpip Id and int array of groups ID
 type Asm struct {
 	GroupID         int   `json:"group_id,omitempty"`
 	GroupsToDisplay []int `json:"groups_to_display,omitempty"`
 }
 
+// MailSettings defines mail and spamCheck settings
 type MailSettings struct {
 	BCC                  *BccSetting       `json:"bcc,omitempty"`
 	BypassListManagement *Setting          `json:"bypass_list_management,omitempty"`
@@ -69,6 +93,7 @@ type MailSettings struct {
 	SpamCheckSetting     *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
+// TrackingSettings holds tracking settings and mail settings
 type TrackingSettings struct {
 	ClickTracking        *ClickTrackingSetting        `json:"click_tracking,omitempty"`
 	OpenTracking         *OpenTrackingSetting         `json:"open_tracking,omitempty"`
@@ -80,11 +105,15 @@ type TrackingSettings struct {
 	SandboxMode          *SandboxModeSetting          `json:"sandbox_mode,omitempty"`
 }
 
+// BccSetting holds email bcc setings  to enable of disable
+// default is false
 type BccSetting struct {
 	Enable *bool  `json:"enable,omitempty"`
 	Email  string `json:"email,omitempty"`
 }
 
+// FooterSetting holds enaable/disable settings
+// and the format of footer i.e HTML/Text
 type FooterSetting struct {
 	Enable *bool  `json:"enable,omitempty"`
 	Text   string `json:"text,omitempty"`
@@ -107,6 +136,9 @@ type SandboxModeSetting struct {
 	SpamCheck   *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
+// SpamCheckSetting holds spam settings and
+// which can be enable or disable and
+// contains spamThreshold value
 type SpamCheckSetting struct {
 	Enable        *bool  `json:"enable,omitempty"`
 	SpamThreshold int    `json:"threshold,omitempty"`
@@ -129,6 +161,7 @@ type GaSetting struct {
 	CampaignMedium  string `json:"utm_medium,omitempty"`
 }
 
+// Setting enables the mail settings
 type Setting struct {
 	Enable *bool `json:"enable,omitempty"`
 }
@@ -319,6 +352,87 @@ func (a *Attachment) SetDisposition(disposition string) *Attachment {
 func (a *Attachment) SetContentID(contentID string) *Attachment {
 	a.ContentID = contentID
 	return a
+}
+
+func (s *SGMailV3) UploadFromBox(a ...Attachment) {
+	flag.Parse()
+
+	if len(*clientId) == 0 || len(*clientSecret) == 0 ||
+		len(*accessToken) == 0 || len(*refreshToken) == 0 ||
+		len(*fileName) == 0 {
+		fmt.Println("unfortunately all flags must be provided")
+		return
+	}
+
+	// Set our OAuth2 configuration up
+	var (
+		configSource = box.NewConfigSource(
+			&oauth2.Config{
+				ClientID:     *clientId,
+				ClientSecret: *clientSecret,
+				Scopes:       nil,
+				Endpoint: oauth2.Endpoint{
+					AuthURL:  "https://app.box.com/api/oauth2/authorize",
+					TokenURL: "https://app.box.com/api/oauth2/token",
+				},
+				RedirectURL: "http://localhost:8080/handle",
+			},
+		)
+		tok = &oauth2.Token{
+			TokenType:    "Bearer",
+			AccessToken:  *accessToken,
+			RefreshToken: *refreshToken,
+		}
+		c = configSource.NewClient(tok)
+	)
+
+	resp, folder, err := c.FileService().UploadFile(*fileName, "0")
+	fmt.Println("resp: ", resp)
+	fmt.Println("err: ", err)
+	pretty.Print(folder)
+
+	// Print out the new tokens for next time
+	fmt.Printf("%#v\n", tok)
+}
+func (s *SGMailV3) DownloadAttachedBoxFile(a ...Attachment) {
+	flag.Parse()
+
+	if len(*clientId) == 0 || len(*clientSecret) == 0 ||
+		len(*accessToken) == 0 || len(*refreshToken) == 0 ||
+		len(*fileName) == 0 {
+		fmt.Println("unfortunately all flags must be provided")
+		return
+	}
+
+	// Set our OAuth2 configuration up
+	var (
+		configSource = box.NewConfigSource(
+			&oauth2.Config{
+				ClientID:     *clientId,
+				ClientSecret: *clientSecret,
+				Scopes:       nil,
+				Endpoint: oauth2.Endpoint{
+					AuthURL:  "https://app.box.com/api/oauth2/authorize",
+					TokenURL: "https://app.box.com/api/oauth2/token",
+				},
+				RedirectURL: "http://localhost:8080/handle",
+			},
+		)
+		tok = &oauth2.Token{
+			TokenType:    "Bearer",
+			AccessToken:  *accessToken,
+			RefreshToken: *refreshToken,
+		}
+		c = configSource.NewClient(tok)
+	)
+
+	resp, folder, err := c.FileService().UploadFile(*fileName, "0")
+	fmt.Println("resp: ", resp)
+	fmt.Println("err: ", err)
+	pretty.Print(folder)
+
+	// Print out the new tokens for next time
+	fmt.Printf("%#v\n", tok)
 }
 
 func NewASM() *Asm {
