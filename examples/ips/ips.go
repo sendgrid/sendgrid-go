@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// RetrieveallIPaddresses Retrieve all IP addresses
+// RetrieveallIPaddresses : Retrieve all IP addresses
 // GET /ips
 func RetrieveallIPaddresses() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -32,7 +31,7 @@ func RetrieveallIPaddresses() {
 	}
 }
 
-// RetrieveallassignedIPs Retrieve all assigned IPs
+// RetrieveallassignedIPs : Retrieve all assigned IPs
 // GET /ips/assigned
 func RetrieveallassignedIPs() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -49,7 +48,7 @@ func RetrieveallassignedIPs() {
 	}
 }
 
-// CreateanIPpool Create an IP pool.
+// CreateanIPpool : Create an IP pool.
 // POST /ips/pools
 func CreateanIPpool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -69,7 +68,7 @@ func CreateanIPpool() {
 	}
 }
 
-// RetrieveallIPpools Retrieve all IP pools.
+// RetrieveallIPpools : Retrieve all IP pools.
 // GET /ips/pools
 func RetrieveallIPpools() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -86,7 +85,7 @@ func RetrieveallIPpools() {
 	}
 }
 
-// UpdateanIPpoolsname Update an IP pools name.
+// UpdateanIPpoolsname : Update an IP pools name.
 // PUT /ips/pools/{pool_name}
 func UpdateanIPpoolsname() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -106,7 +105,7 @@ func UpdateanIPpoolsname() {
 	}
 }
 
-// RetrieveallIPsinaspecifiedpool Retrieve all IPs in a specified pool.
+// RetrieveallIPsinaspecifiedpool : Retrieve all IPs in a specified pool.
 // GET /ips/pools/{pool_name}
 func RetrieveallIPsinaspecifiedpool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -123,7 +122,7 @@ func RetrieveallIPsinaspecifiedpool() {
 	}
 }
 
-// DeleteanIPpool Delete an IP pool.
+// DeleteanIPpool : Delete an IP pool.
 // DELETE /ips/pools/{pool_name}
 func DeleteanIPpool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -140,7 +139,7 @@ func DeleteanIPpool() {
 	}
 }
 
-// AddanIPaddresstoapool Add an IP address to a pool
+// AddanIPaddresstoapool : Add an IP address to a pool
 // POST /ips/pools/{pool_name}/ips
 func AddanIPaddresstoapool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -160,7 +159,7 @@ func AddanIPaddresstoapool() {
 	}
 }
 
-// RemoveanIPaddressfromapool Remove an IP address from a pool.
+// RemoveanIPaddressfromapool : Remove an IP address from a pool.
 // DELETE /ips/pools/{pool_name}/ips/{ip}
 func RemoveanIPaddressfromapool() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -177,7 +176,7 @@ func RemoveanIPaddressfromapool() {
 	}
 }
 
-// AddanIPtowarmup Add an IP to warmup
+// AddanIPtowarmup : Add an IP to warmup
 // POST /ips/warmup
 func AddanIPtowarmup() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -197,7 +196,7 @@ func AddanIPtowarmup() {
 	}
 }
 
-// RetrieveallIPscurrentlyinwarmup Retrieve all IPs currently in warmup
+// RetrieveallIPscurrentlyinwarmup : Retrieve all IPs currently in warmup
 // GET /ips/warmup
 func RetrieveallIPscurrentlyinwarmup() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -214,7 +213,7 @@ func RetrieveallIPscurrentlyinwarmup() {
 	}
 }
 
-// RetrievewarmupstatusforaspecificIPaddress Retrieve warmup status for a specific IP address
+// RetrievewarmupstatusforaspecificIPaddress : Retrieve warmup status for a specific IP address
 // GET /ips/warmup/{ip_address}
 func RetrievewarmupstatusforaspecificIPaddress() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -231,7 +230,7 @@ func RetrievewarmupstatusforaspecificIPaddress() {
 	}
 }
 
-// RemoveanIPfromwarmup Remove an IP from warmup
+// RemoveanIPfromwarmup : Remove an IP from warmup
 // DELETE /ips/warmup/{ip_address}
 func RemoveanIPfromwarmup() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -248,7 +247,7 @@ func RemoveanIPfromwarmup() {
 	}
 }
 
-// RetrieveallIPpoolsanIPaddressbelongsto Retrieve all IP pools an IP address belongs to
+// RetrieveallIPpoolsanIPaddressbelongsto : Retrieve all IP pools an IP address belongs to
 // GET /ips/{ip_address}
 func RetrieveallIPpoolsanIPaddressbelongsto() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

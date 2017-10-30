@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// Returnsalistofallpartnersettings Returns a list of all partner settings.
+// Returnsalistofallpartnersettings : Returns a list of all partner settings.
 // GET /partner_settings
 func Returnsalistofallpartnersettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -29,7 +28,7 @@ func Returnsalistofallpartnersettings() {
 	}
 }
 
-// UpdatesNewRelicpartnersettings Updates New Relic partner settings.
+// UpdatesNewRelicpartnersettings : Updates New Relic partner settings.
 // PATCH /partner_settings/new_relic
 func UpdatesNewRelicpartnersettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -37,8 +36,8 @@ func UpdatesNewRelicpartnersettings() {
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 	request.Method = "PATCH"
 	request.Body = []byte(` {
-  "enable_subuser_statistics": true,
-  "enabled": true,
+  "enable_subuser_statistics": true, 
+  "enabled": true, 
   "license_key": ""
 }`)
 	response, err := sendgrid.API(request)
@@ -51,7 +50,7 @@ func UpdatesNewRelicpartnersettings() {
 	}
 }
 
-// ReturnsallNewRelicpartnersettings Returns all New Relic partner settings.
+// ReturnsallNewRelicpartnersettings : Returns all New Relic partner settings.
 // GET /partner_settings/new_relic
 func ReturnsallNewRelicpartnersettings() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

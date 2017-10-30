@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// Retrievealistofscopesforwhichthisuserhasaccess Retrieve a list of scopes for which this user has access.
+// Retrievealistofscopesforwhichthisuserhasaccess : Retrieve a list of scopes for which this user has access.
 // GET /scopes
 func Retrievealistofscopesforwhichthisuserhasaccess() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
