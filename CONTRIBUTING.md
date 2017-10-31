@@ -74,7 +74,7 @@ git clone https://github.com/sendgrid/sendgrid-go.git
 cd sendgrid-go
 ```
 
-## Environment Variables
+### Environment Variables
 
 First, get your free SendGrid account [here](https://sendgrid.com/free?source=sendgrid-go).
 
