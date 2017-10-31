@@ -3,7 +3,7 @@
 [![BuildStatus](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/sendgrid/sendgrid-go)](https://goreportcard.com/report/github.com/sendgrid/sendgrid-go)
-[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://godoc.org/github.com/sendgrid/sendgrid-go) 
+[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://godoc.org/github.com/sendgrid/sendgrid-go)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/sendgrid-go.svg)](https://github.com/sendgrid/sendgrid-go/graphs/contributors)
@@ -241,6 +241,7 @@ Quick links:
 - [Bug Reports](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#submit-a-bug-report)
 - [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#cla)
 - [Improvements to the Codebase](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#improvements-to-the-codebase)
+- [Review Pull Requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md#code-reviews)
 
 <a name="troubleshooting"></a>
 # Troubleshooting
