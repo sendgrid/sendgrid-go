@@ -169,7 +169,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	request.Method = "GET"
 	var custom rest.Client
 	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
-	_, err := custom.API(request)
+	_, err := custom.Send(request)
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}

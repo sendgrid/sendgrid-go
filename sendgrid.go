@@ -51,5 +51,5 @@ var DefaultClient = rest.DefaultClient
 
 // API sets up the request to the SendGrid API, this is main interface.
 func API(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+	return DefaultClient.Send(request)
 }
