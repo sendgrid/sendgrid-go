@@ -1,2 +1,4 @@
 .DS_Store
 temp.go
+*.swp
+.env

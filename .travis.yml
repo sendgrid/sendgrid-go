@@ -6,7 +6,13 @@ go:
 - '1.9'
 - 'tip'
 before_script:
+- go get -u github.com/alecthomas/gometalinter
+- gometalinter --install
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
+script:
+- gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck
+- gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
+- go test -cover -v -race ./...
 notifications:
   hipchat:
     rooms:

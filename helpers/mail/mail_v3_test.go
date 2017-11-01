@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// TestV3NewMail will test New mail method
 func TestV3NewMail(t *testing.T) {
 	m := NewV3Mail()
 
@@ -63,7 +64,7 @@ func TestV3AddPersonalizations(t *testing.T) {
 	m.AddPersonalizations(personalizations...)
 
 	if len(m.Personalizations) != numOfPersonalizations {
-		t.Errorf("Mail should have %d personalizations, got %d personalizations", personalizations, len(m.Personalizations))
+		t.Errorf("Mail should have %d personalizations, got %d personalizations", len(personalizations), len(m.Personalizations))
 	}
 }
 
@@ -78,7 +79,7 @@ func TestV3AddContent(t *testing.T) {
 	m.AddContent(content...)
 
 	if len(m.Content) != numOfContent {
-		t.Errorf("Mail should have %d contents, got %d contents", content, len(m.Content))
+		t.Errorf("Mail should have %d contents, got %d contents", numOfContent, len(m.Content))
 	}
 }
 
@@ -93,7 +94,7 @@ func TestV3AddAttachment(t *testing.T) {
 	m.AddAttachment(attachment...)
 
 	if len(m.Attachments) != numOfAttachments {
-		t.Errorf("Mail should have %d attachments, got %d attachments", attachment, 2)
+		t.Errorf("Mail should have %d attachments, got %d attachments", numOfAttachments, len(m.Attachments))
 	}
 }
 
@@ -176,7 +177,7 @@ func TestV3SetHeader(t *testing.T) {
 func TestV3AddCategory(t *testing.T) {
 	m := NewV3Mail()
 
-	categories := []string{"cats", "dogs", "hamburgers", "cheezeburgers"}
+	categories := []string{"cats", "dogs", "hamburgers", "cheeseburgers"}
 
 	m.AddCategories(categories...)
 
@@ -226,7 +227,7 @@ func TestV3SetIPPoolID(t *testing.T) {
 
 	m.SetIPPoolID(ipPoolID)
 	if m.IPPoolID != ipPoolID {
-		t.Errorf("IP Pool ID should be %d, got %d", ipPoolID, m.IPPoolID)
+		t.Errorf("IP Pool ID should be %s, got %s", ipPoolID, m.IPPoolID)
 	}
 }
 
@@ -288,48 +289,13 @@ func TestV3NewPersonalization(t *testing.T) {
 	if p == nil {
 		t.Errorf("NewPersonalization() shouldn't return nil")
 	}
+	validateEmailField(p.To, "To", t)
+	validateEmailField(p.CC, "CC", t)
+	validateEmailField(p.BCC, "BCC", t)
 
-	if p.To == nil {
-		t.Errorf("To shouldn't be nil")
-	}
-	if len(p.To) != 0 {
-		t.Errorf("length of To should should be 0")
-	}
-
-	if p.CC == nil {
-		t.Errorf("CC shouldn't be nil")
-	}
-	if len(p.CC) != 0 {
-		t.Errorf("length of CC should be 0")
-	}
-
-	if p.BCC == nil {
-		t.Errorf("BCC shouldn't be nil")
-	}
-	if len(p.BCC) != 0 {
-		t.Errorf("length of BCC should be 0")
-	}
-
-	if p.Headers == nil {
-		t.Errorf("Headers shouldn't be nil")
-	}
-	if len(p.Headers) != 0 {
-		t.Errorf("length of Headers should be 0")
-	}
-
-	if p.Substitutions == nil {
-		t.Errorf("Substitutions shouldn't be nil")
-	}
-	if len(p.Substitutions) != 0 {
-		t.Errorf("length of Substitutions should be 0")
-	}
-
-	if p.CustomArgs == nil {
-		t.Errorf("CustomArgs shouldn't be nil")
-	}
-	if len(p.CustomArgs) != 0 {
-		t.Errorf("length of CustomArgs should be 0")
-	}
+	validateMapField(p.Headers, "Headers", t)
+	validateMapField(p.Substitutions, "Substitutions", t)
+	validateMapField(p.CustomArgs, "CustomArgs", t)
 
 	if p.Categories == nil {
 		t.Errorf("Categories shouldn't be nil")
@@ -337,6 +303,26 @@ func TestV3NewPersonalization(t *testing.T) {
 	if len(p.Categories) != 0 {
 		t.Errorf("length of Categories should be 0")
 	}
+}
+
+func validateMapField(field map[string]string, fieldName string, t *testing.T) {
+	if field == nil {
+		t.Errorf("%s shouldn't be nil", fieldName)
+	}
+
+	if len(field) != 0 {
+		t.Errorf("length of %s should be 0", fieldName)
+	}
+}
+func validateEmailField(emailField []*Email, fieldName string, t *testing.T) {
+	if emailField == nil {
+		t.Errorf("%s should't be nil", fieldName)
+	}
+
+	if len(emailField) != 0 {
+		t.Errorf("Length of %s should be 0", fieldName)
+	}
+
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
@@ -475,7 +461,7 @@ func TestV3AttachmentSetContentID(t *testing.T) {
 	}
 }
 
-func TestV3AttachmentSetDispotition(t *testing.T) {
+func TestV3AttachmentSetDisposition(t *testing.T) {
 	disposition := "inline"
 	a := NewAttachment().SetDisposition(disposition)
 
@@ -861,7 +847,7 @@ func TestV3NewSetting(t *testing.T) {
 	}
 
 	if !*s.Enable {
-		t.Errorf("NewSetting(true) should retun a setting with Enabled = true")
+		t.Errorf("NewSetting(true) should return a setting with Enabled = true")
 	}
 }
 
