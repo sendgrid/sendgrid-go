@@ -190,6 +190,33 @@ func TestGetRequest(t *testing.T) {
 	}
 }
 
+func TestGetRequestSubuser(t *testing.T)  {
+	request := GetRequestSubuser("API_KEY", "/v3/endpoint", "https://test.api.com", "subuserUsername")
+	if request.BaseURL != "https://test.api.com/v3/endpoint" {
+		t.Error("Host not set correctly")
+	}
+	if request.Headers["Authorization"] != "Bearer API_KEY" {
+		t.Error("Wrong Authorization")
+	}
+	if request.Headers["User-Agent"] != "sendgrid/"+Version+";go" {
+		t.Error("Wrong User Agent")
+	}
+	if request.Headers["Accept"] != "application/json" {
+		t.Error("Wrong Accept header")
+	}
+	if request.Headers["On-Behalf-Of"] != "subuserUsername" {
+		t.Error("Wrong On-Behalf-Of")
+	}
+}
+
+func TestNewSendClientSubuser(t *testing.T)  {
+	client := NewSendClientSubuser("API_KEY", "subuserUsername")
+
+	if client.Headers["On-Behalf-Of"] != "subuserUsername" {
+		t.Error("Wrong On-Behalf-Of")
+	}
+}
+
 func TestCustomHTTPClient(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
