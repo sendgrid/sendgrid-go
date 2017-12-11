@@ -9,10 +9,19 @@ before_script:
 - go get -u github.com/alecthomas/gometalinter
 - gometalinter --install
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
+
+before_install:
+  - go get -t -v ./...
+
 script:
-- gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck
-- gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
-- go test -cover -v -race ./...
+  - ./go.test.sh
+  - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck
+  - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
+  - go test -cover -v -race ./...
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 notifications:
   hipchat:
     rooms:
