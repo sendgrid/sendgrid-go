@@ -67,8 +67,8 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 			p, err := mr.NextPart()
 			// We have found an attachment with binary data
 			if err == nil && p.FileName() != "" {
-				contents, err := ioutil.ReadAll(p)
-				if err != nil {
+				contents, ioerr := ioutil.ReadAll(p)
+				if ioerr != nil {
 					log.Fatal(err)
 				}
 				binaryFiles[p.FileName()] = contents
@@ -162,11 +162,11 @@ func handleRawEmail(value []byte, parsedRawEmail map[string]string, rawFiles map
 					// We have finished parsing
 					break
 				}
-				value, err := ioutil.ReadAll(next)
+				value, err = ioutil.ReadAll(next)
 				if err != nil {
 					log.Fatal(err)
 				}
-				header := next.Header.Get("Content-Type")
+				header = next.Header.Get("Content-Type")
 				parsedRawEmail[header] = string(value)
 			}
 		} else {
@@ -186,7 +186,7 @@ func main() {
 			log.Fatal("Check your Filepath. ", err)
 		}
 		Headers := map[string]string{
-			"User-Agent": 	"SendGrid-Test",
+			"User-Agent":   "SendGrid-Test",
 			"Content-Type": "multipart/form-data; boundary=xYzZY",
 		}
 		method := rest.Post
@@ -208,6 +208,8 @@ func main() {
 		if port == "" {
 			port = conf.Port
 		}
-		http.ListenAndServe(port, nil)
+		if err := http.ListenAndServe(port, nil); err != nil {
+			log.Fatalln("Error")
+		}
 	}
 }
