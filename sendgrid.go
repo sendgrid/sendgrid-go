@@ -20,6 +20,7 @@ const (
 
 // Client is the SendGrid Go client
 type Client struct {
+	// rest.Request
 	rest.Request
 }
 
@@ -29,10 +30,11 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 		host = "https://api.sendgrid.com"
 	}
 	baseURL := host + endpoint
-	requestHeaders := make(map[string]string)
-	requestHeaders["Authorization"] = "Bearer " + key
-	requestHeaders["User-Agent"] = "sendgrid/" + Version + ";go"
-	requestHeaders["Accept"] = "application/json"
+	requestHeaders := map[string]string{
+		"Authorization": "Bearer " + key,
+		"User-Agent": "sendgrid/" + Version + ";go",
+		"Accept": "application/json",
+	}
 	request := rest.Request{
 		BaseURL: baseURL,
 		Headers: requestHeaders,
