@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -191,6 +192,104 @@ func TestCustomHTTPClient(t *testing.T) {
 	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
+}
+
+func TestRequestRetry_rateLimit(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Now().Add(1*time.Second).Unix())))
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	_, err := MakeRequestRetry(request)
+	if err == nil {
+		t.Error("An error did not trigger")
+	}
+	if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+		t.Error("We did not receive the rate limit error")
+	}
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestRetry_rateLimit_noHeader(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	_, err := MakeRequestRetry(request)
+	if err == nil {
+		t.Error("An error did not trigger")
+	}
+	if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+		t.Error("We did not receive the rate limit error")
+	}
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestAsync(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	r, e := MakeRequestAsync(request)
+
+	select {
+	case <-r:
+	case err := <-e:
+		t.Errorf("Received an error,:%v", err)
+	case <-time.After(10 * time.Second):
+		t.Error("Timed out waiting for a response")
+	}
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestAsync_rateLimit(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Now().Add(1*time.Second).Unix())))
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	r, e := MakeRequestAsync(request)
+
+	select {
+	case <-r:
+		t.Error("Received a valid response")
+		return
+	case err := <-e:
+		if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+			t.Error("We did not receive the rate limit error")
+		}
+	case <-time.After(10 * time.Second):
+		t.Error("Timed out waiting for an error")
+	}
+	DefaultClient = rest.DefaultClient
 }
 
 func Test_test_access_settings_activity_get(t *testing.T) {
