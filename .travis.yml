@@ -15,7 +15,6 @@ before_install:
 
 script:
   - ./go.test.sh
-  - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
   - go test -cover -v -race ./...
 
