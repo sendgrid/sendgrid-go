@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-
+        "regexp"
 	"github.com/sendgrid/rest" // depends on version 2.2.0
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -124,4 +124,13 @@ func MakeRequestAsync(request rest.Request) (chan *rest.Response, chan error) {
 	}()
 
 	return r, e
+}
+
+// CheckSecrets checks email content for presence of an API key before sending.
+func CheckSecrets(mailContent string) (int, error) {
+	var secret = regexp.MustCompile(`SG.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+`)
+	if secret.MatchString(mailContent) {
+		return -1, errors.New("Error: API key found in email content. Do not send secrets! ")
+	}
+	return 0, nil
 }
