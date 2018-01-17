@@ -62,7 +62,7 @@ var DefaultClient = rest.DefaultClient
 // This function is deprecated. Please use the MakeRequest or
 // MakeRequestAsync functions.
 func API(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+	return DefaultClient.Send(request)
 }
 
 // MakeRequest attemps a SendGrid request synchronously.
