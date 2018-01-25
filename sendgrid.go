@@ -101,7 +101,7 @@ func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
 				resetTime = time.Unix(int64(t), 0)
 			}
 		}
-		time.Sleep(resetTime.Sub(time.Now()))
+		time.Sleep(time.Until(resetTime))
 	}
 }
 
