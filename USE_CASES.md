@@ -1367,7 +1367,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-var sendgridkey = "SENDGRID_API_KEY"
+var sendgridkey = os.Getenv("SENDGRID_API_KEY")
 
 func main() {
 	port := os.Getenv("PORT")
@@ -1379,14 +1379,14 @@ func main() {
 	router.Use(gin.Logger())
 	router.GET("/sendmail/:to", sendmail)
 
-	router.Run(":" + port)
+	router.Run(fmt.Sprintf(":%d", port))
 }
 
 func sendmail(c *gin.Context) {
 	to := c.Param("to")
 	res, err := sendmailWithSendGrid(to)
 	if err != nil {
-		c.JSON(400, err.Error())
+		c.JSON(500, err.Error())
 	} else {
 		c.JSON(res.StatusCode, res.Body)
 	}
