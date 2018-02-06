@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
-
-	"github.com/sendgrid/sendgrid-go"
 )
 
-// CreateanewAlert Create a new Alert
+// CreateanewAlert : Create a new Alert
 // POST /alerts
 func CreateanewAlert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -16,8 +15,8 @@ func CreateanewAlert() {
 	request := sendgrid.GetRequest(apiKey, "/v3/alerts", host)
 	request.Method = "POST"
 	request.Body = []byte(` {
-  "email_to": "example@example.com",
-  "frequency": "daily",
+  "email_to": "example@example.com", 
+  "frequency": "daily", 
   "type": "stats_notification"
 }`)
 	response, err := sendgrid.API(request)
@@ -30,7 +29,7 @@ func CreateanewAlert() {
 	}
 }
 
-// Retrieveallalerts Retrieve all alerts
+// Retrieveallalerts : Retrieve all alerts
 // GET /alerts
 func Retrieveallalerts() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -47,7 +46,7 @@ func Retrieveallalerts() {
 	}
 }
 
-// Updateanalert Update an alert
+// Updateanalert : Update an alert
 // PATCH /alerts/{alert_id}
 func Updateanalert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -67,7 +66,7 @@ func Updateanalert() {
 	}
 }
 
-// Retrieveaspecificalert Retrieve a specific alert
+// Retrieveaspecificalert : Retrieve a specific alert
 // GET /alerts/{alert_id}
 func Retrieveaspecificalert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
@@ -84,7 +83,7 @@ func Retrieveaspecificalert() {
 	}
 }
 
-// Deleteanalert Delete an alert
+// Deleteanalert : Delete an alert
 // DELETE /alerts/{alert_id}
 func Deleteanalert() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")

@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -20,14 +22,13 @@ import (
 )
 
 var (
-	testAPIKey = "SENDGRID_APIKEY"
-	testHost   = ""
-	prismPath  = "prism"
-	prismArgs  = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
-	prismCmd   *exec.Cmd
-	buffer     bytes.Buffer
-	curl       *exec.Cmd
-	sh         *exec.Cmd
+	testHost  = ""
+	prismPath = "prism"
+	prismArgs = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
+	prismCmd  *exec.Cmd
+	buffer    bytes.Buffer
+	curl      *exec.Cmd
+	sh        *exec.Cmd
 )
 
 func TestMain(m *testing.M) {
@@ -119,6 +120,49 @@ func TestSendGridVersion(t *testing.T) {
 	}
 }
 
+func TestLicenseYear(t *testing.T) {
+	d, err := ioutil.ReadFile("LICENSE.txt")
+	if err != nil {
+		t.Error("Cannot read the LICENSE.txt file")
+	}
+	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
+	if !strings.Contains(string(d), l) {
+		t.Errorf("License date range is not correct, it should be: %v", l)
+	}
+}
+
+func TestRepoFiles(t *testing.T) {
+	fs := []string{
+		"Dockerfile",
+		"docker-compose.yml",
+		".env_sample",
+		".gitignore",
+		".travis.yml",
+		// ".codeclimate.yml", // TODO: uncomment this file
+		"CHANGELOG.md",
+		"CODE_OF_CONDUCT.md",
+		"CONTRIBUTING.md",
+		".github/ISSUE_TEMPLATE",
+		"LICENSE.txt",
+		".github/PULL_REQUEST_TEMPLATE",
+		"README.md",
+		"TROUBLESHOOTING.md",
+		"USAGE.md",
+		"USE_CASES.md",
+	}
+	for _, f := range fs {
+		if _, err := os.Stat(f); os.IsNotExist(err) {
+			if strings.HasPrefix(strings.ToLower(f), "docker") {
+				if _, err := os.Stat("docker/" + f); os.IsNotExist(err) {
+					t.Errorf("Repo files do not exist: %[1]v or docker/%[1]v", f)
+				}
+			} else {
+				t.Errorf("Repo file does not exist: %v", f)
+			}
+		}
+	}
+}
+
 func TestGetRequest(t *testing.T) {
 	request := GetRequest("", "", "")
 	if request.BaseURL != "https://api.sendgrid.com" {
@@ -162,9 +206,107 @@ func TestCustomHTTPClient(t *testing.T) {
 	if err == nil {
 		t.Error("A timeout did not trigger as expected")
 	}
-	if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") == false {
+	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
 		t.Error("We did not receive the Timeout error")
 	}
+}
+
+func TestRequestRetry_rateLimit(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Now().Add(1*time.Second).Unix())))
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	_, err := MakeRequestRetry(request)
+	if err == nil {
+		t.Error("An error did not trigger")
+	}
+	if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+		t.Error("We did not receive the rate limit error")
+	}
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestRetry_rateLimit_noHeader(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	_, err := MakeRequestRetry(request)
+	if err == nil {
+		t.Error("An error did not trigger")
+	}
+	if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+		t.Error("We did not receive the rate limit error")
+	}
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestAsync(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	r, e := MakeRequestAsync(request)
+
+	select {
+	case <-r:
+	case err := <-e:
+		t.Errorf("Received an error,:%v", err)
+	case <-time.After(10 * time.Second):
+		t.Error("Timed out waiting for a response")
+	}
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestAsync_rateLimit(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("X-RateLimit-Reset", strconv.Itoa(int(time.Now().Add(1*time.Second).Unix())))
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	r, e := MakeRequestAsync(request)
+
+	select {
+	case <-r:
+		t.Error("Received a valid response")
+		return
+	case err := <-e:
+		if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
+			t.Error("We did not receive the rate limit error")
+		}
+	case <-time.After(10 * time.Second):
+		t.Error("Timed out waiting for an error")
+	}
+	DefaultClient = rest.DefaultClient
 }
 
 func Test_test_access_settings_activity_get(t *testing.T) {
