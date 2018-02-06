@@ -571,6 +571,8 @@ func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSe
 	}
 }
 
+// ParseEmail parses a string that contains an rfc822 formatted email address
+// and returns an instance of *Email.
 func ParseEmail(emailInfo string) (*Email, error) {
 	e, err := mail.ParseAddress(emailInfo)
 	if err != nil {
