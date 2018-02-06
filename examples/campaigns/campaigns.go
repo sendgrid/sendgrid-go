@@ -6,10 +6,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Create a Campaign
+// CreateaCampaign : Create a Campaign
 // POST /campaigns
-
 func CreateaCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -45,10 +43,8 @@ func CreateaCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve all Campaigns
+// RetrieveallCampaigns : Retrieve all Campaigns
 // GET /campaigns
-
 func RetrieveallCampaigns() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -68,10 +64,8 @@ func RetrieveallCampaigns() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update a Campaign
+// UpdateaCampaign : Update a Campaign
 // PATCH /campaigns/{campaign_id}
-
 func UpdateaCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -96,10 +90,8 @@ func UpdateaCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a single campaign
+// Retrieveasinglecampaign : Retrieve a single campaign
 // GET /campaigns/{campaign_id}
-
 func Retrieveasinglecampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -115,10 +107,8 @@ func Retrieveasinglecampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete a Campaign
+// DeleteaCampaign : Delete a Campaign
 // DELETE /campaigns/{campaign_id}
-
 func DeleteaCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -134,10 +124,8 @@ func DeleteaCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update a Scheduled Campaign
+// UpdateaScheduledCampaign : Update a Scheduled Campaign
 // PATCH /campaigns/{campaign_id}/schedules
-
 func UpdateaScheduledCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -156,10 +144,8 @@ func UpdateaScheduledCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Schedule a Campaign
+// ScheduleaCampaign : Schedule a Campaign
 // POST /campaigns/{campaign_id}/schedules
-
 func ScheduleaCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -178,10 +164,8 @@ func ScheduleaCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// View Scheduled Time of a Campaign
+// ViewScheduledTimeofaCampaign : View Scheduled Time of a Campaign
 // GET /campaigns/{campaign_id}/schedules
-
 func ViewScheduledTimeofaCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -197,10 +181,8 @@ func ViewScheduledTimeofaCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Unschedule a Scheduled Campaign
+// UnscheduleaScheduledCampaign : Unschedule a Scheduled Campaign
 // DELETE /campaigns/{campaign_id}/schedules
-
 func UnscheduleaScheduledCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -216,10 +198,8 @@ func UnscheduleaScheduledCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Send a Campaign
+// SendaCampaign : Send a Campaign
 // POST /campaigns/{campaign_id}/schedules/now
-
 func SendaCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -235,10 +215,8 @@ func SendaCampaign() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Send a Test Campaign
+// SendaTestCampaign : Send a Test Campaign
 // POST /campaigns/{campaign_id}/schedules/test
-
 func SendaTestCampaign() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

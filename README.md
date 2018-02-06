@@ -1,4 +1,4 @@
-[![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
+![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
 
 [![BuildStatus](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
@@ -59,6 +59,24 @@ source ./sendgrid.env
 ## Dependencies
 
 - [rest](https://github.com/sendgrid/rest)
+
+## Setup Environment Variables
+
+### Initial Setup
+
+```bash
+cp .env_sample .env
+```
+
+### Environment Variable
+
+Update the development environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys), for example:
+
+```bash
+echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
+echo "sendgrid.env" >> .gitignore
+source ./sendgrid.env
+```
 
 <a name="quick-start"></a>
 # Quick Start
@@ -200,6 +218,8 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 
 <a name="announcements"></a>
 # Announcements
+
+Join an experienced and passionate team that focuses on making an impact. Opportunities abound to grow the product - and grow your career! Check out our [Software Engineer- Delivery role](http://grnh.se/mg6dr31)
 
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
 

@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Create a batch ID
+// CreateabatchID : Create a batch ID
 // POST /mail/batch
-
 func CreateabatchID() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -26,10 +24,8 @@ func CreateabatchID() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Validate batch ID
+// ValidatebatchID : Validate batch ID
 // GET /mail/batch/{batch_id}
-
 func ValidatebatchID() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -45,11 +41,9 @@ func ValidatebatchID() {
 	}
 }
 
-///////////////////////////////////////////////////
-// v3 Mail Send
+// v3MailSend : v3 Mail Send
 // POST /mail/send
 // This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/mail/README.md).
-
 func v3MailSend() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

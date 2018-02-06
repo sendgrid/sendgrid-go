@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Retrieve email statistics by mailbox provider.
+// Retrieveemailstatisticsbymailboxprovider : Retrieve email statistics by mailbox provider.
 // GET /mailbox_providers/stats
-
 func Retrieveemailstatisticsbymailboxprovider() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

@@ -7,10 +7,8 @@ import (
 	"os"
 )
 
-///////////////////////////////////////////////////
-// Retrieve email statistics by device type.
+// Retrieveemailstatisticsbydevicetype : Retrieve email statistics by device type.
 // GET /devices/stats
-
 func Retrieveemailstatisticsbydevicetype() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
