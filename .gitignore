@@ -2,3 +2,4 @@
 temp.go
 *.swp
 .env
+coverage.txt
