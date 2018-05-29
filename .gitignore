@@ -3,3 +3,4 @@ temp.go
 *.swp
 .env
 coverage.txt
+docker/src
