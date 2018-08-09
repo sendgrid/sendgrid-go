@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	//"../../.." // to test against the downloaded version
@@ -91,6 +92,9 @@ func kitchenSink() []byte {
 	p2.SetCustomArg("type", "marketing")
 	p2.SetSendAt(1461356286)
 	m.AddPersonalizations(p2)
+
+	p2.SetDynamicTemplateData("simpleData", "dynamic")
+	p2.SetDynamicTemplateData("nestedType", []string{"1", "2", "3"})
 
 	c := mail.NewContent("text/plain", "some text here")
 	m.AddContent(c)

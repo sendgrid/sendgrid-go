@@ -98,6 +98,54 @@ func TestV3AddAttachment(t *testing.T) {
 	}
 }
 
+type nestedData struct {
+	One   bool     `json:"one"`
+	Two   int      `json:"two"`
+	Three []string `json:"three"`
+}
+
+func makeSampleTemplateData() *nestedData {
+	return &nestedData{
+		One:   true,
+		Two:   2,
+		Three: []string{"1", "2", "3"},
+	}
+}
+
+func TestGetRequestBody(t *testing.T) {
+	m := NewV3Mail()
+	p := NewPersonalization()
+	templateData := makeSampleTemplateData()
+	p.SetDynamicTemplateData("test", templateData)
+	m.AddPersonalizations(p)
+	reqBody := GetRequestBody(m)
+	if reqBody == nil {
+		t.Errorf("Request Body was nil")
+	}
+}
+
+func TestV3SetDynamicTemplateData(t *testing.T) {
+	m := NewV3Mail()
+	p := NewPersonalization()
+
+	templateData := makeSampleTemplateData()
+	p.SetDynamicTemplateData("key", templateData)
+
+	m.AddPersonalizations(p)
+
+	var val interface{}
+	var ok bool
+	messageDynamicTemplateData := m.Personalizations[0].DynamicTemplateData
+
+	if val, ok = messageDynamicTemplateData["key"]; !ok {
+		t.Errorf("expected %s to exist, but did not", "key")
+	}
+	_, ok = val.(*nestedData)
+	if !ok {
+		t.Errorf("expected DynamicTemplateData[%s] to be of type NestedData, but was unable to coerce", "key")
+	}
+}
+
 func TestV3SetFrom(t *testing.T) {
 	m := NewV3Mail()
 

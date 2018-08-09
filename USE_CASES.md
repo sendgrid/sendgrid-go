@@ -973,6 +973,53 @@ func main() {
 }
 ```
 
+<a name="dynamic-template-data"><a>
+# Dynamic Template Data
+
+## With Mail Helper Class
+
+```go
+package main
+ 
+import (
+   "fmt"
+   "log"
+   "os"
+ 
+   "github.com/sendgrid/sendgrid-go"
+   "github.com/sendgrid/sendgrid-go/helpers/mail"
+)
+ 
+func main() {
+  m := mail.NewV3Mail()
+  from := mail.NewEmail("test", "test@example.com")
+  content := mail.NewContent("text/html", "<p>{{ title }}</p>")
+  to := mail.NewEmail("Example User", "test1@example.com")
+  
+  m.SetFrom(from)
+  m.AddContent(content)
+  
+  personalization := mail.NewPersonalization()
+  personalization.AddTos(to)
+  personalization.Subject = "Fun with Dynamic Template Data"
+  personalization.SetDynamicTemplateData("title", "Hello Dynamic Template Data")
+  
+  m.AddPersonalizations(personalization)
+ 
+  request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+  request.Method = "POST"
+  request.Body = mail.GetRequestBody(m)
+  response, err := sendgrid.API(request)
+  if err != nil {
+    log.Println(err)
+  } else {
+    fmt.Println(response.StatusCode)
+    fmt.Println(response.Body)
+    fmt.Println(response.Headers)
+  }
+}
+```
+
 <a name="substitutions"></a>
 # Substitutions
  
