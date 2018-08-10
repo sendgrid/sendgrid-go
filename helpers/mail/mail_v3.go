@@ -334,10 +334,8 @@ func (p *Personalization) SetCustomArg(key string, value string) {
 }
 
 // SetDyanmicTemplateData ...
-func (p *Personalization) SetDynamicTemplateData(data string) {
-	var dataMap map[string]interface{}
-	json.Unmarshal([]byte(data), &dataMap)
-	p.DynamicTemplateData = dataMap
+func (p *Personalization) SetDynamicTemplateData(key string, value interface{}) {
+	p.DynamicTemplateData[key] = value
 }
 
 // SetSendAt ...
