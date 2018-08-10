@@ -2,8 +2,8 @@ This documentation provides examples for specific use cases. Please [open an iss
 
 # Table of Contents
 
-* [Dynamic Template Data](#dynamic-template-data)
 * [Transactional Templates](#transactional-templates)
+* [Legacy Templates](#legacy-templates)
 * [CustomArgs](#customargs)
 * [Personalizations](#personalizations)
 * [Substitutions](#substitutions)
@@ -12,8 +12,8 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [How to View Email Statistics](#email-stats)
 * [How to Setup a Domain Whitelabel](#whitelabel-domain)
 
-<a name="dynamic-template-data"></a>
-# Dynamic Template Data
+<a name="transactional-templates"></a>
+# Transactional Templates
 For this example, we assume you have created a [dynamic transactional template](https://sendgrid.com/docs/User_Guide/Transactional_Templates/how_to_send_an_email_with_transactional_templates.html). Following is the dynamic template data we used for testing.
 
 Template ID (replace with your own):
@@ -170,8 +170,8 @@ func main() {
 }
 ```
 
-<a name="transactional-templates"></a>
-# Transactional Templates
+<a name="legacy-templates"></a>
+# Legacy Templates
 
 For this example, we assume you have created a [transactional template](https://sendgrid.com/docs/User_Guide/Transactional_Templates/index.html). Following is the template content we used for testing.
 
@@ -361,22 +361,22 @@ func main() {
   request.Method = "POST"
   request.Body = []byte(` {
     "personalizations": [
-        {
-            "to": [
-                {
-                    "email": "test@example.com"
-                }
-            ],
-            "subject": "CustomArgs can be fun",
-            "substitutions": {
-              "-name-": "Example User",
-              "-city-": "Denver"
-            }, 
-            "custom_args": {
-              "user_id": "343", 
-              "batch_id": "3"
+      {
+        "to": [
+            {
+                "email": "test@example.com"
             }
+        ],
+        "subject": "CustomArgs can be fun",
+        "substitutions": {
+          "-name-": "Example User",
+          "-city-": "Denver"
+        }, 
+        "custom_args": {
+          "user_id": "343", 
+          "batch_id": "3"
         }
+      }
     ],
     "from": {
         "email": "test@example.com"
