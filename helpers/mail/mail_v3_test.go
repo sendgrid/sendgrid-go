@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
+	"reflect"
 	"testing"
 	"time"
 )
@@ -428,7 +429,7 @@ func TestV3PersonalizationSetDynamicTemplateData(t *testing.T) {
 	}
 
 	dynamicTemplateDataKey1 := "arr"
-	dynamicTemplateDataValue1 := []{true, false, true}
+	dynamicTemplateDataValue1 := "[true, false, true]"
 	p.SetDynamicTemplateData(dynamicTemplateDataKey1, dynamicTemplateDataValue1)
 
 	if v, ok := p.DynamicTemplateData[dynamicTemplateDataKey1]; !ok {
@@ -439,16 +440,16 @@ func TestV3PersonalizationSetDynamicTemplateData(t *testing.T) {
 
 	dynamicTemplateDataKey2 := "obj"
 	dynamicTemplateDataValue2 := map[string]string{
-		"dynamic": 		"templates",
-		"dynamicArr": []{0, 1, 2},
-		"bool": 			false,
-		"int":				10
+		"dynamic":    "templates",
+		"dynamicArr": "[]int{0, 1, 2}",
+		"bool":       "false",
+		"int":        "10",
 	}
-	p.SetDynamicTemplateData(dynamicTemplateDataKey2, dynamicTemplateDataValue2)	
+	p.SetDynamicTemplateData(dynamicTemplateDataKey2, dynamicTemplateDataValue2)
 
 	if v, ok := p.DynamicTemplateData[dynamicTemplateDataKey2]; !ok {
 		t.Errorf("key %s not found in DynamictemplateData map", dynamicTemplateDataKey2)
-	} else if v != dynamicTemplateDataValue2 {
+	} else if !reflect.DeepEqual(v, dynamicTemplateDataValue2) {
 		t.Errorf("value should be %s, got %s", dynamicTemplateDataValue2, v)
 	}
 }

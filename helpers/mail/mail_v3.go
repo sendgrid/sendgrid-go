@@ -333,7 +333,7 @@ func (p *Personalization) SetCustomArg(key string, value string) {
 	p.CustomArgs[key] = value
 }
 
-// SetDyanmicTemplateData ...
+// SetDynamicTemplateData ...
 func (p *Personalization) SetDynamicTemplateData(key string, value interface{}) {
 	p.DynamicTemplateData[key] = value
 }

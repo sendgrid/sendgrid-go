@@ -4,3 +4,4 @@ temp.go
 .env
 coverage.txt
 sendgrid.env
+.vscode
