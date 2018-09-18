@@ -192,8 +192,8 @@ func TestV3SetASM(t *testing.T) {
 
 	m.SetASM(asm)
 
-	assert.Equal(t, groupID, m.Asm.GroupID, fmt.Sprintf("GroupID should be %s, got %s", groupID, m.Asm.GroupID))
-	assert.Equal(t, groupsToDisplay, m.Asm.GroupsToDisplay, fmt.Sprintf("Length of GroupsToDisplay should be %s, got %s", len(groupsToDisplay), len(m.Asm.GroupsToDisplay)))
+	assert.Equal(t, groupID, m.Asm.GroupID, fmt.Sprintf("GroupID should be %d, got %d", groupID, m.Asm.GroupID))
+	assert.Equal(t, groupsToDisplay, m.Asm.GroupsToDisplay, fmt.Sprintf("Length of GroupsToDisplay should be %d, got %d", len(groupsToDisplay), len(m.Asm.GroupsToDisplay)))
 }
 
 func TestV3SetMailSettings(t *testing.T) {
@@ -225,25 +225,25 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.NotNil(t, p, "NewPersonalization() shouldn't return nil")
 
 	assert.NotNil(t, p.To, "To should't be nil")
-	assert.NotEqual(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To))
+	assert.Equal(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To))
 
 	assert.NotNil(t, p.CC, "CC should't be nil")
-	assert.NotEqual(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC))
+	assert.Equal(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC))
 
 	assert.NotNil(t, p.BCC, "BCC should't be nil")
-	assert.NotEqual(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC))
+	assert.Equal(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC))
 
 	assert.NotNil(t, p.Headers, "Headers should't be nil")
-	assert.NotEqual(t, 0, len(p.Headers), fmt.Sprintf("Length of %s should be 0", p.Headers))
+	assert.Equal(t, 0, len(p.Headers), fmt.Sprintf("Length of %s should be 0", p.Headers))
 
 	assert.NotNil(t, p.Substitutions, "Substitutions should't be nil")
-	assert.NotEqual(t, 0, len(p.Substitutions), fmt.Sprintf("Length of %s should be 0", p.Substitutions))
+	assert.Equal(t, 0, len(p.Substitutions), fmt.Sprintf("Length of %s should be 0", p.Substitutions))
 
 	assert.NotNil(t, p.CustomArgs, "CustomArgs should't be nil")
-	assert.NotEqual(t, 0, len(p.CustomArgs), fmt.Sprintf("Length of %s should be 0", p.CustomArgs))
+	assert.Equal(t, 0, len(p.CustomArgs), fmt.Sprintf("Length of %s should be 0", p.CustomArgs))
 
 	assert.NotNil(t, p.Categories, "Categories should't be nil")
-	assert.NotEqual(t, 0, len(p.Categories), fmt.Sprintf("Length of %s should be 0", p.Categories))
+	assert.Equal(t, 0, len(p.Categories), fmt.Sprintf("Length of %s should be 0", p.Categories))
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
@@ -695,7 +695,7 @@ func TestV3NewSpamCheckSetting(t *testing.T) {
 
 	assert.True(t, *s.Enable, "SpamCheck should be enabled")
 	assert.Equal(t, spamThreshold, s.SpamThreshold, fmt.Sprintf("SpamThreshold should be %d, got %d", spamThreshold, s.SpamThreshold))
-	assert.Equal(t, postToURL, s.PostToURL, fmt.Sprintf("PostToURL should be %d, got %d", postToURL, s.PostToURL))
+	assert.Equal(t, postToURL, s.PostToURL, fmt.Sprintf("PostToURL should be %s, got %s", postToURL, s.PostToURL))
 }
 
 func TestV3NewSandboxModeSetting(t *testing.T) {
