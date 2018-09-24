@@ -2553,7 +2553,7 @@ func Test_test_senders_post(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders_get(t *testing.T) {
