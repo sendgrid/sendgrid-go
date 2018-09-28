@@ -935,6 +935,34 @@ func TestV3NewSingleEmail(t *testing.T) {
 	}
 }
 
+func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Sending with SendGrid is Fun"
+	to := NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+
+	message := NewSingleEmail(from, subject, to, plainTextContent, "")
+
+	m, _ := json.Marshal(message)
+	fmt.Println(string(m))
+
+	if message == nil {
+		t.Errorf("NewV3MailInit() shouldn't return nil")
+	}
+
+	if message.From == nil {
+		t.Errorf("From shouldn't be nil")
+	}
+
+	if message.Subject != subject {
+		t.Errorf("Subject should be %s, got %s", subject, message.Subject)
+	}
+
+	if message.Content == nil {
+		t.Errorf("Content shouldn't be nil")
+	}
+}
+
 func TestV3NewClickTrackingSetting(t *testing.T) {
 	c := NewClickTrackingSetting()
 	c.SetEnable(true)
