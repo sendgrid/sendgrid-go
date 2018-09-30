@@ -961,6 +961,14 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	if message.Content == nil {
 		t.Errorf("Content shouldn't be nil")
 	}
+
+	if len(message.Content) != 1 {
+		t.Errorf("Content length should be 1, got %d", len(message.Content))
+	}
+
+	if len(message.Content) == 1 && message.Content[0].Type != "text/plain" {
+		t.Errorf("Content type should be 'text/plain', got %s", message.Content[0].Type)
+	}
 }
 
 func TestV3NewClickTrackingSetting(t *testing.T) {
