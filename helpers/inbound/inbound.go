@@ -35,7 +35,10 @@ func loadConfig(path string) configuration {
 }
 
 func indexHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(response, "%s", "Hello World")
+	_, err := fmt.Fprintf(response, "%s", "Hello World")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func getBoundary(value string, contentType string) (string, *strings.Reader) {
@@ -67,29 +70,23 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 			p, err := mr.NextPart()
 			// We have found an attachment with binary data
 			if err == nil && p.FileName() != "" {
-				contents, err := ioutil.ReadAll(p)
-				if err != nil {
+				contents, ioerr := ioutil.ReadAll(p)
+				if ioerr != nil {
 					log.Fatal(err)
 				}
 				binaryFiles[p.FileName()] = contents
 			}
 			if err == io.EOF {
 				// We have finished parsing, do something with the parsed data
-				for key, value := range parsedEmail {
-					fmt.Println("Key:", key, " Value:", value)
-				}
-				for key, value := range emailHeader {
-					fmt.Println("eKey:", key, " eValue:", value)
-				}
+				printMap(parsedEmail, "")
+				printMap(emailHeader, "e")
+
 				for key, value := range binaryFiles {
 					fmt.Println("bKey:", key, " bValue:", value)
 				}
-				for key, value := range parsedRawEmail {
-					fmt.Println("rKey:", key, " rValue:", value)
-				}
-				for key, value := range rawFiles {
-					fmt.Println("rfKey:", key, " rfValue:", value)
-				}
+
+				printMap(parsedRawEmail, "r")
+				printMap(rawFiles, "rf")
 				// SendGrid needs a 200 OK response to stop POSTing
 				response.WriteHeader(http.StatusOK)
 				return
@@ -102,7 +99,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 				log.Fatal(err)
 			}
 			header := p.Header.Get("Content-Disposition")
-			if strings.Contains(header, "filename") != true {
+			if !strings.Contains(header, "filename") {
 				header = header[17 : len(header)-1]
 				parsedEmail[header] = string(value)
 			} else {
@@ -110,61 +107,74 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 				f := strings.Split(header, "=")
 				parsedEmail[f[1][1:len(f[1])-11]] = f[2][1 : len(f[2])-1]
 			}
+
 			if header == "headers" {
-				s := strings.Split(string(value), "\n")
-				var a []string
-				for _, v := range s {
-					t := strings.Split(string(v), ": ")
-					a = append(a, t...)
-				}
-				for i := 0; i < len(a)-1; i += 2 {
-					emailHeader[a[i]] = a[i+1]
-				}
+				handleHeaders(value, emailHeader)
 			}
 			// Since we have parsed the headers, we can delete the original
 			delete(parsedEmail, "headers")
 
 			// We have a raw message
 			if header == "email" {
-				boundary, body := getBoundary(string(value), "Content-Type: multipart/mixed; ")
-				raw := multipart.NewReader(body, boundary)
-				for {
-					next, err := raw.NextPart()
-					if err == io.EOF {
-						// We have finished parsing
-						break
-					}
-					value, err := ioutil.ReadAll(next)
-					if err != nil {
-						log.Fatal(err)
-					}
-					header := next.Header.Get("Content-Type")
-
-					// Parse the headers
-					if strings.Contains(header, "multipart/alternative") {
-						boundary, body := getBoundary(string(value), "Content-Type: multipart/alternative; ")
-						raw := multipart.NewReader(body, boundary)
-						for {
-							next, err := raw.NextPart()
-							if err == io.EOF {
-								// We have finished parsing
-								break
-							}
-							value, err := ioutil.ReadAll(next)
-							if err != nil {
-								log.Fatal(err)
-							}
-							header := next.Header.Get("Content-Type")
-							parsedRawEmail[header] = string(value)
-						}
-					} else {
-						// It's a base64 encoded attachment
-						rawFiles[header] = string(value)
-					}
-				}
+				handleRawEmail(value, parsedRawEmail, rawFiles)
 			}
 			// Since we've parsed this header, we can delete the original
 			delete(parsedEmail, "email")
+		}
+	}
+}
+func handleHeaders(value []byte, emailHeader map[string]string) {
+	s := strings.Split(string(value), "\n")
+	var a []string
+	for _, v := range s {
+		t := strings.Split(string(v), ": ")
+		a = append(a, t...)
+	}
+	for i := 0; i < len(a)-1; i += 2 {
+		emailHeader[a[i]] = a[i+1]
+	}
+}
+
+func printMap(inputMap map[string]string, prefix string) {
+	for key, value := range inputMap {
+		fmt.Println(prefix, "Key:", key, " ", prefix, "Value:", value)
+	}
+}
+func handleRawEmail(value []byte, parsedRawEmail map[string]string, rawFiles map[string]string) {
+	boundary, body := getBoundary(string(value), "Content-Type: multipart/mixed; ")
+	raw := multipart.NewReader(body, boundary)
+	for {
+		next, err := raw.NextPart()
+		if err == io.EOF {
+			// We have finished parsing
+			break
+		}
+		value, err := ioutil.ReadAll(next)
+		if err != nil {
+			log.Fatal(err)
+		}
+		header := next.Header.Get("Content-Type")
+
+		// Parse the headers
+		if strings.Contains(header, "multipart/alternative") {
+			boundary, body := getBoundary(string(value), "Content-Type: multipart/alternative; ")
+			raw := multipart.NewReader(body, boundary)
+			for {
+				next, err := raw.NextPart()
+				if err == io.EOF {
+					// We have finished parsing
+					break
+				}
+				value, err = ioutil.ReadAll(next)
+				if err != nil {
+					log.Fatal(err)
+				}
+				header = next.Header.Get("Content-Type")
+				parsedRawEmail[header] = string(value)
+			}
+		} else {
+			// It's a base64 encoded attachment
+			rawFiles[header] = string(value)
 		}
 	}
 }
@@ -178,9 +188,10 @@ func main() {
 		if err != nil {
 			log.Fatal("Check your Filepath. ", err)
 		}
-		Headers := make(map[string]string)
-		Headers["User-Agent"] = "SendGrid-Test"
-		Headers["Content-Type"] = "multipart/form-data; boundary=xYzZY"
+		Headers := map[string]string{
+			"User-Agent":   "SendGrid-Test",
+			"Content-Type": "multipart/form-data; boundary=xYzZY",
+		}
 		method := rest.Post
 		request := rest.Request{
 			Method:  method,
@@ -200,6 +211,8 @@ func main() {
 		if port == "" {
 			port = conf.Port
 		}
-		http.ListenAndServe(port, nil)
+		if err := http.ListenAndServe(port, nil); err != nil {
+			log.Fatalln("Error")
+		}
 	}
 }
