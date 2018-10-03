@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+// SendSampleHelloMail demonstrates how to send a sample e-mail with a subject line
+// of "Hello SendGrid".
 func SendSampleHelloMail() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "http://localhost:4010"

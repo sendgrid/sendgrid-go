@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// GetAPIKey demonstrates how to retrieve your API keys.
 func GetAPIKey() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "http://localhost:4010"
