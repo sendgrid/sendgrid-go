@@ -11,7 +11,8 @@ import (
 // Retrieve global email statistics
 // GET /stats
 
-func Retrieveglobalemailstatistics() {
+// RetrieveGlobalEmailStatistics demonstrates how to retrieve e-mail statistics.
+func RetrieveGlobalEmailStatistics() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "http://localhost:4010"
 	request := sendgrid.GetRequest(apiKey, "/v3/stats", host)
