@@ -28,15 +28,16 @@ type SGMailV3 struct {
 
 // Personalization ...
 type Personalization struct {
-	To            []*Email          `json:"to,omitempty"`
-	CC            []*Email          `json:"cc,omitempty"`
-	BCC           []*Email          `json:"bcc,omitempty"`
-	Subject       string            `json:"subject,omitempty"`
-	Headers       map[string]string `json:"headers,omitempty"`
-	Substitutions map[string]string `json:"substitutions,omitempty"`
-	CustomArgs    map[string]string `json:"custom_args,omitempty"`
-	Categories    []string          `json:"categories,omitempty"`
-	SendAt        int               `json:"send_at,omitempty"`
+	To                  []*Email               `json:"to,omitempty"`
+	CC                  []*Email               `json:"cc,omitempty"`
+	BCC                 []*Email               `json:"bcc,omitempty"`
+	Subject             string                 `json:"subject,omitempty"`
+	Headers             map[string]string      `json:"headers,omitempty"`
+	Substitutions       map[string]string      `json:"substitutions,omitempty"`
+	CustomArgs          map[string]string      `json:"custom_args,omitempty"`
+	DynamicTemplateData map[string]interface{} `json:"dynamic_template_data,omitempty"`
+	Categories          []string               `json:"categories,omitempty"`
+	SendAt              int                    `json:"send_at,omitempty"`
 }
 
 // Email holds email name and address info
@@ -291,13 +292,14 @@ func (s *SGMailV3) SetTrackingSettings(trackingSettings *TrackingSettings) *SGMa
 // NewPersonalization ...
 func NewPersonalization() *Personalization {
 	return &Personalization{
-		To:            make([]*Email, 0),
-		CC:            make([]*Email, 0),
-		BCC:           make([]*Email, 0),
-		Headers:       make(map[string]string),
-		Substitutions: make(map[string]string),
-		CustomArgs:    make(map[string]string),
-		Categories:    make([]string, 0),
+		To:                  make([]*Email, 0),
+		CC:                  make([]*Email, 0),
+		BCC:                 make([]*Email, 0),
+		Headers:             make(map[string]string),
+		Substitutions:       make(map[string]string),
+		CustomArgs:          make(map[string]string),
+		DynamicTemplateData: make(map[string]interface{}),
+		Categories:          make([]string, 0),
 	}
 }
 
@@ -329,6 +331,11 @@ func (p *Personalization) SetSubstitution(key string, value string) {
 // SetCustomArg ...
 func (p *Personalization) SetCustomArg(key string, value string) {
 	p.CustomArgs[key] = value
+}
+
+// SetDynamicTemplateData ...
+func (p *Personalization) SetDynamicTemplateData(key string, value interface{}) {
+	p.DynamicTemplateData[key] = value
 }
 
 // SetSendAt ...

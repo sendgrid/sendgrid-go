@@ -19,6 +19,7 @@ import (
 
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -44,7 +45,7 @@ func TestMain(m *testing.M) {
 	// Check if prism is installed, if not, install it
 	if _, err := os.Stat(prismPath); os.IsNotExist(err) {
 		if runtime.GOOS != "windows" {
-			curl = exec.Command("curl", "https://raw.githubusercontent.com/stoplightio/prism/master/install.sh")
+			curl = exec.Command("curl", "https://raw.githubusercontent.com/stoplightio/prism/2.x/install.sh")
 			sh = exec.Command("sh")
 			read, write := io.Pipe()
 			curl.Stdout = write
@@ -64,7 +65,7 @@ func TestMain(m *testing.M) {
 			os.Exit(1)
 		}
 	} else {
-		updatePrismCmd := exec.Command(prismPath, "update", "2.0.9")
+		updatePrismCmd := exec.Command(prismPath, "update", "2.0.14")
 		err := updatePrismCmd.Start()
 		if err != nil {
 			fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
@@ -115,20 +116,14 @@ func TestMain(m *testing.M) {
 }
 
 func TestSendGridVersion(t *testing.T) {
-	if Version != "3.1.0" {
-		t.Error("SendGrid version does not match")
-	}
+	assert.Equal(t, "3.1.0", Version, "SendGrid version does not match")
 }
 
 func TestLicenseYear(t *testing.T) {
 	d, err := ioutil.ReadFile("LICENSE.txt")
-	if err != nil {
-		t.Error("Cannot read the LICENSE.txt file")
-	}
+	assert.Nil(t, err, "Cannot read the LICENSE.txt file")
 	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
-	if !strings.Contains(string(d), l) {
-		t.Errorf("License date range is not correct, it should be: %v", l)
-	}
+	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
 
 func TestRepoFiles(t *testing.T) {
@@ -152,42 +147,22 @@ func TestRepoFiles(t *testing.T) {
 	}
 	for _, f := range fs {
 		if _, err := os.Stat(f); os.IsNotExist(err) {
-			if strings.HasPrefix(strings.ToLower(f), "docker") {
-				if _, err := os.Stat("docker/" + f); os.IsNotExist(err) {
-					t.Errorf("Repo files do not exist: %[1]v or docker/%[1]v", f)
-				}
-			} else {
-				t.Errorf("Repo file does not exist: %v", f)
-			}
+			assert.True(t, strings.HasPrefix(strings.ToLower(f), "docker"), fmt.Sprintf("Repo file does not exist: %v", f))
+			_, err := os.Stat("docker/" + f)
+			assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo files do not exist: %[1]v or docker/%[1]v", f))
 		}
 	}
 }
 
 func TestGetRequest(t *testing.T) {
 	request := GetRequest("", "", "")
-	if request.BaseURL != "https://api.sendgrid.com" {
-		t.Error("Host default not set")
-	}
-	if request.Headers["Authorization"] != "Bearer " {
-		t.Error("Wrong default Authorization")
-	}
-	if request.Headers["User-Agent"] != "sendgrid/"+Version+";go" {
-		t.Error("Wrong default User Agent")
-	}
-
+	assert.Equal(t, "https://api.sendgrid.com", request.BaseURL, "Host default not set")
+	assert.Equal(t, "Bearer ", request.Headers["Authorization"], "Wrong default Authorization")
+	assert.Equal(t, "sendgrid/"+Version+";go", request.Headers["User-Agent"], "Wrong default User Agent")
 	request = GetRequest("API_KEY", "/v3/endpoint", "https://test.api.com")
-	if request.BaseURL != "https://test.api.com/v3/endpoint" {
-		t.Error("Host not set correctly")
-	}
-	if request.Headers["Authorization"] != "Bearer API_KEY" {
-		t.Error("Wrong Authorization")
-	}
-	if request.Headers["User-Agent"] != "sendgrid/"+Version+";go" {
-		t.Error("Wrong User Agent")
-	}
-	if request.Headers["Accept"] != "application/json" {
-		t.Error("Wrong Accept header")
-	}
+	assert.Equal(t, "Bearer API_KEY", request.Headers["Authorization"], "Wrong Authorization")
+	assert.Equal(t, "sendgrid/"+Version+";go", request.Headers["User-Agent"], "Wrong User Agent")
+	assert.Equal(t, "application/json", request.Headers["Accept"], "Wrong Accept Agent")
 }
 
 func TestCustomHTTPClient(t *testing.T) {
@@ -203,12 +178,8 @@ func TestCustomHTTPClient(t *testing.T) {
 	var custom rest.Client
 	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
 	_, err := custom.API(request)
-	if err == nil {
-		t.Error("A timeout did not trigger as expected")
-	}
-	if !strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
-		t.Error("We did not receive the Timeout error")
-	}
+	assert.NotNil(t, err, "A timeout did not trigger as expected")
+	assert.True(t, strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers"), "We did not receive the Timeout error")
 }
 
 func TestRequestRetry_rateLimit(t *testing.T) {
@@ -225,12 +196,8 @@ func TestRequestRetry_rateLimit(t *testing.T) {
 	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
 	DefaultClient = &custom
 	_, err := MakeRequestRetry(request)
-	if err == nil {
-		t.Error("An error did not trigger")
-	}
-	if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
-		t.Error("We did not receive the rate limit error")
-	}
+	assert.NotNil(t, err, "An error did not trigger")
+	assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
 	DefaultClient = rest.DefaultClient
 }
 
@@ -247,12 +214,8 @@ func TestRequestRetry_rateLimit_noHeader(t *testing.T) {
 	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
 	DefaultClient = &custom
 	_, err := MakeRequestRetry(request)
-	if err == nil {
-		t.Error("An error did not trigger")
-	}
-	if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
-		t.Error("We did not receive the rate limit error")
-	}
+	assert.NotNil(t, err, "An error did not trigger")
+	assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
 	DefaultClient = rest.DefaultClient
 }
 
@@ -300,9 +263,7 @@ func TestRequestAsync_rateLimit(t *testing.T) {
 		t.Error("Received a valid response")
 		return
 	case err := <-e:
-		if !strings.Contains(err.Error(), "Rate limit retry exceeded") {
-			t.Error("We did not receive the rate limit error")
-		}
+		assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
 	case <-time.After(10 * time.Second):
 		t.Error("Timed out waiting for an error")
 	}
@@ -323,13 +284,8 @@ func Test_test_access_settings_activity_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_access_settings_whitelist_post(t *testing.T) {
@@ -358,13 +314,8 @@ func Test_test_access_settings_whitelist_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_access_settings_whitelist_get(t *testing.T) {
@@ -380,13 +331,8 @@ func Test_test_access_settings_whitelist_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_access_settings_whitelist_delete(t *testing.T) {
@@ -409,13 +355,8 @@ func Test_test_access_settings_whitelist_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_access_settings_whitelist__rule_id__get(t *testing.T) {
@@ -431,13 +372,8 @@ func Test_test_access_settings_whitelist__rule_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T) {
@@ -453,13 +389,8 @@ func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_alerts_post(t *testing.T) {
@@ -480,13 +411,8 @@ func Test_test_alerts_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_alerts_get(t *testing.T) {
@@ -502,13 +428,8 @@ func Test_test_alerts_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_alerts__alert_id__patch(t *testing.T) {
@@ -527,13 +448,8 @@ func Test_test_alerts__alert_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_alerts__alert_id__get(t *testing.T) {
@@ -549,13 +465,8 @@ func Test_test_alerts__alert_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_alerts__alert_id__delete(t *testing.T) {
@@ -571,13 +482,8 @@ func Test_test_alerts__alert_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_api_keys_post(t *testing.T) {
@@ -602,13 +508,8 @@ func Test_test_api_keys_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_api_keys_get(t *testing.T) {
@@ -625,13 +526,8 @@ func Test_test_api_keys_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_api_keys__api_key_id__put(t *testing.T) {
@@ -654,13 +550,8 @@ func Test_test_api_keys__api_key_id__put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_api_keys__api_key_id__patch(t *testing.T) {
@@ -679,13 +570,8 @@ func Test_test_api_keys__api_key_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_api_keys__api_key_id__get(t *testing.T) {
@@ -701,13 +587,8 @@ func Test_test_api_keys__api_key_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_api_keys__api_key_id__delete(t *testing.T) {
@@ -723,13 +604,8 @@ func Test_test_api_keys__api_key_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups_post(t *testing.T) {
@@ -750,13 +626,8 @@ func Test_test_asm_groups_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups_get(t *testing.T) {
@@ -773,13 +644,8 @@ func Test_test_asm_groups_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__patch(t *testing.T) {
@@ -800,13 +666,8 @@ func Test_test_asm_groups__group_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__get(t *testing.T) {
@@ -822,13 +683,8 @@ func Test_test_asm_groups__group_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__delete(t *testing.T) {
@@ -844,13 +700,8 @@ func Test_test_asm_groups__group_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__suppressions_post(t *testing.T) {
@@ -872,13 +723,8 @@ func Test_test_asm_groups__group_id__suppressions_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__suppressions_get(t *testing.T) {
@@ -894,13 +740,8 @@ func Test_test_asm_groups__group_id__suppressions_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__suppressions_search_post(t *testing.T) {
@@ -923,13 +764,8 @@ func Test_test_asm_groups__group_id__suppressions_search_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T) {
@@ -945,13 +781,8 @@ func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_suppressions_get(t *testing.T) {
@@ -967,13 +798,8 @@ func Test_test_asm_suppressions_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_suppressions_global_post(t *testing.T) {
@@ -995,13 +821,8 @@ func Test_test_asm_suppressions_global_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_suppressions_global__email__get(t *testing.T) {
@@ -1017,13 +838,8 @@ func Test_test_asm_suppressions_global__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_suppressions_global__email__delete(t *testing.T) {
@@ -1039,13 +855,8 @@ func Test_test_asm_suppressions_global__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_asm_suppressions__email__get(t *testing.T) {
@@ -1061,13 +872,8 @@ func Test_test_asm_suppressions__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_browsers_stats_get(t *testing.T) {
@@ -1089,13 +895,8 @@ func Test_test_browsers_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns_post(t *testing.T) {
@@ -1131,13 +932,8 @@ func Test_test_campaigns_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns_get(t *testing.T) {
@@ -1155,13 +951,8 @@ func Test_test_campaigns_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__patch(t *testing.T) {
@@ -1186,13 +977,8 @@ func Test_test_campaigns__campaign_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__get(t *testing.T) {
@@ -1208,13 +994,8 @@ func Test_test_campaigns__campaign_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__delete(t *testing.T) {
@@ -1230,13 +1011,8 @@ func Test_test_campaigns__campaign_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__schedules_patch(t *testing.T) {
@@ -1255,13 +1031,8 @@ func Test_test_campaigns__campaign_id__schedules_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__schedules_post(t *testing.T) {
@@ -1280,13 +1051,8 @@ func Test_test_campaigns__campaign_id__schedules_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__schedules_get(t *testing.T) {
@@ -1302,13 +1068,8 @@ func Test_test_campaigns__campaign_id__schedules_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__schedules_delete(t *testing.T) {
@@ -1324,13 +1085,8 @@ func Test_test_campaigns__campaign_id__schedules_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__schedules_now_post(t *testing.T) {
@@ -1346,13 +1102,8 @@ func Test_test_campaigns__campaign_id__schedules_now_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_campaigns__campaign_id__schedules_test_post(t *testing.T) {
@@ -1371,13 +1122,8 @@ func Test_test_campaigns__campaign_id__schedules_test_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_categories_get(t *testing.T) {
@@ -1396,13 +1142,8 @@ func Test_test_categories_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_categories_stats_get(t *testing.T) {
@@ -1424,13 +1165,8 @@ func Test_test_categories_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_categories_stats_sums_get(t *testing.T) {
@@ -1453,13 +1189,8 @@ func Test_test_categories_stats_sums_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_clients_stats_get(t *testing.T) {
@@ -1478,13 +1209,8 @@ func Test_test_clients_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_clients__client_type__stats_get(t *testing.T) {
@@ -1502,40 +1228,27 @@ func Test_test_clients__client_type__stats_get(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
-}
-
-func Test_test_contactdb_custom_fields_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
+	apiKey = "SENDGRID_APIKEY"
+	host = "http://localhost:4010"
+	request = GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "pet",
   "type": "text"
 }`)
-	queryParams := make(map[string]string)
+	queryParams = make(map[string]string)
 	queryParams["__code"] = "201"
 	request.QueryParams = queryParams
-	response, err := API(request)
+	response, err = API(request)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_custom_fields_get(t *testing.T) {
@@ -1551,13 +1264,8 @@ func Test_test_contactdb_custom_fields_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_custom_fields__custom_field_id__get(t *testing.T) {
@@ -1573,13 +1281,8 @@ func Test_test_contactdb_custom_fields__custom_field_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_custom_fields__custom_field_id__delete(t *testing.T) {
@@ -1595,13 +1298,8 @@ func Test_test_contactdb_custom_fields__custom_field_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 202 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists_post(t *testing.T) {
@@ -1620,13 +1318,8 @@ func Test_test_contactdb_lists_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists_get(t *testing.T) {
@@ -1642,13 +1335,8 @@ func Test_test_contactdb_lists_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists_delete(t *testing.T) {
@@ -1670,13 +1358,8 @@ func Test_test_contactdb_lists_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__patch(t *testing.T) {
@@ -1696,13 +1379,8 @@ func Test_test_contactdb_lists__list_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__get(t *testing.T) {
@@ -1719,13 +1397,8 @@ func Test_test_contactdb_lists__list_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__delete(t *testing.T) {
@@ -1742,13 +1415,8 @@ func Test_test_contactdb_lists__list_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 202 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__recipients_post(t *testing.T) {
@@ -1768,13 +1436,8 @@ func Test_test_contactdb_lists__list_id__recipients_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T) {
@@ -1793,13 +1456,8 @@ func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__recipients__recipient_id__post(t *testing.T) {
@@ -1815,13 +1473,8 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__post(t *testi
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *testing.T) {
@@ -1839,13 +1492,8 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *tes
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_patch(t *testing.T) {
@@ -1868,13 +1516,8 @@ func Test_test_contactdb_recipients_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_post(t *testing.T) {
@@ -1904,13 +1547,8 @@ func Test_test_contactdb_recipients_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_get(t *testing.T) {
@@ -1928,13 +1566,8 @@ func Test_test_contactdb_recipients_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_delete(t *testing.T) {
@@ -1954,13 +1587,8 @@ func Test_test_contactdb_recipients_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_billable_count_get(t *testing.T) {
@@ -1976,13 +1604,8 @@ func Test_test_contactdb_recipients_billable_count_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_count_get(t *testing.T) {
@@ -1998,13 +1621,8 @@ func Test_test_contactdb_recipients_count_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients_search_get(t *testing.T) {
@@ -2021,13 +1639,8 @@ func Test_test_contactdb_recipients_search_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients__recipient_id__get(t *testing.T) {
@@ -2043,13 +1656,8 @@ func Test_test_contactdb_recipients__recipient_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients__recipient_id__delete(t *testing.T) {
@@ -2065,13 +1673,8 @@ func Test_test_contactdb_recipients__recipient_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_recipients__recipient_id__lists_get(t *testing.T) {
@@ -2087,13 +1690,8 @@ func Test_test_contactdb_recipients__recipient_id__lists_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_reserved_fields_get(t *testing.T) {
@@ -2109,13 +1707,8 @@ func Test_test_contactdb_reserved_fields_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_segments_post(t *testing.T) {
@@ -2155,13 +1748,8 @@ func Test_test_contactdb_segments_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_segments_get(t *testing.T) {
@@ -2177,13 +1765,8 @@ func Test_test_contactdb_segments_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_segments__segment_id__patch(t *testing.T) {
@@ -2212,13 +1795,8 @@ func Test_test_contactdb_segments__segment_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_segments__segment_id__get(t *testing.T) {
@@ -2235,13 +1813,8 @@ func Test_test_contactdb_segments__segment_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_segments__segment_id__delete(t *testing.T) {
@@ -2258,13 +1831,8 @@ func Test_test_contactdb_segments__segment_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_contactdb_segments__segment_id__recipients_get(t *testing.T) {
@@ -2282,13 +1850,8 @@ func Test_test_contactdb_segments__segment_id__recipients_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_devices_stats_get(t *testing.T) {
@@ -2309,13 +1872,8 @@ func Test_test_devices_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_geo_stats_get(t *testing.T) {
@@ -2337,13 +1895,8 @@ func Test_test_geo_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_get(t *testing.T) {
@@ -2364,13 +1917,8 @@ func Test_test_ips_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_assigned_get(t *testing.T) {
@@ -2386,13 +1934,8 @@ func Test_test_ips_assigned_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools_post(t *testing.T) {
@@ -2411,13 +1954,8 @@ func Test_test_ips_pools_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools_get(t *testing.T) {
@@ -2433,13 +1971,8 @@ func Test_test_ips_pools_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools__pool_name__put(t *testing.T) {
@@ -2458,13 +1991,8 @@ func Test_test_ips_pools__pool_name__put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools__pool_name__get(t *testing.T) {
@@ -2480,13 +2008,8 @@ func Test_test_ips_pools__pool_name__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools__pool_name__delete(t *testing.T) {
@@ -2502,13 +2025,8 @@ func Test_test_ips_pools__pool_name__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools__pool_name__ips_post(t *testing.T) {
@@ -2527,13 +2045,8 @@ func Test_test_ips_pools__pool_name__ips_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_pools__pool_name__ips__ip__delete(t *testing.T) {
@@ -2549,13 +2062,8 @@ func Test_test_ips_pools__pool_name__ips__ip__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_warmup_post(t *testing.T) {
@@ -2574,13 +2082,8 @@ func Test_test_ips_warmup_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_warmup_get(t *testing.T) {
@@ -2596,13 +2099,8 @@ func Test_test_ips_warmup_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_warmup__ip_address__get(t *testing.T) {
@@ -2618,13 +2116,8 @@ func Test_test_ips_warmup__ip_address__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips_warmup__ip_address__delete(t *testing.T) {
@@ -2640,13 +2133,8 @@ func Test_test_ips_warmup__ip_address__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_ips__ip_address__get(t *testing.T) {
@@ -2662,13 +2150,8 @@ func Test_test_ips__ip_address__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_batch_post(t *testing.T) {
@@ -2684,13 +2167,8 @@ func Test_test_mail_batch_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_batch__batch_id__get(t *testing.T) {
@@ -2706,13 +2184,8 @@ func Test_test_mail_batch__batch_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_send_client(t *testing.T) {
@@ -2854,25 +2327,20 @@ func Test_test_send_client(t *testing.T) {
 		}
 	}`)
 	email := &mail.SGMailV3{}
-	if err := json.Unmarshal(emailBytes, email); err != nil {
-		fmt.Println("Unmarshal error: ", err)
-	}
 
+	err := json.Unmarshal(emailBytes, email)
+	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
 	queryParams := make(map[string]string)
 	queryParams["__code"] = "202"
 	client.Request.QueryParams = queryParams
+
 	response, err := client.Send(email)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 202 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_send_post(t *testing.T) {
@@ -3026,13 +2494,8 @@ func Test_test_mail_send_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 202 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_get(t *testing.T) {
@@ -3050,13 +2513,8 @@ func Test_test_mail_settings_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_address_whitelist_patch(t *testing.T) {
@@ -3079,13 +2537,8 @@ func Test_test_mail_settings_address_whitelist_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_address_whitelist_get(t *testing.T) {
@@ -3101,13 +2554,8 @@ func Test_test_mail_settings_address_whitelist_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_bcc_patch(t *testing.T) {
@@ -3127,13 +2575,8 @@ func Test_test_mail_settings_bcc_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_bcc_get(t *testing.T) {
@@ -3149,13 +2592,8 @@ func Test_test_mail_settings_bcc_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_bounce_purge_patch(t *testing.T) {
@@ -3176,13 +2614,8 @@ func Test_test_mail_settings_bounce_purge_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_bounce_purge_get(t *testing.T) {
@@ -3198,13 +2631,8 @@ func Test_test_mail_settings_bounce_purge_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_footer_patch(t *testing.T) {
@@ -3225,13 +2653,8 @@ func Test_test_mail_settings_footer_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_footer_get(t *testing.T) {
@@ -3247,13 +2670,8 @@ func Test_test_mail_settings_footer_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_forward_bounce_patch(t *testing.T) {
@@ -3273,13 +2691,8 @@ func Test_test_mail_settings_forward_bounce_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_forward_bounce_get(t *testing.T) {
@@ -3295,13 +2708,8 @@ func Test_test_mail_settings_forward_bounce_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_forward_spam_patch(t *testing.T) {
@@ -3321,13 +2729,8 @@ func Test_test_mail_settings_forward_spam_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_forward_spam_get(t *testing.T) {
@@ -3343,13 +2746,8 @@ func Test_test_mail_settings_forward_spam_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_plain_content_patch(t *testing.T) {
@@ -3368,13 +2766,8 @@ func Test_test_mail_settings_plain_content_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_plain_content_get(t *testing.T) {
@@ -3390,13 +2783,8 @@ func Test_test_mail_settings_plain_content_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_spam_check_patch(t *testing.T) {
@@ -3417,13 +2805,8 @@ func Test_test_mail_settings_spam_check_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_spam_check_get(t *testing.T) {
@@ -3439,13 +2822,8 @@ func Test_test_mail_settings_spam_check_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_template_patch(t *testing.T) {
@@ -3465,13 +2843,8 @@ func Test_test_mail_settings_template_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mail_settings_template_get(t *testing.T) {
@@ -3487,13 +2860,8 @@ func Test_test_mail_settings_template_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_mailbox_providers_stats_get(t *testing.T) {
@@ -3515,13 +2883,8 @@ func Test_test_mailbox_providers_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_partner_settings_get(t *testing.T) {
@@ -3539,13 +2902,8 @@ func Test_test_partner_settings_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_partner_settings_new_relic_patch(t *testing.T) {
@@ -3566,13 +2924,8 @@ func Test_test_partner_settings_new_relic_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_partner_settings_new_relic_get(t *testing.T) {
@@ -3588,13 +2941,8 @@ func Test_test_partner_settings_new_relic_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_scopes_get(t *testing.T) {
@@ -3610,13 +2958,8 @@ func Test_test_scopes_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders_post(t *testing.T) {
@@ -3649,13 +2992,8 @@ func Test_test_senders_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders_get(t *testing.T) {
@@ -3671,13 +3009,8 @@ func Test_test_senders_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders__sender_id__patch(t *testing.T) {
@@ -3710,13 +3043,8 @@ func Test_test_senders__sender_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders__sender_id__get(t *testing.T) {
@@ -3732,13 +3060,8 @@ func Test_test_senders__sender_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders__sender_id__delete(t *testing.T) {
@@ -3754,13 +3077,8 @@ func Test_test_senders__sender_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_senders__sender_id__resend_verification_post(t *testing.T) {
@@ -3776,13 +3094,8 @@ func Test_test_senders__sender_id__resend_verification_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_stats_get(t *testing.T) {
@@ -3803,13 +3116,8 @@ func Test_test_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers_post(t *testing.T) {
@@ -3834,13 +3142,8 @@ func Test_test_subusers_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers_get(t *testing.T) {
@@ -3859,13 +3162,8 @@ func Test_test_subusers_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers_reputations_get(t *testing.T) {
@@ -3882,13 +3180,8 @@ func Test_test_subusers_reputations_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers_stats_get(t *testing.T) {
@@ -3910,13 +3203,8 @@ func Test_test_subusers_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers_stats_monthly_get(t *testing.T) {
@@ -3938,13 +3226,8 @@ func Test_test_subusers_stats_monthly_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers_stats_sums_get(t *testing.T) {
@@ -3967,13 +3250,8 @@ func Test_test_subusers_stats_sums_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__patch(t *testing.T) {
@@ -3992,13 +3270,8 @@ func Test_test_subusers__subuser_name__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__delete(t *testing.T) {
@@ -4014,13 +3287,8 @@ func Test_test_subusers__subuser_name__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__ips_put(t *testing.T) {
@@ -4039,13 +3307,8 @@ func Test_test_subusers__subuser_name__ips_put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__monitor_put(t *testing.T) {
@@ -4065,13 +3328,8 @@ func Test_test_subusers__subuser_name__monitor_put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__monitor_post(t *testing.T) {
@@ -4091,13 +3349,8 @@ func Test_test_subusers__subuser_name__monitor_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__monitor_get(t *testing.T) {
@@ -4113,13 +3366,8 @@ func Test_test_subusers__subuser_name__monitor_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__monitor_delete(t *testing.T) {
@@ -4135,13 +3383,8 @@ func Test_test_subusers__subuser_name__monitor_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T) {
@@ -4162,13 +3405,8 @@ func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_blocks_get(t *testing.T) {
@@ -4188,13 +3426,8 @@ func Test_test_suppression_blocks_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_blocks_delete(t *testing.T) {
@@ -4217,13 +3450,8 @@ func Test_test_suppression_blocks_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_blocks__email__get(t *testing.T) {
@@ -4239,13 +3467,8 @@ func Test_test_suppression_blocks__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_blocks__email__delete(t *testing.T) {
@@ -4261,13 +3484,8 @@ func Test_test_suppression_blocks__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_bounces_get(t *testing.T) {
@@ -4285,13 +3503,8 @@ func Test_test_suppression_bounces_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_bounces_delete(t *testing.T) {
@@ -4314,13 +3527,8 @@ func Test_test_suppression_bounces_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_bounces__email__get(t *testing.T) {
@@ -4336,13 +3544,8 @@ func Test_test_suppression_bounces__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_bounces__email__delete(t *testing.T) {
@@ -4359,13 +3562,8 @@ func Test_test_suppression_bounces__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_invalid_emails_get(t *testing.T) {
@@ -4385,13 +3583,8 @@ func Test_test_suppression_invalid_emails_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_invalid_emails_delete(t *testing.T) {
@@ -4414,13 +3607,8 @@ func Test_test_suppression_invalid_emails_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_invalid_emails__email__get(t *testing.T) {
@@ -4436,13 +3624,8 @@ func Test_test_suppression_invalid_emails__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_invalid_emails__email__delete(t *testing.T) {
@@ -4458,13 +3641,8 @@ func Test_test_suppression_invalid_emails__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_spam_report__email__get(t *testing.T) {
@@ -4480,13 +3658,12 @@ func Test_test_suppression_spam_report__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
 
 	if response.StatusCode != 200 {
 		t.Errorf("Wrong status code returned %v", response.StatusCode)
 	}
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_spam_report__email__delete(t *testing.T) {
@@ -4502,13 +3679,8 @@ func Test_test_suppression_spam_report__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_spam_reports_get(t *testing.T) {
@@ -4528,13 +3700,8 @@ func Test_test_suppression_spam_reports_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_spam_reports_delete(t *testing.T) {
@@ -4557,13 +3724,8 @@ func Test_test_suppression_spam_reports_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_suppression_unsubscribes_get(t *testing.T) {
@@ -4583,13 +3745,8 @@ func Test_test_suppression_unsubscribes_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates_post(t *testing.T) {
@@ -4608,13 +3765,8 @@ func Test_test_templates_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates_get(t *testing.T) {
@@ -4630,13 +3782,8 @@ func Test_test_templates_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__patch(t *testing.T) {
@@ -4655,13 +3802,8 @@ func Test_test_templates__template_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__get(t *testing.T) {
@@ -4677,13 +3819,8 @@ func Test_test_templates__template_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__delete(t *testing.T) {
@@ -4699,13 +3836,8 @@ func Test_test_templates__template_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__versions_post(t *testing.T) {
@@ -4728,20 +3860,12 @@ func Test_test_templates__template_id__versions_post(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
-}
-
-func Test_test_templates__template_id__versions__version_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
+	apiKey = "SENDGRID_APIKEY"
+	host = "http://localhost:4010"
+	request = GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "active": 1,
@@ -4750,21 +3874,16 @@ func Test_test_templates__template_id__versions__version_id__patch(t *testing.T)
   "plain_content": "<%body%>",
   "subject": "<%subject%>"
 }`)
-	queryParams := make(map[string]string)
+	queryParams = make(map[string]string)
 	queryParams["__code"] = "200"
 	request.QueryParams = queryParams
-	response, err := API(request)
+	response, err = API(request)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__versions__version_id__get(t *testing.T) {
@@ -4780,13 +3899,8 @@ func Test_test_templates__template_id__versions__version_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__versions__version_id__delete(t *testing.T) {
@@ -4802,13 +3916,8 @@ func Test_test_templates__template_id__versions__version_id__delete(t *testing.T
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_templates__template_id__versions__version_id__activate_post(t *testing.T) {
@@ -4824,13 +3933,8 @@ func Test_test_templates__template_id__versions__version_id__activate_post(t *te
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_get(t *testing.T) {
@@ -4848,13 +3952,8 @@ func Test_test_tracking_settings_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_click_patch(t *testing.T) {
@@ -4873,13 +3972,8 @@ func Test_test_tracking_settings_click_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_click_get(t *testing.T) {
@@ -4895,13 +3989,8 @@ func Test_test_tracking_settings_click_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_google_analytics_patch(t *testing.T) {
@@ -4925,13 +4014,8 @@ func Test_test_tracking_settings_google_analytics_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_google_analytics_get(t *testing.T) {
@@ -4947,13 +4031,8 @@ func Test_test_tracking_settings_google_analytics_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_open_patch(t *testing.T) {
@@ -4972,13 +4051,8 @@ func Test_test_tracking_settings_open_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_open_get(t *testing.T) {
@@ -4994,13 +4068,8 @@ func Test_test_tracking_settings_open_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_subscription_patch(t *testing.T) {
@@ -5024,13 +4093,8 @@ func Test_test_tracking_settings_subscription_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_tracking_settings_subscription_get(t *testing.T) {
@@ -5046,13 +4110,8 @@ func Test_test_tracking_settings_subscription_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_account_get(t *testing.T) {
@@ -5068,13 +4127,8 @@ func Test_test_user_account_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_credits_get(t *testing.T) {
@@ -5090,13 +4144,8 @@ func Test_test_user_credits_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_email_put(t *testing.T) {
@@ -5115,13 +4164,8 @@ func Test_test_user_email_put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_email_get(t *testing.T) {
@@ -5137,13 +4181,8 @@ func Test_test_user_email_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_password_put(t *testing.T) {
@@ -5163,13 +4202,8 @@ func Test_test_user_password_put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_profile_patch(t *testing.T) {
@@ -5190,13 +4224,8 @@ func Test_test_user_profile_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_profile_get(t *testing.T) {
@@ -5212,13 +4241,8 @@ func Test_test_user_profile_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_scheduled_sends_post(t *testing.T) {
@@ -5238,13 +4262,8 @@ func Test_test_user_scheduled_sends_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_scheduled_sends_get(t *testing.T) {
@@ -5260,13 +4279,8 @@ func Test_test_user_scheduled_sends_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_scheduled_sends__batch_id__patch(t *testing.T) {
@@ -5285,13 +4299,8 @@ func Test_test_user_scheduled_sends__batch_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_scheduled_sends__batch_id__get(t *testing.T) {
@@ -5307,13 +4316,8 @@ func Test_test_user_scheduled_sends__batch_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_scheduled_sends__batch_id__delete(t *testing.T) {
@@ -5329,13 +4333,8 @@ func Test_test_user_scheduled_sends__batch_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_settings_enforced_tls_patch(t *testing.T) {
@@ -5355,13 +4354,8 @@ func Test_test_user_settings_enforced_tls_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_settings_enforced_tls_get(t *testing.T) {
@@ -5377,13 +4371,8 @@ func Test_test_user_settings_enforced_tls_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_username_put(t *testing.T) {
@@ -5402,13 +4391,8 @@ func Test_test_user_username_put(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_username_get(t *testing.T) {
@@ -5424,13 +4408,8 @@ func Test_test_user_username_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_event_settings_patch(t *testing.T) {
@@ -5461,13 +4440,8 @@ func Test_test_user_webhooks_event_settings_patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_event_settings_get(t *testing.T) {
@@ -5483,13 +4457,8 @@ func Test_test_user_webhooks_event_settings_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_event_test_post(t *testing.T) {
@@ -5508,13 +4477,8 @@ func Test_test_user_webhooks_event_test_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_parse_settings_post(t *testing.T) {
@@ -5536,13 +4500,8 @@ func Test_test_user_webhooks_parse_settings_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_parse_settings_get(t *testing.T) {
@@ -5558,13 +4517,8 @@ func Test_test_user_webhooks_parse_settings_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_parse_settings__hostname__patch(t *testing.T) {
@@ -5585,13 +4539,8 @@ func Test_test_user_webhooks_parse_settings__hostname__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_parse_settings__hostname__get(t *testing.T) {
@@ -5607,13 +4556,8 @@ func Test_test_user_webhooks_parse_settings__hostname__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_parse_settings__hostname__delete(t *testing.T) {
@@ -5629,13 +4573,8 @@ func Test_test_user_webhooks_parse_settings__hostname__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_user_webhooks_parse_stats_get(t *testing.T) {
@@ -5656,13 +4595,8 @@ func Test_test_user_webhooks_parse_stats_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains_post(t *testing.T) {
@@ -5690,13 +4624,8 @@ func Test_test_whitelabel_domains_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains_get(t *testing.T) {
@@ -5717,13 +4646,8 @@ func Test_test_whitelabel_domains_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains_default_get(t *testing.T) {
@@ -5739,13 +4663,8 @@ func Test_test_whitelabel_domains_default_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains_subuser_get(t *testing.T) {
@@ -5761,13 +4680,8 @@ func Test_test_whitelabel_domains_subuser_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains_subuser_delete(t *testing.T) {
@@ -5783,13 +4697,8 @@ func Test_test_whitelabel_domains_subuser_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__domain_id__patch(t *testing.T) {
@@ -5809,13 +4718,8 @@ func Test_test_whitelabel_domains__domain_id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__domain_id__get(t *testing.T) {
@@ -5831,13 +4735,8 @@ func Test_test_whitelabel_domains__domain_id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__domain_id__delete(t *testing.T) {
@@ -5853,13 +4752,8 @@ func Test_test_whitelabel_domains__domain_id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__domain_id__subuser_post(t *testing.T) {
@@ -5878,13 +4772,8 @@ func Test_test_whitelabel_domains__domain_id__subuser_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__id__ips_post(t *testing.T) {
@@ -5903,13 +4792,8 @@ func Test_test_whitelabel_domains__id__ips_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__id__ips__ip__delete(t *testing.T) {
@@ -5925,13 +4809,8 @@ func Test_test_whitelabel_domains__id__ips__ip__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_domains__id__validate_post(t *testing.T) {
@@ -5947,13 +4826,8 @@ func Test_test_whitelabel_domains__id__validate_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_ips_post(t *testing.T) {
@@ -5974,13 +4848,8 @@ func Test_test_whitelabel_ips_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_ips_get(t *testing.T) {
@@ -5999,13 +4868,8 @@ func Test_test_whitelabel_ips_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_ips__id__get(t *testing.T) {
@@ -6021,13 +4885,8 @@ func Test_test_whitelabel_ips__id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_ips__id__delete(t *testing.T) {
@@ -6043,13 +4902,8 @@ func Test_test_whitelabel_ips__id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_ips__id__validate_post(t *testing.T) {
@@ -6065,13 +4919,8 @@ func Test_test_whitelabel_ips__id__validate_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links_post(t *testing.T) {
@@ -6094,13 +4943,8 @@ func Test_test_whitelabel_links_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 201 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links_get(t *testing.T) {
@@ -6117,13 +4961,8 @@ func Test_test_whitelabel_links_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links_default_get(t *testing.T) {
@@ -6140,13 +4979,8 @@ func Test_test_whitelabel_links_default_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links_subuser_get(t *testing.T) {
@@ -6163,13 +4997,8 @@ func Test_test_whitelabel_links_subuser_get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links_subuser_delete(t *testing.T) {
@@ -6186,13 +5015,8 @@ func Test_test_whitelabel_links_subuser_delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links__id__patch(t *testing.T) {
@@ -6211,13 +5035,8 @@ func Test_test_whitelabel_links__id__patch(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links__id__get(t *testing.T) {
@@ -6233,13 +5052,8 @@ func Test_test_whitelabel_links__id__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links__id__delete(t *testing.T) {
@@ -6255,13 +5069,8 @@ func Test_test_whitelabel_links__id__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 204 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links__id__validate_post(t *testing.T) {
@@ -6277,13 +5086,8 @@ func Test_test_whitelabel_links__id__validate_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
 func Test_test_whitelabel_links__link_id__subuser_post(t *testing.T) {
@@ -6302,11 +5106,6 @@ func Test_test_whitelabel_links__link_id__subuser_post(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	if len(response.Headers["Sl-Request-Valid"]) != 0 && response.Headers["Sl-Request-Valid"][0] != "true" {
-		t.Error("Invalid Reqeust")
-	}
-
-	if response.StatusCode != 200 {
-		t.Error("Wrong status code returned")
-	}
+	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }

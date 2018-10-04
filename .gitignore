@@ -4,3 +4,6 @@ temp.go
 .env
 coverage.txt
 docker/src
+sendgrid.env
+.vscode
+profile.out
