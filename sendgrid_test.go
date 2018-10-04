@@ -23,13 +23,14 @@ import (
 )
 
 var (
-	testHost  = ""
-	prismPath = "prism"
-	prismArgs = []string{"mock", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
-	prismCmd  *exec.Cmd
-	buffer    bytes.Buffer
-	curl      *exec.Cmd
-	sh        *exec.Cmd
+	testHost         = ""
+	prismPath        = "prism"
+	prismArgs        = []string{"mock", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
+	prismCmd         *exec.Cmd
+	buffer           bytes.Buffer
+	curl             *exec.Cmd
+	sh               *exec.Cmd
+	missingOperation = `[{"request":{"message":"Request operation is not defined in your specification."}}]`
 )
 
 func TestMain(m *testing.M) {
@@ -3658,12 +3659,16 @@ func Test_test_suppression_spam_report__email__get(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
-
-	if response.StatusCode != 200 {
-		t.Errorf("Wrong status code returned %v", response.StatusCode)
+	validationMessages := response.Headers["Sl-Response-Validation-Messages"]
+	var validationMessage string
+	if len(validationMessages) > 0 {
+		validationMessage = validationMessages[0]
 	}
-	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
+
+	if missingOperation != validationMessage {
+		assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+		assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
+	}
 }
 
 func Test_test_suppression_spam_report__email__delete(t *testing.T) {
@@ -3679,8 +3684,16 @@ func Test_test_suppression_spam_report__email__delete(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
-	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
+	validationMessages := response.Headers["Sl-Response-Validation-Messages"]
+	var validationMessage string
+	if len(validationMessages) > 0 {
+		validationMessage = validationMessages[0]
+	}
+
+	if missingOperation != validationMessage {
+		assert.NotEqual(t, "false", response.Headers["Sl-Request-Valid"], "Request failed contract test")
+		assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
+	}
 }
 
 func Test_test_suppression_spam_reports_get(t *testing.T) {
