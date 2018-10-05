@@ -11,6 +11,7 @@ import (
 // Retrieve global email statistics
 // GET /stats
 
+// Retrieveglobalemailstatistics demonstrates how to retrieve e-mail statistics.
 func Retrieveglobalemailstatistics() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "http://localhost:4010"
