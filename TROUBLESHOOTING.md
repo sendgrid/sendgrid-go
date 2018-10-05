@@ -41,45 +41,45 @@ To read the error message returned by SendGrid's API:
 
 ```go
 func main() {
-	from := mail.NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
-	to := mail.NewEmail("Example User", "test@example.com")
-	content := mail.NewContent("text/plain", "some text here")
-	m := mail.NewV3MailInit(from, subject, to, content)
+    from := mail.NewEmail("Example User", "test@example.com")
+    subject := "Hello World from the SendGrid Go Library"
+    to := mail.NewEmail("Example User", "test@example.com")
+    content := mail.NewContent("text/plain", "some text here")
+    m := mail.NewV3MailInit(from, subject, to, content)
 
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KE"), "/v3/mail/send", "https://api.sendgrid.com")
-	request.Method = "POST"
-	request.Body = mail.GetRequestBody(m)
-	response, err := sendgrid.API(request)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+    request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KE"), "/v3/mail/send", "https://api.sendgrid.com")
+    request.Method = "POST"
+    request.Body = mail.GetRequestBody(m)
+    response, err := sendgrid.API(request)
+    if err != nil {
+        log.Println(err)
+    } else {
+        fmt.Println(response.StatusCode)
+        fmt.Println(response.Body)
+        fmt.Println(response.Headers)
+    }
 }
 ```
 
-__CAUTION__: A non-2xx status code doesn't cause an error on sendgrid.API and the application has to verify the response:
+__CAUTION__: A non-2xx status code doesn't cause an error on sendgrid.API, the application has to verify the response:
 
 ```golang
 resp, err := sendgrid.API(request)
 if err != nil {
-	return err
+    return err
 }
 if resp.StatusCode >= 400 {
-	// something goes wrong and you have to handle (e.g. returning an error to the user or logging the problem)
-	log.Printf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
-	// OR
-	// return fmt.Errorf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
+    // something goes wrong and you have to handle (e.g. returning an error to the user or logging the problem)
+    log.Printf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
+    // OR
+    // return fmt.Errorf("api response: HTTP %d: %s", resp.StatusCode, resp.Body)
 }
 ```
 
 <a name="versions"></a>
 ## Versions
 
-We follow the MAJOR.MINOR.PATCH versioning scheme as described by [SemVer.org](http://semver.org). Therefore, we recommend that you always pin (or vendor) the particular version you are working with to your code and never auto-update to the latest version. Especially when there is a MAJOR point release, since that is guaranteed to be a breaking change. Changes are documented in the [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases) section.
+We follow the MAJOR.MINOR.PATCH versioning scheme as described by [SemVer.org](http://semver.org). Therefore, we recommend that you always pin (or vendor) the particular version you are working with to your code and never auto-update to the latest version. Especially when there is a MAJOR point release since that is guaranteed to be a breaking change. Changes are documented in the [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases) section.
 
 <a name="environment"></a>
 ## Environment Variables and Your SendGrid API Key
@@ -94,7 +94,7 @@ becomes
 
 `"SENDGRID_API_KEY"`
 
-In the first case SENDGRID_API_KEY is in reference to the name of the environment variable, while the second case references the actual SendGrid API Key.
+In the first case, SENDGRID_API_KEY references the name of the environment variable, while the second case references the actual SendGrid API Key.
 
 <a name="request-body"></a>
 ## Viewing the Request Body

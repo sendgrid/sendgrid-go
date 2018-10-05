@@ -15,7 +15,7 @@
 
 Version 3.X.X of this library provides full support for all SendGrid [Web API v3](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html) endpoints, including the new [v3 /mail/send](https://sendgrid.com/blog/introducing-v3mailsend-sendgrids-new-mail-endpoint).
 
-This library represents the beginning of a new path for SendGrid. We want this library to be community driven and SendGrid led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) or simply upvote or comment on existing issues or pull requests.
+This library represents the beginning of a new path for SendGrid. We want this library to be community driven and SendGrid led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) or upvote/comment on existing issues and pull requests.
 
 Please browse the rest of this README for further detail.
 
@@ -92,30 +92,30 @@ The following is the minimum needed code to send an email with the [/mail/send H
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
+    "fmt"
+    "log"
+    "os"
 
-	"github.com/sendgrid/sendgrid-go"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+    "github.com/sendgrid/sendgrid-go"
+    "github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 func main() {
-	from := mail.NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
-	to := mail.NewEmail("Example User", "test@example.com")
-	plainTextContent := "and easy to do anywhere, even with Go"
-	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
-	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
-	response, err := client.Send(message)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+    from := mail.NewEmail("Example User", "test@example.com")
+    subject := "Sending with SendGrid is Fun"
+    to := mail.NewEmail("Example User", "test@example.com")
+    plainTextContent := "and easy to do anywhere, even with Go"
+    htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
+    message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+    client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+    response, err := client.Send(message)
+    if err != nil {
+        log.Println(err)
+    } else {
+        fmt.Println(response.StatusCode)
+        fmt.Println(response.Body)
+        fmt.Println(response.Headers)
+    }
 }
 ```
 
@@ -129,44 +129,44 @@ The following is the minimum needed code to send an email without the /mail/send
 package main
 
 import (
-	"fmt"
-	"github.com/sendgrid/sendgrid-go"
-	"log"
-	"os"
+    "fmt"
+    "github.com/sendgrid/sendgrid-go"
+    "log"
+    "os"
 )
 
 func main() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
-	request.Method = "POST"
-	request.Body = []byte(` {
-	"personalizations": [
-		{
-			"to": [
-				{
-					"email": "test@example.com"
-				}
-			],
-			"subject": "Sending with SendGrid is Fun"
-		}
-	],
-	"from": {
-		"email": "test@example.com"
-	},
-	"content": [
-		{
-			"type": "text/plain",
-			"value": "and easy to do anywhere, even with Go"
-		}
-	]
+    request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+    request.Method = "POST"
+    request.Body = []byte(` {
+    "personalizations": [
+        {
+            "to": [
+                {
+                    "email": "test@example.com"
+                }
+            ],
+            "subject": "Sending with SendGrid is Fun"
+        }
+    ],
+    "from": {
+        "email": "test@example.com"
+    },
+    "content": [
+        {
+            "type": "text/plain",
+            "value": "and easy to do anywhere, even with Go"
+        }
+    ]
 }`)
-	response, err := sendgrid.API(request)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+    response, err := sendgrid.API(request)
+    if err != nil {
+        log.Println(err)
+    } else {
+        fmt.Println(response.StatusCode)
+        fmt.Println(response.Body)
+        fmt.Println(response.Headers)
+    }
 }
 ```
 
@@ -176,24 +176,24 @@ func main() {
 package main
 
 import (
-	"fmt"
-	"github.com/sendgrid/sendgrid-go"
-	"log"
-	"os"
+    "fmt"
+    "github.com/sendgrid/sendgrid-go"
+    "log"
+    "os"
 )
 
 func main() {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/api_keys", "https://api.sendgrid.com")
-	request.Method = "GET"
+    request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/api_keys", "https://api.sendgrid.com")
+    request.Method = "GET"
 
-	response, err := sendgrid.API(request)
-	if err != nil {
-		log.Println(err)
-	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
-	}
+    response, err := sendgrid.API(request)
+    if err != nil {
+        log.Println(err)
+    } else {
+        fmt.Println(response.StatusCode)
+        fmt.Println(response.Body)
+        fmt.Println(response.Headers)
+    }
 }
 ```
 
