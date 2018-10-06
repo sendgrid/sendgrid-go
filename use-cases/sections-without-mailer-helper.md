@@ -1,4 +1,4 @@
-## Without Mail Helper Class
+## Sections - Without Mail Helper Class
  
 ```go
 package main

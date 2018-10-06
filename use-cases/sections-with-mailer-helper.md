@@ -1,4 +1,4 @@
-## With Mail Helper Class
+## Sections - With Mail Helper Class
  
 ```go
 package main
