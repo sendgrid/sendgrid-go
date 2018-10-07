@@ -27,13 +27,16 @@ func Createatransactionaltemplate() {
 	}
 }
 
-// Retrievealltransactionaltemplates : Retrieve all transactional templates.
+// Retrievealltransactionaltemplates : Retrieve all transactional templates (legacy & dynamic).
 // GET /templates
 func Retrievealltransactionaltemplates() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["generations"] = "legacy,dynamic"
+	request.QueryParams = queryParams
 	response, err := sendgrid.API(request)
 	if err != nil {
 		log.Println(err)

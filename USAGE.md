@@ -4601,7 +4601,7 @@ if err != nil {
 }
 ```
 
-## Retrieve all transactional templates.
+## Retrieve all transactional templates (legacy & dynamic).
 
 **This endpoint allows you to retrieve all transactional templates.**
 
@@ -4614,6 +4614,9 @@ Transactional templates are templates created specifically for transactional ema
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["generations"] = "legacy,dynamic"
+request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
   log.Println(err)
