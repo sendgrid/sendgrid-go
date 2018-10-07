@@ -12,7 +12,7 @@ import (
 func Createatransactionaltemplate() {
 	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
 	host := "https://api.sendgrid.com"
-	request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
+	request := sendgrid.GetRequest(apiKey, "/v3/templates?generations=legacy,dynamic", host)
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "example_name"
