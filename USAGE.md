@@ -4612,7 +4612,7 @@ Transactional templates are templates created specifically for transactional ema
 ### GET /templates
 
 ```go
-request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
+request := sendgrid.GetRequest(apiKey, "/v3/templates?generations=legacy,dynamic", host)
 request.Method = "GET"
 response, err := sendgrid.API(request)
 if err != nil {
