@@ -7,6 +7,7 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/sendgrid-go.svg)](https://github.com/sendgrid/sendgrid-go/graphs/contributors)
+[![Open Source Helpers](https://www.codetriage.com/sendgrid/sendgrid-go/badges/users.svg)](https://www.codetriage.com/sendgrid/sendgrid-go)
 
 **NEW:** Subscribe to email [notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
@@ -219,7 +220,7 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 <a name="announcements"></a>
 # Announcements
 
-Join an experienced and passionate team that focuses on making an impact. Opportunities abound to grow the product - and grow your career! Check out our [Software Engineer- Delivery role](http://grnh.se/mg6dr31)
+Join an experienced and passionate team that focuses on making an impact. [Opportunities abound](https://sendgrid.com/careers) to grow the product - and grow your career! 
 
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
 
