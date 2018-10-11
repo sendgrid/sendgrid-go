@@ -1,18 +1,20 @@
 package main
 
 import (
-  "os"
-  "fmt"
-  "github.com/sendgrid/sendgrid-go"
-  "log"
+	"fmt"
+	"github.com/sendgrid/sendgrid-go"
+	"log"
+	"os"
 )
 
+// SendSampleHelloMail demonstrates how to send a sample e-mail with a subject line
+// of "Hello SendGrid".
 func SendSampleHelloMail() {
-  apiKey := os.Getenv("SENDGRID_API_KEY")
-  host := "http://localhost:4010"
-  request := sendgrid.GetRequest(apiKey, "/v3/mail/send", host)
-  request.Method = "POST"
-  request.Body = []byte(` {
+	apiKey := os.Getenv("SENDGRID_API_KEY")
+	host := "http://localhost:4010"
+	request := sendgrid.GetRequest(apiKey, "/v3/mail/send", host)
+	request.Method = "POST"
+	request.Body = []byte(` {
   "personalizations": [
     {
       "to": [
@@ -34,16 +36,16 @@ func SendSampleHelloMail() {
     }
   ]
 }`)
-  response, err := sendgrid.API(request)
-  if err != nil {
-    log.Println(err)
-  } else {
-    fmt.Println(response.StatusCode)
-    fmt.Println(response.Body)
-    fmt.Println(response.Headers)
-  }
+	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
 }
 
 func main() {
-    // add your function calls here
+	// add your function calls here
 }
