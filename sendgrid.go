@@ -55,6 +55,12 @@ func NewSendClient(key string) *Client {
 	return &Client{request}
 }
 
+// NewClientForEndpoint returns a client that can send requests to a specific endpoint.
+func NewClientForEndpoint(key, endpoint string) *Client {
+	request := GetRequest(key, endpoint, "")
+	return &Client{request}
+}
+
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = rest.DefaultClient
 
