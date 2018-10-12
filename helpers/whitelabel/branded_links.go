@@ -10,7 +10,7 @@ type brandedLinkRequest struct {
 	IsDefault bool `json:"default"`
 }
 
-type BrandedLinkResponse struct {
+type BrandedLink struct {
 	SubdomainInfo
 	Id int64 `json:"id"`
 
@@ -24,22 +24,22 @@ type BrandedLinkResponse struct {
 }
 
 // CreateBrandedLink adds a new domain for branded links. For more info, see: https://sendgrid.com/docs/API_Reference/api_v3.html
-func CreateBrandedLink(key string, sub SubdomainInfo, isDefault bool) (BrandedLinkResponse, error) {
+func CreateBrandedLink(key string, sub SubdomainInfo, isDefault bool) (BrandedLink, error) {
 	cl := sendgrid.NewClientForEndpoint(key, "/v3/whitelabel/links")
 	var err error
-	var resp = BrandedLinkResponse{}
+	var link = BrandedLink{}
 
 	cl.Body, err = json.Marshal(brandedLinkRequest{sub, isDefault})
 	if err != nil {
-		return resp, err
+		return link, err
 	}
 
 	cl.Method = "POST"
-	apiResp, err := sendgrid.MakeRequestRetry(cl.Request)
+	resp, err := sendgrid.MakeRequestRetry(cl.Request)
 	if err != nil {
-		return resp, err
+		return link, err
 	}
 
-	err = json.Unmarshal([]byte(apiResp.Body), &resp)
-	return resp, err
+	err = json.Unmarshal([]byte(resp.Body), &link)
+	return link, err
 }
