@@ -153,8 +153,8 @@ Please run your code through:
 2. If you cloned a while ago, get the latest changes from upstream:
 
    ```bash
-   git checkout <dev-branch>
-   git pull upstream <dev-branch>
+   git checkout development
+   git pull upstream development
    ```
 
 3. Create a new topic branch off the `development` branch to
