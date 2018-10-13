@@ -113,3 +113,25 @@ func ValidateBrandedLink(key string, id int64) (ValidationResult, error) {
 	err = json.Unmarshal([]byte(resp.Body), &vr)
 	return vr, err
 }
+
+// SetBrandedLinkDefault sets the default of a branded link domain.
+func SetBrandedLinkDefault(key string, id int64, isDefault bool) (BrandedLink, error) {
+	cl := sendgrid.NewClientForEndpoint(key, fmt.Sprintf("%v/%v", linksEndpoint, id))
+	cl.Method = "PATCH"
+
+	var link BrandedLink
+	var err error
+
+	cl.Body, err = json.Marshal(map[string]bool{"default": isDefault})
+	if err != nil {
+		return link, err
+	}
+
+	resp, err := sendgrid.MakeRequestRetry(cl.Request)
+	if err != nil {
+		return link, err
+	}
+
+	err = json.Unmarshal([]byte(resp.Body), &link)
+	return link, err
+}
