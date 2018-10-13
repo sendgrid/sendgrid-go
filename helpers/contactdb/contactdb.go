@@ -2,6 +2,7 @@ package contactdb
 
 import (
 	"encoding/json"
+	"errors"
 
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go"
@@ -20,12 +21,12 @@ type APIError struct {
 }
 
 // Error will fulfill the error interface.
-func (e *APIError) Error() string {
+func (e APIError) Error() string {
 	return e.Message
 }
 
 // sendRequest will send the request to the API.
-func sendRequest(apiKey, path, payload string, method rest.Method) (string, *ErrorResponse) {
+func sendRequest(apiKey, path, payload string, method rest.Method) ([]byte, error) {
 	request := sendgrid.GetRequest(apiKey, path, "https://api.sendgrid.com")
 	request.Method = method
 	if payload != "" {
@@ -34,14 +35,7 @@ func sendRequest(apiKey, path, payload string, method rest.Method) (string, *Err
 
 	response, err := sendgrid.API(request)
 	if err != nil {
-		return "", &ErrorResponse{
-			ErrorCode: 500,
-			Errors: []APIError{
-				APIError{
-					Message: err.Error(),
-				},
-			},
-		}
+		return nil, err
 	}
 
 	switch response.StatusCode {
@@ -57,40 +51,37 @@ func sendRequest(apiKey, path, payload string, method rest.Method) (string, *Err
 		errRes := &ErrorResponse{}
 		err := json.Unmarshal([]byte(response.Body), errRes)
 		if err != nil {
-			return "", &ErrorResponse{
-				ErrorCode: 500,
-				Errors: []APIError{
-					APIError{
-						Message: err.Error(),
-					},
-				},
-			}
+			return nil, err
 		}
 
 		errRes.ErrorCode = response.StatusCode
 
-		return "", errRes
+		if len(errRes.Errors) <= 0 {
+			return nil, errors.New("an unknown API error has occured")
+		}
+
+		return nil, errRes.Errors[0]
 	}
 
-	return response.Body, nil
+	return []byte(response.Body), nil
 }
 
 // SendGETRequest will send a GET request to the API.
-func SendGETRequest(apiKey, path string) (string, *ErrorResponse) {
+func SendGETRequest(apiKey, path string) ([]byte, error) {
 	return sendRequest(apiKey, path, "", rest.Get)
 }
 
 // SendPOSTRequest will send a POST request to the API.
-func SendPOSTRequest(apiKey, path, payload string) (string, *ErrorResponse) {
+func SendPOSTRequest(apiKey, path, payload string) ([]byte, error) {
 	return sendRequest(apiKey, path, payload, rest.Post)
 }
 
 // SendPATCHRequest will send a PATCH request to the API.
-func SendPATCHRequest(apiKey, path, payload string) (string, *ErrorResponse) {
+func SendPATCHRequest(apiKey, path, payload string) ([]byte, error) {
 	return sendRequest(apiKey, path, payload, rest.Patch)
 }
 
 // SendDELETERequest will send a GET request to the API.
-func SendDELETERequest(apiKey, path, payload string) (string, *ErrorResponse) {
+func SendDELETERequest(apiKey, path, payload string) ([]byte, error) {
 	return sendRequest(apiKey, path, payload, rest.Delete)
 }
