@@ -2,6 +2,7 @@ package whitelabel
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/sendgrid/sendgrid-go"
 )
 
@@ -59,4 +60,19 @@ func GetBrandedLinks(key string) ([]BrandedLink, error) {
 	var links []BrandedLink
 	err = json.Unmarshal([]byte(resp.Body), &links)
 	return links, err
+}
+
+// GetBrandedLink fetches a branded domain with a specific id.
+func GetBrandedLink(key string, id int) (BrandedLink, error) {
+	cl := sendgrid.NewClientForEndpoint(key, fmt.Sprintf("%v/%v", linksEndpoint, id))
+	cl.Method = "GET"
+	var link BrandedLink
+
+	resp, err := sendgrid.MakeRequestRetry(cl.Request)
+	if err != nil {
+		return link, err
+	}
+
+	err = json.Unmarshal([]byte(resp.Body), &link)
+	return link, err
 }
