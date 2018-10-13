@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sendgrid/sendgrid-go"
+	"strconv"
 )
 
 type brandedLinkRequest struct {
@@ -62,9 +63,8 @@ func GetBrandedLinks(key string) ([]BrandedLink, error) {
 	return links, err
 }
 
-// GetBrandedLink fetches a branded domain with a specific id.
-func GetBrandedLink(key string, id int) (BrandedLink, error) {
-	cl := sendgrid.NewClientForEndpoint(key, fmt.Sprintf("%v/%v", linksEndpoint, id))
+func getSingleBrandedLink(key, identifier string) (BrandedLink, error) {
+	cl := sendgrid.NewClientForEndpoint(key, linksEndpoint+"/"+identifier)
 	cl.Method = "GET"
 	var link BrandedLink
 
@@ -75,4 +75,14 @@ func GetBrandedLink(key string, id int) (BrandedLink, error) {
 
 	err = json.Unmarshal([]byte(resp.Body), &link)
 	return link, err
+}
+
+// GetBrandedLink fetches a branded domain with a specific id.
+func GetBrandedLink(key string, id int64) (BrandedLink, error) {
+	return getSingleBrandedLink(key, strconv.FormatInt(id, 10))
+}
+
+// GetDefaultBrandedLink fetches the default branded link
+func GetDefaultBrandedLink(key string) (BrandedLink, error) {
+	return getSingleBrandedLink(key, "default")
 }
