@@ -82,7 +82,34 @@ func GetBrandedLink(key string, id int64) (BrandedLink, error) {
 	return getSingleBrandedLink(key, strconv.FormatInt(id, 10))
 }
 
-// GetDefaultBrandedLink fetches the default branded link
+// GetDefaultBrandedLink fetches the default branded link.
 func GetDefaultBrandedLink(key string) (BrandedLink, error) {
 	return getSingleBrandedLink(key, "default")
+}
+
+type DNSValidationResult struct {
+	Valid  bool   `json:"valid"`
+	Reason string `json:"reason"`
+}
+
+type ValidationResult struct {
+	Id    int64 `json:"id"`
+	Valid int64 `json:"valid"`
+
+	ValidationResults map[string]DNSValidationResult `json:"validation_results"`
+}
+
+// ValidateBrandedLink validates the DNS records for a branded link.
+func ValidateBrandedLink(key string, id int64) (ValidationResult, error) {
+	cl := sendgrid.NewClientForEndpoint(key, fmt.Sprintf("%v/%v/validate", linksEndpoint, id))
+	cl.Method = "POST"
+
+	var vr ValidationResult
+	resp, err := sendgrid.MakeRequestRetry(cl.Request)
+	if err != nil {
+		return vr, err
+	}
+
+	err = json.Unmarshal([]byte(resp.Body), &vr)
+	return vr, err
 }
