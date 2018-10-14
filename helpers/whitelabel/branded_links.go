@@ -63,9 +63,9 @@ func GetBrandedLinks(key string) ([]BrandedLink, error) {
 	return links, err
 }
 
-func getSingleBrandedLink(key, identifier string) (BrandedLink, error) {
+func getSingleBrandedLink(key, identifier, method string) (BrandedLink, error) {
 	cl := sendgrid.NewClientForEndpoint(key, linksEndpoint+"/"+identifier)
-	cl.Method = "GET"
+	cl.Method = method
 	var link BrandedLink
 
 	resp, err := sendgrid.MakeRequestRetry(cl.Request)
@@ -79,12 +79,17 @@ func getSingleBrandedLink(key, identifier string) (BrandedLink, error) {
 
 // GetBrandedLink fetches a branded domain with a specific id.
 func GetBrandedLink(key string, id int64) (BrandedLink, error) {
-	return getSingleBrandedLink(key, strconv.FormatInt(id, 10))
+	return getSingleBrandedLink(key, strconv.FormatInt(id, 10), "GET")
 }
 
 // GetDefaultBrandedLink fetches the default branded link.
 func GetDefaultBrandedLink(key string) (BrandedLink, error) {
-	return getSingleBrandedLink(key, "default")
+	return getSingleBrandedLink(key, "default", "GET")
+}
+
+// DeleteBrandedLink deletes a branded link
+func DeleteBrandedLink(key string, id int64) (BrandedLink, error) {
+	return getSingleBrandedLink(key, "default", "DELETE")
 }
 
 type DNSValidationResult struct {
