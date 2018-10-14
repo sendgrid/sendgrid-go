@@ -14,10 +14,9 @@ type brandedLinkRequest struct {
 
 type BrandedLink struct {
 	SubdomainInfo
-	Id int64 `json:"id"`
+	User
 
-	Username string `json:"username"`
-	UserId   int64  `json:"user_id"`
+	Id int64 `json:"id"`
 
 	IsDefault bool                `json:"default"`
 	IsValid   bool                `json:"valid"`

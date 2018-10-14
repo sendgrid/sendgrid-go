@@ -15,3 +15,8 @@ type DNSEntry struct {
 	Host  string `json:"host"`
 	Data  string `json:"data"`
 }
+
+type User struct {
+	Username string `json:"username"`
+	UserId   int64  `json:"user_id"`
+}
