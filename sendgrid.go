@@ -22,6 +22,8 @@ const (
 type Client struct {
 	// rest.Request
 	rest.Request
+	Host   string
+	APIKey string
 }
 
 // options for requestNew
@@ -73,15 +75,26 @@ func requestNew(options options) rest.Request {
 
 // Send sends an email through SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
+	if email.TemplateID != "" {
+		request := GetRequest(cl.APIKey, "/v3/templates/"+email.TemplateID, cl.Host)
+		request.Method = "GET"
+		res, err := API(request)
+		if err != nil {
+			return nil, err
+		}
+	}
 	cl.Body = mail.GetRequestBody(email)
 	return API(cl.Request)
 }
 
 // NewSendClient constructs a new SendGrid client given an API key
 func NewSendClient(key string) *Client {
-	request := GetRequest(key, "/v3/mail/send", "")
+	host := "https://api.sendgrid.com"
+	request := GetRequest(key, "/v3/mail/send", host)
 	request.Method = "POST"
-	return &Client{request}
+
+	return &Client{request, Host: host, APIKey: key}
+
 }
 
 // GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
