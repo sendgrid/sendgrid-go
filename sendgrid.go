@@ -18,12 +18,17 @@ const (
 	rateLimitSleep = 1100
 )
 
+type Validator interface {
+	templateExists(c Client, ID string) (*rest.Response, error)
+}
+
 // Client is the SendGrid Go client
 type Client struct {
 	// rest.Request
 	rest.Request
-	Host   string
-	APIKey string
+	Host      string
+	APIKey    string
+	Validator Validator
 }
 
 // options for requestNew
@@ -73,14 +78,26 @@ func requestNew(options options) rest.Request {
 	}
 }
 
+type defaultValidator struct{}
+
+func (d defaultValidator) templateExists(c Client, ID string) (*rest.Response, error) {
+	request := GetRequest(c.APIKey, "/v3/templates/"+ID, c.Host)
+	request.Method = "GET"
+	res, err := API(request)
+	if err != nil {
+		return res, err
+	}
+	if res.StatusCode != 200 {
+		return res, &rest.RestError{res}
+	}
+	return res, nil
+}
+
 // Send sends an email through SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	if email.TemplateID != "" {
-		request := GetRequest(cl.APIKey, "/v3/templates/"+email.TemplateID, cl.Host)
-		request.Method = "GET"
-		res, err := API(request)
-		if err != nil {
-			return nil, err
+		if res, err := cl.Validator.templateExists(*cl, email.TemplateID); err != nil {
+			return res, err
 		}
 	}
 	cl.Body = mail.GetRequestBody(email)
@@ -92,8 +109,8 @@ func NewSendClient(key string) *Client {
 	host := "https://api.sendgrid.com"
 	request := GetRequest(key, "/v3/mail/send", host)
 	request.Method = "POST"
-
-	return &Client{request, Host: host, APIKey: key}
+	validator := defaultValidator{}
+	return &Client{Request: request, Host: host, APIKey: key, Validator: validator}
 
 }
 
