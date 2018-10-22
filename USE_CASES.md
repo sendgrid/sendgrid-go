@@ -11,6 +11,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Attachments](#attachments)
 * [How to View Email Statistics](#email-stats)
 * [How to Setup a Domain Whitelabel](#whitelabel-domain)
+* [How to Deploy Email app to Azure(#azure)
 
 <a name="transactional-templates"></a>
 # Transactional Templates
@@ -1585,3 +1586,179 @@ func main() {
 	}
 }
 ```
+
+<a name="azure"></a>
+### How to Deploy Email App to Azure
+Microsoft announced that it removes support for automatic builds for Go when using Web App [here](https://github.com/Azure/app-service-announcements/issues/45).
+A quick way to accomplish running Go applications on Azure with almost no restrictions is by using Azure Container Instances.
+#### Create an image for your Go app
+For this use case we'll use a simple web server that allows sending emails on the `/email` endpoint.
+Here's the content of the `main.go` file
+```
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"errors"
+	"github.com/sendgrid/rest"
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"net/http"
+)
+
+func main() {
+	createServer()
+}
+
+func createServer() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, `
+	<html>
+		<body>
+			<h1>Welcome to SendGrid Test App</h1>
+		</body>
+	</html>`)
+	})
+
+	http.HandleFunc("/email", handleEmail)
+	log.Fatal(http.ListenAndServe(":80", nil))
+}
+
+func handleEmail(w http.ResponseWriter, r *http.Request) {
+	//basic validations
+	if r.Method != "GET" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	query := r.URL.Query()
+	to := query.Get("to")
+	if to == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "request must include 'to' query param with valid email address")
+		return
+	}
+	
+	//sending the email using supplied query params
+	subject := query.Get("subject")
+	message := query.Get("message")
+
+	log.Printf("sending email. to: %v, subject: %v, message: %v", to, subject, message)
+	response, err := sendEmail(to, subject, message)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(response.StatusCode)
+		fmt.Fprint(w, err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+		w.WriteHeader(response.StatusCode)
+
+		for k, v := range response.Headers {
+			for _, sv := range v {
+				w.Header().Add(k, sv)
+			}
+		}
+
+		fmt.Fprint(w, response.Body)
+	}
+}
+
+func sendEmail(to string, subject string, message string) (*rest.Response, error) {
+	key := os.Getenv("SENDGRID_API_KEY")
+	if key == "" {
+		return &rest.Response{}, errors.New("missing api key")
+	}
+	fromEmail := mail.NewEmail("Example User", "test@example.com")
+	sbj := "Sending with SendGrid is Fun"
+	if subject != "" {
+		sbj = subject
+	}
+	toEmail := mail.NewEmail("Example User", to)
+	plainTextContent := "and easy to do anywhere, even with Go"
+	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
+
+	if message != "" {
+		plainTextContent = message
+		htmlContent = fmt.Sprintf("<strong>%v</strong>", message)
+	}
+
+	msg := mail.NewSingleEmail(fromEmail, sbj, toEmail, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClient(key)
+	response, err := client.Send(msg)
+
+	return response, err
+}
+```
+
+We are listening for connections on port 80 and read the Sendgrid API key from environment variable named SENDGRID_API_KEY. Later on we'll see how to pass the value of the key in a secured way.
+
+Now we create a simple `Dockerfile` and save it together with the file above
+```
+FROM golang:1.10-alpine
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN apk add --no-cache git
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+CMD ["app"]
+```
+
+We need to create a public image for this, for example in [DockerHub](https://hub.docker.com/), so that Azure can access our image. Using Azure Container Repository is also possible
+```
+docker build -t <hub-user>/<repo-name>[:<tag>]
+```
+#### Deploy image to Azure
+There are several ways to deploy the image to a container running on Azure. It can be done using Azure Portal, via PowerShell or Azure CLI. Let's see how to do it using the CLI.
+
+First, create a YAML deployment file with our required configuration. This is required for passing the API Key is as a Secured Value.
+Here's our `sendgrid-aci.yaml` file
+```
+apiVersion: 2018-06-01
+location: eastus
+name: sendgrid-aci
+properties:
+  containers:
+  - name: sendgrid
+    properties:
+      environmentVariables:
+        - "name": "SENDGRID_API_KEY"
+          "secureValue": "PUT_YOUR_API_KEY_HERE"
+      image: "YOUR_PUBLIC_IMAGE"
+      ports:
+      - port: 80
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    "type": "public"
+    ports:
+    - protocol: "tcp"
+      port: 80
+    dnsNameLabel: "sendgrid-go-test"
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
+```
+
+Notice that we expose port 80 of our container (the same our Go web server listens to). We also specify a public IP so it will be accessible to the world and giving it a friendly name using `dnsNameLabel` property.
+
+Now we run the CLI command to create the container. Make sure you have an available Azure Resource Group for the deployment.
+```
+az container create --resource-group RESOURCE_GROUP_FOR_DEPLOYMENT --file sendgrid-aci.yaml
+```
+#### Testing our deployment
+That's it. After a few minutes we can see the new instance on our Azure Portal. Now we can navigate to the FQDN of the instance and send an email.
+For example: http://sendgrid-go-test.eastus.azurecontainer.io/email?to=test@gmail.com&subject=this%was%20easy&message=now%20for%20some%20coffee
+#### References
+[Running an application in Azure Container Instances](https://docs.microsoft.com/en-gb/azure/container-instances/container-instances-quickstart)
+[Setting Secured Values](https://docs.microsoft.com/en-gb/azure/container-instances/container-instances-environment-variables#secure-values)
