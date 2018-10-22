@@ -2,15 +2,15 @@
 
 set -e
 
-if [ -z "$1" ]
+if [ -z "$2" ]
 then
   REPO=$(git ls-remote --get-url origin | \
   sed -u 's/git@//g; s/https:\/\///g; s/github.com\///g; s/\.git//g')
 else
-  REPO=$1
+  REPO=$2
 fi
 
-NEW_TAG=$2
+NEW_TAG=$1
 CURRENT_DATE=$(date +"%Y-%m-%d")
 
 LAST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
