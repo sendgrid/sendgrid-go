@@ -88,7 +88,7 @@ func (d defaultValidator) templateExists(c Client, ID string) (*rest.Response, e
 		return res, err
 	}
 	if res.StatusCode != 200 {
-		return res, &rest.RestError{res}
+		return res, &rest.RestError{Response: res}
 	}
 	return res, nil
 }

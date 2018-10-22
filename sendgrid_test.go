@@ -1886,7 +1886,7 @@ type U struct{}
 
 func (u U) templateExists(c Client, ID string) (*rest.Response, error) {
 	res := &rest.Response{StatusCode: 404}
-	err := &rest.RestError{res}
+	err := &rest.RestError{Response: res}
 	return res, err
 }
 
