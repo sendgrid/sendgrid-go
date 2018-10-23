@@ -11,7 +11,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Attachments](#attachments)
 * [How to View Email Statistics](#email-stats)
 * [How to Setup a Domain Whitelabel](#whitelabel-domain)
-* [How to Deploy Email app to Azure(#azure)
+* [How to Deploy Email app to Azure](#azure)
 
 <a name="transactional-templates"></a>
 # Transactional Templates
