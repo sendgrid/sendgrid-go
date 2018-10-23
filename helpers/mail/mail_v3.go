@@ -3,6 +3,7 @@ package mail
 import (
 	"encoding/json"
 	"log"
+	"net/mail"
 )
 
 // SGMailV3 contains mail struct
@@ -673,4 +674,14 @@ func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSe
 		ForwardSpam: &setForwardSpam,
 		SpamCheck:   spamCheck,
 	}
+}
+
+// ParseEmail parses a string that contains an rfc822 formatted email address
+// and returns an instance of *Email.
+func ParseEmail(emailInfo string) (*Email, error) {
+	e, err := mail.ParseAddress(emailInfo)
+	if err != nil {
+		return nil, err
+	}
+	return NewEmail(e.Name, e.Address), nil
 }
