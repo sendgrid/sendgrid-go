@@ -102,7 +102,7 @@ func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }
 
-// MakeRequest attemps a SendGrid request synchronously.
+// MakeRequest attempts a SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }

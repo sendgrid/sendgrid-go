@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+apiKey := os.Getenv("SENDGRID_API_KEY")
 host := "https://api.sendgrid.com"
 ```
 
