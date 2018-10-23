@@ -10,7 +10,7 @@ import (
 // GetAllMailSettings : Retrieves all mail settings
 // GET /mail_settings
 func GetAllMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings", host)
 	request.Method = "GET"
@@ -31,7 +31,7 @@ func GetAllMailSettings() {
 // UpdateAddressWhitelistMailSettings : Update address whitelist mail settings
 // PATCH /mail_settings/address_whitelist
 func UpdateAddressWhitelistMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 	request.Method = "PATCH"
@@ -55,7 +55,7 @@ func UpdateAddressWhitelistMailSettings() {
 // GetAddressWhitelistMailSettings : Retrieve address whitelist mail settings
 // GET /mail_settings/address_whitelist
 func GetAddressWhitelistMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 	request.Method = "GET"
@@ -72,7 +72,7 @@ func GetAddressWhitelistMailSettings() {
 // UpdateBCCMailSettings : Update BCC mail settings
 // PATCH /mail_settings/bcc
 func UpdateBCCMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 	request.Method = "PATCH"
@@ -93,7 +93,7 @@ func UpdateBCCMailSettings() {
 // GetBCCMailSettings : Retrieve all BCC mail settings
 // GET /mail_settings/bcc
 func GetBCCMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 	request.Method = "GET"
@@ -110,7 +110,7 @@ func GetBCCMailSettings() {
 // UpdateBouncePurgeMailSettings : Update bounce purge mail settings
 // PATCH /mail_settings/bounce_purge
 func UpdateBouncePurgeMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 	request.Method = "PATCH"
@@ -132,7 +132,7 @@ func UpdateBouncePurgeMailSettings() {
 // GetBouncePurgeMailSettings : Retrieve bounce purge mail settings
 // GET /mail_settings/bounce_purge
 func GetBouncePurgeMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 	request.Method = "GET"
@@ -149,7 +149,7 @@ func GetBouncePurgeMailSettings() {
 // UpdateFooterMailSettings : Updates footer mail settings
 // PATCH /mail_settings/footer
 func UpdateFooterMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 	request.Method = "PATCH"
@@ -171,7 +171,7 @@ func UpdateFooterMailSettings() {
 // GetFooterMailSettings : Retrieve footer mail settings
 // GET /mail_settings/footer
 func GetFooterMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 	request.Method = "GET"
@@ -188,7 +188,7 @@ func GetFooterMailSettings() {
 // UpdateForwardBounceMailSettings : Update forward bounce mail settings
 // PATCH /mail_settings/forward_bounce
 func UpdateForwardBounceMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 	request.Method = "PATCH"
@@ -209,7 +209,7 @@ func UpdateForwardBounceMailSettings() {
 // GetForwardBounceMailSettings : Retrieve forward bounce mail settings
 // GET /mail_settings/forward_bounce
 func GetForwardBounceMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 	request.Method = "GET"
@@ -226,7 +226,7 @@ func GetForwardBounceMailSettings() {
 // UpdateForwardSpamMailSettings : Update forward spam mail settings
 // PATCH /mail_settings/forward_spam
 func UpdateForwardSpamMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 	request.Method = "PATCH"
@@ -247,7 +247,7 @@ func UpdateForwardSpamMailSettings() {
 // GetForwardSpamMailSettings : Retrieve forward spam mail settings
 // GET /mail_settings/forward_spam
 func GetForwardSpamMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 	request.Method = "GET"
@@ -264,7 +264,7 @@ func GetForwardSpamMailSettings() {
 // UpdatePlainContentMailSettings : Update plain content mail settings
 // PATCH /mail_settings/plain_content
 func UpdatePlainContentMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 	request.Method = "PATCH"
@@ -284,7 +284,7 @@ func UpdatePlainContentMailSettings() {
 // GetPlainContentMailSettings : Retrieve plain content mail settings
 // GET /mail_settings/plain_content
 func GetPlainContentMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 	request.Method = "GET"
@@ -301,7 +301,7 @@ func GetPlainContentMailSettings() {
 // UpdateSpamCheckMailSettings : Update spam check mail settings
 // PATCH /mail_settings/spam_check
 func UpdateSpamCheckMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 	request.Method = "PATCH"
@@ -323,7 +323,7 @@ func UpdateSpamCheckMailSettings() {
 // GetSpamCheckMailSettings : Retrieve spam check mail settings
 // GET /mail_settings/spam_check
 func GetSpamCheckMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 	request.Method = "GET"
@@ -340,7 +340,7 @@ func GetSpamCheckMailSettings() {
 // UpdateTemplateMailSettings : Update template mail settings
 // PATCH /mail_settings/template
 func UpdateTemplateMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 	request.Method = "PATCH"
@@ -361,7 +361,7 @@ func UpdateTemplateMailSettings() {
 // GetLegacyTemplateMailSettings:  Retrieves legacy template mail settings
 // GET /mail_settings/template
 func GetLegacyTemplateMailSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 	request.Method = "GET"

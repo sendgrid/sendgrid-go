@@ -7,11 +7,10 @@ import (
 	"os"
 )
 
-
 // GetEmailStatsByBrowser : Retrieve email statistics by browser.
 // GET /browsers/stats
 func GetEmailStatsByBrowser() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/browsers/stats", host)
 	request.Method = "GET"

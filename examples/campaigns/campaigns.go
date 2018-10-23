@@ -10,7 +10,7 @@ import (
 // CreateCampaign : Create a Campaign
 // POST /campaigns
 func CreateCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns", host)
 	request.Method = "POST"
@@ -47,7 +47,7 @@ func CreateCampaign() {
 // GetAllCampaigns : Retrieve all Campaigns
 // GET /campaigns
 func GetAllCampaigns() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns", host)
 	request.Method = "GET"
@@ -68,7 +68,7 @@ func GetAllCampaigns() {
 // UpdateCampaign : Update a Campaign
 // PATCH /campaigns/{campaign_id}
 func UpdateCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 	request.Method = "PATCH"
@@ -94,7 +94,7 @@ func UpdateCampaign() {
 // GetCampaign : Retrieve a single campaign by id
 // GET /campaigns/{campaign_id}
 func GetCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 	request.Method = "GET"
@@ -111,7 +111,7 @@ func GetCampaign() {
 // DeleteCampaign : Delete a Campaign by id
 // DELETE /campaigns/{campaign_id}
 func DeleteCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 	request.Method = "DELETE"
@@ -128,7 +128,7 @@ func DeleteCampaign() {
 // UpdateScheduledCampaign : Update a Scheduled Campaign
 // PATCH /campaigns/{campaign_id}/schedules
 func UpdateScheduledCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 	request.Method = "PATCH"
@@ -148,7 +148,7 @@ func UpdateScheduledCampaign() {
 // ScheduleCampaign : Schedule a Campaign
 // POST /campaigns/{campaign_id}/schedules
 func ScheduleCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 	request.Method = "POST"
@@ -168,7 +168,7 @@ func ScheduleCampaign() {
 // GetCampaignSchedules : View Scheduled Time of a Campaign
 // GET /campaigns/{campaign_id}/schedules
 func GetCampaignSchedules() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 	request.Method = "GET"
@@ -185,7 +185,7 @@ func GetCampaignSchedules() {
 // UnscheduleScheduledCampaign : Unschedule a Scheduled Campaign
 // DELETE /campaigns/{campaign_id}/schedules
 func UnscheduleScheduledCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 	request.Method = "DELETE"
@@ -202,7 +202,7 @@ func UnscheduleScheduledCampaign() {
 // SendCampaign : Send a Campaign
 // POST /campaigns/{campaign_id}/schedules/now
 func SendCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/now", host)
 	request.Method = "POST"
@@ -219,7 +219,7 @@ func SendCampaign() {
 // SendTestCampaign : Send a Test Campaign
 // POST /campaigns/{campaign_id}/schedules/test
 func SendTestCampaign() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/test", host)
 	request.Method = "POST"

@@ -10,7 +10,7 @@ import (
 // GetRecentAccessAttempts : Retrieve all recent access attempts
 // GET /access_settings/activity
 func GetRecentAccessAttempts() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/access_settings/activity", host)
 	request.Method = "GET"
@@ -30,7 +30,7 @@ func GetRecentAccessAttempts() {
 // AddIPsToWhitelist : Add one or more IPs to the whitelist
 // POST /access_settings/whitelist
 func AddIPsToWhitelist() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 	request.Method = "POST"
@@ -60,7 +60,7 @@ func AddIPsToWhitelist() {
 // GetCurrentWhitelistedIPs : Retrieve a list of currently whitelisted IPs
 // GET /access_settings/whitelist
 func GetCurrentWhitelistedIPs() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 	request.Method = "GET"
@@ -77,7 +77,7 @@ func GetCurrentWhitelistedIPs() {
 // RemoveIPsFromWhitelist : Remove one or more IPs from the whitelist
 // DELETE /access_settings/whitelist
 func RemoveIPsFromWhitelist() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 	request.Method = "DELETE"
@@ -101,7 +101,7 @@ func RemoveIPsFromWhitelist() {
 // GetWhitelistedIP : Retrieve a specific whitelisted IP
 // GET /access_settings/whitelist/{rule_id}
 func GetWhitelistedIP() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
 	request.Method = "GET"
@@ -118,7 +118,7 @@ func GetWhitelistedIP() {
 // RemoveIPfromWhitelist : Remove a specific IP from the whitelist
 // DELETE /access_settings/whitelist/{rule_id}
 func RemoveIPfromWhitelist() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
 	request.Method = "DELETE"

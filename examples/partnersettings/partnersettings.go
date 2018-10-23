@@ -10,7 +10,7 @@ import (
 // GetAllPartnerSettings : Returns a list of all partner settings.
 // GET /partner_settings
 func GetAllPartnerSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings", host)
 	request.Method = "GET"
@@ -31,7 +31,7 @@ func GetAllPartnerSettings() {
 // UpdateNewRelicPartnerSettings : Updates New Relic partner settings.
 // PATCH /partner_settings/new_relic
 func UpdateNewRelicPartnerSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 	request.Method = "PATCH"
@@ -53,7 +53,7 @@ func UpdateNewRelicPartnerSettings() {
 // GetAllNewRelicPartnerSettings : Returns all New Relic partner settings.
 // GET /partner_settings/new_relic
 func GetAllNewRelicPartnerSettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 	request.Method = "GET"

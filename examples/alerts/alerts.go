@@ -10,7 +10,7 @@ import (
 // CreateAlert : Create a new Alert
 // POST /alerts
 func CreateAlert() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/alerts", host)
 	request.Method = "POST"
@@ -32,7 +32,7 @@ func CreateAlert() {
 // GetAlerts : Retrieve all alerts
 // GET /alerts
 func GetAlerts() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/alerts", host)
 	request.Method = "GET"
@@ -49,7 +49,7 @@ func GetAlerts() {
 // UpdateAlert : Update an alert
 // PATCH /alerts/{alert_id}
 func UpdateAlert() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 	request.Method = "PATCH"
@@ -69,7 +69,7 @@ func UpdateAlert() {
 // GetAlert : Retrieve a specific alert
 // GET /alerts/{alert_id}
 func GetAlert() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 	request.Method = "GET"
@@ -86,7 +86,7 @@ func GetAlert() {
 // DeleteAlert : Delete an alert
 // DELETE /alerts/{alert_id}
 func DeleteAlert() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 	request.Method = "DELETE"

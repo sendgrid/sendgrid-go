@@ -10,7 +10,7 @@ import (
 // GetEmailStatsByClientType : Retrieve email statistics by client type.
 // GET /clients/stats
 func GetEmailStatsByClientType() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/clients/stats", host)
 	request.Method = "GET"
@@ -32,7 +32,7 @@ func GetEmailStatsByClientType() {
 // GetStatsByClientType : Retrieve stats by a specific client type.
 // GET /clients/{client_type}/stats
 func GetStatsByClientType() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/clients/{client_type}/stats", host)
 	request.Method = "GET"

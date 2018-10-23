@@ -10,7 +10,7 @@ import (
 // GetStatsByDeviceType : Retrieves email statistics by device type.
 // GET /devices/stats
 func GetStatsByDeviceType() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/devices/stats", host)
 	request.Method = "GET"

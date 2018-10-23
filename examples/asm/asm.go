@@ -10,7 +10,7 @@ import (
 // CreateSuppressionGroup : Create a new suppression group
 // POST /asm/groups
 func CreateSuppressionGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
 	request.Method = "POST"
@@ -32,7 +32,7 @@ func CreateSuppressionGroup() {
 // GetSuppressionGroupsInfo : Retrieve information about multiple suppression groups
 // GET /asm/groups
 func GetSuppressionGroupsInfo() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups", host)
 	request.Method = "GET"
@@ -52,7 +52,7 @@ func GetSuppressionGroupsInfo() {
 // UpdateSuppressionGroup : Update a suppression group.
 // PATCH /asm/groups/{group_id}
 func UpdateSuppressionGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 	request.Method = "PATCH"
@@ -74,7 +74,7 @@ func UpdateSuppressionGroup() {
 // GetSuppressionGroupInfo : Get information on a single suppression group.
 // GET /asm/groups/{group_id}
 func GetSuppressionGroupInfo() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 	request.Method = "GET"
@@ -91,7 +91,7 @@ func GetSuppressionGroupInfo() {
 // DeleteSuppressionGroup : Delete a suppression group.
 // DELETE /asm/groups/{group_id}
 func DeleteSuppressionGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 	request.Method = "DELETE"
@@ -108,7 +108,7 @@ func DeleteSuppressionGroup() {
 // AddSuppressionsToGroup : Add suppressions to a suppression group
 // POST /asm/groups/{group_id}/suppressions
 func AddSuppressionsToGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
 	request.Method = "POST"
@@ -131,7 +131,7 @@ func AddSuppressionsToGroup() {
 // GetSuppressionsFromGroup : Retrieve all suppressions for a suppression group
 // GET /asm/groups/{group_id}/suppressions
 func GetSuppressionsFromGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
 	request.Method = "GET"
@@ -148,7 +148,7 @@ func GetSuppressionsFromGroup() {
 // SearchSuppressionsInGroup : Search for suppressions within a group
 // POST /asm/groups/{group_id}/suppressions/search
 func SearchSuppressionsInGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/search", host)
 	request.Method = "POST"
@@ -172,7 +172,7 @@ func SearchSuppressionsInGroup() {
 // DeleteSuppressionFromGroup Delete a suppression from a suppression group
 // DELETE /asm/groups/{group_id}/suppressions/{email}
 func DeleteSuppressionFromGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/{email}", host)
 	request.Method = "DELETE"
@@ -189,7 +189,7 @@ func DeleteSuppressionFromGroup() {
 // GetAllSuppressions : Retrieve all suppressions
 // GET /asm/suppressions
 func GetAllSuppressions() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions", host)
 	request.Method = "GET"
@@ -206,7 +206,7 @@ func GetAllSuppressions() {
 // AddRecipientAddressesToGlobalSuppressionGroup : Add recipient addresses to the global suppression group.
 // POST /asm/suppressions/global
 func AddRecipientAddressesToGlobalSuppressionGroup() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global", host)
 	request.Method = "POST"
@@ -229,7 +229,7 @@ func AddRecipientAddressesToGlobalSuppressionGroup() {
 // GetGlobalSuppression : Retrieve a Global Suppression
 // GET /asm/suppressions/global/{email}
 func GetGlobalSuppression() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
 	request.Method = "GET"
@@ -246,7 +246,7 @@ func GetGlobalSuppression() {
 // DeleteGlobalSuppression : Delete a Global Suppression
 // DELETE /asm/suppressions/global/{email}
 func DeleteGlobalSuppression() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
 	request.Method = "DELETE"
@@ -263,7 +263,7 @@ func DeleteGlobalSuppression() {
 // GetSuppressionGroupsByEmail : Retrieve all suppression groups for an email address
 // GET /asm/suppressions/{email}
 func GetSuppressionGroupsByEmail() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/asm/suppressions/{email}", host)
 	request.Method = "GET"

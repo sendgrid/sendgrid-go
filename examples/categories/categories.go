@@ -10,7 +10,7 @@ import (
 // GetAllCategories : Retrieves all categories
 // GET /categories
 func GetAllCategories() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/categories", host)
 	request.Method = "GET"
@@ -32,7 +32,7 @@ func GetAllCategories() {
 // GetEmailStatsForCategories : Retrieves Email Statistics for Categories
 // GET /categories/stats
 func GetEmailStatsForCategories() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/categories/stats", host)
 	request.Method = "GET"
@@ -57,7 +57,7 @@ func GetEmailStatsForCategories() {
 // GetSumsofEmailStatsForCategory : Retrieves sums of email stats for each category [Needs: Stats object defined, has category ID?]
 // GET /categories/stats/sums
 func GetSumsofEmailStatsForCategory() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/categories/stats/sums", host)
 	request.Method = "GET"

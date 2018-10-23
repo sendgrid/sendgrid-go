@@ -10,7 +10,7 @@ import (
 // GetAllowedScopesForUser : Retrieve a list of scopes for which this user has access.
 // GET /scopes
 func GetAllowedScopesForUser() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/scopes", host)
 	request.Method = "GET"

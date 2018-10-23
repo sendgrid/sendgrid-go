@@ -10,7 +10,7 @@ import (
 // GetEmailsStatsByCountryAndState : Retrieve email statistics by country and state/province.
 // GET /geo/stats
 func GetEmailsStatsByCountryAndState() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/geo/stats", host)
 	request.Method = "GET"
