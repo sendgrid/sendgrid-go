@@ -35,7 +35,10 @@ func loadConfig(path string) configuration {
 }
 
 func indexHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(response, "%s", "Hello World")
+	_, err := fmt.Fprintf(response, "%s", "Hello World")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func getBoundary(value string, contentType string) (string, *strings.Reader) {
