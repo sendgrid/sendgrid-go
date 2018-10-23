@@ -2,6 +2,15 @@
 
 set -e
 
+usage() {
+  echo "$0 <tag> <repo>" >&2;
+}
+
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+  usage
+  exit 1;
+fi
+
 if [ -z "$2" ]
 then
   REPO=$(git ls-remote --get-url origin | \
