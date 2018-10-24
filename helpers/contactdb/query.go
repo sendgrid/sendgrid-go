@@ -15,7 +15,6 @@ func QueryBuilder(path string, queries map[string]string) string {
 		} else {
 			queryStr += key + "=" + val + "&"
 		}
-
 	}
 	queryStr = queryStr[:len(queryStr)-1]
 	// Will always remove the last character.

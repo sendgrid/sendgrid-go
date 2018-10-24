@@ -18,12 +18,6 @@ type contactLists struct {
 	Lists []*ContactList `json:"lists,omitempty"`
 }
 
-// recipientList contains a slice of Recipient.
-// Used for unmarshalling.
-type recipientList struct {
-	Recipients []*Recipient `json:"recipients,omitempty"`
-}
-
 // NewContactList creates a new contact list. (POST)
 func NewContactList(name, apiKey string) (*ContactList, error) {
 	byteArr, err := json.Marshal(ContactList{
@@ -130,15 +124,7 @@ func UpdateContactList(listID int, newName, apiKey string) (*ContactList, error)
 }
 
 // GetAllRecipientsFromList will get all recipients from a specfic list. (GET)
-// Default Values: page = 1, pageSize = 20
 func GetAllRecipientsFromList(page, pageSize, listID int, apiKey string) ([]*Recipient, error) {
-	if page == 0 {
-		page = 1
-	}
-	if pageSize == 0 {
-		pageSize = 20
-	}
-
 	queries := map[string]string{
 		"list_id":   strconv.Itoa(listID),
 		"page":      strconv.Itoa(page),
