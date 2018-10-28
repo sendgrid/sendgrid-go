@@ -66,7 +66,7 @@ func TestMain(m *testing.M) {
 			os.Exit(1)
 		}
 	} else {
-		updatePrismCmd := exec.Command(prismPath, "update", "2.0.14")
+		updatePrismCmd := exec.Command(prismPath, "update", "2.0.16")
 		err := updatePrismCmd.Start()
 		if err != nil {
 			fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
