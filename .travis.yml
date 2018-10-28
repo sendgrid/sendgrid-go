@@ -7,8 +7,8 @@ go:
 - 'tip'
 before_script:
 - go get -u github.com/alecthomas/gometalinter
-- go get github.com/go-ozzo/ozzo-validation
-- go get github.com/go-ozzo/ozzo-validation/is
+- go get -u github.com/go-ozzo/ozzo-validation
+- go get -u github.com/go-ozzo/ozzo-validation/is
 - gometalinter --install
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 
