@@ -4,9 +4,9 @@ ENV OAI_SPEC_URL="https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master
 WORKDIR /root
 
 # Install Prism
-ADD https://raw.githubusercontent.com/stoplightio/prism/master/install.sh install.sh
+ADD https://raw.githubusercontent.com/stoplightio/prism/2.x/install.sh install.sh
 RUN sh ./install.sh && \
-    rm ./install.sh
+	rm ./install.sh
 
 # Get sendgrid-go
 RUN mkdir -p /go/src/github.com/sendgrid && \

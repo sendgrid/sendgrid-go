@@ -3,5 +3,7 @@ temp.go
 *.swp
 .env
 coverage.txt
+docker/src
 sendgrid.env
 .vscode
+profile.out
