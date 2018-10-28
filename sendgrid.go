@@ -32,14 +32,28 @@ func GetRequest(key string, endpoint string, host string) rest.Request {
 	baseURL := host + endpoint
 	requestHeaders := map[string]string{
 		"Authorization": "Bearer " + key,
-		"User-Agent": "sendgrid/" + Version + ";go",
-		"Accept": "application/json",
+		"User-Agent":    "sendgrid/" + Version + ";go",
+		"Accept":        "application/json",
 	}
 	request := rest.Request{
 		BaseURL: baseURL,
 		Headers: requestHeaders,
 	}
 	return request
+}
+
+// GetRequests returns a default request object with multiple ApiKeys.
+func GetRequests(keys []string, endpoint string, host string) []rest.Request {
+	if host == "" {
+		host = "https://api.sendgrid.com"
+	}
+
+	var requests []rest.Request
+	for _, key := range keys {
+		requests = append(requests, GetRequest(key, endpoint, host))
+	}
+
+	return requests
 }
 
 // Send sends an email through SendGrid
@@ -53,6 +67,18 @@ func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
 	return &Client{request}
+}
+
+// NewSendMultiClient constructs a new SendGrid client given an API key
+func NewSendMultiClient(keys []string) []*Client {
+	requests := GetRequests(keys, "/v3/mail/send", "")
+
+	var clients []*Client
+	for _, request := range requests {
+		request.Method = "POST"
+		clients = append(clients, &Client{request})
+	}
+	return clients
 }
 
 // DefaultClient is used if no custom HTTP client is defined
