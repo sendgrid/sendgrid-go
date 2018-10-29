@@ -5,12 +5,16 @@ go:
 - '1.8'
 - '1.9'
 - 'tip'
+
 before_script:
 - go get -u github.com/alecthomas/gometalinter
 - go get -u github.com/go-ozzo/ozzo-validation
 - go get -u github.com/go-ozzo/ozzo-validation/is
 - gometalinter --install
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
+
+before_install:
+  - go get -t -v ./...
 
 script:
   - ./go.test.sh
