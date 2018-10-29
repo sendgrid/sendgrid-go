@@ -102,11 +102,11 @@ git push heroku heroku-deployment:master
 
 ## inbound.go
 
-This module runs a net/http server, that by default (you can change those settings [here](https://github.com/sendgrid/sendgrid-go/blob/helpers/inbound/config.json), listens for POSTs on http://localhost:8000. When the server receives the POST, it parses and prints the key/value data.
+This module runs a net/http server, that by default (you can change those settings [here](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/inbound/conf.json), listens for POSTs on http://localhost:8000. When the server receives the POST, it parses and prints the key/value data.
 
 ## conf.json
 
-This file contains application environment variables (located in [config.json](https://github.com/sendgrid/sendgrid-go/blob/helpers/inbound/config.json)).
+This file contains application environment variables (located in [conf.json](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/inbound/conf.json)).
 
 ## inbound.go & /sample_data
 
