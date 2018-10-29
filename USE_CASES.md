@@ -10,7 +10,7 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Sections](#sections)
 * [Attachments](#attachments)
 * [How to View Email Statistics](#email-stats)
-* [How to Setup a Domain Whitelabel](#whitelabel-domain)
+* [How to Setup Domain Authentication](#domain-authentication)
 
 <a name="transactional-templates"></a>
 # Transactional Templates
@@ -1541,12 +1541,12 @@ func main() {
 }
 ```
 
-<a name="whitelabel-domain"></a>
-### How to Setup a Domain Whitelabel
-You can find documentation for how to setup a domain whitelabel via the UI [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/setup_domain_whitelabel.html).
-Find more information about all of SendGrid's whitelabeling related documentation [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/index.html).
+<a name="domain-authentication"></a>
+### How to Setup Domain Authentication
+You can find documentation for how to setup domain authentication via the UI [here](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/).
+Find more information about all of SendGrid's authentication related documentation [here](https://sendgrid.com/docs/ui/account-and-settings/).
 
-To create a Domain Whitelabel Via the API:
+To create a Domain Authentication Via the API:
 ```
 package main
 
