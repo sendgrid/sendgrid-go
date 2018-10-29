@@ -12,9 +12,6 @@ before_script:
 - gometalinter --install
 - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 
-before_install:
-  - go get -t -v ./...
-
 script:
   - ./go.test.sh
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck --exclude=S1024 # TODO: remove exclude when we stop support Go 1.7 and lower
