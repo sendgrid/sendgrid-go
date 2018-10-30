@@ -226,6 +226,8 @@ Please see our announcement regarding [breaking changes](https://github.com/send
 
 All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
+If you're a software engineer who is passionate about #DeveloperExperience and/or #OpenSource, [this is an incredible opportunity to join our #DX team](https://sendgrid.com/careers/role/1421152/?gh_jid=1421152) as a Developer Experience Engineer and work with @thinkingserious and @aroach! Tell your friends :)
+
 <a name="roadmap"></a>
 # Roadmap
 
