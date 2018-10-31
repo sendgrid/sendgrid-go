@@ -223,6 +223,9 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 Join an experienced and passionate team that focuses on making an impact. [Opportunities abound](https://sendgrid.com/careers) to grow the product - and grow your career! 
 
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
+ # **NEW ANNOUNCEMENT**
+ If you're a software engineer who is passionate about #DeveloperExperience and/or #OpenSource, [this is an incredible opportunity to join our #DX team](https://sendgrid.com/careers/role/1421152/?gh_jid=1421152 "Sendgird DX Engineer Page") as a Developer Experience Engineer and work with [@thinkingserious](https://github.com/thinkingserious) and [@aroach](https://github.com/aroach) ! Tell your friends :)
+
 
 All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
