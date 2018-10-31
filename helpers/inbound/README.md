@@ -38,7 +38,7 @@ View the results in the first terminal.
 <a name="quick_start_local_real"></a>
 # Quick Start for Local Testing with Real Data
 
-[Setup your MX records.](https://sendgrid.com/docs/Classroom/Basics/Inbound_Parse_Webhook/setting_up_the_inbound_parse_webhook.html#-Setup) Depending on your domain name host, you may need to wait up to 48 hours for the settings to propagate.
+[Setup your MX records.](https://sendgrid.com/docs/Classroom/Basics/Inbound_Parse_Webhook/setting_up_the_inbound_parse_webhook.html#-Setup) Depending on your domain name host, you may need to wait up to 48 hours for the settings to generate.
 
 Run the Inbound Parse listener in your terminal:
 
