@@ -96,7 +96,7 @@ func NewSendClientSubuser(key, subuser string) *Client {
 var DefaultClient = rest.DefaultClient
 
 // API sets up the request to the SendGrid API, this is main interface.
-// This function is deprecated. Please use the MakeRequest or
+// This function is depreciated. Please use the MakeRequest or
 // MakeRequestAsync functions.
 func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
