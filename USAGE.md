@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+apiKey := os.Getenv("SENDGRID_API_KEY")
 host := "https://api.sendgrid.com"
 ```
 
@@ -41,6 +41,7 @@ host := "https://api.sendgrid.com"
 * [SUPPRESSION](#suppression)
 * [TEMPLATES](#templates)
 * [TRACKING SETTINGS](#tracking-settings)
+* [ON-BEHALF OF SUBUSER](#on-behalf-of)
 * [USER](#user)
 * [WHITELABEL](#whitelabel)
 
@@ -5105,6 +5106,26 @@ if err != nil {
   fmt.Println(response.Body)
   fmt.Println(response.Headers)
 }
+```
+
+<a name="on-behalf-of"></a>
+# On-Behalf of Subuser
+
+The on-behalf-of header allows you to make calls for a particular subuser through the parent account; this can be useful for automating bulk updates or administering a subuser without changing authentication in your code.
+## With Mail Helper Class
+
+```go
+
+client := sendgrid.NewSendClientSubuser(os.Getenv("SENDGRID_API_KEY"), "SUBUSER_USERNAME")
+
+```
+
+## Without Mail Helper Class
+
+```go
+
+request := sendgrid.GetRequestSubuser(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com", "SUBUSER_USERNAME")
+
 ```
 
 <a name="user"></a>

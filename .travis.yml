@@ -17,7 +17,7 @@ script:
   - ./go.test.sh
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck --exclude=S1024 # TODO: remove exclude when we stop support Go 1.7 and lower
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
-  - go test -cover -v -race ./...
+  - go test -cover -v -race ./... | grep -v -E '/vendor|/examples|/docker'
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

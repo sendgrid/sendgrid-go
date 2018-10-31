@@ -10,7 +10,7 @@ import (
 // Retrieveallmailsettings : Retrieve all mail settings
 // GET /mail_settings
 func Retrieveallmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings", host)
 	request.Method = "GET"
@@ -31,7 +31,7 @@ func Retrieveallmailsettings() {
 // Updateaddresswhitelistmailsettings : Update address whitelist mail settings
 // PATCH /mail_settings/address_whitelist
 func Updateaddresswhitelistmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 	request.Method = "PATCH"
@@ -55,7 +55,7 @@ func Updateaddresswhitelistmailsettings() {
 // Retrieveaddresswhitelistmailsettings : Retrieve address whitelist mail settings
 // GET /mail_settings/address_whitelist
 func Retrieveaddresswhitelistmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 	request.Method = "GET"
@@ -72,7 +72,7 @@ func Retrieveaddresswhitelistmailsettings() {
 // UpdateBCCmailsettings : Update BCC mail settings
 // PATCH /mail_settings/bcc
 func UpdateBCCmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 	request.Method = "PATCH"
@@ -93,7 +93,7 @@ func UpdateBCCmailsettings() {
 // RetrieveallBCCmailsettings : Retrieve all BCC mail settings
 // GET /mail_settings/bcc
 func RetrieveallBCCmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 	request.Method = "GET"
@@ -110,7 +110,7 @@ func RetrieveallBCCmailsettings() {
 // Updatebouncepurgemailsettings : Update bounce purge mail settings
 // PATCH /mail_settings/bounce_purge
 func Updatebouncepurgemailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 	request.Method = "PATCH"
@@ -132,7 +132,7 @@ func Updatebouncepurgemailsettings() {
 // Retrievebouncepurgemailsettings : Retrieve bounce purge mail settings
 // GET /mail_settings/bounce_purge
 func Retrievebouncepurgemailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 	request.Method = "GET"
@@ -149,7 +149,7 @@ func Retrievebouncepurgemailsettings() {
 // Updatefootermailsettings : Update footer mail settings
 // PATCH /mail_settings/footer
 func Updatefootermailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 	request.Method = "PATCH"
@@ -171,7 +171,7 @@ func Updatefootermailsettings() {
 // Retrievefootermailsettings : Retrieve footer mail settings
 // GET /mail_settings/footer
 func Retrievefootermailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/footer", host)
 	request.Method = "GET"
@@ -188,7 +188,7 @@ func Retrievefootermailsettings() {
 // Updateforwardbouncemailsettings : Update forward bounce mail settings
 // PATCH /mail_settings/forward_bounce
 func Updateforwardbouncemailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 	request.Method = "PATCH"
@@ -209,7 +209,7 @@ func Updateforwardbouncemailsettings() {
 // Retrieveforwardbouncemailsettings : Retrieve forward bounce mail settings
 // GET /mail_settings/forward_bounce
 func Retrieveforwardbouncemailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 	request.Method = "GET"
@@ -226,7 +226,7 @@ func Retrieveforwardbouncemailsettings() {
 // Updateforwardspammailsettings : Update forward spam mail settings
 // PATCH /mail_settings/forward_spam
 func Updateforwardspammailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 	request.Method = "PATCH"
@@ -247,7 +247,7 @@ func Updateforwardspammailsettings() {
 // Retrieveforwardspammailsettings : Retrieve forward spam mail settings
 // GET /mail_settings/forward_spam
 func Retrieveforwardspammailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 	request.Method = "GET"
@@ -264,7 +264,7 @@ func Retrieveforwardspammailsettings() {
 // Updateplaincontentmailsettings : Update plain content mail settings
 // PATCH /mail_settings/plain_content
 func Updateplaincontentmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 	request.Method = "PATCH"
@@ -284,7 +284,7 @@ func Updateplaincontentmailsettings() {
 // Retrieveplaincontentmailsettings : Retrieve plain content mail settings
 // GET /mail_settings/plain_content
 func Retrieveplaincontentmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 	request.Method = "GET"
@@ -301,7 +301,7 @@ func Retrieveplaincontentmailsettings() {
 // Updatespamcheckmailsettings : Update spam check mail settings
 // PATCH /mail_settings/spam_check
 func Updatespamcheckmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 	request.Method = "PATCH"
@@ -323,7 +323,7 @@ func Updatespamcheckmailsettings() {
 // Retrievespamcheckmailsettings : Retrieve spam check mail settings
 // GET /mail_settings/spam_check
 func Retrievespamcheckmailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 	request.Method = "GET"
@@ -340,7 +340,7 @@ func Retrievespamcheckmailsettings() {
 // Updatetemplatemailsettings : Update template mail settings
 // PATCH /mail_settings/template
 func Updatetemplatemailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 	request.Method = "PATCH"
@@ -361,7 +361,7 @@ func Updatetemplatemailsettings() {
 // Retrievelegacytemplatemailsettings : Retrieve legacy template mail settings
 // GET /mail_settings/template
 func Retrievelegacytemplatemailsettings() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mail_settings/template", host)
 	request.Method = "GET"
