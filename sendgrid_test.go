@@ -166,157 +166,34 @@ func TestGetRequest(t *testing.T) {
 	assert.Equal(t, "application/json", request.Headers["Accept"], "Wrong Accept Agent")
 }
 
-func TestGetRequests(t *testing.T) {
-	requests := GetRequests([]string{""}, "", "")
-	for _, request := range requests {
-		assert.Equal(t, "https://api.sendgrid.com", request.BaseURL, "Host default not set")
-		assert.Equal(t, "Bearer ", request.Headers["Authorization"], "Wrong default Authorization")
-		assert.Equal(t, "sendgrid/"+Version+";go", request.Headers["User-Agent"], "Wrong default User Agent")
+func ShouldHaveHeaders(request *rest.Request, t *testing.T) {
+	if request.Headers["Authorization"] != "Bearer API_KEY" {
+		t.Error("Wrong Authorization")
 	}
-
-	requests = GetRequests([]string{"API_KEY", "API_KEY"}, "/v3/endpoint", "https://test.api.com")
-
-	for _, request := range requests {
-		assert.Equal(t, "Bearer API_KEY", request.Headers["Authorization"], "Wrong Authorization")
-		assert.Equal(t, "sendgrid/"+Version+";go", request.Headers["User-Agent"], "Wrong User Agent")
-		assert.Equal(t, "application/json", request.Headers["Accept"], "Wrong Accept Agent")
+	if request.Headers["User-Agent"] != "sendgrid/"+Version+";go" {
+		t.Error("Wrong User Agent")
+	}
+	if request.Headers["Accept"] != "application/json" {
+		t.Error("Wrong Accept header")
+	}
+	if request.Headers["On-Behalf-Of"] != "subuserUsername" {
+		t.Error("Wrong On-Behalf-Of")
 	}
 }
 
-func TestGetRequestBody(t *testing.T) {
-	address := "test@example.com"
-	name := "Example User"
-	from := mail.NewEmail(name, address)
-	subject := "Hello World from the SendGrid Go Library"
-	address = "test@example.com"
-	name = "Example User"
-	to := mail.NewEmail(name, address)
-	content := mail.NewContent("text/plain", "some text here")
-	m := mail.NewV3MailInit(from, subject, to, content)
-	address = "test2@example.com"
-	name = "Example User"
-	email := mail.NewEmail(name, address)
-	m.Personalizations[0].AddTos(email)
-	response := mail.GetRequestBody(m)
-	want := `{"from":{"name":"Example User","email":"test@example.com"},"subject":"Hello World from the SendGrid Go Library","personalizations":[{"to":[{"name":"Example User","email":"test@example.com"},{"name":"Example User","email":"test2@example.com"}]}],"content":[{"type":"text/plain","value":"some text here"}]}`
-	assert.Equal(t, want, string(response), "String does not match. Want %s got %s", want, string(response))
-}
+func TestGetRequestSubuser(t *testing.T) {
+	request := GetRequestSubuser("API_KEY", "/v3/endpoint", "https://test.api.com", "subuserUsername")
 
-func TestSGMailV3EmptyFormat(t *testing.T) {
-	sgMail := mail.SGMailV3{}
-	err := sgMail.Validate()
-	assert.NotNil(t, err, fmt.Sprintf("SGMail Format Error As Espected: %v", err))
-}
-
-func TestEmptyEmailFormat(t *testing.T) {
-	email := mail.Email{}
-	err := email.Validate()
-	want := "email: cannot be blank."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestInvalidEmailFormat(t *testing.T) {
-	email := mail.Email{
-		Address: "email.gmail.com",
+	if request.BaseURL != "https://test.api.com/v3/endpoint" {
+		t.Error("Host not set correctly")
 	}
-	err := email.Validate()
-	want := "email: must be a valid email address."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
+
+	ShouldHaveHeaders(&request, t)
 }
 
-func TestCorrectEmailFormat(t *testing.T) {
-	email := mail.Email{
-		Address: "email@gmail.com",
-	}
-	err := email.Validate()
-	assert.Nil(t, err, "No Error As Expected")
-}
-
-func TestEmptyContentFormat(t *testing.T) {
-	content := mail.Content{}
-	err := content.Validate()
-	want := "type: cannot be blank; value: cannot be blank."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestInvalidContentFormat(t *testing.T) {
-	content := mail.Content{
-		Type:  "",
-		Value: "",
-	}
-	err := content.Validate()
-	want := "type: cannot be blank; value: cannot be blank."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestCorrectContentFormat(t *testing.T) {
-	content := mail.Content{
-		Type:  "type",
-		Value: "value",
-	}
-	err := content.Validate()
-	assert.Nil(t, err, "No error as expected")
-}
-
-func TestEmptyAttachmentFormat(t *testing.T) {
-	attch := mail.Attachment{}
-	err := attch.Validate()
-	want := "content: cannot be blank; filename: cannot be blank."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestInvalidAttachmentFormat(t *testing.T) {
-	attch := mail.Attachment{
-		Content:     "",
-		Type:        "",
-		Filename:    "",
-		Disposition: "",
-	}
-	err := attch.Validate()
-	want := "content: cannot be blank; filename: cannot be blank."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestCorrectAttachmentFormat(t *testing.T) {
-	attch := mail.Attachment{
-		Content:     "content",
-		Type:        "type",
-		Filename:    "filename",
-		Disposition: "disposition",
-	}
-	err := attch.Validate()
-	assert.Nil(t, err, "No Error As Expected")
-}
-
-func TestEmptyAsm(t *testing.T) {
-	attch := mail.Asm{}
-	err := attch.Validate()
-	want := "group_id: cannot be blank."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestInvalidAsm(t *testing.T) {
-	attch := mail.Asm{
-		GroupID: 0,
-		GroupsToDisplay: []int{
-			1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-			11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-			21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
-	}
-	err := attch.Validate()
-	want := "group_id: cannot be blank; groups_to_display: the length must be no more than 25."
-	assert.Equal(t, want, err.Error(), "Want: %s, got: %s", want, err.Error())
-}
-
-func TestCorrectAsm(t *testing.T) {
-	attch := mail.Asm{
-		GroupID: 1,
-		GroupsToDisplay: []int{
-			1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-			11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
-	}
-	err := attch.Validate()
-	assert.Nil(t, err, "No Error As Expected: %v", err)
+func TestNewSendClientSubuser(t *testing.T) {
+	client := NewSendClientSubuser("API_KEY", "subuserUsername")
+	ShouldHaveHeaders(&client.Request, t)
 }
 
 func TestCustomHTTPClient(t *testing.T) {

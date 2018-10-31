@@ -687,21 +687,10 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	m, _ := json.Marshal(message)
 	fmt.Println(string(m))
 
-	if message == nil {
-		t.Errorf("NewV3MailInit() shouldn't return nil")
-	}
-
-	if message.From == nil {
-		t.Errorf("From shouldn't be nil")
-	}
-
-	if message.Subject != subject {
-		t.Errorf("Subject should be %s, got %s", subject, message.Subject)
-	}
-
-	if message.Content == nil {
-		t.Errorf("Content shouldn't be nil")
-	}
+	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
+	assert.NotNil(t, message.From, "From shouldn't be nil")
+	assert.Equal(t, message.Subject, subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
+	assert.NotNil(t, message.Content, "Content shouldn't be nil")
 }
 
 func TestV3NewClickTrackingSetting(t *testing.T) {
@@ -736,4 +725,26 @@ func TestV3NewSandboxModeSetting(t *testing.T) {
 	assert.True(t, *s.Enable, "Sandbox Mode should be enabled")
 	assert.True(t, *s.ForwardSpam, "ForwardSpam should be enabled")
 	assert.NotNil(t, s.SpamCheck, "SpamCheck should not be nil")
+}
+
+func TestParseEmail(t *testing.T) {
+	e, err := ParseEmail("example example <example@example.com>")
+	if err != nil {
+		t.Error("Email should have been parsed successfully")
+	}
+	expectedName := "example example"
+	if e.Name != expectedName {
+		t.Errorf("Expect email with name %s but got %s", expectedName, e.Name)
+	}
+	expectedAddress := "example@example.com"
+	if e.Address != expectedAddress {
+		t.Errorf("Expect email with address %s but got %s", expectedAddress, e.Address)
+	}
+}
+
+func TestParseInvalidEmail(t *testing.T) {
+	_, err := ParseEmail("example example <example/example.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
 }
