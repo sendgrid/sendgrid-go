@@ -119,7 +119,8 @@ func NewSendClient(key string) *Client {
 func NewSendClientSubuser(key, subuser string) *Client {
 	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
 	request.Method = "POST"
-	return &Client{request}
+	validator := defaultValidator{}
+	return &Client{Request: request, Validator: validator}
 }
 
 // DefaultClient is used if no custom HTTP client is defined
