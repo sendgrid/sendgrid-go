@@ -1882,9 +1882,9 @@ func Test_test_mail_batch__batch_id__get(t *testing.T) {
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
-type U struct{}
+type invalidTemplateRequest struct{}
 
-func (u U) templateExists(c Client, ID string) (*rest.Response, error) {
+func (i invalidTemplateRequest) templateExists(c Client, ID string) (*rest.Response, error) {
 	res := &rest.Response{StatusCode: 404}
 	err := &rest.RestError{Response: res}
 	return res, err
@@ -1893,7 +1893,7 @@ func (u U) templateExists(c Client, ID string) (*rest.Response, error) {
 func Test_test_send_client_with_invalid_template(t *testing.T) {
 	apiKey := "SENDGRID_APIKEY"
 	client := NewSendClient(apiKey)
-	client.Validator = &U{}
+	client.Validator = &invalidTemplateRequest{}
 	m := &mail.SGMailV3{}
 	m.SetTemplateID("[YOUR TEMPLATE ID GOES HERE]")
 	response, err := client.Send(m)
@@ -1903,9 +1903,9 @@ func Test_test_send_client_with_invalid_template(t *testing.T) {
 	assert.Equal(t, 404, response.StatusCode, "Wrong status code returned")
 }
 
-type V struct{}
+type validTemplateRequest struct{}
 
-func (v V) templateExists(c Client, ID string) (*rest.Response, error) {
+func (v validTemplateRequest) templateExists(c Client, ID string) (*rest.Response, error) {
 	res := &rest.Response{StatusCode: 200}
 	return res, nil
 }
@@ -1915,7 +1915,7 @@ func Test_test_send_client(t *testing.T) {
 	client := NewSendClient(apiKey)
 	// override the base url for test purposes
 	client.Request.BaseURL = "http://localhost:4010/v3/mail/send"
-	client.Validator = &V{}
+	client.Validator = &validTemplateRequest{}
 	emailBytes := []byte(` {
 		"asm": {
 			"group_id": 1,
