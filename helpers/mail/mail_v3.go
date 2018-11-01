@@ -2,9 +2,17 @@ package mail
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"log"
 	"net/mail"
+	"sort"
+	"strings"
 )
+
+// MaxRecipients holds the maximum number of recipients across
+// personalizations within a single /v3/mail/send call.
+const MaxRecipients = 1000
 
 // SGMailV3 contains mail struct
 type SGMailV3 struct {
@@ -186,6 +194,103 @@ func GetRequestBody(m *SGMailV3) []byte {
 	return b
 }
 
+func copyPersonalizations(src []*Personalization) []*Personalization {
+	dst := make([]*Personalization, len(src))
+	copy(dst, src)
+	return dst
+}
+
+// Split divides an input message within any number of total recipients into
+// messages each with 1000 or fewer total recipients. m will not be changed.
+//
+// If any personalization individually has more than 1000 recipients, the
+// returned slice will contain an element with only that personalization.
+// SGMailV3.Validate should be called on the resulting elements prior to
+// sending to ensure that such invalid messages are identified.
+func Split(m *SGMailV3) []*SGMailV3 {
+	// make shallow copy of personalizations.
+	currlst := copyPersonalizations(m.Personalizations)
+	// currlst and nextlst are swapped (generational) as the output is built.
+	nextlst := make([]*Personalization, 0, len(currlst))
+
+	// sort personalizations with more recipients to the front of the slice,
+	// which should heuristically lead to more efficient recipient packing.
+	sortFn := func(i, j int) bool { return currlst[i].NumRecipients() >= currlst[j].NumRecipients() }
+	sort.Slice(currlst, sortFn)
+
+	// create output slice with worst-case capacity (overhead is not high)
+	mails := make([]*SGMailV3, 0, len(currlst))
+
+	// scratch space for packing personalizations within size limit.
+	group := make([]*Personalization, 0, len(currlst))
+
+	for len(currlst) > 0 {
+		// truncate group and nextlst (retain capacity)
+		group = group[:0]
+		nextlst = nextlst[:0]
+
+		var sum int
+		for _, p := range currlst {
+			curr := p.NumRecipients()
+			if sum > 0 && sum+curr > MaxRecipients {
+				// don't apply if sum == 0, to prevent zero-receipient emails.
+
+				// p isn't being used this time: store it for next time.
+				nextlst = append(nextlst, p)
+				continue
+			}
+
+			// there is still room for the p: add it to the group.
+			group = append(group, p)
+			sum += curr
+		}
+		// swap currlst and nextlst
+		currlst, nextlst = nextlst, currlst
+
+		// make copy of mail
+		mail := *m
+		mail.Personalizations = copyPersonalizations(group)
+		mails = append(mails, &mail)
+	}
+	return mails
+}
+
+// NumRecipients returns sum of recipients across all personalizations.
+func (s *SGMailV3) NumRecipients() int {
+	var numRecipients int
+	for _, p := range s.Personalizations {
+		numRecipients += p.NumRecipients()
+	}
+	return numRecipients
+}
+
+// Validate checks s and returns an error if there are data consistency or
+// potential API failures that can be pre-detected.
+func (s *SGMailV3) Validate() error {
+	var msgs []string
+	if s.From == nil {
+		msgs = append(msgs, "From must not be nil")
+	}
+	if len(s.Personalizations) == 0 {
+		msgs = append(msgs, "Personalizations must not be empty")
+	}
+	var numRecipients int
+	for i, p := range s.Personalizations {
+		numRecipients += p.NumRecipients()
+		err := p.Validate()
+		if err != nil {
+			msgs = append(msgs, fmt.Sprintf("Personalizations[%d]: %s", i, err))
+		}
+	}
+	if numRecipients > MaxRecipients {
+		msgs = append(msgs, fmt.Sprintf("too many recipients across all personalizations (given %d, max %d)", numRecipients, MaxRecipients))
+	}
+	if len(msgs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(msgs, "; "))
+}
+
 // AddPersonalizations ...
 func (s *SGMailV3) AddPersonalizations(p ...*Personalization) *SGMailV3 {
 	s.Personalizations = append(s.Personalizations, p...)
@@ -306,6 +411,45 @@ func NewPersonalization() *Personalization {
 		DynamicTemplateData: make(map[string]interface{}),
 		Categories:          make([]string, 0),
 	}
+}
+
+// NumRecipients returns the sum of To, CC, and BCC recipient counts.
+func (p *Personalization) NumRecipients() int {
+	return len(p.To) + len(p.CC) + len(p.BCC)
+}
+
+// Validate checks p and returns an error if there are data consistency or
+// potential API failures that can be pre-detected.
+func (p *Personalization) Validate() error {
+	var msgs []string
+	n := p.NumRecipients()
+	if n == 0 {
+		msgs = append(msgs, "no recipients given")
+	} else if n > MaxRecipients {
+		msgs = append(msgs, fmt.Sprintf("too many recipients (given %d, max %d)", n, MaxRecipients))
+	}
+	if len(p.To) == 0 {
+		msgs = append(msgs, "To must not be empty")
+	}
+	msgs = validateRecipients(msgs, "To", p.To)
+	msgs = validateRecipients(msgs, "CC", p.CC)
+	msgs = validateRecipients(msgs, "BCC", p.BCC)
+	if len(msgs) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(msgs, ", "))
+}
+
+func validateRecipients(msgs []string, field string, emails []*Email) []string {
+	for i, e := range emails {
+		switch {
+		case e == nil:
+			msgs = append(msgs, fmt.Sprintf("%s[%d] is nil", field, i))
+		case strings.ContainsAny(e.Name, ";,"):
+			msgs = append(msgs, fmt.Sprintf("%s[%d].Name contains ',' or ';'", field, i))
+		}
+	}
+	return msgs
 }
 
 // AddTos ...
