@@ -17,7 +17,7 @@ before_install:
   - go get -t -v ./...
 
 script:
-  - ./go.test.sh
+  - ./go.coverage.sh
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck --exclude=S1024 # TODO: remove exclude when we stop support Go 1.7 and lower
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck --exclude=U1000 examples/... # the way examples are structured produces unused functions
   - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
