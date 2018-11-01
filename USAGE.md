@@ -3774,7 +3774,7 @@ A domain authentication allows you to remove the via or sent on behalf of messag
 
 Domain authentications can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's authenticated domains. To associate a domain authentication with a subuser, the parent account must first create the domain authentication and validate it. The parent may then associate the domain authentication via the subuser management tools.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ## URI Parameters
 | URI Parameter   | Type  | Description  |
@@ -3804,7 +3804,7 @@ A domain authentication allows you to remove the via or sent on behalf of messag
 
 Domain authentications can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's authenticated domains. To associate a domain authentication with a subuser, the parent account must first create the domain authentication and validate it. The parent may then associate the domain authentication via the subuser management tools.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ## URI Parameters
 | URI Parameter   | Type  | Required?  | Description  |
@@ -3832,7 +3832,7 @@ if err != nil {
 
 A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ### PATCH /whitelabel/domains/{domain_id}
 
@@ -3859,7 +3859,7 @@ if err != nil {
 
 A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 
 ### GET /whitelabel/domains/{domain_id}
@@ -3883,7 +3883,7 @@ if err != nil {
 
 A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ### DELETE /whitelabel/domains/{domain_id}
 
@@ -3908,7 +3908,7 @@ A domain authentication allows you to remove the via or sent on behalf of messag
 
 Domain authentications can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's authenticated domains. To associate a domain authentication with a subuser, the parent account must first create the domain authentication and validate it. The parent may then associate the domain authentication via the subuser management tools.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ## URI Parameters
 | URI Parameter   | Type   | Description  |
@@ -3939,7 +3939,7 @@ if err != nil {
 
 A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ## URI Parameters
 | URI Parameter   | Type  |  Description  |
@@ -3970,7 +3970,7 @@ if err != nil {
 
 A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ## URI Parameters
 | URI Parameter   | Type  | Description  |
@@ -3999,7 +3999,7 @@ if err != nil {
 
 A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
 
-For more information on domain authentication, please see our [User Guide]((https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
 
 ## URI Parameters
 | URI Parameter   | Type   | Description  |
@@ -4021,7 +4021,7 @@ if err != nil {
 }
 ```
 
-## Create reverse DNS
+## Create reverse DNS record
 
 **This endpoint allows you to create a reverse DNS record.**
 
@@ -4398,7 +4398,7 @@ if err != nil {
 
 ## Associate a Link Branding
 
-**This endpoint allows you to associate a link whitelabel with a subuser account.**
+**This endpoint allows you to associate a link branding with a subuser account.**
 
 Link branding can be associated with subusers from the parent account. This functionality allows
 subusers to send mail using their parent's link brands. To associate a link branding, the parent account
