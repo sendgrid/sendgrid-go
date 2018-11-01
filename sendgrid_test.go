@@ -17,10 +17,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -144,7 +143,6 @@ func TestRepoFiles(t *testing.T) {
 		"README.md",
 		"TROUBLESHOOTING.md",
 		"USAGE.md",
-		"USE_CASES.md",
 	}
 	for _, f := range fs {
 		if _, err := os.Stat(f); os.IsNotExist(err) {

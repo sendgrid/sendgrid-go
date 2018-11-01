@@ -74,7 +74,7 @@ func requestNew(options options) rest.Request {
 // Send sends an email through SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
-	return API(cl.Request)
+	return MakeRequest(cl.Request)
 }
 
 // NewSendClient constructs a new SendGrid client given an API key
@@ -99,12 +99,12 @@ var DefaultClient = rest.DefaultClient
 // This function is deprecated. Please use the MakeRequest or
 // MakeRequestAsync functions.
 func API(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+	return MakeRequest(request)
 }
 
 // MakeRequest attempts a SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+	return DefaultClient.Send(request)
 }
 
 // MakeRequestRetry a synchronous request, but retry in the event of a rate
@@ -115,7 +115,7 @@ func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
 	var err error
 
 	for {
-		response, err = DefaultClient.API(request)
+		response, err = MakeRequest(request)
 		if err != nil {
 			return nil, err
 		}
