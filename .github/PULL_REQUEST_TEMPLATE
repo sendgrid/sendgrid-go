@@ -10,6 +10,7 @@ Closes #2
 # Fixes # 
 
 ### Checklist
+- [ ] I confirm that the latest PR commit passes its Travis CI build.
 - [ ] I have made a material change to the repo (functionality, testing, spelling, grammar)
 - [ ] I have read the [Contribution Guide] and my PR follows them.
 - [ ] I updated my branch with the master branch.
