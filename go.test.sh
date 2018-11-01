@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
-echo "" > coverage.txt
+echo > coverage.txt
 
 for d in $(go list ./... | grep -v -E '/vendor|/examples|/docker'); do
     go test -race -coverprofile=profile.out -covermode=atomic $d
