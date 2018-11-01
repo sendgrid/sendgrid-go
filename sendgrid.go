@@ -20,7 +20,6 @@ const (
 
 // Client is the SendGrid Go client
 type Client struct {
-	// rest.Request
 	rest.Request
 }
 
@@ -73,8 +72,10 @@ func requestNew(options options) rest.Request {
 
 // Send sends an email through SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
-	cl.Body = mail.GetRequestBody(email)
-	return API(cl.Request)
+	// make copy of request, to prevent race conditions
+	req := cl.Request
+	req.Body = mail.GetRequestBody(email)
+	return MakeRequest(req)
 }
 
 // NewSendClient constructs a new SendGrid client given an API key
