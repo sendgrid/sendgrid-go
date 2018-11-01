@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 // Createanewsuppressiongroup : Create a new suppression group
