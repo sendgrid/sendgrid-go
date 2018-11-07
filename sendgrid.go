@@ -24,22 +24,51 @@ type Client struct {
 	rest.Request
 }
 
-// GetRequest returns a default request object.
-func GetRequest(key string, endpoint string, host string) rest.Request {
-	if host == "" {
-		host = "https://api.sendgrid.com"
+// options for requestNew
+type options struct {
+	Key      string
+	Endpoint string
+	Host     string
+	Subuser  string
+}
+
+func (o *options) baseURL() string {
+	return o.Host + o.Endpoint
+}
+
+// GetRequest
+// @return [Request] a default request object
+func GetRequest(key, endpoint, host string) rest.Request {
+	return requestNew(options{key, endpoint, host, ""})
+}
+
+// GetRequestSubuser like GetRequest but with On-Behalf of Subuser
+// @return [Request] a default request object
+func GetRequestSubuser(key, endpoint, host, subuser string) rest.Request {
+	return requestNew(options{key, endpoint, host, subuser})
+}
+
+// requestNew create Request
+// @return [Request] a default request object
+func requestNew(options options) rest.Request {
+	if options.Host == "" {
+		options.Host = "https://api.sendgrid.com"
 	}
-	baseURL := host + endpoint
+
 	requestHeaders := map[string]string{
-		"Authorization": "Bearer " + key,
-		"User-Agent": "sendgrid/" + Version + ";go",
-		"Accept": "application/json",
+		"Authorization": "Bearer " + options.Key,
+		"User-Agent":    "sendgrid/" + Version + ";go",
+		"Accept":        "application/json",
 	}
-	request := rest.Request{
-		BaseURL: baseURL,
+
+	if len(options.Subuser) != 0 {
+		requestHeaders["On-Behalf-Of"] = options.Subuser
+	}
+
+	return rest.Request{
+		BaseURL: options.baseURL(),
 		Headers: requestHeaders,
 	}
-	return request
 }
 
 // Send sends an email through SendGrid
@@ -55,6 +84,14 @@ func NewSendClient(key string) *Client {
 	return &Client{request}
 }
 
+// GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
+// @return [Client]
+func NewSendClientSubuser(key, subuser string) *Client {
+	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
+	request.Method = "POST"
+	return &Client{request}
+}
+
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = rest.DefaultClient
 
@@ -65,7 +102,7 @@ func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }
 
-// MakeRequest attemps a SendGrid request synchronously.
+// MakeRequest attempts a SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }

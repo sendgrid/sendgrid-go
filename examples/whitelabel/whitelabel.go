@@ -10,7 +10,7 @@ import (
 // Createadomainwhitelabel : Create a domain whitelabel.
 // POST /whitelabel/domains
 func Createadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
 	request.Method = "POST"
@@ -39,7 +39,7 @@ func Createadomainwhitelabel() {
 // Listalldomainwhitelabels : List all domain whitelabels.
 // GET /whitelabel/domains
 func Listalldomainwhitelabels() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
 	request.Method = "GET"
@@ -63,7 +63,7 @@ func Listalldomainwhitelabels() {
 // Getthedefaultdomainwhitelabel : Get the default domain whitelabel.
 // GET /whitelabel/domains/default
 func Getthedefaultdomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
 	request.Method = "GET"
@@ -80,7 +80,7 @@ func Getthedefaultdomainwhitelabel() {
 // Listthedomainwhitelabelassociatedwiththegivenuser : List the domain whitelabel associated with the given user.
 // GET /whitelabel/domains/subuser
 func Listthedomainwhitelabelassociatedwiththegivenuser() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 	request.Method = "GET"
@@ -97,7 +97,7 @@ func Listthedomainwhitelabelassociatedwiththegivenuser() {
 // Disassociateadomainwhitelabelfromagivenuser : Disassociate a domain whitelabel from a given user.
 // DELETE /whitelabel/domains/subuser
 func Disassociateadomainwhitelabelfromagivenuser() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 	request.Method = "DELETE"
@@ -114,7 +114,7 @@ func Disassociateadomainwhitelabelfromagivenuser() {
 // Updateadomainwhitelabel : Update a domain whitelabel.
 // PATCH /whitelabel/domains/{domain_id}
 func Updateadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 	request.Method = "PATCH"
@@ -135,7 +135,7 @@ func Updateadomainwhitelabel() {
 // Retrieveadomainwhitelabel : Retrieve a domain whitelabel.
 // GET /whitelabel/domains/{domain_id}
 func Retrieveadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 	request.Method = "GET"
@@ -152,7 +152,7 @@ func Retrieveadomainwhitelabel() {
 // Deleteadomainwhitelabel : Delete a domain whitelabel.
 // DELETE /whitelabel/domains/{domain_id}
 func Deleteadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 	request.Method = "DELETE"
@@ -169,7 +169,7 @@ func Deleteadomainwhitelabel() {
 // Associateadomainwhitelabelwithagivenuser : Associate a domain whitelabel with a given user.
 // POST /whitelabel/domains/{domain_id}/subuser
 func Associateadomainwhitelabelwithagivenuser() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}/subuser", host)
 	request.Method = "POST"
@@ -189,7 +189,7 @@ func Associateadomainwhitelabelwithagivenuser() {
 // AddanIPtoadomainwhitelabel : Add an IP to a domain whitelabel.
 // POST /whitelabel/domains/{id}/ips
 func AddanIPtoadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips", host)
 	request.Method = "POST"
@@ -209,7 +209,7 @@ func AddanIPtoadomainwhitelabel() {
 // RemoveanIPfromadomainwhitelabel : Remove an IP from a domain whitelabel.
 // DELETE /whitelabel/domains/{id}/ips/{ip}
 func RemoveanIPfromadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", host)
 	request.Method = "DELETE"
@@ -226,7 +226,7 @@ func RemoveanIPfromadomainwhitelabel() {
 // Validateadomainwhitelabel : Validate a domain whitelabel.
 // POST /whitelabel/domains/{id}/validate
 func Validateadomainwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", host)
 	request.Method = "POST"
@@ -243,7 +243,7 @@ func Validateadomainwhitelabel() {
 // CreateanIPwhitelabel : Create an IP whitelabel
 // POST /whitelabel/ips
 func CreateanIPwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
 	request.Method = "POST"
@@ -265,7 +265,7 @@ func CreateanIPwhitelabel() {
 // RetrieveallIPwhitelabels : Retrieve all IP whitelabels
 // GET /whitelabel/ips
 func RetrieveallIPwhitelabels() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
 	request.Method = "GET"
@@ -287,7 +287,7 @@ func RetrieveallIPwhitelabels() {
 // RetrieveanIPwhitelabel : Retrieve an IP whitelabel
 // GET /whitelabel/ips/{id}
 func RetrieveanIPwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 	request.Method = "GET"
@@ -304,7 +304,7 @@ func RetrieveanIPwhitelabel() {
 // DeleteanIPwhitelabel : Delete an IP whitelabel
 // DELETE /whitelabel/ips/{id}
 func DeleteanIPwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 	request.Method = "DELETE"
@@ -321,7 +321,7 @@ func DeleteanIPwhitelabel() {
 // ValidateanIPwhitelabel : Validate an IP whitelabel
 // POST /whitelabel/ips/{id}/validate
 func ValidateanIPwhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
 	request.Method = "POST"
@@ -338,7 +338,7 @@ func ValidateanIPwhitelabel() {
 // CreateaLinkWhitelabel : Create a Link Whitelabel
 // POST /whitelabel/links
 func CreateaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
 	request.Method = "POST"
@@ -364,7 +364,7 @@ func CreateaLinkWhitelabel() {
 // Retrievealllinkwhitelabels : Retrieve all link whitelabels
 // GET /whitelabel/links
 func Retrievealllinkwhitelabels() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
 	request.Method = "GET"
@@ -384,7 +384,7 @@ func Retrievealllinkwhitelabels() {
 // RetrieveaDefaultLinkWhitelabel : Retrieve a Default Link Whitelabel
 // GET /whitelabel/links/default
 func RetrieveaDefaultLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/default", host)
 	request.Method = "GET"
@@ -404,7 +404,7 @@ func RetrieveaDefaultLinkWhitelabel() {
 // RetrieveAssociatedLinkWhitelabel : Retrieve Associated Link Whitelabel
 // GET /whitelabel/links/subuser
 func RetrieveAssociatedLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
 	request.Method = "GET"
@@ -424,7 +424,7 @@ func RetrieveAssociatedLinkWhitelabel() {
 // DisassociateaLinkWhitelabel : Disassociate a Link Whitelabel
 // DELETE /whitelabel/links/subuser
 func DisassociateaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
 	request.Method = "DELETE"
@@ -444,7 +444,7 @@ func DisassociateaLinkWhitelabel() {
 // UpdateaLinkWhitelabel : Update a Link Whitelabel
 // PATCH /whitelabel/links/{id}
 func UpdateaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 	request.Method = "PATCH"
@@ -464,7 +464,7 @@ func UpdateaLinkWhitelabel() {
 // RetrieveaLinkWhitelabel : Retrieve a Link Whitelabel
 // GET /whitelabel/links/{id}
 func RetrieveaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 	request.Method = "GET"
@@ -481,7 +481,7 @@ func RetrieveaLinkWhitelabel() {
 // DeleteaLinkWhitelabel : Delete a Link Whitelabel
 // DELETE /whitelabel/links/{id}
 func DeleteaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 	request.Method = "DELETE"
@@ -498,7 +498,7 @@ func DeleteaLinkWhitelabel() {
 // ValidateaLinkWhitelabel : Validate a Link Whitelabel
 // POST /whitelabel/links/{id}/validate
 func ValidateaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", host)
 	request.Method = "POST"
@@ -515,7 +515,7 @@ func ValidateaLinkWhitelabel() {
 // AssociateaLinkWhitelabel : Associate a Link Whitelabel
 // POST /whitelabel/links/{link_id}/subuser
 func AssociateaLinkWhitelabel() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{link_id}/subuser", host)
 	request.Method = "POST"

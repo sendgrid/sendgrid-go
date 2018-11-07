@@ -3,6 +3,7 @@ package mail
 import (
 	"encoding/json"
 	"log"
+	"net/mail"
 )
 
 // SGMailV3 contains mail struct
@@ -26,7 +27,7 @@ type SGMailV3 struct {
 	ReplyTo          *Email             `json:"reply_to,omitempty"`
 }
 
-// Personalization ...
+// Personalization holds mail body struct
 type Personalization struct {
 	To                  []*Email               `json:"to,omitempty"`
 	CC                  []*Email               `json:"cc,omitempty"`
@@ -62,13 +63,13 @@ type Attachment struct {
 	ContentID   string `json:"content_id,omitempty"`
 }
 
-// Asm ...
+// Asm contains Grpip Id and int array of groups ID
 type Asm struct {
 	GroupID         int   `json:"group_id,omitempty"`
 	GroupsToDisplay []int `json:"groups_to_display,omitempty"`
 }
 
-// MailSettings ...
+// MailSettings defines mail and spamCheck settings
 type MailSettings struct {
 	BCC                  *BccSetting       `json:"bcc,omitempty"`
 	BypassListManagement *Setting          `json:"bypass_list_management,omitempty"`
@@ -77,7 +78,7 @@ type MailSettings struct {
 	SpamCheckSetting     *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
-// TrackingSettings ...
+// TrackingSettings holds tracking settings and mail settings
 type TrackingSettings struct {
 	ClickTracking        *ClickTrackingSetting        `json:"click_tracking,omitempty"`
 	OpenTracking         *OpenTrackingSetting         `json:"open_tracking,omitempty"`
@@ -89,13 +90,15 @@ type TrackingSettings struct {
 	SandboxMode          *SandboxModeSetting          `json:"sandbox_mode,omitempty"`
 }
 
-// BccSetting ...
+// BccSetting holds email bcc setings  to enable of disable
+// default is false
 type BccSetting struct {
 	Enable *bool  `json:"enable,omitempty"`
 	Email  string `json:"email,omitempty"`
 }
 
-// FooterSetting ...
+// FooterSetting holds enaable/disable settings
+// and the format of footer i.e HTML/Text
 type FooterSetting struct {
 	Enable *bool  `json:"enable,omitempty"`
 	Text   string `json:"text,omitempty"`
@@ -121,7 +124,9 @@ type SandboxModeSetting struct {
 	SpamCheck   *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
-// SpamCheckSetting ...
+// SpamCheckSetting holds spam settings and
+// which can be enable or disable and
+// contains spamThreshold value
 type SpamCheckSetting struct {
 	Enable        *bool  `json:"enable,omitempty"`
 	SpamThreshold int    `json:"threshold,omitempty"`
@@ -146,7 +151,7 @@ type GaSetting struct {
 	CampaignMedium  string `json:"utm_medium,omitempty"`
 }
 
-// Setting ...
+// Setting enables the mail settings
 type Setting struct {
 	Enable *bool `json:"enable,omitempty"`
 }
@@ -673,4 +678,14 @@ func NewSandboxModeSetting(enable bool, forwardSpam bool, spamCheck *SpamCheckSe
 		ForwardSpam: &setForwardSpam,
 		SpamCheck:   spamCheck,
 	}
+}
+
+// ParseEmail parses a string that contains an rfc822 formatted email address
+// and returns an instance of *Email.
+func ParseEmail(emailInfo string) (*Email, error) {
+	e, err := mail.ParseAddress(emailInfo)
+	if err != nil {
+		return nil, err
+	}
+	return NewEmail(e.Name, e.Address), nil
 }
