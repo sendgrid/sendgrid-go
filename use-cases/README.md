@@ -10,4 +10,4 @@ This documentation provides examples for specific use cases. Please [open an iss
 * [Sections](sections.md)
 * [Attachments](attachments.md)
 * [How to View Email Statistics](view-email-stats.md)
-* [How to Setup a Domain Whitelabel](setup-domain-whitelabel.md)
+* [How to Setup a Domain Authentication](setup-domain-authentication.md)
