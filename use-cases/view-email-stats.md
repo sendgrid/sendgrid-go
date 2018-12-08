@@ -10,7 +10,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
+	sendgrid "github.com/sendgrid/sendgrid-go"
 )
 
 func main() {
