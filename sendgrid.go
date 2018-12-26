@@ -131,7 +131,7 @@ func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
 
 		resetTime := time.Now().Add(rateLimitSleep * time.Millisecond)
 
-		reset, ok := response.Headers["X-RateLimit-Reset"]
+		reset, ok := response.Headers["X-Ratelimit-Reset"]
 		if ok && len(reset) > 0 {
 			t, err := strconv.Atoi(reset[0])
 			if err == nil {
