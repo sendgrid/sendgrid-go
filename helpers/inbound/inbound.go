@@ -199,7 +199,7 @@ func main() {
 			Headers: Headers,
 			Body:    file,
 		}
-		_, err = rest.API(request)
+		_, err = rest.Send(request)
 		if err != nil {
 			log.Fatal("Check your Filepath. ", err)
 		}
