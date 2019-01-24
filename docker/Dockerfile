@@ -9,10 +9,8 @@ RUN sh ./install.sh && \
     rm ./install.sh
 
 # Get sendgrid-go
-RUN mkdir -p /go/src/github.com/sendgrid && \
-	cd /go/src/github.com/sendgrid && \
-	git clone https://www.github.com/sendgrid/sendgrid-go && \
-	cd sendgrid-go && \
+RUN git clone https://www.github.com/sendgrid/sendgrid-go /go/src/github.com/sendgrid-go && \
+	cd /go/src/github.com/sendgrid-go && \
 	go get
 
 COPY entrypoint.sh entrypoint.sh
