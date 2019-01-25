@@ -22,7 +22,7 @@ func TestCategoriesPermissions(t *testing.T) {
 }
 
 func TestGetPermissions(t *testing.T) {
-	readOnlyPerms := GetPermissions(Whitelist, readOnlyAccess)
+	readOnlyPerms := GetPermissions(Whitelist, false)
 	expected := []string{
 		"access_settings.whitelist.read",
 		"access_settings.activity.read",

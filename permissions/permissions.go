@@ -105,8 +105,6 @@ const (
 	delete                       = "delete"
 	send                         = "send"
 	delimiter                    = "."
-	readOnlyAccess               = "readOnly"
-	fullAccess                   = "full"
 )
 
 var accessorMaps = map[string]permissionsAccessor{
@@ -370,9 +368,9 @@ func whitelistPermissions() permissionsAccessor {
 	}
 }
 
-func GetPermissions(permissionClass string, accessType string) []string {
+func GetPermissions(permissionClass string, fullAccess bool) []string {
 	permissionScopes := accessorMaps[permissionClass]()
-	if accessType == fullAccess {
+	if fullAccess {
 		return permissionScopes
 	}
 	var readOnlyPerms []string
