@@ -605,6 +605,9 @@ func NewSetting(enable bool) *Setting {
 
 // NewEmail ...
 func NewEmail(name string, address string) *Email {
+	if len(name) < 2 || name[0] != '"' || name[len(name)-1] != '"' {
+		name = "\"" + name + "\""
+	}
 	return &Email{
 		Name:    name,
 		Address: address,
