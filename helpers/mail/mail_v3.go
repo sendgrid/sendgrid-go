@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/mail"
+	"strings"
 )
 
 // SGMailV3 contains mail struct
@@ -603,11 +604,35 @@ func NewSetting(enable bool) *Setting {
 	return &Setting{Enable: &setEnable}
 }
 
+// EscapeName adds quotes around the name to prevent errors from RFC5322 special
+// characters:
+//
+//   ()<>[]:;@\,."
+//
+// To preserve backwards compatibility for people already quoting their name
+// inputs, as well as for inputs which do not strictly require quoting, the
+// name is returned unmodified if those conditions are met. Otherwise, existing
+// intrastring backslashes and double quotes are escaped, and the entire input
+// is surrounded with double quotes.
+func EscapeName(name string) string {
+	if len(name) > 1 && name[0] == '"' && name[len(name)-1] == '"' {
+		return name
+	}
+	if strings.IndexAny(name, "()<>[]:;@\\,.\"") == -1 {
+		return name
+	}
+
+	// This has to come first so we don't triple backslash after the next step
+	name = strings.Replace(name, `\`, `\\`, -1)
+	name = strings.Replace(name, `"`, `\"`, -1)
+	name = `"` + name + `"`
+
+	return name
+}
+
 // NewEmail ...
 func NewEmail(name string, address string) *Email {
-	if len(name) < 2 || name[0] != '"' || name[len(name)-1] != '"' {
-		name = "\"" + name + "\""
-	}
+	name = EscapeName(name)
 	return &Email{
 		Name:    name,
 		Address: address,
