@@ -72,6 +72,34 @@ func TestV3AddAttachment(t *testing.T) {
 	assert.Equal(t, numOfAttachments, len(m.Attachments), fmt.Sprintf("Mail should have %d attachments, got %d attachments", numOfAttachments, len(m.Attachments)))
 }
 
+func TestEscapeName(t *testing.T) {
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"contains double quote", `Johnny"Bravo`, `"Johnny\"Bravo"`},
+		{"contains backslash", `Johnny\Bravo`, `"Johnny\\Bravo"`},
+		{"contains open parens", `Johnny (Bravo`, `"Johnny (Bravo"`},
+		{"contains close parens", `Johnny Bravo)`, `"Johnny Bravo)"`},
+		{"contains open angle bracket", `Johnny <Bravo`, `"Johnny <Bravo"`},
+		{"contains open angle bracket", `Johnny Bravo>`, `"Johnny Bravo>"`},
+		{"contains open square bracket", `Johnny [Bravo`, `"Johnny [Bravo"`},
+		{"contains open square bracket", `Johnny Bravo]`, `"Johnny Bravo]"`},
+		{"contains colon", `Johnny:Bravo`, `"Johnny:Bravo"`},
+		{"contains semi-colon", `Johnny;Bravo`, `"Johnny;Bravo"`},
+		{"contains at sign", `Johnny@Bravo`, `"Johnny@Bravo"`},
+		{"contains comma", `Johnny,Bravo`, `"Johnny,Bravo"`},
+		{"contains period", `Johnny.Bravo`, `"Johnny.Bravo"`},
+	}
+	for _, tc := range testcases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := EscapeName(tc.name)
+			assert.Equal(t, tc.want, got, fmt.Sprintf("name should be %s, got %s", tc.want, got))
+		})
+	}
+}
+
 func TestV3SetFrom(t *testing.T) {
 	m := NewV3Mail()
 
@@ -80,8 +108,8 @@ func TestV3SetFrom(t *testing.T) {
 		name  string
 		want  string
 	}{
-		{"unquoted", "Test User", "\"Test User\""},
-		{"double quoted", "\"Test User\"", "\"Test User\""},
+		{"unquoted", `Test User`, `Test User`},
+		{"quoted", `"Test User"`, `"Test User"`},
 	}
 
 	address := "test@example.com"
@@ -102,8 +130,8 @@ func TestV3SetReplyTo(t *testing.T) {
 		name  string
 		want  string
 	}{
-		{"unquoted", "Test User", "\"Test User\""},
-		{"double quoted", "\"Test User\"", "\"Test User\""},
+		{"unquoted", `Test User`, `Test User`},
+		{"quoted", `"Test User"`, `"Test User"`},
 	}
 
 	address := "test@example.com"
@@ -674,10 +702,8 @@ func TestV3NewEmail(t *testing.T) {
 		name  string
 		want  string
 	}{
-		{"unquoted", "Johnny", "\"Johnny\""},
-		{"double quoted", "\"Johnny\"", "\"Johnny\""},
-		{"empty", "", "\"\""},
-		{"empty quoted", "\"\"", "\"\""},
+		{"unquoted", `Test User`, `Test User`},
+		{"quoted", `"Test User"`, `"Test User"`},
 	}
 
 	address := "Johnny@rocket.io"
