@@ -75,25 +75,45 @@ func TestV3AddAttachment(t *testing.T) {
 func TestV3SetFrom(t *testing.T) {
 	m := NewV3Mail()
 
-	address := "test@example.com"
-	name := "Test User"
-	e := NewEmail(name, address)
-	m.SetFrom(e)
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"unquoted", "Test User", "\"Test User\""},
+		{"double quoted", "\"Test User\"", "\"Test User\""},
+	}
 
-	assert.Equal(t, name, m.From.Name, fmt.Sprintf("name should be %s, got %s", name, e.Name))
-	assert.Equal(t, address, m.From.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	address := "test@example.com"
+	for _, tc := range testcases {
+		e := NewEmail(tc.name, address)
+		m.SetFrom(e)
+
+		assert.Equal(t, tc.want, m.From.Name, fmt.Sprintf("name should be %s, got %s", tc.want, e.Name))
+		assert.Equal(t, address, m.From.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	}
 }
 
 func TestV3SetReplyTo(t *testing.T) {
 	m := NewV3Mail()
 
-	address := "test@example.com"
-	name := "Test User"
-	e := NewEmail(name, address)
-	m.SetReplyTo(e)
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"unquoted", "Test User", "\"Test User\""},
+		{"double quoted", "\"Test User\"", "\"Test User\""},
+	}
 
-	assert.Equal(t, name, m.ReplyTo.Name, fmt.Sprintf("name should be %s, got %s", name, e.Name))
-	assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	address := "test@example.com"
+	for _, tc := range testcases {
+		e := NewEmail(tc.name, address)
+		m.SetReplyTo(e)
+
+		assert.Equal(t, tc.want, m.ReplyTo.Name, fmt.Sprintf("name should be %s, got %s", tc.want, e.Name))
+		assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	}
 }
 
 func TestV3SetTemplateID(t *testing.T) {
@@ -649,13 +669,24 @@ func TestV3NewSetting(t *testing.T) {
 }
 
 func TestV3NewEmail(t *testing.T) {
-	name := "Johnny"
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"unquoted", "Johnny", "\"Johnny\""},
+		{"double quoted", "\"Johnny\"", "\"Johnny\""},
+		{"empty", "", "\"\""},
+		{"empty quoted", "\"\"", "\"\""},
+	}
+
 	address := "Johnny@rocket.io"
+	for _, tc := range testcases {
+		e := NewEmail(tc.name, address)
 
-	e := NewEmail(name, address)
-
-	assert.Equal(t, name, e.Name, fmt.Sprintf("Name should be %s, got %s", name, e.Name))
-	assert.Equal(t, address, e.Address, fmt.Sprintf("Address should be %s, got %s", address, e.Address))
+		assert.Equal(t, tc.want, e.Name, fmt.Sprintf("Name should be %s, got %s", tc.want, e.Name))
+		assert.Equal(t, address, e.Address, fmt.Sprintf("Address should be %s, got %s", address, e.Address))
+	}
 }
 
 func TestV3NewSingleEmail(t *testing.T) {
