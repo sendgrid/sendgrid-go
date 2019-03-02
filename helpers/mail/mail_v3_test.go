@@ -693,6 +693,23 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	assert.NotNil(t, message.Content, "Content shouldn't be nil")
 }
 
+func TestV3NewSingleEmailPlanText(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Sending with SendGrid is Fun"
+	to := NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+
+	message := NewSingleEmailPlanText(from, subject, to, plainTextContent)
+
+	m, _ := json.Marshal(message)
+	fmt.Println(string(m))
+
+	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
+	assert.NotNil(t, message.From, "From shouldn't return nil")
+	assert.Equal(t, subject, message.Subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
+	assert.NotNil(t, message.Content, "Content shouldn't be nil")
+}
+
 func TestV3NewClickTrackingSetting(t *testing.T) {
 	c := NewClickTrackingSetting()
 	c.SetEnable(true)
