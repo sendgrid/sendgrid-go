@@ -215,7 +215,7 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 <a name="use-cases"></a>
 # Use Cases
 
-[Examples of common API use cases](https://github.com/sendgrid/sendgrid-go/blob/master/USAGE.md), such as how to send an email with a transactional template.
+[Examples of common API use cases](https://github.com/sendgrid/sendgrid-go/blob/master/use-cases/README.md), such as how to send an email with a transactional template.
 
 <a name="announcements"></a>
 # Announcements
