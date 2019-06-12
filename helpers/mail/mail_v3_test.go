@@ -234,16 +234,16 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.Equal(t, 0, len(p.BCC), "Length of p.BCC should be 0")
 
 	assert.NotNil(t, p.Headers, "Headers should't be nil")
-	assert.Equal(t, 0, len(p.Headers), fmt.Sprintf("Length of p.Headers should be 0")
+	assert.Equal(t, 0, len(p.Headers), "Length of p.Headers should be 0")
 
 	assert.NotNil(t, p.Substitutions, "Substitutions should't be nil")
-	assert.Equal(t, 0, len(p.Substitutions), fmt.Sprintf("Length of p.Substitutions should be 0")
+	assert.Equal(t, 0, len(p.Substitutions), "Length of p.Substitutions should be 0")
 
 	assert.NotNil(t, p.CustomArgs, "CustomArgs should't be nil")
-	assert.Equal(t, 0, len(p.CustomArgs), fmt.Sprintf("Length of p.CustomArgs should be 0")
+	assert.Equal(t, 0, len(p.CustomArgs), "Length of p.CustomArgs should be 0")
 
 	assert.NotNil(t, p.Categories, "Categories should't be nil")
-	assert.Equal(t, 0, len(p.Categories), fmt.Sprintf("Length of p.Categories should be 0")
+	assert.Equal(t, 0, len(p.Categories), "Length of p.Categories should be 0")
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
