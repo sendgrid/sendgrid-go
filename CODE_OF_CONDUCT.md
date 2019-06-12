@@ -1,6 +1,6 @@
 # Twilio SendGrid Community Code of Conduct
 
-The Twilio SendGrid open source community is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences successes and continued growth. When you're working with members of the community, we encourage you to follow these guidelines, which help steer our interactions and strive to maintain a positive, successful and growing community. 
+The Twilio SendGrid open-source community is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences successes and continued growth. When you're working with members of the community, we encourage you to follow these guidelines, which help steer our interactions and strive to maintain a positive, successful and growing community. 
 
 ### Be Open
 Members of the community are open to collaboration, whether it's on pull requests, code reviews, approvals, issues or otherwise. We're receptive to constructive comments and criticism, as the experiences and skill sets of all members contribute to the whole of our efforts. We're accepting of all who wish to take part in our activities, fostering an environment where anyone can participate, and everyone can make a difference.
@@ -20,7 +20,7 @@ Community discussions often involve interested parties. We expect participants t
 This Code is not exhaustive or complete. It is not a rulebook; it serves to distill our common understanding of a collaborative, shared environment and goals. We expect it to be followed in spirit as much as in the letter.  When in doubt, try to abide by [Twilio SendGrid’s cultural values](https://sendgrid.com/blog/employee-engagement-the-4h-way) defined by our “4H’s”: Happy, Hungry, Humble and Honest.  
 
 ### Enforcement
-Most members of the Twilio SendGrid community always comply with this Code, not because of the existence of this Code, but because they have long experience participating in open source communities where the conduct described above is normal and expected. However, failure to observe this Code may be grounds for suspension, reporting the user for abuse or changing permissions for outside contributors.
+Most members of the Twilio SendGrid community always comply with this Code, not because of the existence of this Code, but because they have long experience participating in open-source communities where the conduct described above is normal and expected. However, failure to observe this Code may be grounds for suspension, reporting the user for abuse or changing permissions for outside contributors.
 
 ## If you have concerns about someone’s conduct
 **Initiate Direct Contact** - It is always appropriate to email a community member (if contact information is available), mention that you think their behavior was out of line, and (if necessary) point them to this Code.

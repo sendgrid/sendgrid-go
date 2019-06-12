@@ -1,6 +1,6 @@
-Hello! Thank you for choosing to help contribute to one of the Twilio SendGrid open source libraries. There are many ways you can contribute and help is always welcome.  We simply ask that you follow the following contribution policies.
+Hello! Thank you for choosing to help contribute to one of the Twilio SendGrid open-source libraries. There are many ways you can contribute and help is always welcome.  We simply ask that you follow the following contribution policies.
 
-All third party contributors acknowledge that any contributions they provide will be made under the same open source license that the open source project is provided under.
+All third-party contributors acknowledge that any contributions they provide will be made under the same open-source license that the open-source project is provided under.
 
 - [Roadmap & Milestones](#roadmap)
 - [Feature Request](#feature-request)
