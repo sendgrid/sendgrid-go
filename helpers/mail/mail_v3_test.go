@@ -228,7 +228,7 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.Equal(t, 0, len(p.To), "Length of p.To should be 0")
 
 	assert.NotNil(t, p.CC, "CC should't be nil")
-	assert.Equal(t, 0, len(p.CC), "Length of p.CCs should be 0"))
+	assert.Equal(t, 0, len(p.CC), "Length of p.CCs should be 0")
 
 	assert.NotNil(t, p.BCC, "BCC should't be nil")
 	assert.Equal(t, 0, len(p.BCC), "Length of p.BCC should be 0")
