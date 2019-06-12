@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 // SendSampleHelloMail demonstrates how to send a sample e-mail with a subject line
-// of "Hello SendGrid".
+// of "Hello Twilio SendGrid".
 func SendSampleHelloMail() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "http://localhost:4010"
@@ -22,13 +23,13 @@ func SendSampleHelloMail() {
           "email": "test@example.com"
         }
       ],
-      "subject": "Sending with SendGrid is Fun"
+      "subject": "Sending with Twilio SendGrid is Fun"
     }
   ],
   "from": {
     "email": "test@example.com"
   },
-  "subject": "Hello SendGrid",
+  "subject": "Hello Twilio SendGrid",
   "content": [
     {
       "type": "text/plain",

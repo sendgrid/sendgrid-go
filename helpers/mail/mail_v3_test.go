@@ -22,7 +22,7 @@ func TestV3NewMail(t *testing.T) {
 
 func TestV3NewMailInit(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
+	subject := "Hello World from the Twilio SendGrid Go Library"
 	to := NewEmail("Example User", "test@example.com")
 	content := NewContent("text/plain", "some text here")
 	m := NewV3MailInit(from, subject, to, content)
@@ -660,7 +660,7 @@ func TestV3NewEmail(t *testing.T) {
 
 func TestV3NewSingleEmail(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
@@ -678,7 +678,7 @@ func TestV3NewSingleEmail(t *testing.T) {
 
 func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 

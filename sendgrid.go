@@ -1,4 +1,4 @@
-// Package sendgrid provides a simple interface to interact with the SendGrid API
+// Package sendgrid provides a simple interface to interact with the Twilio SendGrid API
 package sendgrid
 
 import (
@@ -18,7 +18,7 @@ const (
 	rateLimitSleep = 1100
 )
 
-// Client is the SendGrid Go client
+// Client is the Twilio SendGrid Go client
 type Client struct {
 	// rest.Request
 	rest.Request
@@ -71,13 +71,13 @@ func requestNew(options options) rest.Request {
 	}
 }
 
-// Send sends an email through SendGrid
+// Send sends an email through Twilio SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
 	return MakeRequest(cl.Request)
 }
 
-// NewSendClient constructs a new SendGrid client given an API key
+// NewSendClient constructs a new Twilio SendGrid client given an API key
 func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
@@ -95,14 +95,14 @@ func NewSendClientSubuser(key, subuser string) *Client {
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = rest.DefaultClient
 
-// API sets up the request to the SendGrid API, this is main interface.
+// API sets up the request to the Twilio SendGrid API, this is main interface.
 // Please use the MakeRequest or MakeRequestAsync functions instead.
 // (deprecated)
 func API(request rest.Request) (*rest.Response, error) {
 	return MakeRequest(request)
 }
 
-// MakeRequest attempts a SendGrid request synchronously.
+// MakeRequest attempts a Twilio SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.Send(request)
 }
