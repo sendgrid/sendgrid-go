@@ -225,13 +225,13 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.NotNil(t, p, "NewPersonalization() shouldn't return nil")
 
 	assert.NotNil(t, p.To, "To should't be nil")
-	assert.Equal(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To))
+	assert.Equal(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To.Address))
 
 	assert.NotNil(t, p.CC, "CC should't be nil")
-	assert.Equal(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC))
+	assert.Equal(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC.Address))
 
 	assert.NotNil(t, p.BCC, "BCC should't be nil")
-	assert.Equal(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC))
+	assert.Equal(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC.Address))
 
 	assert.NotNil(t, p.Headers, "Headers should't be nil")
 	assert.Equal(t, 0, len(p.Headers), fmt.Sprintf("Length of %s should be 0", p.Headers))
