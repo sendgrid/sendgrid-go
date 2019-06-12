@@ -22,7 +22,7 @@ func TestV3NewMail(t *testing.T) {
 
 func TestV3NewMailInit(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
+	subject := "Hello World from the Twilio SendGrid Go Library"
 	to := NewEmail("Example User", "test@example.com")
 	content := NewContent("text/plain", "some text here")
 	m := NewV3MailInit(from, subject, to, content)
@@ -225,25 +225,25 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.NotNil(t, p, "NewPersonalization() shouldn't return nil")
 
 	assert.NotNil(t, p.To, "To should't be nil")
-	assert.Equal(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To))
+	assert.Equal(t, 0, len(p.To), "Length of p.To should be 0")
 
 	assert.NotNil(t, p.CC, "CC should't be nil")
-	assert.Equal(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC))
+	assert.Equal(t, 0, len(p.CC), "Length of p.CCs should be 0")
 
 	assert.NotNil(t, p.BCC, "BCC should't be nil")
-	assert.Equal(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC))
+	assert.Equal(t, 0, len(p.BCC), "Length of p.BCC should be 0")
 
 	assert.NotNil(t, p.Headers, "Headers should't be nil")
-	assert.Equal(t, 0, len(p.Headers), fmt.Sprintf("Length of %s should be 0", p.Headers))
+	assert.Equal(t, 0, len(p.Headers), "Length of p.Headers should be 0")
 
 	assert.NotNil(t, p.Substitutions, "Substitutions should't be nil")
-	assert.Equal(t, 0, len(p.Substitutions), fmt.Sprintf("Length of %s should be 0", p.Substitutions))
+	assert.Equal(t, 0, len(p.Substitutions), "Length of p.Substitutions should be 0")
 
 	assert.NotNil(t, p.CustomArgs, "CustomArgs should't be nil")
-	assert.Equal(t, 0, len(p.CustomArgs), fmt.Sprintf("Length of %s should be 0", p.CustomArgs))
+	assert.Equal(t, 0, len(p.CustomArgs), "Length of p.CustomArgs should be 0")
 
 	assert.NotNil(t, p.Categories, "Categories should't be nil")
-	assert.Equal(t, 0, len(p.Categories), fmt.Sprintf("Length of %s should be 0", p.Categories))
+	assert.Equal(t, 0, len(p.Categories), "Length of p.Categories should be 0")
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
@@ -660,7 +660,7 @@ func TestV3NewEmail(t *testing.T) {
 
 func TestV3NewSingleEmail(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
@@ -678,7 +678,7 @@ func TestV3NewSingleEmail(t *testing.T) {
 
 func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 

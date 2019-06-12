@@ -116,13 +116,13 @@ func TestMain(m *testing.M) {
 }
 
 func TestSendGridVersion(t *testing.T) {
-	assert.Equal(t, "3.1.0", Version, "SendGrid version does not match")
+	assert.Equal(t, "3.1.0", Version, "Twilio SendGrid version does not match")
 }
 
 func TestLicenseYear(t *testing.T) {
 	d, err := ioutil.ReadFile("LICENSE.txt")
 	assert.Nil(t, err, "Cannot read the LICENSE.txt file")
-	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
+	l := fmt.Sprintf("Copyright (c) 2013-%v Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
 
@@ -1937,8 +1937,8 @@ func Test_test_send_client(t *testing.T) {
 			},
 			"footer": {
 			"enable": true,
-			"html": "<p>Thanks</br>The SendGrid Team</p>",
-			"text": "Thanks,/n The SendGrid Team"
+			"html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+			"text": "Thanks,/n The Twilio SendGrid Team"
 			},
 			"sandbox_mode": {
 			"enable": false
@@ -2085,8 +2085,8 @@ func Test_test_mail_send_post(t *testing.T) {
     },
     "footer": {
       "enable": true,
-      "html": "<p>Thanks</br>The SendGrid Team</p>",
-      "text": "Thanks,/n The SendGrid Team"
+      "html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+      "text": "Thanks,/n The Twilio SendGrid Team"
     },
     "sandbox_mode": {
       "enable": false

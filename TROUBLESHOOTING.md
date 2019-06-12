@@ -1,4 +1,4 @@
-If you have a non-library SendGrid issue, please contact our [support team](https://support.sendgrid.com).
+If you have a non-library Twilio SendGrid issue, please contact our [support team](https://support.sendgrid.com).
 
 If you can't find a solution below, please open an [issue](https://github.com/sendgrid/sendgrid-go/issues).
 
@@ -10,7 +10,7 @@ If you can't find a solution below, please open an [issue](https://github.com/se
 * [Testing v3 /mail/send Calls Directly](#testing)
 * [Error Messages](#error)
 * [Versions](#versions)
-* [Environment Variables and Your SendGrid API Key](#environment)
+* [Environment Variables and Your Twilio SendGrid API Key](#environment)
 * [Viewing the Request Body](#request-body)
 
 <a name="migrating"></a>
@@ -37,12 +37,12 @@ Click the "Clone or download" green button in [GitHub](https://github.com/sendgr
 
 An error is returned if caused by client policy (such as CheckRedirect), or failure to speak HTTP (such as a network connectivity problem).
 
-To read the error message returned by SendGrid's API:
+To read the error message returned by Twilio SendGrid's API:
 
 ```go
 func main() {
 	from := mail.NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
+	subject := "Hello World from the Twilio SendGrid Go Library"
 	to := mail.NewEmail("Example User", "test@example.com")
 	content := mail.NewContent("text/plain", "some text here")
 	m := mail.NewV3MailInit(from, subject, to, content)
@@ -82,11 +82,11 @@ if resp.StatusCode >= 400 {
 We follow the MAJOR.MINOR.PATCH versioning scheme as described by [SemVer.org](http://semver.org). Therefore, we recommend that you always pin (or vendor) the particular version you are working with to your code and never auto-update to the latest version. Especially when there is a MAJOR point release, since that is guaranteed to be a breaking change. Changes are documented in the [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases) section.
 
 <a name="environment"></a>
-## Environment Variables and Your SendGrid API Key
+## Environment Variables and Your Twilio SendGrid API Key
 
-All of our examples assume you are using [environment variables](https://github.com/sendgrid/sendgrid-go#setup-environment-variables) to hold your SendGrid API key.
+All of our examples assume you are using [environment variables](https://github.com/sendgrid/sendgrid-go#setup-environment-variables) to hold your Twilio SendGrid API key.
 
-If you choose to add your SendGrid API key directly (not recommended):
+If you choose to add your Twilio SendGrid API key directly (not recommended):
 
 `os.Getenv("SENDGRID_API_KEY")`
 
@@ -94,7 +94,7 @@ becomes
 
 `"SENDGRID_API_KEY"`
 
-In the first case SENDGRID_API_KEY is in reference to the name of the environment variable, while the second case references the actual SendGrid API Key.
+In the first case SENDGRID_API_KEY is in reference to the name of the environment variable, while the second case references the actual Twilio SendGrid API Key.
 
 <a name="request-body"></a>
 ## Viewing the Request Body
