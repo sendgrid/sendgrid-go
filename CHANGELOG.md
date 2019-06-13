@@ -1,6 +1,74 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.5.0] - 2019-06-13
+### Added
+- [PR #117](https://github.com/sendgrid/sendgrid-go/pull/117): Add release notifications. Big thanks to [Gabriel Krell](https://github.com/gabrielkrell) for the PR!
+- [PR #118](https://github.com/sendgrid/sendgrid-go/pull/118): Update USE_CASES.md formatting. Big thanks to [Kyle Roberts](https://github.com/kylearoberts) for the PR!
+- [PR #123](https://github.com/sendgrid/sendgrid-go/pull/123): Update USE_CASES.md with substitutions and sections. Big thanks to [Kyle Roberts](https://github.com/kylearoberts) for the PR!
+- [PR #111](https://github.com/sendgrid/sendgrid-go/pull/111): Add examples from "Personalizations Example Index" to USE_CASES.md. Big thanks to [Christopher Li](https://github.com/LiYChristopher) for the PR!
+- [PR #127](https://github.com/sendgrid/sendgrid-go/pull/127): Update Travis YML to use newer go versions. Big thanks to [Tariq Ibrahim](https://github.com/tariq1890) for the PR!
+- [PR #143](https://github.com/sendgrid/sendgrid-go/pull/143): Added a warning about the error return from sendgrid.API in TROUBLESHOOTING.md. Big thanks to [Leandro Lugaresi](https://github.com/leandro-lugaresi) for the PR!
+- [PR #128](https://github.com/sendgrid/sendgrid-go/pull/128): Added a Mail Refactor proposal. Big thanks to [Suchit Parikh](https://github.com/suchitparikh) for the PR!
+- [PR #153](https://github.com/sendgrid/sendgrid-go/pull/153): Added Code of Conduct. Big thanks to [Rubemlrm](https://github.com/Rubemlrm) for the PR!
+- [PR #139](https://github.com/sendgrid/sendgrid-go/pull/139): Added attachment use case examples. Big thanks to [Christopher Li](https://github.com/LiYChristopher) for the PR!
+- [PR #165](https://github.com/sendgrid/sendgrid-go/pull/165): Update USE_CASES.md with statistics and domain whitelabel examples. Big thanks to [Nexus Web Development](https://github.com/NexWeb) for the PR!
+- [PR #186](https://github.com/sendgrid/sendgrid-go/pull/186): Moved logo to top and added more badges. Big thanks to [Alex](https://github.com/myzeprog) for the PR!
+- [PR #187](https://github.com/sendgrid/sendgrid-go/pull/187): Made the README/Doc sections more SEO friendly. Big thanks to [Alex](https://github.com/myzeprog) for the PR!
+- [PR #188](https://github.com/sendgrid/sendgrid-go/pull/188): Add Go specific badges to the README. Big thanks to [Thorsten Schifferdecker](https://github.com/curx) for the PR!
+- [PR #181](https://github.com/sendgrid/sendgrid-go/pull/181): Add review request body section to TROUBLESHOOTING.md. Big thanks to [Alex](https://github.com/myzeprog) for the PR!
+- [PR #363](https://github.com/sendgrid/sendgrid-go/pull/363): Twilio branding + CLA updates.
+- [PR #217](https://github.com/sendgrid/sendgrid-go/pull/217): Initialize map on declaration (round 2). Big thanks to [Noah Santschi-Cooney](https://github.com/Strum355) for the PR!
+- [PR #216](https://github.com/sendgrid/sendgrid-go/pull/216): Initialize map on declaration. Big thanks to [Noah Santschi-Cooney](https://github.com/Strum355) for the PR!
+- [PR #210](https://github.com/sendgrid/sendgrid-go/pull/210): Add github PR template. Big thanks to [Alex](https://github.com/pushkyn) for the PR!
+- [PR #225](https://github.com/sendgrid/sendgrid-go/pull/225): Add test for license date range. Big thanks to [Mansour Rahimi](https://github.com/m4ns0ur) for the PR!
+- [PR #214](https://github.com/sendgrid/sendgrid-go/pull/214): Add a .env_sample file, update gitignore, update README.md. Big thanks to [thepriefy](https://github.com/thepriefy) for the PR!
+- [PR #137](https://github.com/sendgrid/sendgrid-go/pull/137): Add Dockerize. Big thanks to [Eric Ho](https://github.com/dhoeric) for the PR!
+- [PR #200](https://github.com/sendgrid/sendgrid-go/pull/200): Helping get golint to 100%. Big thanks to [Paul Lovato](https://github.com/Cleanse) for the PR!
+- [PR #234](https://github.com/sendgrid/sendgrid-go/pull/234): Add announcement: Software Engineer role. Big thanks to [Marghodk](https://github.com/Marghodk) for the PR!
+- [PR #228](https://github.com/sendgrid/sendgrid-go/pull/228): Include Gometalinter in Travis CI build. Big thanks to [Vasko Zdravevski](https://github.com/vaskoz) for the PR!
+- [PR #229](https://github.com/sendgrid/sendgrid-go/pull/229): Add test for checking specific repo files. Big thanks to [Mansour Rahimi](https://github.com/m4ns0ur) for the PR!
+- [PR #231](https://github.com/sendgrid/sendgrid-go/pull/231): Adds codecov. Big thanks to [Charlie Lewis](https://github.com/cglewis) for the PR!
+- [PR #155](https://github.com/sendgrid/sendgrid-go/pull/155): Added optional rate limit handling. Big thanks to [Andy Trimble](https://github.com/andy-trimble) for the PR!
+- [PR #250](https://github.com/sendgrid/sendgrid-go/pull/250): Exclude time.Until lint error until we stop supporting Go 1.7 and lower. Big thanks to [Dustin Mowcomber](https://github.com/dmowcomber) for the PR!
+- [PR #264](https://github.com/sendgrid/sendgrid-go/pull/264): Readability update. Big thanks to [Anshul Singhal](https://github.com/af4ro) for the PR!
+- [PR #263](https://github.com/sendgrid/sendgrid-go/pull/263): Dynamic template support. Big thanks to [Devin Chasanoff](https://github.com/devchas) for the PR!
+- [PR #268](https://github.com/sendgrid/sendgrid-go/pull/268): mail: add test case on empty HTML to NewSingleEmail. Big thanks to [Arthur Silva](https://github.com/arxdsilva) for the PR!
+- [PR #269](https://github.com/sendgrid/sendgrid-go/pull/269): use testify. Big thanks to [Arthur Silva](https://github.com/arxdsilva) for the PR!
+- [PR #280](https://github.com/sendgrid/sendgrid-go/pull/280): helpers/mail: add testify to new test. Big thanks to [Arthur Silva](https://github.com/arxdsilva) for the PR!
+- [PR #194](https://github.com/sendgrid/sendgrid-go/pull/194): Allows users to submit rfc822 formatted email addresses. Big thanks to [Tariq Ibrahim](https://github.com/tariq1890) for the PR!
+- [PR #197](https://github.com/sendgrid/sendgrid-go/pull/197): Make Getenv("message") parameter more professional. Big thanks to [Nafis Faysal](https://github.com/nafisfaysal) for the PR!
+- [PR #238](https://github.com/sendgrid/sendgrid-go/pull/238): Added Code Review to Contributing.md. Big thanks to [Manjiri Tapaswi](https://github.com/mptap) for the PR!
+- [PR #293](https://github.com/sendgrid/sendgrid-go/pull/293): Use case directory structure update. Big thanks to [Arshad Kazmi](https://github.com/arshadkazmi42) for the PR!
+- [PR #243](https://github.com/sendgrid/sendgrid-go/pull/243): Add the ability to impersonate a subuser. Big thanks to [Boris M](https://github.com/denwwer) for the PR!
+- [PR #327](https://github.com/sendgrid/sendgrid-go/pull/327): Update prerequisites verbiage. Big thanks to [Rishabh](https://github.com/Rishabh04-02) for the PR!
+
+### Fixed
+- [PR #141](https://github.com/sendgrid/sendgrid-go/pull/141): Fix TROUBLESHOOTING.md typo. Big thanks to [Cícero Pablo](https://github.com/ciceropablo) for the PR!
+- [PR #149](https://github.com/sendgrid/sendgrid-go/pull/149): Various typo fixes. Big thanks to [Ivan](https://github.com/janczer) for the PR!
+- [PR #146](https://github.com/sendgrid/sendgrid-go/pull/146): USAGE.MD - Various grammar fixes. Big thanks to [Necroforger](https://github.com/Necroforger) for the PR!
+- [PR #121](https://github.com/sendgrid/sendgrid-go/pull/121): Go lint fixes. Big thanks to [Srinivas Iyengar](https://github.com/srini156) for the PR!
+- [PR #163](https://github.com/sendgrid/sendgrid-go/pull/163): Go vet fixes. Big thanks to [Vasko Zdravevski](https://github.com/vaskoz) for the PR!
+- [PR #191](https://github.com/sendgrid/sendgrid-go/pull/191): Spelling corrections in md and method names. Big thanks to [Brandon Smith](https://github.com/brandon93s) for the PR!
+- [PR #202](https://github.com/sendgrid/sendgrid-go/pull/202): Typos. Big thanks to [Varun Dey](https://github.com/varundey) for the PR!
+- [PR #148](https://github.com/sendgrid/sendgrid-go/pull/148): Fix golint and gofmt errors. Big thanks to [Prateek Pandey](https://github.com/prateekpandey14) for the PR!
+- [PR #198](https://github.com/sendgrid/sendgrid-go/pull/198): Fix wrong mail helpers example directory in README. Big thanks to [Kher Yee](https://github.com/tkbky) for the PR!
+- [PR #196](https://github.com/sendgrid/sendgrid-go/pull/196): Fix for gocyclo - reducing cyclomatic complexity. Big thanks to [Srinivas Iyengar](https://github.com/srini156) for the PR!
+- [PR #223](https://github.com/sendgrid/sendgrid-go/pull/223): Update LICENSE - set correct year. Big thanks to [Alex](https://github.com/pushkyn) for the PR!
+- [PR #215](https://github.com/sendgrid/sendgrid-go/pull/215): Megacheck found 2 small issues. Big thanks to [Vasko Zdravevski](https://github.com/vaskoz) for the PR!
+- [PR #224](https://github.com/sendgrid/sendgrid-go/pull/224): Fix spelling and formatting of comments in mail_v3.go. Big thanks to [Catlinman](https://github.com/catlinman) for the PR!
+- [PR #248](https://github.com/sendgrid/sendgrid-go/pull/248): Fix license and file tests. Big thanks to [Dustin Mowcomber](https://github.com/dmowcomber) for the PR!
+- [PR #252](https://github.com/sendgrid/sendgrid-go/pull/252): Add coverage.txt to .gitignore. Big thanks to [Dustin Mowcomber](https://github.com/dmowcomber) for the PR!
+- [PR #261](https://github.com/sendgrid/sendgrid-go/pull/261): README tag update and linter error fix. Big thanks to [Anshul Singhal](https://github.com/af4ro) for the PR!
+- [PR #273](https://github.com/sendgrid/sendgrid-go/pull/273): Exclude examples from go tests, Travis Job. Big thanks to [Fares Rihani](https://github.com/anchepiece) for the PR!
+- [PR #278](https://github.com/sendgrid/sendgrid-go/pull/278): GoReportCard fixes to reach 100%. Big thanks to [Vasko Zdravevski](https://github.com/vaskoz) for the PR!
+- [PR #232](https://github.com/sendgrid/sendgrid-go/pull/232): Update CONTRIBUTING.md formatting. Big thanks to [thepriefy](https://github.com/thepriefy) for the PR!
+- [PR #258](https://github.com/sendgrid/sendgrid-go/pull/258): gofmt fixes. Big thanks to [ia](https://github.com/whilei) for the PR!
+- [PR #292](https://github.com/sendgrid/sendgrid-go/pull/292): Fix broken link. Big thanks to [pangaunn](https://github.com/pangaunn) for the PR!
+- [PR #324](https://github.com/sendgrid/sendgrid-go/pull/324): inbound: Fix readme links. Big thanks to [Arthur Silva](https://github.com/arxdsilva) for the PR!
+- [PR #339](https://github.com/sendgrid/sendgrid-go/pull/339): Fix Travis builds. Big thanks to [Kevin Gillette](https://github.com/extemporalgenome) for the PR!
+- [PR #321](https://github.com/sendgrid/sendgrid-go/pull/321): Clean up Dockerfile. Big thanks to [gy741](https://github.com/gy741) for the PR!
+
 ## [3.4.1] - 2017-07-03
 ### Added
 - [Pull #116](https://github.com/sendgrid/sendgrid-go/pull/116): Fixing mimetypes in the NewSingleEmail function

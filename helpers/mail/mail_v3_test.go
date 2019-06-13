@@ -1,7 +1,6 @@
 package mail
 
 import (
-	"encoding/json"
 	"fmt"
 	"math/rand"
 	"testing"
@@ -667,9 +666,6 @@ func TestV3NewSingleEmail(t *testing.T) {
 
 	message := NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
 
-	m, _ := json.Marshal(message)
-	fmt.Println(string(m))
-
 	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
 	assert.NotNil(t, message.From, "From shouldn't return nil")
 	assert.Equal(t, subject, message.Subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
@@ -683,9 +679,6 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	plainTextContent := "and easy to do anywhere, even with Go"
 
 	message := NewSingleEmail(from, subject, to, plainTextContent, "")
-
-	m, _ := json.Marshal(message)
-	fmt.Println(string(m))
 
 	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
 	assert.NotNil(t, message.From, "From shouldn't be nil")
