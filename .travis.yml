@@ -20,7 +20,7 @@ before_install:
 
 script:
   - ./go.coverage.sh
-  - golangci-lint run helpers/.. sendgrid.go
+  - golangci-lint run --disable-all --enable=errcheck --enable=govet --enable=unused helpers/.. sendgrid.go
   - go test -cover -v -race ./... | grep -v -E '/vendor|/examples|/docker'
 
 after_success:
