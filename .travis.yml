@@ -12,8 +12,7 @@ env:
 - GOLANGCI_RELEASE="v1.20.0"
 
 before_script:
-  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s ${GOLANGCI_RELEASE}
-  - golangci-lint --version
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin ${GOLANGCI_RELEASE}
   - $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 
 before_install:
