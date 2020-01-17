@@ -1,7 +1,8 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [3.5.0] - 2019-06-13
+[2019-06-13] Version 3.5.0
+--------------------------
 ### Added
 - [PR #117](https://github.com/sendgrid/sendgrid-go/pull/117): Add release notifications. Big thanks to [Gabriel Krell](https://github.com/gabrielkrell) for the PR!
 - [PR #118](https://github.com/sendgrid/sendgrid-go/pull/118): Update USE_CASES.md formatting. Big thanks to [Kyle Roberts](https://github.com/kylearoberts) for the PR!
