@@ -120,9 +120,9 @@ func TestSendGridVersion(t *testing.T) {
 }
 
 func TestLicenseYear(t *testing.T) {
-	d, err := ioutil.ReadFile("LICENSE.txt")
-	assert.Nil(t, err, "Cannot read the LICENSE.txt file")
-	l := fmt.Sprintf("Copyright (c) 2013-%v Twilio SendGrid, Inc.", time.Now().Year())
+	d, err := ioutil.ReadFile("LICENSE.md")
+	assert.Nil(t, err, "Cannot read the LICENSE.md file")
+	l := fmt.Sprintf("Copyright (C) %v, Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
 
@@ -137,9 +137,9 @@ func TestRepoFiles(t *testing.T) {
 		"CHANGELOG.md",
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",
-		".github/ISSUE_TEMPLATE",
-		"LICENSE.txt",
-		".github/PULL_REQUEST_TEMPLATE",
+		"ISSUE_TEMPLATE.md",
+		"LICENSE.md",
+		"PULL_REQUEST_TEMPLATE.md",
 		"README.md",
 		"TROUBLESHOOTING.md",
 		"USAGE.md",
