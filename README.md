@@ -3,7 +3,7 @@
 [![BuildStatus](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
 [![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://godoc.org/github.com/sendgrid/sendgrid-go)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/sendgrid-go.svg)](https://github.com/sendgrid/sendgrid-go/graphs/contributors)
 [![Open Source Helpers](https://www.codetriage.com/sendgrid/sendgrid-go/badges/users.svg)](https://www.codetriage.com/sendgrid/sendgrid-go)
@@ -256,4 +256,4 @@ sendgrid-go is guided and supported by the Twilio SendGrid [Developer Experience
 sendgrid-go is maintained and funded by Twilio SendGrid, Inc. The names and logos for sendgrid-go are trademarks of Twilio SendGrid, Inc.
 
 # License
-[The MIT License (MIT)](LICENSE.txt)
+[The MIT License (MIT)](LICENSE.md)
