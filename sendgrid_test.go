@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -37,46 +36,10 @@ func TestMain(m *testing.M) {
 	// Learn how to configure prism here: https://designer.stoplight.io/docs/prism
 	testHost = "http://localhost:4010"
 
-	if runtime.GOOS == "windows" {
-		prismPath = filepath.Join(os.Getenv("GOPATH"), "bin", prismPath)
-		prismPath += ".exe"
-	}
+	prismPath = filepath.Join(os.Getenv("GOPATH"), "bin", prismPath)
 
-	// Check if prism is installed, if not, install it
-	if _, err := os.Stat(prismPath); os.IsNotExist(err) {
-		if runtime.GOOS != "windows" {
-			curl = exec.Command("curl", "https://raw.githubusercontent.com/stoplightio/prism/master/install.sh")
-			sh = exec.Command("sh")
-			read, write := io.Pipe()
-			curl.Stdout = write
-			sh.Stdin = read
-			sh.Stdout = &buffer
-			curl.Start()
-			sh.Start()
-			curl.Wait()
-			write.Close()
-			sh.Wait()
-			_, err := io.Copy(os.Stdout, &buffer)
-			if err != nil {
-				fmt.Println("Error downloading the prism binary, you can try downloading directly here (https://github.com/stoplightio/prism/releases) and place in your $GOPATH/bin directory: ", err)
-			}
-		} else {
-			fmt.Fprintf(os.Stderr, "Please download the Windows binary (https://github.com/stoplightio/prism/releases) and place it in your $GOPATH/bin directory")
-			os.Exit(1)
-		}
-	} else {
-		updatePrismCmd := exec.Command(prismPath, "up")
-		err := updatePrismCmd.Start()
-		if err != nil {
-			fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
-		} else {
-			fmt.Println("Waiting for prism to update...")
-			err = updatePrismCmd.Wait()
-			if err != nil {
-				fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
-			}
-			fmt.Println("Prism is now up to date!")
-		}
+	if runtime.GOOS == "windows" {
+		prismPath += ".exe"
 	}
 
 	prismCmd = exec.Command(prismPath, prismArgs...)
@@ -113,10 +76,6 @@ func TestMain(m *testing.M) {
 	}
 
 	os.Exit(exitCode)
-}
-
-func TestSendGridVersion(t *testing.T) {
-	assert.Equal(t, "3.1.0", Version, "Twilio SendGrid version does not match")
 }
 
 func TestLicenseYear(t *testing.T) {
