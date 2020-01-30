@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-01-30] Version 3.5.1
+--------------------------
+**Library - Chore**
+- [PR #382](https://github.com/sendgrid/sendgrid-go/pull/382): clean up prism installation. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #379](https://github.com/sendgrid/sendgrid-go/pull/379): prep repo for automation. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+
+**Library - Docs**
+- [PR #380](https://github.com/sendgrid/sendgrid-go/pull/380): baseline all the templated markdown docs. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #348](https://github.com/sendgrid/sendgrid-go/pull/348): fix usage link in README. Thanks to [@BogdanHabic](https://github.com/BogdanHabic)!
+
+**Library - Fix**
+- [PR #353](https://github.com/sendgrid/sendgrid-go/pull/353): double quote escape names with special characters. Thanks to [@haleyrc](https://github.com/haleyrc)!
+
+
 [2019-06-13] Version 3.5.0
 --------------------------
 ### Added
