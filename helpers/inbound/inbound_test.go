@@ -21,5 +21,5 @@ func TestGetBoundary(t *testing.T) {
 	next, _ := raw.NextPart()
 	value, _ := ioutil.ReadAll(next)
 	assert.Equal(t, "001a113ee97c89842f0539be8e7a", boundary, "The boundary was not found.")
-	assert.Equal(t, "Hello SendGrid!\n", string(value), "The email was not parsed properly.")
+	assert.Equal(t, "Hello Twilio SendGrid!\n", string(value), "The email was not parsed properly.")
 }

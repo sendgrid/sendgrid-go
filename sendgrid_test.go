@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -17,10 +16,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -38,46 +36,10 @@ func TestMain(m *testing.M) {
 	// Learn how to configure prism here: https://designer.stoplight.io/docs/prism
 	testHost = "http://localhost:4010"
 
-	if runtime.GOOS == "windows" {
-		prismPath = filepath.Join(os.Getenv("GOPATH"), "bin", prismPath)
-		prismPath += ".exe"
-	}
+	prismPath = filepath.Join(os.Getenv("GOPATH"), "bin", prismPath)
 
-	// Check if prism is installed, if not, install it
-	if _, err := os.Stat(prismPath); os.IsNotExist(err) {
-		if runtime.GOOS != "windows" {
-			curl = exec.Command("curl", "https://raw.githubusercontent.com/stoplightio/prism/master/install.sh")
-			sh = exec.Command("sh")
-			read, write := io.Pipe()
-			curl.Stdout = write
-			sh.Stdin = read
-			sh.Stdout = &buffer
-			curl.Start()
-			sh.Start()
-			curl.Wait()
-			write.Close()
-			sh.Wait()
-			_, err := io.Copy(os.Stdout, &buffer)
-			if err != nil {
-				fmt.Println("Error downloading the prism binary, you can try downloading directly here (https://github.com/stoplightio/prism/releases) and place in your $GOPATH/bin directory: ", err)
-			}
-		} else {
-			fmt.Fprintf(os.Stderr, "Please download the Windows binary (https://github.com/stoplightio/prism/releases) and place it in your $GOPATH/bin directory")
-			os.Exit(1)
-		}
-	} else {
-		updatePrismCmd := exec.Command(prismPath, "up")
-		err := updatePrismCmd.Start()
-		if err != nil {
-			fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
-		} else {
-			fmt.Println("Waiting for prism to update...")
-			err = updatePrismCmd.Wait()
-			if err != nil {
-				fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
-			}
-			fmt.Println("Prism is now up to date!")
-		}
+	if runtime.GOOS == "windows" {
+		prismPath += ".exe"
 	}
 
 	prismCmd = exec.Command(prismPath, prismArgs...)
@@ -116,14 +78,10 @@ func TestMain(m *testing.M) {
 	os.Exit(exitCode)
 }
 
-func TestSendGridVersion(t *testing.T) {
-	assert.Equal(t, "3.1.0", Version, "SendGrid version does not match")
-}
-
 func TestLicenseYear(t *testing.T) {
-	d, err := ioutil.ReadFile("LICENSE.txt")
-	assert.Nil(t, err, "Cannot read the LICENSE.txt file")
-	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
+	d, err := ioutil.ReadFile("LICENSE.md")
+	assert.Nil(t, err, "Cannot read the LICENSE.md file")
+	l := fmt.Sprintf("Copyright (C) %v, Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
 
@@ -138,13 +96,12 @@ func TestRepoFiles(t *testing.T) {
 		"CHANGELOG.md",
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",
-		".github/ISSUE_TEMPLATE",
-		"LICENSE.txt",
-		".github/PULL_REQUEST_TEMPLATE",
+		"ISSUE_TEMPLATE.md",
+		"LICENSE.md",
+		"PULL_REQUEST_TEMPLATE.md",
 		"README.md",
 		"TROUBLESHOOTING.md",
 		"USAGE.md",
-		"USE_CASES.md",
 	}
 	for _, f := range fs {
 		if _, err := os.Stat(f); os.IsNotExist(err) {
@@ -166,6 +123,36 @@ func TestGetRequest(t *testing.T) {
 	assert.Equal(t, "application/json", request.Headers["Accept"], "Wrong Accept Agent")
 }
 
+func ShouldHaveHeaders(request *rest.Request, t *testing.T) {
+	if request.Headers["Authorization"] != "Bearer API_KEY" {
+		t.Error("Wrong Authorization")
+	}
+	if request.Headers["User-Agent"] != "sendgrid/"+Version+";go" {
+		t.Error("Wrong User Agent")
+	}
+	if request.Headers["Accept"] != "application/json" {
+		t.Error("Wrong Accept header")
+	}
+	if request.Headers["On-Behalf-Of"] != "subuserUsername" {
+		t.Error("Wrong On-Behalf-Of")
+	}
+}
+
+func TestGetRequestSubuser(t *testing.T) {
+	request := GetRequestSubuser("API_KEY", "/v3/endpoint", "https://test.api.com", "subuserUsername")
+
+	if request.BaseURL != "https://test.api.com/v3/endpoint" {
+		t.Error("Host not set correctly")
+	}
+
+	ShouldHaveHeaders(&request, t)
+}
+
+func TestNewSendClientSubuser(t *testing.T) {
+	client := NewSendClientSubuser("API_KEY", "subuserUsername")
+	ShouldHaveHeaders(&client.Request, t)
+}
+
 func TestCustomHTTPClient(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
@@ -178,7 +165,7 @@ func TestCustomHTTPClient(t *testing.T) {
 	request.Method = "GET"
 	var custom rest.Client
 	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
-	_, err := custom.API(request)
+	_, err := custom.Send(request)
 	assert.NotNil(t, err, "A timeout did not trigger as expected")
 	assert.True(t, strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers"), "We did not receive the Timeout error")
 }
@@ -280,9 +267,9 @@ func Test_test_access_settings_activity_get(t *testing.T) {
 	queryParams["limit"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -306,9 +293,9 @@ func Test_test_access_settings_whitelist_post(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -319,9 +306,9 @@ func Test_test_access_settings_whitelist_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/access_settings/whitelist", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -339,9 +326,9 @@ func Test_test_access_settings_whitelist_delete(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -352,9 +339,9 @@ func Test_test_access_settings_whitelist__rule_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -365,9 +352,9 @@ func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -383,9 +370,9 @@ func Test_test_alerts_post(t *testing.T) {
   "type": "stats_notification"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -396,9 +383,9 @@ func Test_test_alerts_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/alerts", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -412,9 +399,9 @@ func Test_test_alerts__alert_id__patch(t *testing.T) {
   "email_to": "example@example.com"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -425,9 +412,9 @@ func Test_test_alerts__alert_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -438,9 +425,9 @@ func Test_test_alerts__alert_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -460,9 +447,9 @@ func Test_test_api_keys_post(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -476,9 +463,9 @@ func Test_test_api_keys_get(t *testing.T) {
 	queryParams["limit"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -496,9 +483,9 @@ func Test_test_api_keys__api_key_id__put(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -512,9 +499,9 @@ func Test_test_api_keys__api_key_id__patch(t *testing.T) {
   "name": "A New Hope"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -525,9 +512,9 @@ func Test_test_api_keys__api_key_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -538,9 +525,9 @@ func Test_test_api_keys__api_key_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -556,9 +543,9 @@ func Test_test_asm_groups_post(t *testing.T) {
   "name": "Product Suggestions"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -572,9 +559,9 @@ func Test_test_asm_groups_get(t *testing.T) {
 	queryParams["id"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -590,9 +577,9 @@ func Test_test_asm_groups__group_id__patch(t *testing.T) {
   "name": "Item Suggestions"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -603,9 +590,9 @@ func Test_test_asm_groups__group_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -616,9 +603,9 @@ func Test_test_asm_groups__group_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -635,9 +622,9 @@ func Test_test_asm_groups__group_id__suppressions_post(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -648,9 +635,9 @@ func Test_test_asm_groups__group_id__suppressions_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -668,9 +655,9 @@ func Test_test_asm_groups__group_id__suppressions_search_post(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -681,9 +668,9 @@ func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/{email}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -694,9 +681,9 @@ func Test_test_asm_suppressions_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/suppressions", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -713,9 +700,9 @@ func Test_test_asm_suppressions_global_post(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -726,9 +713,9 @@ func Test_test_asm_suppressions_global__email__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -739,9 +726,9 @@ func Test_test_asm_suppressions_global__email__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -752,9 +739,9 @@ func Test_test_asm_suppressions__email__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/asm/suppressions/{email}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -773,9 +760,9 @@ func Test_test_browsers_stats_get(t *testing.T) {
 	queryParams["start_date"] = "2016-01-01"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -806,9 +793,9 @@ func Test_test_campaigns_post(t *testing.T) {
   "title": "March Newsletter"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -823,9 +810,9 @@ func Test_test_campaigns_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -845,9 +832,9 @@ func Test_test_campaigns__campaign_id__patch(t *testing.T) {
   "title": "May Newsletter"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -858,9 +845,9 @@ func Test_test_campaigns__campaign_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -871,9 +858,9 @@ func Test_test_campaigns__campaign_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -887,9 +874,9 @@ func Test_test_campaigns__campaign_id__schedules_patch(t *testing.T) {
   "send_at": 1489451436
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -903,9 +890,9 @@ func Test_test_campaigns__campaign_id__schedules_post(t *testing.T) {
   "send_at": 1489771528
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -916,9 +903,9 @@ func Test_test_campaigns__campaign_id__schedules_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -929,9 +916,9 @@ func Test_test_campaigns__campaign_id__schedules_delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -942,9 +929,9 @@ func Test_test_campaigns__campaign_id__schedules_now_post(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/now", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -958,9 +945,9 @@ func Test_test_campaigns__campaign_id__schedules_test_post(t *testing.T) {
   "to": "your.email@example.com"
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -976,9 +963,9 @@ func Test_test_categories_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -997,9 +984,9 @@ func Test_test_categories_stats_get(t *testing.T) {
 	queryParams["categories"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1019,9 +1006,9 @@ func Test_test_categories_stats_sums_get(t *testing.T) {
 	queryParams["sort_by_direction"] = "asc"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1037,9 +1024,9 @@ func Test_test_clients_stats_get(t *testing.T) {
 	queryParams["end_date"] = "2016-04-01"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1055,9 +1042,9 @@ func Test_test_clients__client_type__stats_get(t *testing.T) {
 	queryParams["end_date"] = "2016-04-01"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1072,9 +1059,9 @@ func Test_test_contactdb_custom_fields_post(t *testing.T) {
   "type": "text"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1085,9 +1072,9 @@ func Test_test_contactdb_custom_fields_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1098,9 +1085,9 @@ func Test_test_contactdb_custom_fields__custom_field_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_field_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1111,9 +1098,9 @@ func Test_test_contactdb_custom_fields__custom_field_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_field_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "202"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
@@ -1127,9 +1114,9 @@ func Test_test_contactdb_lists_post(t *testing.T) {
   "name": "your list name"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1140,9 +1127,9 @@ func Test_test_contactdb_lists_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/lists", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1159,9 +1146,9 @@ func Test_test_contactdb_lists_delete(t *testing.T) {
   4
 ]`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1178,9 +1165,9 @@ func Test_test_contactdb_lists__list_id__patch(t *testing.T) {
 	queryParams["list_id"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1194,9 +1181,9 @@ func Test_test_contactdb_lists__list_id__get(t *testing.T) {
 	queryParams["list_id"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1210,9 +1197,9 @@ func Test_test_contactdb_lists__list_id__delete(t *testing.T) {
 	queryParams["delete_contacts"] = "true"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "202"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
@@ -1227,9 +1214,9 @@ func Test_test_contactdb_lists__list_id__recipients_post(t *testing.T) {
   "recipient_id2"
 ]`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1245,9 +1232,9 @@ func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T) {
 	queryParams["list_id"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1258,9 +1245,9 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__post(t *testi
 	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1275,9 +1262,9 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *tes
 	queryParams["list_id"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1295,9 +1282,9 @@ func Test_test_contactdb_recipients_patch(t *testing.T) {
   }
 ]`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1322,9 +1309,9 @@ func Test_test_contactdb_recipients_post(t *testing.T) {
   }
 ]`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1339,9 +1326,9 @@ func Test_test_contactdb_recipients_get(t *testing.T) {
 	queryParams["page_size"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1356,9 +1343,9 @@ func Test_test_contactdb_recipients_delete(t *testing.T) {
   "recipient_id2"
 ]`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1369,9 +1356,9 @@ func Test_test_contactdb_recipients_billable_count_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/recipients/billable_count", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1382,9 +1369,9 @@ func Test_test_contactdb_recipients_count_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/recipients/count", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1398,9 +1385,9 @@ func Test_test_contactdb_recipients_search_get(t *testing.T) {
 	queryParams["{field_name}"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1411,9 +1398,9 @@ func Test_test_contactdb_recipients__recipient_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1424,9 +1411,9 @@ func Test_test_contactdb_recipients__recipient_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1437,9 +1424,9 @@ func Test_test_contactdb_recipients__recipient_id__lists_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}/lists", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1450,9 +1437,9 @@ func Test_test_contactdb_reserved_fields_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/reserved_fields", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1487,9 +1474,9 @@ func Test_test_contactdb_segments_post(t *testing.T) {
   "name": "Last Name Miller"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1500,9 +1487,9 @@ func Test_test_contactdb_segments_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/contactdb/segments", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1528,9 +1515,9 @@ func Test_test_contactdb_segments__segment_id__patch(t *testing.T) {
 	queryParams["segment_id"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1544,9 +1531,9 @@ func Test_test_contactdb_segments__segment_id__get(t *testing.T) {
 	queryParams["segment_id"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1560,9 +1547,9 @@ func Test_test_contactdb_segments__segment_id__delete(t *testing.T) {
 	queryParams["delete_contacts"] = "true"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1577,9 +1564,9 @@ func Test_test_contactdb_segments__segment_id__recipients_get(t *testing.T) {
 	queryParams["page_size"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1597,9 +1584,9 @@ func Test_test_devices_stats_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1618,9 +1605,9 @@ func Test_test_geo_stats_get(t *testing.T) {
 	queryParams["start_date"] = "2016-01-01"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1638,9 +1625,9 @@ func Test_test_ips_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1651,9 +1638,9 @@ func Test_test_ips_assigned_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/assigned", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1667,9 +1654,9 @@ func Test_test_ips_pools_post(t *testing.T) {
   "name": "marketing"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1680,9 +1667,9 @@ func Test_test_ips_pools_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/pools", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1696,9 +1683,9 @@ func Test_test_ips_pools__pool_name__put(t *testing.T) {
   "name": "new_pool_name"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1709,9 +1696,9 @@ func Test_test_ips_pools__pool_name__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1722,9 +1709,9 @@ func Test_test_ips_pools__pool_name__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1738,9 +1725,9 @@ func Test_test_ips_pools__pool_name__ips_post(t *testing.T) {
   "ip": "0.0.0.0"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1751,9 +1738,9 @@ func Test_test_ips_pools__pool_name__ips__ip__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips/{ip}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1767,9 +1754,9 @@ func Test_test_ips_warmup_post(t *testing.T) {
   "ip": "0.0.0.0"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1780,9 +1767,9 @@ func Test_test_ips_warmup_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/warmup", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1793,9 +1780,9 @@ func Test_test_ips_warmup__ip_address__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1806,9 +1793,9 @@ func Test_test_ips_warmup__ip_address__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -1819,9 +1806,9 @@ func Test_test_ips__ip_address__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/ips/{ip_address}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1832,9 +1819,9 @@ func Test_test_mail_batch_post(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail/batch", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -1845,9 +1832,9 @@ func Test_test_mail_batch__batch_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail/batch/{batch_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -1909,8 +1896,8 @@ func Test_test_send_client(t *testing.T) {
 			},
 			"footer": {
 			"enable": true,
-			"html": "<p>Thanks</br>The SendGrid Team</p>",
-			"text": "Thanks,/n The SendGrid Team"
+			"html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+			"text": "Thanks,/n The Twilio SendGrid Team"
 			},
 			"sandbox_mode": {
 			"enable": false
@@ -1996,7 +1983,7 @@ func Test_test_send_client(t *testing.T) {
 	client.Request.Headers["X-Mock"] = "202"
 	response, err := client.Send(email)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
@@ -2057,8 +2044,8 @@ func Test_test_mail_send_post(t *testing.T) {
     },
     "footer": {
       "enable": true,
-      "html": "<p>Thanks</br>The SendGrid Team</p>",
-      "text": "Thanks,/n The SendGrid Team"
+      "html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+      "text": "Thanks,/n The Twilio SendGrid Team"
     },
     "sandbox_mode": {
       "enable": false
@@ -2145,9 +2132,9 @@ func Test_test_mail_send_post(t *testing.T) {
   }
 }`)
 	request.Headers["X-Mock"] = "202"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 202, response.StatusCode, "Wrong status code returned")
 }
@@ -2162,9 +2149,9 @@ func Test_test_mail_settings_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2182,9 +2169,9 @@ func Test_test_mail_settings_address_whitelist_patch(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2195,9 +2182,9 @@ func Test_test_mail_settings_address_whitelist_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2212,9 +2199,9 @@ func Test_test_mail_settings_bcc_patch(t *testing.T) {
   "enabled": false
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2225,9 +2212,9 @@ func Test_test_mail_settings_bcc_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/bcc", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2243,9 +2230,9 @@ func Test_test_mail_settings_bounce_purge_patch(t *testing.T) {
   "soft_bounces": 5
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2256,9 +2243,9 @@ func Test_test_mail_settings_bounce_purge_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2274,9 +2261,9 @@ func Test_test_mail_settings_footer_patch(t *testing.T) {
   "plain_content": "..."
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2287,9 +2274,9 @@ func Test_test_mail_settings_footer_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/footer", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2304,9 +2291,9 @@ func Test_test_mail_settings_forward_bounce_patch(t *testing.T) {
   "enabled": true
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2317,9 +2304,9 @@ func Test_test_mail_settings_forward_bounce_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2334,9 +2321,9 @@ func Test_test_mail_settings_forward_spam_patch(t *testing.T) {
   "enabled": false
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2347,9 +2334,9 @@ func Test_test_mail_settings_forward_spam_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2363,9 +2350,9 @@ func Test_test_mail_settings_plain_content_patch(t *testing.T) {
   "enabled": false
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2376,9 +2363,9 @@ func Test_test_mail_settings_plain_content_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2394,9 +2381,9 @@ func Test_test_mail_settings_spam_check_patch(t *testing.T) {
   "url": "url"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2407,9 +2394,9 @@ func Test_test_mail_settings_spam_check_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2424,9 +2411,9 @@ func Test_test_mail_settings_template_patch(t *testing.T) {
   "html_content": "<% body %>"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2437,9 +2424,9 @@ func Test_test_mail_settings_template_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/mail_settings/template", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2458,9 +2445,9 @@ func Test_test_mailbox_providers_stats_get(t *testing.T) {
 	queryParams["start_date"] = "2016-01-01"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2475,9 +2462,9 @@ func Test_test_partner_settings_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2493,9 +2480,9 @@ func Test_test_partner_settings_new_relic_patch(t *testing.T) {
   "license_key": ""
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2506,9 +2493,9 @@ func Test_test_partner_settings_new_relic_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2519,9 +2506,9 @@ func Test_test_scopes_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/scopes", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2549,9 +2536,9 @@ func Test_test_senders_post(t *testing.T) {
   "zip": "80202"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -2562,9 +2549,9 @@ func Test_test_senders_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/senders", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2592,9 +2579,9 @@ func Test_test_senders__sender_id__patch(t *testing.T) {
   "zip": "80202"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2605,9 +2592,9 @@ func Test_test_senders__sender_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2618,9 +2605,9 @@ func Test_test_senders__sender_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2631,9 +2618,9 @@ func Test_test_senders__sender_id__resend_verification_post(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2651,9 +2638,9 @@ func Test_test_stats_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2673,9 +2660,9 @@ func Test_test_subusers_post(t *testing.T) {
   "username": "John@example.com"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2691,9 +2678,9 @@ func Test_test_subusers_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2707,9 +2694,9 @@ func Test_test_subusers_reputations_get(t *testing.T) {
 	queryParams["usernames"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2728,9 +2715,9 @@ func Test_test_subusers_stats_get(t *testing.T) {
 	queryParams["subusers"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2749,9 +2736,9 @@ func Test_test_subusers_stats_monthly_get(t *testing.T) {
 	queryParams["sort_by_direction"] = "asc"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2771,9 +2758,9 @@ func Test_test_subusers_stats_sums_get(t *testing.T) {
 	queryParams["sort_by_direction"] = "asc"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2787,9 +2774,9 @@ func Test_test_subusers__subuser_name__patch(t *testing.T) {
   "disabled": false
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2800,9 +2787,9 @@ func Test_test_subusers__subuser_name__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2816,9 +2803,9 @@ func Test_test_subusers__subuser_name__ips_put(t *testing.T) {
   "127.0.0.1"
 ]`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2833,9 +2820,9 @@ func Test_test_subusers__subuser_name__monitor_put(t *testing.T) {
   "frequency": 500
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2850,9 +2837,9 @@ func Test_test_subusers__subuser_name__monitor_post(t *testing.T) {
   "frequency": 50000
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2863,9 +2850,9 @@ func Test_test_subusers__subuser_name__monitor_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2876,9 +2863,9 @@ func Test_test_subusers__subuser_name__monitor_delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2896,9 +2883,9 @@ func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2915,9 +2902,9 @@ func Test_test_suppression_blocks_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2935,9 +2922,9 @@ func Test_test_suppression_blocks_delete(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2948,9 +2935,9 @@ func Test_test_suppression_blocks__email__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2961,9 +2948,9 @@ func Test_test_suppression_blocks__email__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -2978,9 +2965,9 @@ func Test_test_suppression_bounces_get(t *testing.T) {
 	queryParams["end_time"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -2998,9 +2985,9 @@ func Test_test_suppression_bounces_delete(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3011,9 +2998,9 @@ func Test_test_suppression_bounces__email__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3027,9 +3014,9 @@ func Test_test_suppression_bounces__email__delete(t *testing.T) {
 	queryParams["email_address"] = "example@example.com"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3046,9 +3033,9 @@ func Test_test_suppression_invalid_emails_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3066,9 +3053,9 @@ func Test_test_suppression_invalid_emails_delete(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3079,9 +3066,9 @@ func Test_test_suppression_invalid_emails__email__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3092,9 +3079,9 @@ func Test_test_suppression_invalid_emails__email__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3105,9 +3092,9 @@ func Test_test_suppression_spam_report__email__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3118,9 +3105,9 @@ func Test_test_suppression_spam_report__email__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3137,9 +3124,9 @@ func Test_test_suppression_spam_reports_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3157,9 +3144,9 @@ func Test_test_suppression_spam_reports_delete(t *testing.T) {
   ]
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3176,9 +3163,9 @@ func Test_test_suppression_unsubscribes_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3192,9 +3179,9 @@ func Test_test_templates_post(t *testing.T) {
   "name": "example_name"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -3205,9 +3192,9 @@ func Test_test_templates_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/templates", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3221,9 +3208,9 @@ func Test_test_templates__template_id__patch(t *testing.T) {
   "name": "new_example_name"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3234,9 +3221,9 @@ func Test_test_templates__template_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/templates/{template_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3247,9 +3234,9 @@ func Test_test_templates__template_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/templates/{template_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3268,9 +3255,9 @@ func Test_test_templates__template_id__versions_post(t *testing.T) {
   "template_id": "ddb96bbc-9b92-425e-8979-99464621b543"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -3288,9 +3275,9 @@ func Test_test_templates__template_id__versions__version_id__patch(t *testing.T)
   "subject": "<%subject%>"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3301,9 +3288,9 @@ func Test_test_templates__template_id__versions__version_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3314,9 +3301,9 @@ func Test_test_templates__template_id__versions__version_id__delete(t *testing.T
 	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3327,9 +3314,9 @@ func Test_test_templates__template_id__versions__version_id__activate_post(t *te
 	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}/activate", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3344,9 +3331,9 @@ func Test_test_tracking_settings_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3360,9 +3347,9 @@ func Test_test_tracking_settings_click_patch(t *testing.T) {
   "enabled": true
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3373,9 +3360,9 @@ func Test_test_tracking_settings_click_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/tracking_settings/click", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3394,9 +3381,9 @@ func Test_test_tracking_settings_google_analytics_patch(t *testing.T) {
   "utm_term": ""
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3407,9 +3394,9 @@ func Test_test_tracking_settings_google_analytics_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3423,9 +3410,9 @@ func Test_test_tracking_settings_open_patch(t *testing.T) {
   "enabled": true
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3436,9 +3423,9 @@ func Test_test_tracking_settings_open_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/tracking_settings/open", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3457,9 +3444,9 @@ func Test_test_tracking_settings_subscription_patch(t *testing.T) {
   "url": "url"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3470,9 +3457,9 @@ func Test_test_tracking_settings_subscription_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3483,9 +3470,9 @@ func Test_test_user_account_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/account", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3496,9 +3483,9 @@ func Test_test_user_credits_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/credits", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3512,9 +3499,9 @@ func Test_test_user_email_put(t *testing.T) {
   "email": "example@example.com"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3525,9 +3512,9 @@ func Test_test_user_email_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/email", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3542,9 +3529,9 @@ func Test_test_user_password_put(t *testing.T) {
   "old_password": "old_password"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3560,9 +3547,9 @@ func Test_test_user_profile_patch(t *testing.T) {
   "last_name": "User"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3573,9 +3560,9 @@ func Test_test_user_profile_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/profile", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3590,9 +3577,9 @@ func Test_test_user_scheduled_sends_post(t *testing.T) {
   "status": "pause"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -3603,9 +3590,9 @@ func Test_test_user_scheduled_sends_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/scheduled_sends", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3619,9 +3606,9 @@ func Test_test_user_scheduled_sends__batch_id__patch(t *testing.T) {
   "status": "pause"
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3632,9 +3619,9 @@ func Test_test_user_scheduled_sends__batch_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3645,9 +3632,9 @@ func Test_test_user_scheduled_sends__batch_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3662,9 +3649,9 @@ func Test_test_user_settings_enforced_tls_patch(t *testing.T) {
   "require_valid_cert": false
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3675,9 +3662,9 @@ func Test_test_user_settings_enforced_tls_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3691,9 +3678,9 @@ func Test_test_user_username_put(t *testing.T) {
   "username": "test_username"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3704,9 +3691,9 @@ func Test_test_user_username_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/username", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3732,9 +3719,9 @@ func Test_test_user_webhooks_event_settings_patch(t *testing.T) {
   "url": "url"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3745,9 +3732,9 @@ func Test_test_user_webhooks_event_settings_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3761,9 +3748,9 @@ func Test_test_user_webhooks_event_test_post(t *testing.T) {
   "url": "url"
 }`)
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3780,9 +3767,9 @@ func Test_test_user_webhooks_parse_settings_post(t *testing.T) {
   "url": "http://email.myhosthame.com"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -3793,9 +3780,9 @@ func Test_test_user_webhooks_parse_settings_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3811,9 +3798,9 @@ func Test_test_user_webhooks_parse_settings__hostname__patch(t *testing.T) {
   "url": "http://newdomain.com/parse"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3824,9 +3811,9 @@ func Test_test_user_webhooks_parse_settings__hostname__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3837,9 +3824,9 @@ func Test_test_user_webhooks_parse_settings__hostname__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3857,9 +3844,9 @@ func Test_test_user_webhooks_parse_stats_get(t *testing.T) {
 	queryParams["offset"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3882,9 +3869,9 @@ func Test_test_whitelabel_domains_post(t *testing.T) {
   "username": "john@example.com"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -3902,9 +3889,9 @@ func Test_test_whitelabel_domains_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3915,9 +3902,9 @@ func Test_test_whitelabel_domains_default_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3928,9 +3915,9 @@ func Test_test_whitelabel_domains_subuser_get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3941,9 +3928,9 @@ func Test_test_whitelabel_domains_subuser_delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -3958,9 +3945,9 @@ func Test_test_whitelabel_domains__domain_id__patch(t *testing.T) {
   "default": false
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3971,9 +3958,9 @@ func Test_test_whitelabel_domains__domain_id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -3984,9 +3971,9 @@ func Test_test_whitelabel_domains__domain_id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -4000,9 +3987,9 @@ func Test_test_whitelabel_domains__domain_id__subuser_post(t *testing.T) {
   "username": "jane@example.com"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -4016,9 +4003,9 @@ func Test_test_whitelabel_domains__id__ips_post(t *testing.T) {
   "ip": "192.168.0.1"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4029,9 +4016,9 @@ func Test_test_whitelabel_domains__id__ips__ip__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4042,9 +4029,9 @@ func Test_test_whitelabel_domains__id__validate_post(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4060,9 +4047,9 @@ func Test_test_whitelabel_ips_post(t *testing.T) {
   "subdomain": "email"
 }`)
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -4078,9 +4065,9 @@ func Test_test_whitelabel_ips_get(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4091,9 +4078,9 @@ func Test_test_whitelabel_ips__id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4104,9 +4091,9 @@ func Test_test_whitelabel_ips__id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -4117,9 +4104,9 @@ func Test_test_whitelabel_ips__id__validate_post(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4139,9 +4126,9 @@ func Test_test_whitelabel_links_post(t *testing.T) {
 	queryParams["offset"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "201"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 201, response.StatusCode, "Wrong status code returned")
 }
@@ -4155,9 +4142,9 @@ func Test_test_whitelabel_links_get(t *testing.T) {
 	queryParams["limit"] = "1"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4171,9 +4158,9 @@ func Test_test_whitelabel_links_default_get(t *testing.T) {
 	queryParams["domain"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4187,9 +4174,9 @@ func Test_test_whitelabel_links_subuser_get(t *testing.T) {
 	queryParams["username"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4203,9 +4190,9 @@ func Test_test_whitelabel_links_subuser_delete(t *testing.T) {
 	queryParams["username"] = "test_string"
 	request.QueryParams = queryParams
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -4219,9 +4206,9 @@ func Test_test_whitelabel_links__id__patch(t *testing.T) {
   "default": true
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4232,9 +4219,9 @@ func Test_test_whitelabel_links__id__get(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4245,9 +4232,9 @@ func Test_test_whitelabel_links__id__delete(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 204, response.StatusCode, "Wrong status code returned")
 }
@@ -4258,9 +4245,9 @@ func Test_test_whitelabel_links__id__validate_post(t *testing.T) {
 	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", host)
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
@@ -4274,9 +4261,9 @@ func Test_test_whitelabel_links__link_id__subuser_post(t *testing.T) {
   "username": "jane@example.com"
 }`)
 	request.Headers["X-Mock"] = "200"
-	response, err := API(request)
+	response, err := MakeRequest(request)
 	if err != nil {
-		fmt.Println(err)
+		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }

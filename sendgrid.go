@@ -1,4 +1,4 @@
-// Package sendgrid provides a simple interface to interact with the SendGrid API
+// Package sendgrid provides a simple interface to interact with the Twilio SendGrid API
 package sendgrid
 
 import (
@@ -13,44 +13,81 @@ import (
 
 // Version is this client library's current version
 const (
-	Version        = "3.1.0"
+	Version        = "3.5.1"
 	rateLimitRetry = 5
 	rateLimitSleep = 1100
 )
 
-// Client is the SendGrid Go client
+// Client is the Twilio SendGrid Go client
 type Client struct {
 	// rest.Request
 	rest.Request
 }
 
-// GetRequest returns a default request object.
-func GetRequest(key string, endpoint string, host string) rest.Request {
-	if host == "" {
-		host = "https://api.sendgrid.com"
+// options for requestNew
+type options struct {
+	Key      string
+	Endpoint string
+	Host     string
+	Subuser  string
+}
+
+func (o *options) baseURL() string {
+	return o.Host + o.Endpoint
+}
+
+// GetRequest
+// @return [Request] a default request object
+func GetRequest(key, endpoint, host string) rest.Request {
+	return requestNew(options{key, endpoint, host, ""})
+}
+
+// GetRequestSubuser like GetRequest but with On-Behalf of Subuser
+// @return [Request] a default request object
+func GetRequestSubuser(key, endpoint, host, subuser string) rest.Request {
+	return requestNew(options{key, endpoint, host, subuser})
+}
+
+// requestNew create Request
+// @return [Request] a default request object
+func requestNew(options options) rest.Request {
+	if options.Host == "" {
+		options.Host = "https://api.sendgrid.com"
 	}
-	baseURL := host + endpoint
+
 	requestHeaders := map[string]string{
-		"Authorization": "Bearer " + key,
+		"Authorization": "Bearer " + options.Key,
 		"User-Agent":    "sendgrid/" + Version + ";go",
 		"Accept":        "application/json",
 	}
-	request := rest.Request{
-		BaseURL: baseURL,
+
+	if len(options.Subuser) != 0 {
+		requestHeaders["On-Behalf-Of"] = options.Subuser
+	}
+
+	return rest.Request{
+		BaseURL: options.baseURL(),
 		Headers: requestHeaders,
 	}
-	return request
 }
 
-// Send sends an email through SendGrid
+// Send sends an email through Twilio SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
-	return API(cl.Request)
+	return MakeRequest(cl.Request)
 }
 
-// NewSendClient constructs a new SendGrid client given an API key
+// NewSendClient constructs a new Twilio SendGrid client given an API key
 func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
+	request.Method = "POST"
+	return &Client{request}
+}
+
+// GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
+// @return [Client]
+func NewSendClientSubuser(key, subuser string) *Client {
+	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
 	request.Method = "POST"
 	return &Client{request}
 }
@@ -58,16 +95,16 @@ func NewSendClient(key string) *Client {
 // DefaultClient is used if no custom HTTP client is defined
 var DefaultClient = rest.DefaultClient
 
-// API sets up the request to the SendGrid API, this is main interface.
-// This function is deprecated. Please use the MakeRequest or
-// MakeRequestAsync functions.
+// API sets up the request to the Twilio SendGrid API, this is main interface.
+// Please use the MakeRequest or MakeRequestAsync functions instead.
+// (deprecated)
 func API(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+	return MakeRequest(request)
 }
 
-// MakeRequest attempts a SendGrid request synchronously.
+// MakeRequest attempts a Twilio SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+	return DefaultClient.Send(request)
 }
 
 // MakeRequestRetry a synchronous request, but retry in the event of a rate
@@ -78,7 +115,7 @@ func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
 	var err error
 
 	for {
-		response, err = DefaultClient.API(request)
+		response, err = MakeRequest(request)
 		if err != nil {
 			return nil, err
 		}

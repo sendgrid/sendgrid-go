@@ -87,7 +87,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 
 				printMap(parsedRawEmail, "r")
 				printMap(rawFiles, "rf")
-				// SendGrid needs a 200 OK response to stop POSTing
+				// Twilio SendGrid needs a 200 OK response to stop POSTing
 				response.WriteHeader(http.StatusOK)
 				return
 			}
@@ -189,7 +189,7 @@ func main() {
 			log.Fatal("Check your Filepath. ", err)
 		}
 		Headers := map[string]string{
-			"User-Agent":   "SendGrid-Test",
+			"User-Agent":   "Twilio-SendGrid-Test",
 			"Content-Type": "multipart/form-data; boundary=xYzZY",
 		}
 		method := rest.Post
@@ -199,7 +199,7 @@ func main() {
 			Headers: Headers,
 			Body:    file,
 		}
-		_, err = rest.API(request)
+		_, err = rest.Send(request)
 		if err != nil {
 			log.Fatal("Check your Filepath. ", err)
 		}
