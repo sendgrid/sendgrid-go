@@ -92,10 +92,8 @@ func TestEscapeName(t *testing.T) {
 		{"contains period", `Johnny.Bravo`, `"Johnny.Bravo"`},
 	}
 	for _, tc := range testcases {
-		t.Run(tc.name, func(t *testing.T) {
-			got := EscapeName(tc.name)
-			assert.Equal(t, tc.want, got, fmt.Sprintf("name should be %s, got %s", tc.want, got))
-		})
+		got := EscapeName(tc.name)
+		assert.Equal(t, tc.want, got, fmt.Sprintf("name should be %s, got %s", tc.want, got))
 	}
 }
 
