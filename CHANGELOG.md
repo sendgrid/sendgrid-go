@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-02-05] Version 3.5.2
+--------------------------
+**Library - Docs**
+- [PR #309](https://github.com/sendgrid/sendgrid-go/pull/309): Fixed link to bug report template. Thanks to [@alxshelepenok](https://github.com/alxshelepenok)!
+
+**Library - Chore**
+- [PR #372](https://github.com/sendgrid/sendgrid-go/pull/372): Add current Go versions to Travis. Thanks to [@pangaunn](https://github.com/pangaunn)!
+
+
 [2020-01-30] Version 3.5.1
 --------------------------
 **Library - Chore**
