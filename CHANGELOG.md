@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-02-19] Version 3.5.3
+--------------------------
+**Library - Docs**
+- [PR #295](https://github.com/sendgrid/sendgrid-go/pull/295): Update documentation for retrieving a list of all templates. Thanks to [@renshuki](https://github.com/renshuki)!
+
+
 [2020-02-05] Version 3.5.2
 --------------------------
 **Library - Docs**
