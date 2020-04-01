@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-04-01] Version 3.5.4
+--------------------------
+**Library - Docs**
+- [PR #386](https://github.com/sendgrid/sendgrid-go/pull/386): support verbiage for login issues. Thanks to [@adamchasetaylor](https://github.com/adamchasetaylor)!
+
+
 [2020-02-19] Version 3.5.3
 --------------------------
 **Library - Docs**
