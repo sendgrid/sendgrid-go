@@ -219,8 +219,6 @@ Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/help
 <a name="announcements"></a>
 # Announcements
 
-Join an experienced and passionate team that focuses on making an impact. [Opportunities abound](https://sendgrid.com/careers) to grow the product - and grow your career! 
-
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
 
 All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
@@ -251,9 +249,11 @@ Please see our [troubleshooting guide](https://github.com/sendgrid/sendgrid-go/b
 <a name="about"></a>
 # About
 
-sendgrid-go is guided and supported by the Twilio SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).
-
 sendgrid-go is maintained and funded by Twilio SendGrid, Inc. The names and logos for sendgrid-go are trademarks of Twilio SendGrid, Inc.
+
+If you need help installing or using the library, please check the [Twilio SendGrid Support Help Center](https://support.sendgrid.com).
+
+If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 # License
 [The MIT License (MIT)](LICENSE.md)
