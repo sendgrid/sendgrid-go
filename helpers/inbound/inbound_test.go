@@ -19,7 +19,7 @@ func TestLoadConfig(t *testing.T) {
 
 func TestGetBoundary(t *testing.T) {
 	file, _ := ioutil.ReadFile("./sample_data/raw_data.txt")
-	boundary, body := getBoundary(string(file), "multipart/alternative; boundary=xYzZY")
+	boundary, body := getBoundary(string(file), "multipart/form-data; boundary=xYzZY")
 	assert.Equal(t, "xYzZY", boundary, "The boundary was not found.")
 	raw := multipart.NewReader(body, boundary)
 	next, _ := raw.NextPart()

@@ -98,9 +98,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 
 			if requestPart.FileName() == "" {
 				if requestPart.FormName() == "email" {
-					handleRawEmail(requestPart, parsedRawEmail, rawFiles)
-				} else if requestPart.FormName() == "headers" {
-					handleHeaders(body, emailHeader)
+					handleRawEmail(string(body), emailHeader, parsedRawEmail, rawFiles)
 				} else {
 					parsedEmail[requestPart.FormName()] = string(body)
 				}
@@ -111,15 +109,11 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 		}
 	}
 }
-func handleHeaders(value []byte, emailHeader map[string]string) {
-	s := strings.Split(string(value), "\n")
-	var a []string
-	for _, v := range s {
-		t := strings.Split(string(v), ": ")
-		a = append(a, t...)
-	}
-	for i := 0; i < len(a)-1; i += 2 {
-		emailHeader[a[i]] = a[i+1]
+func handleHeaders(headers string, emailHeader map[string]string) {
+	splitHeaders := strings.Split(headers, "\n")
+	for _, header := range splitHeaders {
+		splitHeader := strings.Split(header, ": ")
+		emailHeader[splitHeader[0]] = splitHeader[1]
 	}
 }
 
@@ -128,8 +122,13 @@ func printMap(inputMap map[string]string, prefix string) {
 		fmt.Println(prefix, "Key:", key, " ", prefix, "Value:", value)
 	}
 }
-func handleRawEmail(email *multipart.Part, parsedRawEmail map[string]string, rawFiles map[string]string) {
-	raw := parseMultipart(email, email.Header.Get("Content-Type"))
+func handleRawEmail(email string,
+					emailHeader map[string]string,
+					parsedRawEmail map[string]string,
+					rawFiles map[string]string) {
+	sections := strings.SplitN(email, "\n\n", 2)
+	handleHeaders(sections[0], emailHeader)
+	raw := parseMultipart(strings.NewReader(sections[1]), emailHeader["Content-Type"])
 	for {
 		emailPart, err := raw.NextPart()
 		if err == io.EOF {
