@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -42,40 +41,41 @@ func indexHandler(response http.ResponseWriter, request *http.Request) {
 }
 
 func getBoundary(value string, contentType string) (string, *strings.Reader) {
+	_, params, _ := mime.ParseMediaType(contentType)
 	body := strings.NewReader(value)
-	bodySplit := strings.Split(string(value), contentType)
-	scanner := bufio.NewScanner(strings.NewReader(bodySplit[1]))
-	var lines []string
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-		break
-	}
-	boundary := lines[0][9:]
-	return boundary, body
+	return params["boundary"], body
 }
 
-func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	mediaType, params, err := mime.ParseMediaType(request.Header.Get("Content-Type"))
+func parseMultipart(body io.Reader, contentType string) *multipart.Reader {
+	mediaType, params, err := mime.ParseMediaType(contentType)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	if strings.HasPrefix(mediaType, "multipart/") {
-		mr := multipart.NewReader(request.Body, params["boundary"])
+		return multipart.NewReader(body, params["boundary"])
+	}
+	return nil
+}
+
+func readBody(body io.Reader) []byte {
+	raw, err := ioutil.ReadAll(body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return raw
+}
+
+func inboundHandler(response http.ResponseWriter, request *http.Request) {
+	reader := parseMultipart(request.Body, request.Header.Get("Content-Type"))
+	if reader != nil {
 		parsedEmail := make(map[string]string)
 		emailHeader := make(map[string]string)
 		binaryFiles := make(map[string][]byte)
 		parsedRawEmail := make(map[string]string)
 		rawFiles := make(map[string]string)
 		for {
-			p, err := mr.NextPart()
-			// We have found an attachment with binary data
-			if err == nil && p.FileName() != "" {
-				contents, ioerr := ioutil.ReadAll(p)
-				if ioerr != nil {
-					log.Fatal(err)
-				}
-				binaryFiles[p.FileName()] = contents
-			}
+			requestPart, err := reader.NextPart()
 			if err == io.EOF {
 				// We have finished parsing, do something with the parsed data
 				printMap(parsedEmail, "")
@@ -94,32 +94,20 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			value, err := ioutil.ReadAll(p)
-			if err != nil {
-				log.Fatal(err)
-			}
-			header := p.Header.Get("Content-Disposition")
-			if !strings.Contains(header, "filename") {
-				header = header[17 : len(header)-1]
-				parsedEmail[header] = string(value)
+			body := readBody(requestPart)
+
+			if requestPart.FileName() == "" {
+				if requestPart.FormName() == "email" {
+					handleRawEmail(requestPart, parsedRawEmail, rawFiles)
+				} else if requestPart.FormName() == "headers" {
+					handleHeaders(body, emailHeader)
+				} else {
+					parsedEmail[requestPart.FormName()] = string(body)
+				}
 			} else {
-				header = header[11:]
-				f := strings.Split(header, "=")
-				parsedEmail[f[1][1:len(f[1])-11]] = f[2][1 : len(f[2])-1]
+				// attachment with binary data
+				binaryFiles[requestPart.FileName()] = body
 			}
-
-			if header == "headers" {
-				handleHeaders(value, emailHeader)
-			}
-			// Since we have parsed the headers, we can delete the original
-			delete(parsedEmail, "headers")
-
-			// We have a raw message
-			if header == "email" {
-				handleRawEmail(value, parsedRawEmail, rawFiles)
-			}
-			// Since we've parsed this header, we can delete the original
-			delete(parsedEmail, "email")
 		}
 	}
 }
@@ -140,41 +128,26 @@ func printMap(inputMap map[string]string, prefix string) {
 		fmt.Println(prefix, "Key:", key, " ", prefix, "Value:", value)
 	}
 }
-func handleRawEmail(value []byte, parsedRawEmail map[string]string, rawFiles map[string]string) {
-	boundary, body := getBoundary(string(value), "Content-Type: multipart/mixed; ")
-	raw := multipart.NewReader(body, boundary)
+func handleRawEmail(email *multipart.Part, parsedRawEmail map[string]string, rawFiles map[string]string) {
+	raw := parseMultipart(email, email.Header.Get("Content-Type"))
 	for {
-		next, err := raw.NextPart()
+		emailPart, err := raw.NextPart()
 		if err == io.EOF {
-			// We have finished parsing
-			break
+			return
 		}
-		value, err := ioutil.ReadAll(next)
-		if err != nil {
-			log.Fatal(err)
-		}
-		header := next.Header.Get("Content-Type")
-
-		// Parse the headers
-		if strings.Contains(header, "multipart/alternative") {
-			boundary, body := getBoundary(string(value), "Content-Type: multipart/alternative; ")
-			raw := multipart.NewReader(body, boundary)
+		rawEmailBody := parseMultipart(emailPart, emailPart.Header.Get("Content-Type"))
+		if rawEmailBody != nil {
 			for {
-				next, err := raw.NextPart()
+				emailBodyPart, err := rawEmailBody.NextPart()
 				if err == io.EOF {
-					// We have finished parsing
 					break
 				}
-				value, err = ioutil.ReadAll(next)
-				if err != nil {
-					log.Fatal(err)
-				}
-				header = next.Header.Get("Content-Type")
-				parsedRawEmail[header] = string(value)
+				header := emailBodyPart.Header.Get("Content-Type")
+				parsedRawEmail[header] = string(readBody(emailBodyPart))
 			}
+
 		} else {
-			// It's a base64 encoded attachment
-			rawFiles[header] = string(value)
+			rawFiles[emailPart.FileName()] = string(readBody(emailPart))
 		}
 	}
 }
