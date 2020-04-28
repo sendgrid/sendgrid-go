@@ -1,4 +1,4 @@
-package main
+package inbound
 
 import (
 	"encoding/json"
@@ -20,30 +20,67 @@ type configuration struct {
 	Port     string `json:"port"`
 }
 
-func loadConfig(path string) configuration {
-	file, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatal("Config File Missing. ", err)
-	}
-	var conf configuration
-	err = json.Unmarshal(file, &conf)
-	if err != nil {
-		log.Fatal("Config Parse Error: ", err)
-	}
-	return conf
+type ParsedEmail struct {
+	Headers			map[string]string
+	Body			map[string]string
+	Attachments		map[string][]byte
+	rawRequest     *http.Request
 }
 
-func indexHandler(response http.ResponseWriter, request *http.Request) {
-	_, err := fmt.Fprintf(response, "%s", "Hello World")
+func Parse(response http.ResponseWriter, request *http.Request) *ParsedEmail {
+	result := ParsedEmail{
+		Headers:		make(map[string]string),
+		Body:		    make(map[string]string),
+		Attachments: 	make(map[string][]byte),
+		rawRequest:     request,
+	}
+	result.parse(response)
+	return &result
+}
+
+func (email *ParsedEmail) parse(resp http.ResponseWriter) {
+	err := email.rawRequest.ParseMultipartForm(0)
 	if err != nil {
 		log.Fatal(err)
 	}
+	emails := email.rawRequest.MultipartForm.Value["email"]
+	headers := email.rawRequest.MultipartForm.Value["headers"]
+	if len(headers) > 0  {
+		email.parseHeaders(headers[0])
+	}
+	if len(emails) > 0 {
+		email.parseRawEmail(emails[0])
+	}
+	resp.WriteHeader(http.StatusOK)
 }
 
-func getBoundary(value string, contentType string) (string, *strings.Reader) {
-	_, params, _ := mime.ParseMediaType(contentType)
-	body := strings.NewReader(value)
-	return params["boundary"], body
+func (email *ParsedEmail) parseRawEmail(rawEmail string) {
+	sections := strings.SplitN(rawEmail, "\n\n", 2)
+	email.parseHeaders(sections[0])
+	raw := parseMultipart(strings.NewReader(sections[1]), email.Headers["Content-Type"])
+	for {
+		emailPart, err := raw.NextPart()
+		if err == io.EOF {
+			return
+		}
+		rawEmailBody := parseMultipart(emailPart, emailPart.Header.Get("Content-Type"))
+		if rawEmailBody != nil {
+			for {
+				emailBodyPart, err := rawEmailBody.NextPart()
+				if err == io.EOF {
+					break
+				}
+				header := emailBodyPart.Header.Get("Content-Type")
+				email.Body[header] = string(readBody(emailBodyPart))
+			}
+
+		} else if emailPart.FileName() != "" {
+			email.Attachments[emailPart.FileName()] = readBody(emailPart)
+		} else {
+			header := emailPart.Header.Get("Content-Type")
+			email.Body[header] = string(readBody(emailPart))
+		}
+	}
 }
 
 func parseMultipart(body io.Reader, contentType string) *multipart.Reader {
@@ -66,89 +103,36 @@ func readBody(body io.Reader) []byte {
 	return raw
 }
 
-func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	reader := parseMultipart(request.Body, request.Header.Get("Content-Type"))
-	if reader != nil {
-		parsedEmail := make(map[string]string)
-		emailHeader := make(map[string]string)
-		binaryFiles := make(map[string][]byte)
-		parsedRawEmail := make(map[string]string)
-		rawFiles := make(map[string]string)
-		for {
-			requestPart, err := reader.NextPart()
-			if err == io.EOF {
-				// We have finished parsing, do something with the parsed data
-				printMap(parsedEmail, "")
-				printMap(emailHeader, "e")
-
-				for key, value := range binaryFiles {
-					fmt.Println("bKey:", key, " bValue:", value)
-				}
-
-				printMap(parsedRawEmail, "r")
-				printMap(rawFiles, "rf")
-				// Twilio SendGrid needs a 200 OK response to stop POSTing
-				response.WriteHeader(http.StatusOK)
-				return
-			}
-			if err != nil {
-				log.Fatal(err)
-			}
-			body := readBody(requestPart)
-
-			if requestPart.FileName() == "" {
-				if requestPart.FormName() == "email" {
-					handleRawEmail(string(body), emailHeader, parsedRawEmail, rawFiles)
-				} else {
-					parsedEmail[requestPart.FormName()] = string(body)
-				}
-			} else {
-				// attachment with binary data
-				binaryFiles[requestPart.FileName()] = body
-			}
-		}
-	}
-}
-func handleHeaders(headers string, emailHeader map[string]string) {
-	splitHeaders := strings.Split(headers, "\n")
+func (email *ParsedEmail) parseHeaders(headers string) {
+	splitHeaders := strings.Split(strings.TrimSpace(headers), "\n")
 	for _, header := range splitHeaders {
-		splitHeader := strings.Split(header, ": ")
-		emailHeader[splitHeader[0]] = splitHeader[1]
+		splitHeader := strings.SplitN(header, ": ", 2)
+		email.Headers[splitHeader[0]] = splitHeader[1]
 	}
 }
 
-func printMap(inputMap map[string]string, prefix string) {
-	for key, value := range inputMap {
-		fmt.Println(prefix, "Key:", key, " ", prefix, "Value:", value)
+func loadConfig(path string) configuration {
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal("Config File Missing. ", err)
+	}
+	var conf configuration
+	err = json.Unmarshal(file, &conf)
+	if err != nil {
+		log.Fatal("Config Parse Error: ", err)
+	}
+	return conf
+}
+
+func indexHandler(response http.ResponseWriter, request *http.Request) {
+	_, err := fmt.Fprintf(response, "%s", "Hello World")
+	if err != nil {
+		log.Fatal(err)
 	}
 }
-func handleRawEmail(email string,
-					emailHeader map[string]string,
-					parsedRawEmail map[string]string,
-					rawFiles map[string]string) {
-	sections := strings.SplitN(email, "\n\n", 2)
-	handleHeaders(sections[0], emailHeader)
-	raw := parseMultipart(strings.NewReader(sections[1]), emailHeader["Content-Type"])
-	for {
-		emailPart, err := raw.NextPart()
-		if err == io.EOF {
-			return
-		}
-		rawEmailBody := parseMultipart(emailPart, emailPart.Header.Get("Content-Type"))
-		if rawEmailBody != nil {
-			for {
-				emailBodyPart, err := rawEmailBody.NextPart()
-				if err == io.EOF {
-					break
-				}
-				header := emailBodyPart.Header.Get("Content-Type")
-				parsedRawEmail[header] = string(readBody(emailBodyPart))
-			}
 
-		} else {
-			rawFiles[emailPart.FileName()] = string(readBody(emailPart))
-		}
-	}
+func inboundHandler(response http.ResponseWriter, request *http.Request) {
+	_ = Parse(response, request)
 }
 
 func main() {

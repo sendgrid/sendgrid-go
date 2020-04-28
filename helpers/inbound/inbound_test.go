@@ -1,9 +1,9 @@
-package main
+package inbound
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
-	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -17,17 +17,21 @@ func TestLoadConfig(t *testing.T) {
 	assert.NotNil(t, conf.Port, "conf.json did not load correctly, Port empty")
 }
 
-func TestGetBoundary(t *testing.T) {
-	file, _ := ioutil.ReadFile("./sample_data/raw_data.txt")
-	boundary, body := getBoundary(string(file), "multipart/form-data; boundary=xYzZY")
-	assert.Equal(t, "xYzZY", boundary, "The boundary was not found.")
-	raw := multipart.NewReader(body, boundary)
-	next, _ := raw.NextPart()
-	value := readBody(next)
-	assert.Equal(t, "{@sendgrid.com : pass}", string(value), "The email was not parsed properly.")
+func createRequest(filename string) (*httptest.ResponseRecorder, *http.Request) {
+	file, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return httptest.NewRecorder(), nil
+	}
+
+	resp := httptest.NewRecorder()
+	// Build POST request
+	req, _ := http.NewRequest(http.MethodPost, "", bytes.NewReader(file))
+	req.Header.Set("Content-Type", "multipart/form-data; boundary=xYzZY")
+	req.Header.Set("User-Agent", "Twilio-SendGrid-Test")
+	return resp, req
 }
 
-func TestInboundHandler(t *testing.T) {
+func TestParse(t *testing.T) {
        // Build a table of tests to run with each one having a name, the sample data file to post,
       // and the expected HTTP response from the handler
 	tests := []struct {
@@ -37,27 +41,79 @@ func TestInboundHandler(t *testing.T) {
 	}{
 		{"NoAttachment", "./sample_data/raw_data.txt", http.StatusOK},
 		{"Attachment", "./sample_data/raw_data_with_attachments.txt", http.StatusOK},
+		{"DefaultData", "./sample_data/default_data.txt", http.StatusOK},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(subTest *testing.T) {
 			//Load POST body
-			file, err := ioutil.ReadFile(test.file)
-			if err != nil {
-				subTest.Fatal("could not load test file")
-			}
-
-			resp := httptest.NewRecorder()
-			// Build POST request
-			req, _ := http.NewRequest(http.MethodPost, "", bytes.NewReader(file))
-			req.Header.Set("Content-Type", "multipart/form-data; boundary=xYzZY")
-			req.Header.Set("User-Agent", "Twilio-SendGrid-Test")
+			resp, req := createRequest(test.file)
 
 			// Invoke callback handler
-			inboundHandler(resp, req)
+			email := Parse(resp, req)
 			if resp.Code != test.expectedResponse {
 				subTest.Errorf("Wrong HTTP response: got: %d, expected: %d", resp.Code, test.expectedResponse)
 			}
+			from := "Example User <test@example.com>"
+			if email.Headers["From"] != from {
+				subTest.Errorf("Wrong parsed from: got: %s, expected: %s", email.Headers["From"], from)
+			}
 		})
 	}
+}
+
+func ExampleParsedEmail_parseHeaders() {
+	headers := `
+Foo: foo
+Bar: baz
+`
+	email := ParsedEmail{
+		Headers:		make(map[string]string),
+		Body:		    make(map[string]string),
+		Attachments: 	make(map[string][]byte),
+		rawRequest: 	nil,
+	}
+	email.parseHeaders(headers)
+	fmt.Println(email.Headers["Foo"])
+	fmt.Println(email.Headers["Bar"])
+	// Output:
+	// foo
+	// baz
+}
+
+func ExampleParsedEmail_parseRawEmail() {
+	rawEmail := `
+To: test@example.com
+From: example@example.com
+Subject: Test Email
+Content-Type: multipart/mixed; boundary=TwiLIo
+
+--TwiLIo
+Content-Type: text/plain; charset=UTF-8
+
+Hello Twilio SendGrid!
+--TwiLIo
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><strong>Hello Twilio SendGrid!</body></html>
+--TwiLIo--
+`
+	email := ParsedEmail{
+		Headers:		make(map[string]string),
+		Body:		    make(map[string]string),
+		Attachments: 	make(map[string][]byte),
+		rawRequest: 	nil,
+	}
+	email.parseRawEmail(rawEmail)
+	for key, value := range email.Headers {
+		fmt.Println(key, value)
+	}
+	fmt.Println(email.Body["text/plain; charset=UTF-8"])
+	// Unordered Output:
+	// To test@example.com
+	// From example@example.com
+	// Subject Test Email
+	// Content-Type multipart/mixed; boundary=TwiLIo
+	// Hello Twilio SendGrid!
 }
