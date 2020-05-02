@@ -5,7 +5,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/securewebhook"
 )
 
 // Getausersaccountinformation : Get a user's account information.
@@ -87,7 +89,7 @@ func Updateyourpassword() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/password", host)
 	request.Method = "PUT"
 	request.Body = []byte(` {
-  "new_password": "new_password", 
+  "new_password": "new_password",
   "old_password": "old_password"
 }`)
 	response, err := sendgrid.API(request)
@@ -108,8 +110,8 @@ func Updateausersprofile() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/profile", host)
 	request.Method = "PATCH"
 	request.Body = []byte(` {
-  "city": "Orange", 
-  "first_name": "Example", 
+  "city": "Orange",
+  "first_name": "Example",
   "last_name": "User"
 }`)
 	response, err := sendgrid.API(request)
@@ -147,7 +149,7 @@ func Cancelorpauseascheduledsend() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/scheduled_sends", host)
 	request.Method = "POST"
 	request.Body = []byte(` {
-  "batch_id": "YOUR_BATCH_ID", 
+  "batch_id": "YOUR_BATCH_ID",
   "status": "pause"
 }`)
 	response, err := sendgrid.API(request)
@@ -239,7 +241,7 @@ func UpdateEnforcedTLSsettings() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
 	request.Method = "PATCH"
 	request.Body = []byte(` {
-  "require_tls": true, 
+  "require_tls": true,
   "require_valid_cert": false
 }`)
 	response, err := sendgrid.API(request)
@@ -314,18 +316,18 @@ func UpdateEventNotificationSettings() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
 	request.Method = "PATCH"
 	request.Body = []byte(` {
-  "bounce": true, 
-  "click": true, 
-  "deferred": true, 
-  "delivered": true, 
-  "dropped": true, 
-  "enabled": true, 
-  "group_resubscribe": true, 
-  "group_unsubscribe": true, 
-  "open": true, 
-  "processed": true, 
-  "spam_report": true, 
-  "unsubscribe": true, 
+  "bounce": true,
+  "click": true,
+  "deferred": true,
+  "delivered": true,
+  "dropped": true,
+  "enabled": true,
+  "group_resubscribe": true,
+  "group_unsubscribe": true,
+  "open": true,
+  "processed": true,
+  "spam_report": true,
+  "unsubscribe": true,
   "url": "url"
 }`)
 	response, err := sendgrid.API(request)
@@ -383,9 +385,9 @@ func Createaparsesetting() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
 	request.Method = "POST"
 	request.Body = []byte(` {
-  "hostname": "myhostname.com", 
-  "send_raw": false, 
-  "spam_check": true, 
+  "hostname": "myhostname.com",
+  "send_raw": false,
+  "spam_check": true,
   "url": "http://email.myhosthame.com"
 }`)
 	response, err := sendgrid.API(request)
@@ -423,8 +425,8 @@ func Updateaparsesetting() {
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
 	request.Method = "PATCH"
 	request.Body = []byte(` {
-  "send_raw": true, 
-  "spam_check": false, 
+  "send_raw": true,
+  "spam_check": false,
   "url": "http://newdomain.com/parse"
 }`)
 	response, err := sendgrid.API(request)
@@ -486,6 +488,43 @@ func RetrievesInboundParseWebhookstatistics() {
 	queryParams["offset"] = "test_string"
 	request.QueryParams = queryParams
 	response, err := sendgrid.API(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+
+// EnableSecureWebhooksettings : Enables Secure Webhook.
+// PATCH /user/webhooks/event/settings/signed
+func EnableSecureWebhooksettings() {
+	apiKey := os.Getenv("SENDGRID_API_KEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings/signed", host)
+	request.Method = rest.Patch
+	s := securewebhook.NewSettings()
+	s.SetEnable(true)
+	request.Body = securewebhook.GetRequestBody(s)
+	response, err := sendgrid.MakeRequest(request)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+
+// GetPublicKeyForWebhook : Get Public Key if SecureWebhook feature is enabled.
+// Get /user/webhooks/event/settings/signed
+func GetPublicKeyForWebhook() {
+	apiKey := os.Getenv("SENDGRID_API_KEY")
+	host := "https://api.sendgrid.com"
+	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings/signed", host)
+	request.Method = rest.Get
+	response, err := sendgrid.MakeRequest(request)
 	if err != nil {
 		log.Println(err)
 	} else {
