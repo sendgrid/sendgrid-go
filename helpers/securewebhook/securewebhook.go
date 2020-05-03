@@ -2,12 +2,11 @@ package securewebhook
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // Settings ...
 type Settings struct {
-	Enable bool `json:"enable,omitempty"`
+	Enable *bool `json:"enabled,omitempty"`
 }
 
 // NewSettings ...
@@ -17,14 +16,15 @@ func NewSettings() *Settings {
 
 // SetEnable ...
 func (s *Settings) SetEnable(enable bool) *Settings {
-	return &Settings{Enable: enable}
+	s.Enable = &enable
+	return s
 }
 
 // GetRequestBody ...
-func GetRequestBody(s *Settings) []byte {
+func GetRequestBody(s *Settings) ([]byte, error) {
 	b, err := json.Marshal(s)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	return b
+	return b, nil
 }

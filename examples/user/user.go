@@ -500,13 +500,18 @@ func RetrievesInboundParseWebhookstatistics() {
 // EnableSecureWebhooksettings : Enables Secure Webhook.
 // PATCH /user/webhooks/event/settings/signed
 func EnableSecureWebhooksettings() {
+	var err error
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings/signed", host)
 	request.Method = rest.Patch
 	s := securewebhook.NewSettings()
 	s.SetEnable(true)
-	request.Body = securewebhook.GetRequestBody(s)
+	request.Body, err = securewebhook.GetRequestBody(s)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 	response, err := sendgrid.MakeRequest(request)
 	if err != nil {
 		log.Println(err)
