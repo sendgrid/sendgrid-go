@@ -14,7 +14,7 @@ go run examples/securewebhook/securewebhook.go
 ## Usage
 
 - See the [example](https://github.com/sendgrid/sendgrid-go/blob/master/examples/securewebhook/securewebhook.go) for a complete working example.
-- [Documentation](https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/overview.html)
+- [Documentation](https://sendgrid.com/docs/for-developers/tracking-events/)
 
 ## Test
 

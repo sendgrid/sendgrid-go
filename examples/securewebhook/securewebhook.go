@@ -10,9 +10,9 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/securewebhook"
 )
 
-// EnableSecureWebhooksettings : Enables Secure Webhook.
+// EnableSecureWebhook : Enables Signed Event Webhook.
 // PATCH /user/webhooks/event/settings/signed
-func EnableSecureWebhooksettings() {
+func EnableSecureWebhook() {
 	var err error
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -35,7 +35,7 @@ func EnableSecureWebhooksettings() {
 	}
 }
 
-// GetPublicKeyForWebhook : Get Public Key if SecureWebhook feature is enabled.
+// GetPublicKeyForWebhook : Get Public Key for Event Webhook.
 // Get /user/webhooks/event/settings/signed
 func GetPublicKeyForWebhook() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
