@@ -15,9 +15,8 @@ func NewSettings() *Settings {
 }
 
 // SetEnable ...
-func (s *Settings) SetEnable(enable bool) *Settings {
+func (s *Settings) SetEnable(enable bool) {
 	s.Enable = &enable
-	return s
 }
 
 // GetRequestBody ...
