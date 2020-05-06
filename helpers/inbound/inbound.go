@@ -2,17 +2,13 @@ package inbound
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"mime"
 	"mime/multipart"
 	"net/http"
-	"os"
 	"strings"
-
-	"github.com/sendgrid/rest"
 )
 
 type configuration struct {
@@ -24,7 +20,7 @@ type ParsedEmail struct {
 	Headers			map[string]string
 	Body			map[string]string
 	Attachments		map[string][]byte
-	rawRequest     *http.Request
+	rawRequest		*http.Request
 }
 
 func Parse(response http.ResponseWriter, request *http.Request) *ParsedEmail {
@@ -122,53 +118,4 @@ func loadConfig(path string) configuration {
 		log.Fatal("Config Parse Error: ", err)
 	}
 	return conf
-}
-
-func indexHandler(response http.ResponseWriter, request *http.Request) {
-	_, err := fmt.Fprintf(response, "%s", "Hello World")
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	_ = Parse(response, request)
-}
-
-func main() {
-	if len(os.Args) > 1 {
-		// Test Sender
-		path := os.Args[1]
-		host := os.Args[2]
-		file, err := ioutil.ReadFile(path)
-		if err != nil {
-			log.Fatal("Check your Filepath. ", err)
-		}
-		Headers := map[string]string{
-			"User-Agent":   "Twilio-SendGrid-Test",
-			"Content-Type": "multipart/form-data; boundary=xYzZY",
-		}
-		method := rest.Post
-		request := rest.Request{
-			Method:  method,
-			BaseURL: host,
-			Headers: Headers,
-			Body:    file,
-		}
-		_, err = rest.Send(request)
-		if err != nil {
-			log.Fatal("Check your Filepath. ", err)
-		}
-	} else {
-		conf := loadConfig("./conf.json")
-		http.HandleFunc("/", indexHandler)
-		http.HandleFunc(conf.Endpoint, inboundHandler)
-		port := os.Getenv("PORT")
-		if port == "" {
-			port = conf.Port
-		}
-		if err := http.ListenAndServe(port, nil); err != nil {
-			log.Fatalln("Error")
-		}
-	}
 }
