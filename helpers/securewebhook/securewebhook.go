@@ -14,7 +14,7 @@ type Settings struct {
 	Enable *bool `json:"enabled,omitempty"`
 }
 
-// RS ...
+// RS represents the ECDSA signature
 type RS struct {
 	R *big.Int
 	S *big.Int
@@ -39,7 +39,7 @@ func GetRequestBody(s *Settings) ([]byte, error) {
 	return b, nil
 }
 
-// VerifySignature ...
+// VerifySignature uses the ECDSA publicKey and, verifies received payload and signature
 func VerifySignature(publicKey *ecdsa.PublicKey, payload []byte, signature, timestamp string) (bool, error) {
 	signatureBytes, err := base64.StdEncoding.DecodeString(signature)
 	if err != nil {
