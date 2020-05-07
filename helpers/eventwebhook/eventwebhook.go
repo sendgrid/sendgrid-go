@@ -19,7 +19,7 @@ const (
 
 // Settings ...
 type Settings struct {
-	SecureWebhookEnable *bool `json:"enabled,omitempty"`
+	EnableSignedWebhook *bool `json:"enabled,omitempty"`
 }
 
 // RS represents the ECDSA signature
@@ -33,9 +33,9 @@ func NewSettings() *Settings {
 	return &Settings{}
 }
 
-// SetSecureWebhookEnable ...
-func (s *Settings) SetSecureWebhookEnable(enable bool) {
-	s.SecureWebhookEnable = &enable
+// SetEnableSignedWebhook ...
+func (s *Settings) SetEnableSignedWebhook(enable bool) {
+	s.EnableSignedWebhook = &enable
 }
 
 // GetRequestBody ...

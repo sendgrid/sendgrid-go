@@ -25,19 +25,19 @@ func generateTestPayload() []byte {
 	return payload
 }
 
-func TestSecureWebhookNewSettings(t *testing.T) {
+func TestEventWebhookNewSettings(t *testing.T) {
 	assert.NotNil(t, NewSettings(), "NewSettings() shouldn't return nil")
 }
 
-func TestSetSecureWebhookEnable(t *testing.T) {
+func TestSetEnableSignedWebhook(t *testing.T) {
 	s := NewSettings()
 	assert.NotNil(t, NewSettings(), "NewSettings() shouldn't return nil")
 
-	s.SetSecureWebhookEnable(true)
-	assert.Equal(t, true, *s.SecureWebhookEnable, fmt.Sprintf("SecureWebhook.Enable should be 'true', got %v", *s.SecureWebhookEnable))
+	s.SetEnableSignedWebhook(true)
+	assert.Equal(t, true, *s.EnableSignedWebhook, fmt.Sprintf("SecureWebhook.Enable should be 'true', got %v", *s.EnableSignedWebhook))
 
-	s.SetSecureWebhookEnable(false)
-	assert.Equal(t, false, *s.SecureWebhookEnable, fmt.Sprintf("SecureWebhook.Enable should be 'false', got %v", *s.SecureWebhookEnable))
+	s.SetEnableSignedWebhook(false)
+	assert.Equal(t, false, *s.EnableSignedWebhook, fmt.Sprintf("SecureWebhook.Enable should be 'false', got %v", *s.EnableSignedWebhook))
 }
 
 func TestSecureWebhookGetRequestBody(t *testing.T) {
@@ -47,12 +47,12 @@ func TestSecureWebhookGetRequestBody(t *testing.T) {
 	s := NewSettings()
 	assert.NotNil(t, NewSettings(), "NewSettings() shouldn't return nil")
 
-	s.SetSecureWebhookEnable(false)
+	s.SetEnableSignedWebhook(false)
 	actualJSON, err := GetRequestBody(s)
 	require.NoError(t, err)
 	assert.Equal(t, expectedJSONDisabled, actualJSON, fmt.Sprintf("SecureWebhook.Enable should be '%b', got %b", expectedJSONDisabled, actualJSON))
 
-	s.SetSecureWebhookEnable(true)
+	s.SetEnableSignedWebhook(true)
 	actualJSON, err = GetRequestBody(s)
 	require.NoError(t, err)
 	assert.Equal(t, expectedJSONEnabled, actualJSON, fmt.Sprintf("SecureWebhook.Enable should be '%b', got %b", expectedJSONEnabled, actualJSON))
