@@ -7,7 +7,7 @@ import (
 
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go"
-	"github.com/sendgrid/sendgrid-go/helpers/securewebhook"
+	"github.com/sendgrid/sendgrid-go/helpers/eventwebhook"
 )
 
 // EnableSecureWebhook : Enables Signed Event Webhook.
@@ -18,9 +18,9 @@ func EnableSecureWebhook() {
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings/signed", host)
 	request.Method = rest.Patch
-	s := securewebhook.NewSettings()
-	s.SetEnable(true)
-	request.Body, err = securewebhook.GetRequestBody(s)
+	s := eventwebhook.NewSettings()
+	s.SetSecureWebhookEnable(true)
+	request.Body, err = eventwebhook.GetRequestBody(s)
 	if err != nil {
 		log.Println(err)
 		return
@@ -35,9 +35,9 @@ func EnableSecureWebhook() {
 	}
 }
 
-// GetPublicKeyForWebhook : Get Public Key for Event Webhook.
+// GetPublicKeyForSecureWebhook : Get Public Key for Event Webhook.
 // Get /user/webhooks/event/settings/signed
-func GetPublicKeyForWebhook() {
+func GetPublicKeyForSecureWebhook() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/user/webhooks/event/settings/signed", host)

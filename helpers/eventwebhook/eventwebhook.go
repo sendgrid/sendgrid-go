@@ -1,4 +1,4 @@
-package securewebhook
+package eventwebhook
 
 import (
 	"crypto/ecdsa"
@@ -19,7 +19,7 @@ const (
 
 // Settings ...
 type Settings struct {
-	Enable *bool `json:"enabled,omitempty"`
+	SecureWebhookEnable *bool `json:"enabled,omitempty"`
 }
 
 // RS represents the ECDSA signature
@@ -33,9 +33,9 @@ func NewSettings() *Settings {
 	return &Settings{}
 }
 
-// SetEnable ...
-func (s *Settings) SetEnable(enable bool) {
-	s.Enable = &enable
+// SetSecureWebhookEnable ...
+func (s *Settings) SetSecureWebhookEnable(enable bool) {
+	s.SecureWebhookEnable = &enable
 }
 
 // GetRequestBody ...
