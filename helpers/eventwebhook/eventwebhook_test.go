@@ -34,13 +34,13 @@ func TestSetEnableSignedWebhook(t *testing.T) {
 	assert.NotNil(t, NewSettings(), "NewSettings() shouldn't return nil")
 
 	s.SetEnableSignedWebhook(true)
-	assert.Equal(t, true, *s.EnableSignedWebhook, fmt.Sprintf("SecureWebhook.Enable should be 'true', got %v", *s.EnableSignedWebhook))
+	assert.Equal(t, true, *s.EnableSignedWebhook, fmt.Sprintf("EnableSignedWebhook should be 'true', got %v", *s.EnableSignedWebhook))
 
 	s.SetEnableSignedWebhook(false)
-	assert.Equal(t, false, *s.EnableSignedWebhook, fmt.Sprintf("SecureWebhook.Enable should be 'false', got %v", *s.EnableSignedWebhook))
+	assert.Equal(t, false, *s.EnableSignedWebhook, fmt.Sprintf("EnableSignedWebhook should be 'false', got %v", *s.EnableSignedWebhook))
 }
 
-func TestSecureWebhookGetRequestBody(t *testing.T) {
+func TestSignedWebhookGetRequestBody(t *testing.T) {
 	expectedJSONEnabled := []byte(`{"enabled":true}`)
 	expectedJSONDisabled := []byte(`{"enabled":false}`)
 
@@ -50,12 +50,12 @@ func TestSecureWebhookGetRequestBody(t *testing.T) {
 	s.SetEnableSignedWebhook(false)
 	actualJSON, err := GetRequestBody(s)
 	require.NoError(t, err)
-	assert.Equal(t, expectedJSONDisabled, actualJSON, fmt.Sprintf("SecureWebhook.Enable should be '%b', got %b", expectedJSONDisabled, actualJSON))
+	assert.Equal(t, expectedJSONDisabled, actualJSON, fmt.Sprintf("EnableSignedWebhook should be '%b', got %b", expectedJSONDisabled, actualJSON))
 
 	s.SetEnableSignedWebhook(true)
 	actualJSON, err = GetRequestBody(s)
 	require.NoError(t, err)
-	assert.Equal(t, expectedJSONEnabled, actualJSON, fmt.Sprintf("SecureWebhook.Enable should be '%b', got %b", expectedJSONEnabled, actualJSON))
+	assert.Equal(t, expectedJSONEnabled, actualJSON, fmt.Sprintf("EnableSignedWebhook should be '%b', got %b", expectedJSONEnabled, actualJSON))
 }
 
 func TestConvertPublicKeyBase64ToECDSA(t *testing.T) {
