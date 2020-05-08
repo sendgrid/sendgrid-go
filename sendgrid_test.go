@@ -128,7 +128,7 @@ func TestRequestRetry_rateLimit(t *testing.T) {
 	DefaultClient = &custom
 	_, err := MakeRequestRetry(request)
 	assert.NotNil(t, err, "An error did not trigger")
-	assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
+	assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
 	DefaultClient = rest.DefaultClient
 }
 
@@ -146,7 +146,7 @@ func TestRequestRetry_rateLimit_noHeader(t *testing.T) {
 	DefaultClient = &custom
 	_, err := MakeRequestRetry(request)
 	assert.NotNil(t, err, "An error did not trigger")
-	assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
+	assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
 	DefaultClient = rest.DefaultClient
 }
 
@@ -194,7 +194,7 @@ func TestRequestAsync_rateLimit(t *testing.T) {
 		t.Error("Received a valid response")
 		return
 	case err := <-e:
-		assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
+		assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
 	case <-time.After(10 * time.Second):
 		t.Error("Timed out waiting for an error")
 	}
