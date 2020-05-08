@@ -1,8 +1,13 @@
-.PHONY: test install
+.PHONY: test install test-integ test-docker
 
 install:
 	go get -t -v ./...
 
-test: install
+test:
 	./go.coverage.sh
-	go test -cover -v -race ./... | grep -v -E '/vendor|/examples|/docker'
+
+test-integ: test
+
+version ?= latest
+test-docker:
+	curl -s https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/prism/prism.sh | version=$(version) bash
