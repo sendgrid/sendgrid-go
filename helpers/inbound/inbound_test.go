@@ -32,8 +32,8 @@ func createRequest(filename string) (*httptest.ResponseRecorder, *http.Request) 
 }
 
 func TestParse(t *testing.T) {
-       // Build a table of tests to run with each one having a name, the sample data file to post,
-      // and the expected HTTP response from the handler
+	// Build a table of tests to run with each one having a name, the sample data file to post,
+	// and the expected HTTP response from the handler
 	tests := []struct {
 		name             string
 		file             string
@@ -51,13 +51,9 @@ func TestParse(t *testing.T) {
 
 			// Invoke callback handler
 			email := Parse(resp, req)
-			if resp.Code != test.expectedResponse {
-				subTest.Errorf("Wrong HTTP response: got: %d, expected: %d", resp.Code, test.expectedResponse)
-			}
+			assert.Equalf(subTest, resp.Code, test.expectedResponse, "Expected HTTP 200 response. Got %d", resp.Code)
 			from := "Example User <test@example.com>"
-			if email.Headers["From"] != from {
-				subTest.Errorf("Wrong parsed from: got: %s, expected: %s", email.Headers["From"], from)
-			}
+			assert.Equalf(subtest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
 		})
 	}
 }
@@ -68,10 +64,10 @@ Foo: foo
 Bar: baz
 `
 	email := ParsedEmail{
-		Headers:		make(map[string]string),
-		Body:		    make(map[string]string),
-		Attachments: 	make(map[string][]byte),
-		rawRequest: 	nil,
+		Headers:     make(map[string]string),
+		Body:        make(map[string]string),
+		Attachments: make(map[string][]byte),
+		rawRequest:  nil,
 	}
 	email.parseHeaders(headers)
 	fmt.Println(email.Headers["Foo"])
@@ -100,10 +96,10 @@ Content-Transfer-Encoding: quoted-printable
 --TwiLIo--
 `
 	email := ParsedEmail{
-		Headers:		make(map[string]string),
-		Body:		    make(map[string]string),
-		Attachments: 	make(map[string][]byte),
-		rawRequest: 	nil,
+		Headers:     make(map[string]string),
+		Body:        make(map[string]string),
+		Attachments: make(map[string][]byte),
+		rawRequest:  nil,
 	}
 	email.parseRawEmail(rawEmail)
 	for key, value := range email.Headers {

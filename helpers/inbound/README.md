@@ -14,6 +14,8 @@ package main
 
 import (
     "fmt"
+    "log"
+    "net/http"
 
     "github.com/sendgrid/sendgrid-go/helpers/inbound"
 )
@@ -32,6 +34,13 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
         // Do something with the email body
         handleEmail(body)
     }
+}
+
+func main() {
+	http.HandleFunc("/inbound", inboundHandler)
+	if err := http.ListenAndServe(":8000", nil); err != nil {
+		log.Fatalln("Error")
+	}
 }
 ```
 

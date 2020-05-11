@@ -17,18 +17,18 @@ type configuration struct {
 }
 
 type ParsedEmail struct {
-	Headers			map[string]string
-	Body			map[string]string
-	Attachments		map[string][]byte
-	rawRequest		*http.Request
+	Headers     map[string]string
+	Body        map[string]string
+	Attachments map[string][]byte
+	rawRequest  *http.Request
 }
 
 func Parse(response http.ResponseWriter, request *http.Request) *ParsedEmail {
 	result := ParsedEmail{
-		Headers:		make(map[string]string),
-		Body:		    make(map[string]string),
-		Attachments: 	make(map[string][]byte),
-		rawRequest:     request,
+		Headers:     make(map[string]string),
+		Body:        make(map[string]string),
+		Attachments: make(map[string][]byte),
+		rawRequest:  request,
 	}
 	result.parse(response)
 	return &result
@@ -41,7 +41,7 @@ func (email *ParsedEmail) parse(resp http.ResponseWriter) {
 	}
 	emails := email.rawRequest.MultipartForm.Value["email"]
 	headers := email.rawRequest.MultipartForm.Value["headers"]
-	if len(headers) > 0  {
+	if len(headers) > 0 {
 		email.parseHeaders(headers[0])
 	}
 	if len(emails) > 0 {
