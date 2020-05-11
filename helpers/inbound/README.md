@@ -21,7 +21,7 @@ import (
 )
 
 func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	parsedEmail := Parse(response, request)
+	parsedEmail := Parse(request)
     
 	fmt.Print(parsedEmail.Headers["From"])
 	
