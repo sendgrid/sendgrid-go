@@ -1,7 +1,6 @@
 package inbound
 
 import (
-	"encoding/json"
 	"io"
 	"io/ioutil"
 	"log"
@@ -11,10 +10,6 @@ import (
 	"strings"
 )
 
-type configuration struct {
-	Endpoint string `json:"endpoint"`
-	Port     string `json:"port"`
-}
 
 type ParsedEmail struct {
 	Headers     map[string]string
@@ -23,18 +18,18 @@ type ParsedEmail struct {
 	rawRequest  *http.Request
 }
 
-func Parse(response http.ResponseWriter, request *http.Request) *ParsedEmail {
+func Parse(request *http.Request) *ParsedEmail {
 	result := ParsedEmail{
 		Headers:     make(map[string]string),
 		Body:        make(map[string]string),
 		Attachments: make(map[string][]byte),
 		rawRequest:  request,
 	}
-	result.parse(response)
+	result.parse()
 	return &result
 }
 
-func (email *ParsedEmail) parse(resp http.ResponseWriter) {
+func (email *ParsedEmail) parse() {
 	err := email.rawRequest.ParseMultipartForm(0)
 	if err != nil {
 		log.Fatal(err)
@@ -47,7 +42,6 @@ func (email *ParsedEmail) parse(resp http.ResponseWriter) {
 	if len(emails) > 0 {
 		email.parseRawEmail(emails[0])
 	}
-	resp.WriteHeader(http.StatusOK)
 }
 
 func (email *ParsedEmail) parseRawEmail(rawEmail string) {
@@ -105,17 +99,4 @@ func (email *ParsedEmail) parseHeaders(headers string) {
 		splitHeader := strings.SplitN(header, ": ", 2)
 		email.Headers[splitHeader[0]] = splitHeader[1]
 	}
-}
-
-func loadConfig(path string) configuration {
-	file, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatal("Config File Missing. ", err)
-	}
-	var conf configuration
-	err = json.Unmarshal(file, &conf)
-	if err != nil {
-		log.Fatal("Config Parse Error: ", err)
-	}
-	return conf
 }

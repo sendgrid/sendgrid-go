@@ -5,30 +5,22 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLoadConfig(t *testing.T) {
-	conf := loadConfig("./conf.json")
-	assert.NotNil(t, conf.Endpoint, "conf.json did not load correctly, Endpoint empty")
-	assert.NotNil(t, conf.Port, "conf.json did not load correctly, Port empty")
-}
-
-func createRequest(filename string) (*httptest.ResponseRecorder, *http.Request) {
+func createRequest(filename string) *http.Request {
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return httptest.NewRecorder(), nil
+		return nil
 	}
 
-	resp := httptest.NewRecorder()
 	// Build POST request
 	req, _ := http.NewRequest(http.MethodPost, "", bytes.NewReader(file))
 	req.Header.Set("Content-Type", "multipart/form-data; boundary=xYzZY")
 	req.Header.Set("User-Agent", "Twilio-SendGrid-Test")
-	return resp, req
+	return req
 }
 
 func TestParse(t *testing.T) {
@@ -47,13 +39,12 @@ func TestParse(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(subTest *testing.T) {
 			//Load POST body
-			resp, req := createRequest(test.file)
+			req := createRequest(test.file)
 
 			// Invoke callback handler
-			email := Parse(resp, req)
-			assert.Equalf(subTest, resp.Code, test.expectedResponse, "Expected HTTP 200 response. Got %d", resp.Code)
+			email := Parse(req)
 			from := "Example User <test@example.com>"
-			assert.Equalf(subtest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
+			assert.Equalf(subTest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
 		})
 	}
 }
