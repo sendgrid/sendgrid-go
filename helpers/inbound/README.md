@@ -2,11 +2,10 @@
 
 ## Table of Contents
 
-* [Example Usage](#example_usage)
+* [Example Usage](#example-usage)
 * [Testing the Source Code](#testing)
 * [Contributing](#contributing)
 
-<a name="example_usage"></a>
 # Example Usage
 
 ```go
@@ -34,6 +33,9 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
         // Do something with the email body
         handleEmail(body)
     }
+    
+    // Twilio SendGrid needs a 200 OK response to stop POSTing
+    response.WriteHeader(http.StatusOK)
 }
 
 func main() {
