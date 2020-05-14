@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-05-14] Version 3.6.0
+--------------------------
+**Library - Feature**
+- [PR #392](https://github.com/sendgrid/sendgrid-go/pull/392): add support for Twilio Email. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #390](https://github.com/sendgrid/sendgrid-go/pull/390): add function for signature verification. Thanks to [@brpat07](https://github.com/brpat07)!
+- [PR #389](https://github.com/sendgrid/sendgrid-go/pull/389): add support and example for secure webhook feature. Thanks to [@brpat07](https://github.com/brpat07)!
+
+**Library - Fix**
+- [PR #388](https://github.com/sendgrid/sendgrid-go/pull/388): refactor and fix inbound email handling. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+- [PR #391](https://github.com/sendgrid/sendgrid-go/pull/391): migrate to common prism setup. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+
 [2020-04-01] Version 3.5.4
 --------------------------
 **Library - Docs**
