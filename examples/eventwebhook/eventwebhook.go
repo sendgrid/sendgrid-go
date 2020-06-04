@@ -6,8 +6,9 @@ import (
 	"os"
 
 	"github.com/sendgrid/rest"
-	"github.com/sendgrid/sendgrid-go"
-	"github.com/sendgrid/sendgrid-go/helpers/eventwebhook"
+
+	"github.com/sendgrid/sendgrid-go/v3"
+	"github.com/sendgrid/sendgrid-go/v3/helpers/eventwebhook"
 )
 
 // EnableSignedWebhook : Enables Signed Event Webhook.

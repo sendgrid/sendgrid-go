@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	sendgrid "github.com/sendgrid/sendgrid-go"
+	sendgrid "github.com/sendgrid/sendgrid-go/v3"
 )
 
 // Retrieveallrecentaccessattempts : Retrieve all recent access attempts

@@ -6,3 +6,6 @@ coverage.txt
 sendgrid.env
 .vscode
 prism*
+.idea
+vendor
+profile.out

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/v3"
 )
 
 // Retrieveemailstatisticsbymailboxprovider : Retrieve email statistics by mailbox provider.
