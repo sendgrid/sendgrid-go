@@ -20,7 +20,10 @@ import (
 )
 
 func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	parsedEmail := Parse(request)
+    parsedEmail, err := Parse(request)
+    if err != nil {
+        log.Fatal(err)
+    }
     
 	fmt.Print(parsedEmail.Headers["From"])
 	
