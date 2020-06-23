@@ -12,33 +12,33 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net/http"
+	"fmt"
+	"log"
+	"net/http"
 
-    "github.com/sendgrid/sendgrid-go/helpers/inbound"
+	"github.com/sendgrid/sendgrid-go/helpers/inbound"
 )
 
 func inboundHandler(response http.ResponseWriter, request *http.Request) {
-    parsedEmail, err := Parse(request)
-    if err != nil {
-        log.Fatal(err)
-    }
+	parsedEmail, err := Parse(request)
+	if err != nil {
+		log.Fatal(err)
+	}
     
 	fmt.Print(parsedEmail.Headers["From"])
 	
-    for filename, contents := range parsedEmail.Attachments {
-        // Do something with an attachment
-        handleAttachment(filename, contents)
-    }
+	for filename, contents := range parsedEmail.Attachments {
+		// Do something with an attachment
+		handleAttachment(filename, contents)
+	}
     
-    for section, body := range parsedEmail.Body {
-        // Do something with the email body
-        handleEmail(body)
-    }
+	for section, body := range parsedEmail.Body {
+		// Do something with the email body
+		handleEmail(body)
+	}
     
-    // Twilio SendGrid needs a 200 OK response to stop POSTing
-    response.WriteHeader(http.StatusOK)
+	// Twilio SendGrid needs a 200 OK response to stop POSTing
+	response.WriteHeader(http.StatusOK)
 }
 
 func main() {
