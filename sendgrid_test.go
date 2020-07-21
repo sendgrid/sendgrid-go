@@ -27,7 +27,6 @@ func TestLicenseYear(t *testing.T) {
 func TestRepoFiles(t *testing.T) {
 	fs := []string{
 		"Dockerfile",
-		"docker-compose.yml",
 		".env_sample",
 		".gitignore",
 		".travis.yml",
@@ -43,11 +42,8 @@ func TestRepoFiles(t *testing.T) {
 		"USAGE.md",
 	}
 	for _, f := range fs {
-		if _, err := os.Stat(f); os.IsNotExist(err) {
-			assert.True(t, strings.HasPrefix(strings.ToLower(f), "docker"), fmt.Sprintf("Repo file does not exist: %v", f))
-			_, err := os.Stat("docker/" + f)
-			assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo files do not exist: %[1]v or docker/%[1]v", f))
-		}
+		_, err := os.Stat(f)
+		assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo file does not exist: %[1]v", f))
 	}
 }
 

@@ -101,17 +101,11 @@ The main function that does the heavy lifting (and external entry point) is `API
 <a name="testing"></a>
 ## Testing
 
-All PRs require passing tests before the PR will be reviewed.
+All PRs require passing tests before the PR will be reviewed. All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go). For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go) file with unit tests as you modify the code.
 
-All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go).
+The integration tests require a Twilio SendGrid mock API in order to execute. We've simplified setting this up using Docker to run the tests. You will just need [Docker Desktop](https://docs.docker.com/get-docker/) and `make`.
 
-For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go) file with unit tests as you modify the code.
-
-To run the tests:
-
-```bash
-go test -v ./...
-```
+Once these are available, simply execute the Docker test target to run all tests: `make test-docker`. This command can also be used to open an interactive shell into the container where this library is installed. To start a *bash* shell for example, use this command: `command=bash make test-docker`.
 
 <a name="style-guidelines-and-naming-conventions"></a>
 ## Style Guidelines & Naming Conventions
