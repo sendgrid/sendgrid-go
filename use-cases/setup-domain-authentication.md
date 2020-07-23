@@ -1,9 +1,9 @@
-## How to Setup a Domain Whitelabel
+## How to Setup a Domain Authentication
 
-You can find documentation for how to setup a domain whitelabel via the UI [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/setup_domain_whitelabel.html).
-Find more information about all of Twilio SendGrid's whitelabeling related documentation [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/index.html).
+You can find documentation for how to setup a domain authentication via the UI [here](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/).
+Find more information about all of Twilio SendGrid's authentication related documentation [here](https://sendgrid.com/docs/ui/account-and-settings/).
 
-To create a Domain Whitelabel Via the API:
+To create a Domain authentication Via the API:
 ```
 package main
 

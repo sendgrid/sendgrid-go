@@ -9,7 +9,7 @@ This documentation provides examples for specific Twilio SendGrid use cases. Ple
 * [Sections](sections.md)
 * [Attachments](attachments.md)
 * [How to View Email Statistics](view-email-stats.md)
-* [How to Setup a Domain Whitelabel](setup-domain-whitelabel.md)
+* [How to Setup a Domain Authentication](setup-domain-authentication.md)
 
 # Twilio Use Cases
 * [Twilio Setup](twilio-setup.md)
