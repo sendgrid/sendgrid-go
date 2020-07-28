@@ -1,4 +1,4 @@
-## Transactional Tempaltes - With Mail Helper Class
+## Transactional Templates - With Mail Helper Class
 
 ```go
 package main

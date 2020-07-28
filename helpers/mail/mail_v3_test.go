@@ -1,7 +1,6 @@
 package mail
 
 import (
-	"encoding/json"
 	"fmt"
 	"math/rand"
 	"testing"
@@ -22,7 +21,7 @@ func TestV3NewMail(t *testing.T) {
 
 func TestV3NewMailInit(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
+	subject := "Hello World from the Twilio SendGrid Go Library"
 	to := NewEmail("Example User", "test@example.com")
 	content := NewContent("text/plain", "some text here")
 	m := NewV3MailInit(from, subject, to, content)
@@ -72,28 +71,74 @@ func TestV3AddAttachment(t *testing.T) {
 	assert.Equal(t, numOfAttachments, len(m.Attachments), fmt.Sprintf("Mail should have %d attachments, got %d attachments", numOfAttachments, len(m.Attachments)))
 }
 
+func TestEscapeName(t *testing.T) {
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"contains double quote", `Johnny"Bravo`, `"Johnny\"Bravo"`},
+		{"contains backslash", `Johnny\Bravo`, `"Johnny\\Bravo"`},
+		{"contains open parens", `Johnny (Bravo`, `"Johnny (Bravo"`},
+		{"contains close parens", `Johnny Bravo)`, `"Johnny Bravo)"`},
+		{"contains open angle bracket", `Johnny <Bravo`, `"Johnny <Bravo"`},
+		{"contains open angle bracket", `Johnny Bravo>`, `"Johnny Bravo>"`},
+		{"contains open square bracket", `Johnny [Bravo`, `"Johnny [Bravo"`},
+		{"contains open square bracket", `Johnny Bravo]`, `"Johnny Bravo]"`},
+		{"contains colon", `Johnny:Bravo`, `"Johnny:Bravo"`},
+		{"contains semi-colon", `Johnny;Bravo`, `"Johnny;Bravo"`},
+		{"contains at sign", `Johnny@Bravo`, `"Johnny@Bravo"`},
+		{"contains comma", `Johnny,Bravo`, `"Johnny,Bravo"`},
+		{"contains period", `Johnny.Bravo`, `"Johnny.Bravo"`},
+	}
+	for _, tc := range testcases {
+		got := EscapeName(tc.name)
+		assert.Equal(t, tc.want, got, fmt.Sprintf("name should be %s, got %s", tc.want, got))
+	}
+}
+
 func TestV3SetFrom(t *testing.T) {
 	m := NewV3Mail()
 
-	address := "test@example.com"
-	name := "Test User"
-	e := NewEmail(name, address)
-	m.SetFrom(e)
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"unquoted", `Test User`, `Test User`},
+		{"quoted", `"Test User"`, `"Test User"`},
+	}
 
-	assert.Equal(t, name, m.From.Name, fmt.Sprintf("name should be %s, got %s", name, e.Name))
-	assert.Equal(t, address, m.From.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	address := "test@example.com"
+	for _, tc := range testcases {
+		e := NewEmail(tc.name, address)
+		m.SetFrom(e)
+
+		assert.Equal(t, tc.want, m.From.Name, fmt.Sprintf("name should be %s, got %s", tc.want, e.Name))
+		assert.Equal(t, address, m.From.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	}
 }
 
 func TestV3SetReplyTo(t *testing.T) {
 	m := NewV3Mail()
 
-	address := "test@example.com"
-	name := "Test User"
-	e := NewEmail(name, address)
-	m.SetReplyTo(e)
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"unquoted", `Test User`, `Test User`},
+		{"quoted", `"Test User"`, `"Test User"`},
+	}
 
-	assert.Equal(t, name, m.ReplyTo.Name, fmt.Sprintf("name should be %s, got %s", name, e.Name))
-	assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	address := "test@example.com"
+	for _, tc := range testcases {
+		e := NewEmail(tc.name, address)
+		m.SetReplyTo(e)
+
+		assert.Equal(t, tc.want, m.ReplyTo.Name, fmt.Sprintf("name should be %s, got %s", tc.want, e.Name))
+		assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
+	}
 }
 
 func TestV3SetTemplateID(t *testing.T) {
@@ -225,25 +270,25 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.NotNil(t, p, "NewPersonalization() shouldn't return nil")
 
 	assert.NotNil(t, p.To, "To should't be nil")
-	assert.Equal(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To))
+	assert.Equal(t, 0, len(p.To), "Length of p.To should be 0")
 
 	assert.NotNil(t, p.CC, "CC should't be nil")
-	assert.Equal(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC))
+	assert.Equal(t, 0, len(p.CC), "Length of p.CCs should be 0")
 
 	assert.NotNil(t, p.BCC, "BCC should't be nil")
-	assert.Equal(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC))
+	assert.Equal(t, 0, len(p.BCC), "Length of p.BCC should be 0")
 
 	assert.NotNil(t, p.Headers, "Headers should't be nil")
-	assert.Equal(t, 0, len(p.Headers), fmt.Sprintf("Length of %s should be 0", p.Headers))
+	assert.Equal(t, 0, len(p.Headers), "Length of p.Headers should be 0")
 
 	assert.NotNil(t, p.Substitutions, "Substitutions should't be nil")
-	assert.Equal(t, 0, len(p.Substitutions), fmt.Sprintf("Length of %s should be 0", p.Substitutions))
+	assert.Equal(t, 0, len(p.Substitutions), "Length of p.Substitutions should be 0")
 
 	assert.NotNil(t, p.CustomArgs, "CustomArgs should't be nil")
-	assert.Equal(t, 0, len(p.CustomArgs), fmt.Sprintf("Length of %s should be 0", p.CustomArgs))
+	assert.Equal(t, 0, len(p.CustomArgs), "Length of p.CustomArgs should be 0")
 
 	assert.NotNil(t, p.Categories, "Categories should't be nil")
-	assert.Equal(t, 0, len(p.Categories), fmt.Sprintf("Length of %s should be 0", p.Categories))
+	assert.Equal(t, 0, len(p.Categories), "Length of p.Categories should be 0")
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
@@ -649,26 +694,32 @@ func TestV3NewSetting(t *testing.T) {
 }
 
 func TestV3NewEmail(t *testing.T) {
-	name := "Johnny"
+	testcases := []struct {
+		title string
+		name  string
+		want  string
+	}{
+		{"unquoted", `Test User`, `Test User`},
+		{"quoted", `"Test User"`, `"Test User"`},
+	}
+
 	address := "Johnny@rocket.io"
+	for _, tc := range testcases {
+		e := NewEmail(tc.name, address)
 
-	e := NewEmail(name, address)
-
-	assert.Equal(t, name, e.Name, fmt.Sprintf("Name should be %s, got %s", name, e.Name))
-	assert.Equal(t, address, e.Address, fmt.Sprintf("Address should be %s, got %s", address, e.Address))
+		assert.Equal(t, tc.want, e.Name, fmt.Sprintf("Name should be %s, got %s", tc.want, e.Name))
+		assert.Equal(t, address, e.Address, fmt.Sprintf("Address should be %s, got %s", address, e.Address))
+	}
 }
 
 func TestV3NewSingleEmail(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
 
 	message := NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-
-	m, _ := json.Marshal(message)
-	fmt.Println(string(m))
 
 	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
 	assert.NotNil(t, message.From, "From shouldn't return nil")
@@ -678,14 +729,11 @@ func TestV3NewSingleEmail(t *testing.T) {
 
 func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 
 	message := NewSingleEmail(from, subject, to, plainTextContent, "")
-
-	m, _ := json.Marshal(message)
-	fmt.Println(string(m))
 
 	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
 	assert.NotNil(t, message.From, "From shouldn't be nil")

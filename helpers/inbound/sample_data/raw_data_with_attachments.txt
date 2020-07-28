@@ -19,19 +19,19 @@ Content-Type: multipart/alternative; boundary=001a1140ffb6f4fc5f053a2257e0
 --001a1140ffb6f4fc5f053a2257e0
 Content-Type: text/plain; charset=UTF-8
 
-Hello SendGrid!
+Hello Twilio SendGrid!
 
 --001a1140ffb6f4fc5f053a2257e0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<html><body><strong>Hello SendGrid!</body></html>
+<html><body><strong>Hello Twilio SendGrid!</body></html>
 
 --001a1140ffb6f4fc5f053a2257e0--
 
 --001a1140ffb6f4fc63053a2257e2
-Content-Type: image/jpeg; name="SendGrid.jpg"
-Content-Disposition: attachment; filename="SendGrid.jpg"
+Content-Type: image/jpeg; name="TwilioSendGrid.jpg"
+Content-Disposition: attachment; filename="TwilioSendGrid.jpg"
 Content-Transfer-Encoding: base64
 X-Attachment-Id: f_irwihell0
 

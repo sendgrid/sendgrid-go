@@ -1,17 +1,12 @@
 package sendgrid
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"os/exec"
-	"path/filepath"
-	"runtime"
 	"strconv"
 	"strings"
 	"testing"
@@ -22,114 +17,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	testHost  = ""
-	prismPath = "prism"
-	prismArgs = []string{"run", "-s", "https://raw.githubusercontent.com/sendgrid/sendgrid-oai/master/oai_stoplight.json"}
-	prismCmd  *exec.Cmd
-	buffer    bytes.Buffer
-	curl      *exec.Cmd
-	sh        *exec.Cmd
-)
-
-func TestMain(m *testing.M) {
-	// By default prism runs on localhost:4010
-	// Learn how to configure prism here: https://designer.stoplight.io/docs/prism
-	testHost = "http://localhost:4010"
-
-	if runtime.GOOS == "windows" {
-		prismPath = filepath.Join(os.Getenv("GOPATH"), "bin", prismPath)
-		prismPath += ".exe"
-	}
-
-	// Check if prism is installed, if not, install it
-	if _, err := os.Stat(prismPath); os.IsNotExist(err) {
-		if runtime.GOOS != "windows" {
-			curl = exec.Command("curl", "https://raw.githubusercontent.com/stoplightio/prism/master/install.sh")
-			sh = exec.Command("sh")
-			read, write := io.Pipe()
-			curl.Stdout = write
-			sh.Stdin = read
-			sh.Stdout = &buffer
-			curl.Start()
-			sh.Start()
-			curl.Wait()
-			write.Close()
-			sh.Wait()
-			_, err := io.Copy(os.Stdout, &buffer)
-			if err != nil {
-				fmt.Println("Error downloading the prism binary, you can try downloading directly here (https://github.com/stoplightio/prism/releases) and place in your $GOPATH/bin directory: ", err)
-			}
-		} else {
-			fmt.Fprintf(os.Stderr, "Please download the Windows binary (https://github.com/stoplightio/prism/releases) and place it in your $GOPATH/bin directory")
-			os.Exit(1)
-		}
-	} else {
-		updatePrismCmd := exec.Command(prismPath, "up")
-		err := updatePrismCmd.Start()
-		if err != nil {
-			fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
-		} else {
-			fmt.Println("Waiting for prism to update...")
-			err = updatePrismCmd.Wait()
-			if err != nil {
-				fmt.Println("Error updating prism, please download an update! (https://github.com/stoplightio/prism/releases)", err)
-			}
-			fmt.Println("Prism is now up to date!")
-		}
-	}
-
-	prismCmd = exec.Command(prismPath, prismArgs...)
-
-	// If you want to see prism's output uncomment below.
-	// prismReader, err := prismCmd.StdoutPipe()
-	// if err != nil {
-	// 	fmt.Println("Error creating StdoutPipe for Cmd", err)
-	// }
-
-	// scanner := bufio.NewScanner(prismReader)
-	// go func() {
-	// 	for scanner.Scan() {
-	// 		fmt.Printf("prism | %s\n", scanner.Text())
-	// 	}
-	// }()
-
-	go func() {
-		fmt.Println("Start Prism")
-		err := prismCmd.Start()
-		if err != nil {
-			fmt.Println("Error starting prism", err)
-		}
-	}()
-
-	// Need to give prism enough time to launch!
-	duration := time.Second * 15
-	time.Sleep(duration)
-
-	exitCode := m.Run()
-	if prismCmd != nil {
-		prismCmd.Process.Kill()
-		prismCmd = nil
-	}
-
-	os.Exit(exitCode)
-}
-
-func TestSendGridVersion(t *testing.T) {
-	assert.Equal(t, "3.1.0", Version, "SendGrid version does not match")
-}
-
 func TestLicenseYear(t *testing.T) {
-	d, err := ioutil.ReadFile("LICENSE.txt")
-	assert.Nil(t, err, "Cannot read the LICENSE.txt file")
-	l := fmt.Sprintf("Copyright (c) 2013-%v SendGrid, Inc.", time.Now().Year())
+	d, err := ioutil.ReadFile("LICENSE.md")
+	assert.Nil(t, err, "Cannot read the LICENSE.md file")
+	l := fmt.Sprintf("Copyright (C) %v, Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
 
 func TestRepoFiles(t *testing.T) {
 	fs := []string{
 		"Dockerfile",
-		"docker-compose.yml",
 		".env_sample",
 		".gitignore",
 		".travis.yml",
@@ -137,19 +34,16 @@ func TestRepoFiles(t *testing.T) {
 		"CHANGELOG.md",
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",
-		".github/ISSUE_TEMPLATE",
-		"LICENSE.txt",
-		".github/PULL_REQUEST_TEMPLATE",
+		"ISSUE_TEMPLATE.md",
+		"LICENSE.md",
+		"PULL_REQUEST_TEMPLATE.md",
 		"README.md",
 		"TROUBLESHOOTING.md",
 		"USAGE.md",
 	}
 	for _, f := range fs {
-		if _, err := os.Stat(f); os.IsNotExist(err) {
-			assert.True(t, strings.HasPrefix(strings.ToLower(f), "docker"), fmt.Sprintf("Repo file does not exist: %v", f))
-			_, err := os.Stat("docker/" + f)
-			assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo files do not exist: %[1]v or docker/%[1]v", f))
-		}
+		_, err := os.Stat(f)
+		assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo file does not exist: %[1]v", f))
 	}
 }
 
@@ -194,6 +88,10 @@ func TestNewSendClientSubuser(t *testing.T) {
 	ShouldHaveHeaders(&client.Request, t)
 }
 
+func getRequest(endpoint string) rest.Request {
+	return GetRequest("SENDGRID_APIKEY", endpoint, "")
+}
+
 func TestCustomHTTPClient(t *testing.T) {
 	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Millisecond * 20)
@@ -226,7 +124,7 @@ func TestRequestRetry_rateLimit(t *testing.T) {
 	DefaultClient = &custom
 	_, err := MakeRequestRetry(request)
 	assert.NotNil(t, err, "An error did not trigger")
-	assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
+	assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
 	DefaultClient = rest.DefaultClient
 }
 
@@ -244,7 +142,7 @@ func TestRequestRetry_rateLimit_noHeader(t *testing.T) {
 	DefaultClient = &custom
 	_, err := MakeRequestRetry(request)
 	assert.NotNil(t, err, "An error did not trigger")
-	assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
+	assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
 	DefaultClient = rest.DefaultClient
 }
 
@@ -292,7 +190,7 @@ func TestRequestAsync_rateLimit(t *testing.T) {
 		t.Error("Received a valid response")
 		return
 	case err := <-e:
-		assert.True(t, strings.Contains(err.Error(), "Rate limit retry exceeded"), "We did not receive the rate limit error")
+		assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
 	case <-time.After(10 * time.Second):
 		t.Error("Timed out waiting for an error")
 	}
@@ -300,9 +198,7 @@ func TestRequestAsync_rateLimit(t *testing.T) {
 }
 
 func Test_test_access_settings_activity_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/access_settings/activity", host)
+	request := getRequest("/v3/access_settings/activity")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -316,9 +212,7 @@ func Test_test_access_settings_activity_get(t *testing.T) {
 }
 
 func Test_test_access_settings_whitelist_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/access_settings/whitelist", host)
+	request := getRequest("/v3/access_settings/whitelist")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "ips": [
@@ -342,9 +236,7 @@ func Test_test_access_settings_whitelist_post(t *testing.T) {
 }
 
 func Test_test_access_settings_whitelist_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/access_settings/whitelist", host)
+	request := getRequest("/v3/access_settings/whitelist")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -355,9 +247,7 @@ func Test_test_access_settings_whitelist_get(t *testing.T) {
 }
 
 func Test_test_access_settings_whitelist_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/access_settings/whitelist", host)
+	request := getRequest("/v3/access_settings/whitelist")
 	request.Method = "DELETE"
 	request.Body = []byte(` {
   "ids": [
@@ -375,9 +265,7 @@ func Test_test_access_settings_whitelist_delete(t *testing.T) {
 }
 
 func Test_test_access_settings_whitelist__rule_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
+	request := getRequest("/v3/access_settings/whitelist/{rule_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -388,9 +276,7 @@ func Test_test_access_settings_whitelist__rule_id__get(t *testing.T) {
 }
 
 func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/access_settings/whitelist/{rule_id}", host)
+	request := getRequest("/v3/access_settings/whitelist/{rule_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -401,9 +287,7 @@ func Test_test_access_settings_whitelist__rule_id__delete(t *testing.T) {
 }
 
 func Test_test_alerts_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/alerts", host)
+	request := getRequest("/v3/alerts")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "email_to": "example@example.com",
@@ -419,9 +303,7 @@ func Test_test_alerts_post(t *testing.T) {
 }
 
 func Test_test_alerts_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/alerts", host)
+	request := getRequest("/v3/alerts")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -432,9 +314,7 @@ func Test_test_alerts_get(t *testing.T) {
 }
 
 func Test_test_alerts__alert_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+	request := getRequest("/v3/alerts/{alert_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "email_to": "example@example.com"
@@ -448,9 +328,7 @@ func Test_test_alerts__alert_id__patch(t *testing.T) {
 }
 
 func Test_test_alerts__alert_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+	request := getRequest("/v3/alerts/{alert_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -461,9 +339,7 @@ func Test_test_alerts__alert_id__get(t *testing.T) {
 }
 
 func Test_test_alerts__alert_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/alerts/{alert_id}", host)
+	request := getRequest("/v3/alerts/{alert_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -474,9 +350,7 @@ func Test_test_alerts__alert_id__delete(t *testing.T) {
 }
 
 func Test_test_api_keys_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/api_keys", host)
+	request := getRequest("/v3/api_keys")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "My API Key",
@@ -496,9 +370,7 @@ func Test_test_api_keys_post(t *testing.T) {
 }
 
 func Test_test_api_keys_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/api_keys", host)
+	request := getRequest("/v3/api_keys")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -512,9 +384,7 @@ func Test_test_api_keys_get(t *testing.T) {
 }
 
 func Test_test_api_keys__api_key_id__put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request := getRequest("/v3/api_keys/{api_key_id}")
 	request.Method = "PUT"
 	request.Body = []byte(` {
   "name": "A New Hope",
@@ -532,9 +402,7 @@ func Test_test_api_keys__api_key_id__put(t *testing.T) {
 }
 
 func Test_test_api_keys__api_key_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request := getRequest("/v3/api_keys/{api_key_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "name": "A New Hope"
@@ -548,9 +416,7 @@ func Test_test_api_keys__api_key_id__patch(t *testing.T) {
 }
 
 func Test_test_api_keys__api_key_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request := getRequest("/v3/api_keys/{api_key_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -561,9 +427,7 @@ func Test_test_api_keys__api_key_id__get(t *testing.T) {
 }
 
 func Test_test_api_keys__api_key_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/api_keys/{api_key_id}", host)
+	request := getRequest("/v3/api_keys/{api_key_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -574,9 +438,7 @@ func Test_test_api_keys__api_key_id__delete(t *testing.T) {
 }
 
 func Test_test_asm_groups_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups", host)
+	request := getRequest("/v3/asm/groups")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "description": "Suggestions for products our users might like.",
@@ -592,9 +454,7 @@ func Test_test_asm_groups_post(t *testing.T) {
 }
 
 func Test_test_asm_groups_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups", host)
+	request := getRequest("/v3/asm/groups")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["id"] = "1"
@@ -608,9 +468,7 @@ func Test_test_asm_groups_get(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
+	request := getRequest("/v3/asm/groups/{group_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "description": "Suggestions for items our users might like.",
@@ -626,9 +484,7 @@ func Test_test_asm_groups__group_id__patch(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
+	request := getRequest("/v3/asm/groups/{group_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -639,9 +495,7 @@ func Test_test_asm_groups__group_id__get(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}", host)
+	request := getRequest("/v3/asm/groups/{group_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -652,9 +506,7 @@ func Test_test_asm_groups__group_id__delete(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__suppressions_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
+	request := getRequest("/v3/asm/groups/{group_id}/suppressions")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "recipient_emails": [
@@ -671,9 +523,7 @@ func Test_test_asm_groups__group_id__suppressions_post(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__suppressions_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions", host)
+	request := getRequest("/v3/asm/groups/{group_id}/suppressions")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -684,9 +534,7 @@ func Test_test_asm_groups__group_id__suppressions_get(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__suppressions_search_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/search", host)
+	request := getRequest("/v3/asm/groups/{group_id}/suppressions/search")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "recipient_emails": [
@@ -704,9 +552,7 @@ func Test_test_asm_groups__group_id__suppressions_search_post(t *testing.T) {
 }
 
 func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/groups/{group_id}/suppressions/{email}", host)
+	request := getRequest("/v3/asm/groups/{group_id}/suppressions/{email}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -717,9 +563,7 @@ func Test_test_asm_groups__group_id__suppressions__email__delete(t *testing.T) {
 }
 
 func Test_test_asm_suppressions_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/suppressions", host)
+	request := getRequest("/v3/asm/suppressions")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -730,9 +574,7 @@ func Test_test_asm_suppressions_get(t *testing.T) {
 }
 
 func Test_test_asm_suppressions_global_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/suppressions/global", host)
+	request := getRequest("/v3/asm/suppressions/global")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "recipient_emails": [
@@ -749,9 +591,7 @@ func Test_test_asm_suppressions_global_post(t *testing.T) {
 }
 
 func Test_test_asm_suppressions_global__email__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
+	request := getRequest("/v3/asm/suppressions/global/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -762,9 +602,7 @@ func Test_test_asm_suppressions_global__email__get(t *testing.T) {
 }
 
 func Test_test_asm_suppressions_global__email__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/suppressions/global/{email}", host)
+	request := getRequest("/v3/asm/suppressions/global/{email}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -775,9 +613,7 @@ func Test_test_asm_suppressions_global__email__delete(t *testing.T) {
 }
 
 func Test_test_asm_suppressions__email__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/asm/suppressions/{email}", host)
+	request := getRequest("/v3/asm/suppressions/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -788,9 +624,7 @@ func Test_test_asm_suppressions__email__get(t *testing.T) {
 }
 
 func Test_test_browsers_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/browsers/stats", host)
+	request := getRequest("/v3/browsers/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -809,9 +643,7 @@ func Test_test_browsers_stats_get(t *testing.T) {
 }
 
 func Test_test_campaigns_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns", host)
+	request := getRequest("/v3/campaigns")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "categories": [
@@ -842,9 +674,7 @@ func Test_test_campaigns_post(t *testing.T) {
 }
 
 func Test_test_campaigns_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns", host)
+	request := getRequest("/v3/campaigns")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -859,9 +689,7 @@ func Test_test_campaigns_get(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
+	request := getRequest("/v3/campaigns/{campaign_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "categories": [
@@ -881,9 +709,7 @@ func Test_test_campaigns__campaign_id__patch(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
+	request := getRequest("/v3/campaigns/{campaign_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -894,9 +720,7 @@ func Test_test_campaigns__campaign_id__get(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}", host)
+	request := getRequest("/v3/campaigns/{campaign_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -907,9 +731,7 @@ func Test_test_campaigns__campaign_id__delete(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__schedules_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
+	request := getRequest("/v3/campaigns/{campaign_id}/schedules")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "send_at": 1489451436
@@ -923,9 +745,7 @@ func Test_test_campaigns__campaign_id__schedules_patch(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__schedules_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
+	request := getRequest("/v3/campaigns/{campaign_id}/schedules")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "send_at": 1489771528
@@ -939,9 +759,7 @@ func Test_test_campaigns__campaign_id__schedules_post(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__schedules_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
+	request := getRequest("/v3/campaigns/{campaign_id}/schedules")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -952,9 +770,7 @@ func Test_test_campaigns__campaign_id__schedules_get(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__schedules_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules", host)
+	request := getRequest("/v3/campaigns/{campaign_id}/schedules")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -965,9 +781,7 @@ func Test_test_campaigns__campaign_id__schedules_delete(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__schedules_now_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/now", host)
+	request := getRequest("/v3/campaigns/{campaign_id}/schedules/now")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "201"
 	response, err := MakeRequest(request)
@@ -978,9 +792,7 @@ func Test_test_campaigns__campaign_id__schedules_now_post(t *testing.T) {
 }
 
 func Test_test_campaigns__campaign_id__schedules_test_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/campaigns/{campaign_id}/schedules/test", host)
+	request := getRequest("/v3/campaigns/{campaign_id}/schedules/test")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "to": "your.email@example.com"
@@ -994,9 +806,7 @@ func Test_test_campaigns__campaign_id__schedules_test_post(t *testing.T) {
 }
 
 func Test_test_categories_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/categories", host)
+	request := getRequest("/v3/categories")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["category"] = "test_string"
@@ -1012,9 +822,7 @@ func Test_test_categories_get(t *testing.T) {
 }
 
 func Test_test_categories_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/categories/stats", host)
+	request := getRequest("/v3/categories/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -1033,9 +841,7 @@ func Test_test_categories_stats_get(t *testing.T) {
 }
 
 func Test_test_categories_stats_sums_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/categories/stats/sums", host)
+	request := getRequest("/v3/categories/stats/sums")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -1055,9 +861,7 @@ func Test_test_categories_stats_sums_get(t *testing.T) {
 }
 
 func Test_test_clients_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/clients/stats", host)
+	request := getRequest("/v3/clients/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["aggregated_by"] = "day"
@@ -1073,9 +877,7 @@ func Test_test_clients_stats_get(t *testing.T) {
 }
 
 func Test_test_clients__client_type__stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/clients/{client_type}/stats", host)
+	request := getRequest("/v3/clients/{client_type}/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["aggregated_by"] = "day"
@@ -1091,9 +893,7 @@ func Test_test_clients__client_type__stats_get(t *testing.T) {
 }
 
 func Test_test_contactdb_custom_fields_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
+	request := getRequest("/v3/contactdb/custom_fields")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "pet",
@@ -1108,9 +908,7 @@ func Test_test_contactdb_custom_fields_post(t *testing.T) {
 }
 
 func Test_test_contactdb_custom_fields_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/custom_fields", host)
+	request := getRequest("/v3/contactdb/custom_fields")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1121,9 +919,7 @@ func Test_test_contactdb_custom_fields_get(t *testing.T) {
 }
 
 func Test_test_contactdb_custom_fields__custom_field_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_field_id}", host)
+	request := getRequest("/v3/contactdb/custom_fields/{custom_field_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1134,9 +930,7 @@ func Test_test_contactdb_custom_fields__custom_field_id__get(t *testing.T) {
 }
 
 func Test_test_contactdb_custom_fields__custom_field_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/custom_fields/{custom_field_id}", host)
+	request := getRequest("/v3/contactdb/custom_fields/{custom_field_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "202"
 	response, err := MakeRequest(request)
@@ -1147,9 +941,7 @@ func Test_test_contactdb_custom_fields__custom_field_id__delete(t *testing.T) {
 }
 
 func Test_test_contactdb_lists_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists", host)
+	request := getRequest("/v3/contactdb/lists")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "your list name"
@@ -1163,9 +955,7 @@ func Test_test_contactdb_lists_post(t *testing.T) {
 }
 
 func Test_test_contactdb_lists_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists", host)
+	request := getRequest("/v3/contactdb/lists")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1176,9 +966,7 @@ func Test_test_contactdb_lists_get(t *testing.T) {
 }
 
 func Test_test_contactdb_lists_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists", host)
+	request := getRequest("/v3/contactdb/lists")
 	request.Method = "DELETE"
 	request.Body = []byte(` [
   1,
@@ -1195,9 +983,7 @@ func Test_test_contactdb_lists_delete(t *testing.T) {
 }
 
 func Test_test_contactdb_lists__list_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "name": "newlistname"
@@ -1214,9 +1000,7 @@ func Test_test_contactdb_lists__list_id__patch(t *testing.T) {
 }
 
 func Test_test_contactdb_lists__list_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["list_id"] = "1"
@@ -1230,9 +1014,7 @@ func Test_test_contactdb_lists__list_id__get(t *testing.T) {
 }
 
 func Test_test_contactdb_lists__list_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}")
 	request.Method = "DELETE"
 	queryParams := make(map[string]string)
 	queryParams["delete_contacts"] = "true"
@@ -1246,9 +1028,7 @@ func Test_test_contactdb_lists__list_id__delete(t *testing.T) {
 }
 
 func Test_test_contactdb_lists__list_id__recipients_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}/recipients")
 	request.Method = "POST"
 	request.Body = []byte(` [
   "recipient_id1",
@@ -1263,9 +1043,7 @@ func Test_test_contactdb_lists__list_id__recipients_post(t *testing.T) {
 }
 
 func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}/recipients")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["page"] = "1"
@@ -1281,9 +1059,7 @@ func Test_test_contactdb_lists__list_id__recipients_get(t *testing.T) {
 }
 
 func Test_test_contactdb_lists__list_id__recipients__recipient_id__post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}/recipients/{recipient_id}")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "201"
 	response, err := MakeRequest(request)
@@ -1294,9 +1070,7 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__post(t *testi
 }
 
 func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
+	request := getRequest("/v3/contactdb/lists/{list_id}/recipients/{recipient_id}")
 	request.Method = "DELETE"
 	queryParams := make(map[string]string)
 	queryParams["recipient_id"] = "1"
@@ -1311,9 +1085,7 @@ func Test_test_contactdb_lists__list_id__recipients__recipient_id__delete(t *tes
 }
 
 func Test_test_contactdb_recipients_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients", host)
+	request := getRequest("/v3/contactdb/recipients")
 	request.Method = "PATCH"
 	request.Body = []byte(` [
   {
@@ -1331,9 +1103,7 @@ func Test_test_contactdb_recipients_patch(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients", host)
+	request := getRequest("/v3/contactdb/recipients")
 	request.Method = "POST"
 	request.Body = []byte(` [
   {
@@ -1358,9 +1128,7 @@ func Test_test_contactdb_recipients_post(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients", host)
+	request := getRequest("/v3/contactdb/recipients")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["page"] = "1"
@@ -1375,9 +1143,7 @@ func Test_test_contactdb_recipients_get(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients", host)
+	request := getRequest("/v3/contactdb/recipients")
 	request.Method = "DELETE"
 	request.Body = []byte(` [
   "recipient_id1",
@@ -1392,9 +1158,7 @@ func Test_test_contactdb_recipients_delete(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients_billable_count_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients/billable_count", host)
+	request := getRequest("/v3/contactdb/recipients/billable_count")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1405,9 +1169,7 @@ func Test_test_contactdb_recipients_billable_count_get(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients_count_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients/count", host)
+	request := getRequest("/v3/contactdb/recipients/count")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1418,9 +1180,7 @@ func Test_test_contactdb_recipients_count_get(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients_search_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients/search", host)
+	request := getRequest("/v3/contactdb/recipients/search")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["{field_name}"] = "test_string"
@@ -1434,9 +1194,7 @@ func Test_test_contactdb_recipients_search_get(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients__recipient_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}", host)
+	request := getRequest("/v3/contactdb/recipients/{recipient_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1447,9 +1205,7 @@ func Test_test_contactdb_recipients__recipient_id__get(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients__recipient_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}", host)
+	request := getRequest("/v3/contactdb/recipients/{recipient_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -1460,9 +1216,7 @@ func Test_test_contactdb_recipients__recipient_id__delete(t *testing.T) {
 }
 
 func Test_test_contactdb_recipients__recipient_id__lists_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/recipients/{recipient_id}/lists", host)
+	request := getRequest("/v3/contactdb/recipients/{recipient_id}/lists")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1473,9 +1227,7 @@ func Test_test_contactdb_recipients__recipient_id__lists_get(t *testing.T) {
 }
 
 func Test_test_contactdb_reserved_fields_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/reserved_fields", host)
+	request := getRequest("/v3/contactdb/reserved_fields")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1486,9 +1238,7 @@ func Test_test_contactdb_reserved_fields_get(t *testing.T) {
 }
 
 func Test_test_contactdb_segments_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/segments", host)
+	request := getRequest("/v3/contactdb/segments")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "conditions": [
@@ -1523,9 +1273,7 @@ func Test_test_contactdb_segments_post(t *testing.T) {
 }
 
 func Test_test_contactdb_segments_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/segments", host)
+	request := getRequest("/v3/contactdb/segments")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1536,9 +1284,7 @@ func Test_test_contactdb_segments_get(t *testing.T) {
 }
 
 func Test_test_contactdb_segments__segment_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
+	request := getRequest("/v3/contactdb/segments/{segment_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "conditions": [
@@ -1564,9 +1310,7 @@ func Test_test_contactdb_segments__segment_id__patch(t *testing.T) {
 }
 
 func Test_test_contactdb_segments__segment_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
+	request := getRequest("/v3/contactdb/segments/{segment_id}")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["segment_id"] = "1"
@@ -1580,9 +1324,7 @@ func Test_test_contactdb_segments__segment_id__get(t *testing.T) {
 }
 
 func Test_test_contactdb_segments__segment_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}", host)
+	request := getRequest("/v3/contactdb/segments/{segment_id}")
 	request.Method = "DELETE"
 	queryParams := make(map[string]string)
 	queryParams["delete_contacts"] = "true"
@@ -1596,9 +1338,7 @@ func Test_test_contactdb_segments__segment_id__delete(t *testing.T) {
 }
 
 func Test_test_contactdb_segments__segment_id__recipients_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/contactdb/segments/{segment_id}/recipients", host)
+	request := getRequest("/v3/contactdb/segments/{segment_id}/recipients")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["page"] = "1"
@@ -1613,9 +1353,7 @@ func Test_test_contactdb_segments__segment_id__recipients_get(t *testing.T) {
 }
 
 func Test_test_devices_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/devices/stats", host)
+	request := getRequest("/v3/devices/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["aggregated_by"] = "day"
@@ -1633,9 +1371,7 @@ func Test_test_devices_stats_get(t *testing.T) {
 }
 
 func Test_test_geo_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/geo/stats", host)
+	request := getRequest("/v3/geo/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -1654,9 +1390,7 @@ func Test_test_geo_stats_get(t *testing.T) {
 }
 
 func Test_test_ips_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips", host)
+	request := getRequest("/v3/ips")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["subuser"] = "test_string"
@@ -1674,9 +1408,7 @@ func Test_test_ips_get(t *testing.T) {
 }
 
 func Test_test_ips_assigned_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/assigned", host)
+	request := getRequest("/v3/ips/assigned")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1687,9 +1419,7 @@ func Test_test_ips_assigned_get(t *testing.T) {
 }
 
 func Test_test_ips_pools_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools", host)
+	request := getRequest("/v3/ips/pools")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "marketing"
@@ -1703,9 +1433,7 @@ func Test_test_ips_pools_post(t *testing.T) {
 }
 
 func Test_test_ips_pools_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools", host)
+	request := getRequest("/v3/ips/pools")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1716,9 +1444,7 @@ func Test_test_ips_pools_get(t *testing.T) {
 }
 
 func Test_test_ips_pools__pool_name__put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
+	request := getRequest("/v3/ips/pools/{pool_name}")
 	request.Method = "PUT"
 	request.Body = []byte(` {
   "name": "new_pool_name"
@@ -1732,9 +1458,7 @@ func Test_test_ips_pools__pool_name__put(t *testing.T) {
 }
 
 func Test_test_ips_pools__pool_name__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
+	request := getRequest("/v3/ips/pools/{pool_name}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1745,9 +1469,7 @@ func Test_test_ips_pools__pool_name__get(t *testing.T) {
 }
 
 func Test_test_ips_pools__pool_name__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}", host)
+	request := getRequest("/v3/ips/pools/{pool_name}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -1758,9 +1480,7 @@ func Test_test_ips_pools__pool_name__delete(t *testing.T) {
 }
 
 func Test_test_ips_pools__pool_name__ips_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips", host)
+	request := getRequest("/v3/ips/pools/{pool_name}/ips")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "ip": "0.0.0.0"
@@ -1774,9 +1494,7 @@ func Test_test_ips_pools__pool_name__ips_post(t *testing.T) {
 }
 
 func Test_test_ips_pools__pool_name__ips__ip__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/pools/{pool_name}/ips/{ip}", host)
+	request := getRequest("/v3/ips/pools/{pool_name}/ips/{ip}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -1787,9 +1505,7 @@ func Test_test_ips_pools__pool_name__ips__ip__delete(t *testing.T) {
 }
 
 func Test_test_ips_warmup_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/warmup", host)
+	request := getRequest("/v3/ips/warmup")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "ip": "0.0.0.0"
@@ -1803,9 +1519,7 @@ func Test_test_ips_warmup_post(t *testing.T) {
 }
 
 func Test_test_ips_warmup_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/warmup", host)
+	request := getRequest("/v3/ips/warmup")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1816,9 +1530,7 @@ func Test_test_ips_warmup_get(t *testing.T) {
 }
 
 func Test_test_ips_warmup__ip_address__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
+	request := getRequest("/v3/ips/warmup/{ip_address}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1829,9 +1541,7 @@ func Test_test_ips_warmup__ip_address__get(t *testing.T) {
 }
 
 func Test_test_ips_warmup__ip_address__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/warmup/{ip_address}", host)
+	request := getRequest("/v3/ips/warmup/{ip_address}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -1842,9 +1552,7 @@ func Test_test_ips_warmup__ip_address__delete(t *testing.T) {
 }
 
 func Test_test_ips__ip_address__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/ips/{ip_address}", host)
+	request := getRequest("/v3/ips/{ip_address}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1855,9 +1563,7 @@ func Test_test_ips__ip_address__get(t *testing.T) {
 }
 
 func Test_test_mail_batch_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail/batch", host)
+	request := getRequest("/v3/mail/batch")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "201"
 	response, err := MakeRequest(request)
@@ -1868,9 +1574,7 @@ func Test_test_mail_batch_post(t *testing.T) {
 }
 
 func Test_test_mail_batch__batch_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail/batch/{batch_id}", host)
+	request := getRequest("/v3/mail/batch/{batch_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -1883,8 +1587,6 @@ func Test_test_mail_batch__batch_id__get(t *testing.T) {
 func Test_test_send_client(t *testing.T) {
 	apiKey := "SENDGRID_APIKEY"
 	client := NewSendClient(apiKey)
-	// override the base url for test purposes
-	client.Request.BaseURL = "http://localhost:4010/v3/mail/send"
 
 	emailBytes := []byte(` {
 		"asm": {
@@ -1937,8 +1639,8 @@ func Test_test_send_client(t *testing.T) {
 			},
 			"footer": {
 			"enable": true,
-			"html": "<p>Thanks</br>The SendGrid Team</p>",
-			"text": "Thanks,/n The SendGrid Team"
+			"html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+			"text": "Thanks,/n The Twilio SendGrid Team"
 			},
 			"sandbox_mode": {
 			"enable": false
@@ -2030,9 +1732,7 @@ func Test_test_send_client(t *testing.T) {
 }
 
 func Test_test_mail_send_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail/send", host)
+	request := getRequest("/v3/mail/send")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "asm": {
@@ -2085,8 +1785,8 @@ func Test_test_mail_send_post(t *testing.T) {
     },
     "footer": {
       "enable": true,
-      "html": "<p>Thanks</br>The SendGrid Team</p>",
-      "text": "Thanks,/n The SendGrid Team"
+      "html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+      "text": "Thanks,/n The Twilio SendGrid Team"
     },
     "sandbox_mode": {
       "enable": false
@@ -2181,9 +1881,7 @@ func Test_test_mail_send_post(t *testing.T) {
 }
 
 func Test_test_mail_settings_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings", host)
+	request := getRequest("/v3/mail_settings")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -2198,9 +1896,7 @@ func Test_test_mail_settings_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_address_whitelist_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
+	request := getRequest("/v3/mail_settings/address_whitelist")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -2218,9 +1914,7 @@ func Test_test_mail_settings_address_whitelist_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_address_whitelist_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/address_whitelist", host)
+	request := getRequest("/v3/mail_settings/address_whitelist")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2231,9 +1925,7 @@ func Test_test_mail_settings_address_whitelist_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_bcc_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/bcc", host)
+	request := getRequest("/v3/mail_settings/bcc")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "email": "email@example.com",
@@ -2248,9 +1940,7 @@ func Test_test_mail_settings_bcc_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_bcc_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/bcc", host)
+	request := getRequest("/v3/mail_settings/bcc")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2261,9 +1951,7 @@ func Test_test_mail_settings_bcc_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_bounce_purge_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
+	request := getRequest("/v3/mail_settings/bounce_purge")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -2279,9 +1967,7 @@ func Test_test_mail_settings_bounce_purge_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_bounce_purge_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/bounce_purge", host)
+	request := getRequest("/v3/mail_settings/bounce_purge")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2292,9 +1978,7 @@ func Test_test_mail_settings_bounce_purge_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_footer_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/footer", host)
+	request := getRequest("/v3/mail_settings/footer")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -2310,9 +1994,7 @@ func Test_test_mail_settings_footer_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_footer_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/footer", host)
+	request := getRequest("/v3/mail_settings/footer")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2323,9 +2005,7 @@ func Test_test_mail_settings_footer_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_forward_bounce_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
+	request := getRequest("/v3/mail_settings/forward_bounce")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "email": "example@example.com",
@@ -2340,9 +2020,7 @@ func Test_test_mail_settings_forward_bounce_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_forward_bounce_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/forward_bounce", host)
+	request := getRequest("/v3/mail_settings/forward_bounce")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2353,9 +2031,7 @@ func Test_test_mail_settings_forward_bounce_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_forward_spam_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
+	request := getRequest("/v3/mail_settings/forward_spam")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "email": "",
@@ -2370,9 +2046,7 @@ func Test_test_mail_settings_forward_spam_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_forward_spam_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/forward_spam", host)
+	request := getRequest("/v3/mail_settings/forward_spam")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2383,9 +2057,7 @@ func Test_test_mail_settings_forward_spam_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_plain_content_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
+	request := getRequest("/v3/mail_settings/plain_content")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": false
@@ -2399,9 +2071,7 @@ func Test_test_mail_settings_plain_content_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_plain_content_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/plain_content", host)
+	request := getRequest("/v3/mail_settings/plain_content")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2412,9 +2082,7 @@ func Test_test_mail_settings_plain_content_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_spam_check_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
+	request := getRequest("/v3/mail_settings/spam_check")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -2430,9 +2098,7 @@ func Test_test_mail_settings_spam_check_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_spam_check_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/spam_check", host)
+	request := getRequest("/v3/mail_settings/spam_check")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2443,9 +2109,7 @@ func Test_test_mail_settings_spam_check_get(t *testing.T) {
 }
 
 func Test_test_mail_settings_template_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/template", host)
+	request := getRequest("/v3/mail_settings/template")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -2460,9 +2124,7 @@ func Test_test_mail_settings_template_patch(t *testing.T) {
 }
 
 func Test_test_mail_settings_template_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mail_settings/template", host)
+	request := getRequest("/v3/mail_settings/template")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2473,9 +2135,7 @@ func Test_test_mail_settings_template_get(t *testing.T) {
 }
 
 func Test_test_mailbox_providers_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/mailbox_providers/stats", host)
+	request := getRequest("/v3/mailbox_providers/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -2494,9 +2154,7 @@ func Test_test_mailbox_providers_stats_get(t *testing.T) {
 }
 
 func Test_test_partner_settings_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/partner_settings", host)
+	request := getRequest("/v3/partner_settings")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -2511,9 +2169,7 @@ func Test_test_partner_settings_get(t *testing.T) {
 }
 
 func Test_test_partner_settings_new_relic_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
+	request := getRequest("/v3/partner_settings/new_relic")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enable_subuser_statistics": true,
@@ -2529,9 +2185,7 @@ func Test_test_partner_settings_new_relic_patch(t *testing.T) {
 }
 
 func Test_test_partner_settings_new_relic_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/partner_settings/new_relic", host)
+	request := getRequest("/v3/partner_settings/new_relic")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2542,9 +2196,7 @@ func Test_test_partner_settings_new_relic_get(t *testing.T) {
 }
 
 func Test_test_scopes_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/scopes", host)
+	request := getRequest("/v3/scopes")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2555,9 +2207,7 @@ func Test_test_scopes_get(t *testing.T) {
 }
 
 func Test_test_senders_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/senders", host)
+	request := getRequest("/v3/senders")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "address": "123 Elm St.",
@@ -2585,9 +2235,7 @@ func Test_test_senders_post(t *testing.T) {
 }
 
 func Test_test_senders_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/senders", host)
+	request := getRequest("/v3/senders")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2598,9 +2246,7 @@ func Test_test_senders_get(t *testing.T) {
 }
 
 func Test_test_senders__sender_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+	request := getRequest("/v3/senders/{sender_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "address": "123 Elm St.",
@@ -2628,9 +2274,7 @@ func Test_test_senders__sender_id__patch(t *testing.T) {
 }
 
 func Test_test_senders__sender_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+	request := getRequest("/v3/senders/{sender_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2641,9 +2285,7 @@ func Test_test_senders__sender_id__get(t *testing.T) {
 }
 
 func Test_test_senders__sender_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/senders/{sender_id}", host)
+	request := getRequest("/v3/senders/{sender_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -2654,9 +2296,7 @@ func Test_test_senders__sender_id__delete(t *testing.T) {
 }
 
 func Test_test_senders__sender_id__resend_verification_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
+	request := getRequest("/v3/senders/{sender_id}/resend_verification")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -2667,9 +2307,7 @@ func Test_test_senders__sender_id__resend_verification_post(t *testing.T) {
 }
 
 func Test_test_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/stats", host)
+	request := getRequest("/v3/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["aggregated_by"] = "day"
@@ -2687,9 +2325,7 @@ func Test_test_stats_get(t *testing.T) {
 }
 
 func Test_test_subusers_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers", host)
+	request := getRequest("/v3/subusers")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "email": "John@example.com",
@@ -2709,9 +2345,7 @@ func Test_test_subusers_post(t *testing.T) {
 }
 
 func Test_test_subusers_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers", host)
+	request := getRequest("/v3/subusers")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["username"] = "test_string"
@@ -2727,9 +2361,7 @@ func Test_test_subusers_get(t *testing.T) {
 }
 
 func Test_test_subusers_reputations_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/reputations", host)
+	request := getRequest("/v3/subusers/reputations")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["usernames"] = "test_string"
@@ -2743,9 +2375,7 @@ func Test_test_subusers_reputations_get(t *testing.T) {
 }
 
 func Test_test_subusers_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/stats", host)
+	request := getRequest("/v3/subusers/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -2764,9 +2394,7 @@ func Test_test_subusers_stats_get(t *testing.T) {
 }
 
 func Test_test_subusers_stats_monthly_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/stats/monthly", host)
+	request := getRequest("/v3/subusers/stats/monthly")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["subuser"] = "test_string"
@@ -2785,9 +2413,7 @@ func Test_test_subusers_stats_monthly_get(t *testing.T) {
 }
 
 func Test_test_subusers_stats_sums_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/stats/sums", host)
+	request := getRequest("/v3/subusers/stats/sums")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["end_date"] = "2016-04-01"
@@ -2807,9 +2433,7 @@ func Test_test_subusers_stats_sums_get(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}", host)
+	request := getRequest("/v3/subusers/{subuser_name}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "disabled": false
@@ -2823,9 +2447,7 @@ func Test_test_subusers__subuser_name__patch(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}", host)
+	request := getRequest("/v3/subusers/{subuser_name}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -2836,9 +2458,7 @@ func Test_test_subusers__subuser_name__delete(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__ips_put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/ips", host)
+	request := getRequest("/v3/subusers/{subuser_name}/ips")
 	request.Method = "PUT"
 	request.Body = []byte(` [
   "127.0.0.1"
@@ -2852,9 +2472,7 @@ func Test_test_subusers__subuser_name__ips_put(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__monitor_put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
+	request := getRequest("/v3/subusers/{subuser_name}/monitor")
 	request.Method = "PUT"
 	request.Body = []byte(` {
   "email": "example@example.com",
@@ -2869,9 +2487,7 @@ func Test_test_subusers__subuser_name__monitor_put(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__monitor_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
+	request := getRequest("/v3/subusers/{subuser_name}/monitor")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "email": "example@example.com",
@@ -2886,9 +2502,7 @@ func Test_test_subusers__subuser_name__monitor_post(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__monitor_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
+	request := getRequest("/v3/subusers/{subuser_name}/monitor")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2899,9 +2513,7 @@ func Test_test_subusers__subuser_name__monitor_get(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__monitor_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/monitor", host)
+	request := getRequest("/v3/subusers/{subuser_name}/monitor")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -2912,9 +2524,7 @@ func Test_test_subusers__subuser_name__monitor_delete(t *testing.T) {
 }
 
 func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/subusers/{subuser_name}/stats/monthly", host)
+	request := getRequest("/v3/subusers/{subuser_name}/stats/monthly")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["date"] = "test_string"
@@ -2932,9 +2542,7 @@ func Test_test_subusers__subuser_name__stats_monthly_get(t *testing.T) {
 }
 
 func Test_test_suppression_blocks_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/blocks", host)
+	request := getRequest("/v3/suppression/blocks")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["start_time"] = "1"
@@ -2951,9 +2559,7 @@ func Test_test_suppression_blocks_get(t *testing.T) {
 }
 
 func Test_test_suppression_blocks_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/blocks", host)
+	request := getRequest("/v3/suppression/blocks")
 	request.Method = "DELETE"
 	request.Body = []byte(` {
   "delete_all": false,
@@ -2971,9 +2577,7 @@ func Test_test_suppression_blocks_delete(t *testing.T) {
 }
 
 func Test_test_suppression_blocks__email__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
+	request := getRequest("/v3/suppression/blocks/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2984,9 +2588,7 @@ func Test_test_suppression_blocks__email__get(t *testing.T) {
 }
 
 func Test_test_suppression_blocks__email__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/blocks/{email}", host)
+	request := getRequest("/v3/suppression/blocks/{email}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -2997,9 +2599,7 @@ func Test_test_suppression_blocks__email__delete(t *testing.T) {
 }
 
 func Test_test_suppression_bounces_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/bounces", host)
+	request := getRequest("/v3/suppression/bounces")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["start_time"] = "1"
@@ -3014,9 +2614,7 @@ func Test_test_suppression_bounces_get(t *testing.T) {
 }
 
 func Test_test_suppression_bounces_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/bounces", host)
+	request := getRequest("/v3/suppression/bounces")
 	request.Method = "DELETE"
 	request.Body = []byte(` {
   "delete_all": true,
@@ -3034,9 +2632,7 @@ func Test_test_suppression_bounces_delete(t *testing.T) {
 }
 
 func Test_test_suppression_bounces__email__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
+	request := getRequest("/v3/suppression/bounces/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3047,9 +2643,7 @@ func Test_test_suppression_bounces__email__get(t *testing.T) {
 }
 
 func Test_test_suppression_bounces__email__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/bounces/{email}", host)
+	request := getRequest("/v3/suppression/bounces/{email}")
 	request.Method = "DELETE"
 	queryParams := make(map[string]string)
 	queryParams["email_address"] = "example@example.com"
@@ -3063,9 +2657,7 @@ func Test_test_suppression_bounces__email__delete(t *testing.T) {
 }
 
 func Test_test_suppression_invalid_emails_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
+	request := getRequest("/v3/suppression/invalid_emails")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["start_time"] = "1"
@@ -3082,9 +2674,7 @@ func Test_test_suppression_invalid_emails_get(t *testing.T) {
 }
 
 func Test_test_suppression_invalid_emails_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/invalid_emails", host)
+	request := getRequest("/v3/suppression/invalid_emails")
 	request.Method = "DELETE"
 	request.Body = []byte(` {
   "delete_all": false,
@@ -3102,9 +2692,7 @@ func Test_test_suppression_invalid_emails_delete(t *testing.T) {
 }
 
 func Test_test_suppression_invalid_emails__email__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
+	request := getRequest("/v3/suppression/invalid_emails/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3115,9 +2703,7 @@ func Test_test_suppression_invalid_emails__email__get(t *testing.T) {
 }
 
 func Test_test_suppression_invalid_emails__email__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/invalid_emails/{email}", host)
+	request := getRequest("/v3/suppression/invalid_emails/{email}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3128,9 +2714,7 @@ func Test_test_suppression_invalid_emails__email__delete(t *testing.T) {
 }
 
 func Test_test_suppression_spam_report__email__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
+	request := getRequest("/v3/suppression/spam_report/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3141,9 +2725,7 @@ func Test_test_suppression_spam_report__email__get(t *testing.T) {
 }
 
 func Test_test_suppression_spam_report__email__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/spam_report/{email}", host)
+	request := getRequest("/v3/suppression/spam_report/{email}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3154,9 +2736,7 @@ func Test_test_suppression_spam_report__email__delete(t *testing.T) {
 }
 
 func Test_test_suppression_spam_reports_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/spam_reports", host)
+	request := getRequest("/v3/suppression/spam_reports")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["start_time"] = "1"
@@ -3173,9 +2753,7 @@ func Test_test_suppression_spam_reports_get(t *testing.T) {
 }
 
 func Test_test_suppression_spam_reports_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/spam_reports", host)
+	request := getRequest("/v3/suppression/spam_reports")
 	request.Method = "DELETE"
 	request.Body = []byte(` {
   "delete_all": false,
@@ -3193,9 +2771,7 @@ func Test_test_suppression_spam_reports_delete(t *testing.T) {
 }
 
 func Test_test_suppression_unsubscribes_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/suppression/unsubscribes", host)
+	request := getRequest("/v3/suppression/unsubscribes")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["start_time"] = "1"
@@ -3212,9 +2788,7 @@ func Test_test_suppression_unsubscribes_get(t *testing.T) {
 }
 
 func Test_test_templates_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates", host)
+	request := getRequest("/v3/templates")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "name": "example_name"
@@ -3228,9 +2802,7 @@ func Test_test_templates_post(t *testing.T) {
 }
 
 func Test_test_templates_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates", host)
+	request := getRequest("/v3/templates")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3241,9 +2813,7 @@ func Test_test_templates_get(t *testing.T) {
 }
 
 func Test_test_templates__template_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}", host)
+	request := getRequest("/v3/templates/{template_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "name": "new_example_name"
@@ -3257,9 +2827,7 @@ func Test_test_templates__template_id__patch(t *testing.T) {
 }
 
 func Test_test_templates__template_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}", host)
+	request := getRequest("/v3/templates/{template_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3270,9 +2838,7 @@ func Test_test_templates__template_id__get(t *testing.T) {
 }
 
 func Test_test_templates__template_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}", host)
+	request := getRequest("/v3/templates/{template_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3283,9 +2849,7 @@ func Test_test_templates__template_id__delete(t *testing.T) {
 }
 
 func Test_test_templates__template_id__versions_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions", host)
+	request := getRequest("/v3/templates/{template_id}/versions")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "active": 1,
@@ -3304,9 +2868,7 @@ func Test_test_templates__template_id__versions_post(t *testing.T) {
 }
 
 func Test_test_templates__template_id__versions__version_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
+	request := getRequest("/v3/templates/{template_id}/versions/{version_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "active": 1,
@@ -3324,9 +2886,7 @@ func Test_test_templates__template_id__versions__version_id__patch(t *testing.T)
 }
 
 func Test_test_templates__template_id__versions__version_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
+	request := getRequest("/v3/templates/{template_id}/versions/{version_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3337,9 +2897,7 @@ func Test_test_templates__template_id__versions__version_id__get(t *testing.T) {
 }
 
 func Test_test_templates__template_id__versions__version_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}", host)
+	request := getRequest("/v3/templates/{template_id}/versions/{version_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3350,9 +2908,7 @@ func Test_test_templates__template_id__versions__version_id__delete(t *testing.T
 }
 
 func Test_test_templates__template_id__versions__version_id__activate_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/templates/{template_id}/versions/{version_id}/activate", host)
+	request := getRequest("/v3/templates/{template_id}/versions/{version_id}/activate")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3363,9 +2919,7 @@ func Test_test_templates__template_id__versions__version_id__activate_post(t *te
 }
 
 func Test_test_tracking_settings_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings", host)
+	request := getRequest("/v3/tracking_settings")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -3380,9 +2934,7 @@ func Test_test_tracking_settings_get(t *testing.T) {
 }
 
 func Test_test_tracking_settings_click_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/click", host)
+	request := getRequest("/v3/tracking_settings/click")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true
@@ -3396,9 +2948,7 @@ func Test_test_tracking_settings_click_patch(t *testing.T) {
 }
 
 func Test_test_tracking_settings_click_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/click", host)
+	request := getRequest("/v3/tracking_settings/click")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3409,9 +2959,7 @@ func Test_test_tracking_settings_click_get(t *testing.T) {
 }
 
 func Test_test_tracking_settings_google_analytics_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
+	request := getRequest("/v3/tracking_settings/google_analytics")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -3430,9 +2978,7 @@ func Test_test_tracking_settings_google_analytics_patch(t *testing.T) {
 }
 
 func Test_test_tracking_settings_google_analytics_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/google_analytics", host)
+	request := getRequest("/v3/tracking_settings/google_analytics")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3443,9 +2989,7 @@ func Test_test_tracking_settings_google_analytics_get(t *testing.T) {
 }
 
 func Test_test_tracking_settings_open_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/open", host)
+	request := getRequest("/v3/tracking_settings/open")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true
@@ -3459,9 +3003,7 @@ func Test_test_tracking_settings_open_patch(t *testing.T) {
 }
 
 func Test_test_tracking_settings_open_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/open", host)
+	request := getRequest("/v3/tracking_settings/open")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3472,9 +3014,7 @@ func Test_test_tracking_settings_open_get(t *testing.T) {
 }
 
 func Test_test_tracking_settings_subscription_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
+	request := getRequest("/v3/tracking_settings/subscription")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "enabled": true,
@@ -3493,9 +3033,7 @@ func Test_test_tracking_settings_subscription_patch(t *testing.T) {
 }
 
 func Test_test_tracking_settings_subscription_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/tracking_settings/subscription", host)
+	request := getRequest("/v3/tracking_settings/subscription")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3506,9 +3044,7 @@ func Test_test_tracking_settings_subscription_get(t *testing.T) {
 }
 
 func Test_test_user_account_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/account", host)
+	request := getRequest("/v3/user/account")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3519,9 +3055,7 @@ func Test_test_user_account_get(t *testing.T) {
 }
 
 func Test_test_user_credits_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/credits", host)
+	request := getRequest("/v3/user/credits")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3532,9 +3066,7 @@ func Test_test_user_credits_get(t *testing.T) {
 }
 
 func Test_test_user_email_put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/email", host)
+	request := getRequest("/v3/user/email")
 	request.Method = "PUT"
 	request.Body = []byte(` {
   "email": "example@example.com"
@@ -3548,9 +3080,7 @@ func Test_test_user_email_put(t *testing.T) {
 }
 
 func Test_test_user_email_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/email", host)
+	request := getRequest("/v3/user/email")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3561,9 +3091,7 @@ func Test_test_user_email_get(t *testing.T) {
 }
 
 func Test_test_user_password_put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/password", host)
+	request := getRequest("/v3/user/password")
 	request.Method = "PUT"
 	request.Body = []byte(` {
   "new_password": "new_password",
@@ -3578,9 +3106,7 @@ func Test_test_user_password_put(t *testing.T) {
 }
 
 func Test_test_user_profile_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/profile", host)
+	request := getRequest("/v3/user/profile")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "city": "Orange",
@@ -3596,9 +3122,7 @@ func Test_test_user_profile_patch(t *testing.T) {
 }
 
 func Test_test_user_profile_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/profile", host)
+	request := getRequest("/v3/user/profile")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3609,9 +3133,7 @@ func Test_test_user_profile_get(t *testing.T) {
 }
 
 func Test_test_user_scheduled_sends_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/scheduled_sends", host)
+	request := getRequest("/v3/user/scheduled_sends")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "batch_id": "YOUR_BATCH_ID",
@@ -3626,9 +3148,7 @@ func Test_test_user_scheduled_sends_post(t *testing.T) {
 }
 
 func Test_test_user_scheduled_sends_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/scheduled_sends", host)
+	request := getRequest("/v3/user/scheduled_sends")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3639,9 +3159,7 @@ func Test_test_user_scheduled_sends_get(t *testing.T) {
 }
 
 func Test_test_user_scheduled_sends__batch_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
+	request := getRequest("/v3/user/scheduled_sends/{batch_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "status": "pause"
@@ -3655,9 +3173,7 @@ func Test_test_user_scheduled_sends__batch_id__patch(t *testing.T) {
 }
 
 func Test_test_user_scheduled_sends__batch_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
+	request := getRequest("/v3/user/scheduled_sends/{batch_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3668,9 +3184,7 @@ func Test_test_user_scheduled_sends__batch_id__get(t *testing.T) {
 }
 
 func Test_test_user_scheduled_sends__batch_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/scheduled_sends/{batch_id}", host)
+	request := getRequest("/v3/user/scheduled_sends/{batch_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3681,9 +3195,7 @@ func Test_test_user_scheduled_sends__batch_id__delete(t *testing.T) {
 }
 
 func Test_test_user_settings_enforced_tls_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
+	request := getRequest("/v3/user/settings/enforced_tls")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "require_tls": true,
@@ -3698,9 +3210,7 @@ func Test_test_user_settings_enforced_tls_patch(t *testing.T) {
 }
 
 func Test_test_user_settings_enforced_tls_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/settings/enforced_tls", host)
+	request := getRequest("/v3/user/settings/enforced_tls")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3711,9 +3221,7 @@ func Test_test_user_settings_enforced_tls_get(t *testing.T) {
 }
 
 func Test_test_user_username_put(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/username", host)
+	request := getRequest("/v3/user/username")
 	request.Method = "PUT"
 	request.Body = []byte(` {
   "username": "test_username"
@@ -3727,9 +3235,7 @@ func Test_test_user_username_put(t *testing.T) {
 }
 
 func Test_test_user_username_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/username", host)
+	request := getRequest("/v3/user/username")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3740,9 +3246,7 @@ func Test_test_user_username_get(t *testing.T) {
 }
 
 func Test_test_user_webhooks_event_settings_patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
+	request := getRequest("/v3/user/webhooks/event/settings")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "bounce": true,
@@ -3768,9 +3272,7 @@ func Test_test_user_webhooks_event_settings_patch(t *testing.T) {
 }
 
 func Test_test_user_webhooks_event_settings_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/event/settings", host)
+	request := getRequest("/v3/user/webhooks/event/settings")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3781,9 +3283,7 @@ func Test_test_user_webhooks_event_settings_get(t *testing.T) {
 }
 
 func Test_test_user_webhooks_event_test_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/event/test", host)
+	request := getRequest("/v3/user/webhooks/event/test")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "url": "url"
@@ -3797,9 +3297,7 @@ func Test_test_user_webhooks_event_test_post(t *testing.T) {
 }
 
 func Test_test_user_webhooks_parse_settings_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
+	request := getRequest("/v3/user/webhooks/parse/settings")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "hostname": "myhostname.com",
@@ -3816,9 +3314,7 @@ func Test_test_user_webhooks_parse_settings_post(t *testing.T) {
 }
 
 func Test_test_user_webhooks_parse_settings_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings", host)
+	request := getRequest("/v3/user/webhooks/parse/settings")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3829,9 +3325,7 @@ func Test_test_user_webhooks_parse_settings_get(t *testing.T) {
 }
 
 func Test_test_user_webhooks_parse_settings__hostname__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+	request := getRequest("/v3/user/webhooks/parse/settings/{hostname}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "send_raw": true,
@@ -3847,9 +3341,7 @@ func Test_test_user_webhooks_parse_settings__hostname__patch(t *testing.T) {
 }
 
 func Test_test_user_webhooks_parse_settings__hostname__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+	request := getRequest("/v3/user/webhooks/parse/settings/{hostname}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3860,9 +3352,7 @@ func Test_test_user_webhooks_parse_settings__hostname__get(t *testing.T) {
 }
 
 func Test_test_user_webhooks_parse_settings__hostname__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/parse/settings/{hostname}", host)
+	request := getRequest("/v3/user/webhooks/parse/settings/{hostname}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3873,9 +3363,7 @@ func Test_test_user_webhooks_parse_settings__hostname__delete(t *testing.T) {
 }
 
 func Test_test_user_webhooks_parse_stats_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/user/webhooks/parse/stats", host)
+	request := getRequest("/v3/user/webhooks/parse/stats")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["aggregated_by"] = "day"
@@ -3893,9 +3381,7 @@ func Test_test_user_webhooks_parse_stats_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains", host)
+	request := getRequest("/v3/whitelabel/domains")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "automatic_security": false,
@@ -3918,9 +3404,7 @@ func Test_test_whitelabel_domains_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains", host)
+	request := getRequest("/v3/whitelabel/domains")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["username"] = "test_string"
@@ -3938,9 +3422,7 @@ func Test_test_whitelabel_domains_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains_default_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
+	request := getRequest("/v3/whitelabel/domains/default")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3951,9 +3433,7 @@ func Test_test_whitelabel_domains_default_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains_subuser_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
+	request := getRequest("/v3/whitelabel/domains/subuser")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -3964,9 +3444,7 @@ func Test_test_whitelabel_domains_subuser_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains_subuser_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
+	request := getRequest("/v3/whitelabel/domains/subuser")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -3977,9 +3455,7 @@ func Test_test_whitelabel_domains_subuser_delete(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__domain_id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
+	request := getRequest("/v3/whitelabel/domains/{domain_id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "custom_spf": true,
@@ -3994,9 +3470,7 @@ func Test_test_whitelabel_domains__domain_id__patch(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__domain_id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
+	request := getRequest("/v3/whitelabel/domains/{domain_id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4007,9 +3481,7 @@ func Test_test_whitelabel_domains__domain_id__get(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__domain_id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
+	request := getRequest("/v3/whitelabel/domains/{domain_id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -4020,9 +3492,7 @@ func Test_test_whitelabel_domains__domain_id__delete(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__domain_id__subuser_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}/subuser", host)
+	request := getRequest("/v3/whitelabel/domains/{domain_id}/subuser")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "username": "jane@example.com"
@@ -4036,9 +3506,7 @@ func Test_test_whitelabel_domains__domain_id__subuser_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__id__ips_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips", host)
+	request := getRequest("/v3/whitelabel/domains/{id}/ips")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "ip": "192.168.0.1"
@@ -4052,9 +3520,7 @@ func Test_test_whitelabel_domains__id__ips_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__id__ips__ip__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", host)
+	request := getRequest("/v3/whitelabel/domains/{id}/ips/{ip}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4065,9 +3531,7 @@ func Test_test_whitelabel_domains__id__ips__ip__delete(t *testing.T) {
 }
 
 func Test_test_whitelabel_domains__id__validate_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", host)
+	request := getRequest("/v3/whitelabel/domains/{id}/validate")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4078,9 +3542,7 @@ func Test_test_whitelabel_domains__id__validate_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_ips_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/ips", host)
+	request := getRequest("/v3/whitelabel/ips")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "domain": "example.com",
@@ -4096,9 +3558,7 @@ func Test_test_whitelabel_ips_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_ips_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/ips", host)
+	request := getRequest("/v3/whitelabel/ips")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["ip"] = "test_string"
@@ -4114,9 +3574,7 @@ func Test_test_whitelabel_ips_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_ips__id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
+	request := getRequest("/v3/whitelabel/ips/{id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4127,9 +3585,7 @@ func Test_test_whitelabel_ips__id__get(t *testing.T) {
 }
 
 func Test_test_whitelabel_ips__id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
+	request := getRequest("/v3/whitelabel/ips/{id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -4140,9 +3596,7 @@ func Test_test_whitelabel_ips__id__delete(t *testing.T) {
 }
 
 func Test_test_whitelabel_ips__id__validate_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
+	request := getRequest("/v3/whitelabel/ips/{id}/validate")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4153,9 +3607,7 @@ func Test_test_whitelabel_ips__id__validate_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_links_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links", host)
+	request := getRequest("/v3/whitelabel/links")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "default": true,
@@ -4175,9 +3627,7 @@ func Test_test_whitelabel_links_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_links_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links", host)
+	request := getRequest("/v3/whitelabel/links")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["limit"] = "1"
@@ -4191,9 +3641,7 @@ func Test_test_whitelabel_links_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_links_default_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/default", host)
+	request := getRequest("/v3/whitelabel/links/default")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["domain"] = "test_string"
@@ -4207,9 +3655,7 @@ func Test_test_whitelabel_links_default_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_links_subuser_get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
+	request := getRequest("/v3/whitelabel/links/subuser")
 	request.Method = "GET"
 	queryParams := make(map[string]string)
 	queryParams["username"] = "test_string"
@@ -4223,9 +3669,7 @@ func Test_test_whitelabel_links_subuser_get(t *testing.T) {
 }
 
 func Test_test_whitelabel_links_subuser_delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
+	request := getRequest("/v3/whitelabel/links/subuser")
 	request.Method = "DELETE"
 	queryParams := make(map[string]string)
 	queryParams["username"] = "test_string"
@@ -4239,9 +3683,7 @@ func Test_test_whitelabel_links_subuser_delete(t *testing.T) {
 }
 
 func Test_test_whitelabel_links__id__patch(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
+	request := getRequest("/v3/whitelabel/links/{id}")
 	request.Method = "PATCH"
 	request.Body = []byte(` {
   "default": true
@@ -4255,9 +3697,7 @@ func Test_test_whitelabel_links__id__patch(t *testing.T) {
 }
 
 func Test_test_whitelabel_links__id__get(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
+	request := getRequest("/v3/whitelabel/links/{id}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4268,9 +3708,7 @@ func Test_test_whitelabel_links__id__get(t *testing.T) {
 }
 
 func Test_test_whitelabel_links__id__delete(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
+	request := getRequest("/v3/whitelabel/links/{id}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
@@ -4281,9 +3719,7 @@ func Test_test_whitelabel_links__id__delete(t *testing.T) {
 }
 
 func Test_test_whitelabel_links__id__validate_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", host)
+	request := getRequest("/v3/whitelabel/links/{id}/validate")
 	request.Method = "POST"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -4294,9 +3730,7 @@ func Test_test_whitelabel_links__id__validate_post(t *testing.T) {
 }
 
 func Test_test_whitelabel_links__link_id__subuser_post(t *testing.T) {
-	apiKey := "SENDGRID_APIKEY"
-	host := "http://localhost:4010"
-	request := GetRequest(apiKey, "/v3/whitelabel/links/{link_id}/subuser", host)
+	request := getRequest("/v3/whitelabel/links/{link_id}/subuser")
 	request.Method = "POST"
 	request.Body = []byte(` {
   "username": "jane@example.com"
