@@ -15,7 +15,7 @@ go run examples/helpers/mail/example.go
 ## Usage
 
 - See the [example](https://github.com/sendgrid/sendgrid-go/tree/master/examples/helpers/mail/example.go) for a complete working example.
-- [Documentation](https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/overview.html)
+- [Documentation](https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/index.html)
 
 ## Test
 
