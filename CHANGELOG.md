@@ -135,7 +135,7 @@ All notable changes to this project will be documented in this file.
 ## [3.3.0] - 2016-10-10
 ### Added
 - [Pull #92](https://github.com/sendgrid/sendgrid-go/pull/92): Inbound Parse Webhook support
-- Checkout the [README](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/inbound) for details.
+- Checkout the [README](https://github.com/sendgrid/sendgrid-go/tree/HEAD/helpers/inbound) for details.
 
 ## [3.2.3] - 2016-10-10
 ### Added
@@ -150,24 +150,24 @@ All notable changes to this project will be documented in this file.
 ## [3.2.1] - 2016-08-24
 ### Added
 - Table of Contents in the README
-- Added a [USE_CASES.md](https://github.com/sendgrid/sendgrid-go/blob/master/USE_CASES.md) section, with the first use case example for transactional templates
+- Added a [USE_CASES.md](https://github.com/sendgrid/sendgrid-go/blob/HEAD/USE_CASES.md) section, with the first use case example for transactional templates
 
 ## [3.2.0] - 2016-08-17
 ### Added
 - Merged pull request: [make contents var args in NewV3MailInit](https://github.com/sendgrid/sendgrid-go/pull/75)
-- The `NewV3MailInit` [Mail Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail) constructor can now take in multiple content objects.
+- The `NewV3MailInit` [Mail Helper](https://github.com/sendgrid/sendgrid-go/tree/HEAD/helpers/mail) constructor can now take in multiple content objects.
 - Thanks to [Adrien Delorme](https://github.com/azr) for the pull request!
 
 ## [3.1.0] - 2016-07-28
 - Dependency update to v2.2.0 of [sendGrid-rest](https://github.com/sendgrid/rest/releases/tag/v2.2.0)
 - Pull [#9](https://github.com/sendgrid/rest/pull/9): Allow for setting a custom HTTP client
-- [Here](https://github.com/sendgrid/rest/blob/master/rest_test.go#L127) is an example of usage
+- [Here](https://github.com/sendgrid/rest/blob/HEAD/rest_test.go#L127) is an example of usage
 - This enables usage of the [sendgrid-go library](https://github.com/sendgrid/sendgrid-go) on [Google App Engine (GAE)](https://cloud.google.com/appengine/)
 - Special thanks to [Chris Broadfoot](https://github.com/broady) and [Sridhar Venkatakrishnan](https://github.com/sridharv) for providing code and feedback!
 
 ## [3.0.6] - 2016-07-26 ##
 ### Added
-- [Troubleshooting](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) section
+- [Troubleshooting](https://github.com/sendgrid/sendgrid-go/blob/HEAD/TROUBLESHOOTING.md) section
 
 ## [3.0.5] - 2016-07-20
 ### Added
