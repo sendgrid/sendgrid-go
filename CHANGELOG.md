@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-08-05] Version 3.6.1
+--------------------------
+**Library - Docs**
+- [PR #329](https://github.com/sendgrid/sendgrid-go/pull/329): Remove references to legacy "Whitelabel" Verbiage. Thanks to [@crweiner](https://github.com/crweiner)!
+
+**Library - Fix**
+- [PR #401](https://github.com/sendgrid/sendgrid-go/pull/401): use the last version of testify that works for older go versions. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Chore**
+- [PR #400](https://github.com/sendgrid/sendgrid-go/pull/400): migrate to new default sendgrid-oai branch. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+
 [2020-05-14] Version 3.6.0
 --------------------------
 **Library - Feature**
