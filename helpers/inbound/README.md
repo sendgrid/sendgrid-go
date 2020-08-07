@@ -51,7 +51,7 @@ func main() {
 
 Tests are located in the `helpers/inbound` folder:
 
-- [inbound_test.go](../../helpers/inbound/inbound_test.go)
+- [inbound_test.go](inbound_test.go)
 
 Learn about testing this code [here](../../CONTRIBUTING.md#testing).
 
