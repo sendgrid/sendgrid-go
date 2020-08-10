@@ -7,9 +7,9 @@ Template ID (replace with your own):
 d-c6dcf1f72bdd4beeb15a9aa6c72fcd2c
 ```
 
-[Template Body](https://github.com/sendgrid/email-templates/blob/master/dynamic-templates/receipt/receipt.html)
+[Template Body](https://github.com/sendgrid/email-templates/blob/HEAD/dynamic-templates/receipt/receipt.html)
 
-[Template Data](https://github.com/sendgrid/email-templates/blob/master/dynamic-templates/receipt/receipt_data.json)
+[Template Data](https://github.com/sendgrid/email-templates/blob/HEAD/dynamic-templates/receipt/receipt_data.json)
 
 * [With Mail Helper Class](transactional-templates-with-mailer-helper.md)
 * [Without Mail Helper Class](transactional-templates-without-mailer-helper.md)

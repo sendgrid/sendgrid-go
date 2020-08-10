@@ -80,7 +80,7 @@ source ./sendgrid.env
 ##### Execute: #####
 
 * Check out the documentation for [Web API v3 endpoints](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html).
-* Review the corresponding [example](https://github.com/sendgrid/sendgrid-go/blob/master/examples).
+* Review the corresponding [example](examples).
 * Update the file
 
 ```bash
@@ -101,7 +101,7 @@ The main function that does the heavy lifting (and external entry point) is `API
 <a name="testing"></a>
 ## Testing
 
-All PRs require passing tests before the PR will be reviewed. All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go). For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go) file with unit tests as you modify the code.
+All PRs require passing tests before the PR will be reviewed. All test files are in [`sendgrid_test.go`](sendgrid_test.go). For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](sendgrid_test.go) file with unit tests as you modify the code.
 
 The integration tests require a Twilio SendGrid mock API in order to execute. We've simplified setting this up using Docker to run the tests. You will just need [Docker Desktop](https://docs.docker.com/get-docker/) and `make`.
 
@@ -162,7 +162,7 @@ Please run your code through:
 5. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
-   git pull [--rebase] upstream master
+   git pull [--rebase] upstream main
    ```
 
 6. Push your topic branch up to your fork:
@@ -172,7 +172,7 @@ Please run your code through:
    ```
 
 7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
-    with a clear title and description against the `master` branch. All tests must be passing before we will review the PR.
+    with a clear title and description against the `main` branch. All tests must be passing before we will review the PR.
 
 <a name="code-reviews"></a>
 ## Code Reviews

@@ -2722,7 +2722,7 @@ For an overview of the v3 Mail Send endpoint, please visit our [v3 API Reference
 For more detailed information about how to use the v3 Mail Send endpoint, please visit our [Classroom](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/index.html).
 
 ### POST /mail/send
-This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/mail/README.md).
+This endpoint has a helper, check it out [here](helpers/mail/README.md).
 
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/mail/send", host)

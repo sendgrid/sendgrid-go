@@ -51,11 +51,11 @@ func main() {
 
 Tests are located in the `helpers/inbound` folder:
 
-- [inbound_test.go](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/inbound/inbound_test.go)
+- [inbound_test.go](inbound_test.go)
 
-Learn about testing this code [here](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md#testing).
+Learn about testing this code [here](../../CONTRIBUTING.md#testing).
 
 <a name="contributing"></a>
 # Contributing
 
-If you would like to contribute to this project, please see our [contributing guide](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md). Thanks!
+If you would like to contribute to this project, please see our [contributing guide](../../CONTRIBUTING.md). Thanks!
