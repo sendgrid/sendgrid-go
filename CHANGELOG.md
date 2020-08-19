@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-08-19] Version 3.6.2
+--------------------------
+**Library - Chore**
+- [PR #402](https://github.com/sendgrid/sendgrid-go/pull/402): update GitHub branch references to use HEAD. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+
+
 [2020-08-05] Version 3.6.1
 --------------------------
 **Library - Docs**
