@@ -1,7 +1,7 @@
-Hello! Thank you for choosing to help contribute to one of the SendGrid open source libraries. There are many ways you can contribute and help is always welcome.  We simply ask that you follow the following contribution policies.
+Hello! Thank you for choosing to help contribute to one of the Twilio SendGrid open-source libraries. There are many ways you can contribute and help is always welcome.  We simply ask that you follow the following contribution policies.
 
-- [CLAs and CCLAs](#cla)
-- [Roadmap & Milestones](#roadmap)
+All third-party contributors acknowledge that any contributions they provide will be made under the same open-source license that the open-source project is provided under.
+
 - [Feature Request](#feature-request)
 - [Submit a Bug Report](#submit-a-bug-report)
 - [Improvements to the Codebase](#improvements-to-the-codebase)
@@ -9,20 +9,7 @@ Hello! Thank you for choosing to help contribute to one of the SendGrid open sou
 - [Testing](#testing)
 - [Style Guidelines & Naming Conventions](#style-guidelines-and-naming-conventions)
 - [Creating a Pull Request](#creating-a-pull-request)
-
-<a name="roadmap"></a>
-We use [Milestones](https://github.com/sendgrid/sendgrid-go/milestones) to help define current roadmaps, please feel free to grab an issue from the current milestone. Please indicate that you have begun work on it to avoid collisions. Once a PR is made, community review, comments, suggestions and additional PRs are welcomed and encouraged.
-
-<a name="cla"></a>
-## CLAs and CCLAs
-
-Before you get started, SendGrid requires that a SendGrid Contributor License Agreement (CLA) be filled out by every contributor to a SendGrid open source project.
-
-Our goal with the CLA is to clarify the rights of our contributors and reduce other risks arising from inappropriate contributions.  The CLA also clarifies the rights SendGrid holds in each contribution and helps to avoid misunderstandings over what rights each contributor is required to grant to SendGrid when making a contribution.  In this way the CLA encourages broad participation by our open source community and helps us build strong open source projects, free from any individual contributor withholding or revoking rights to any contribution.
-
-SendGrid does not merge a pull request made against a SendGrid open source project until that pull request is associated with a signed CLA. Copies of the CLA are available [here](https://gist.github.com/SendGridDX/98b42c0a5d500058357b80278fde3be8#file-sendgrid_cla).
-
-When you create a Pull Request, after a few seconds, a comment will appear with a link to the CLA. Click the link and fill out the brief form and then click the "I agree" button and you are all set. You will not be asked to re-sign the CLA unless we make a change.
+- [Code Reviews](#code-reviews)
 
 There are a few ways to contribute, which we'll enumerate below:
 
@@ -51,7 +38,7 @@ Before you decide to create a new issue, please try the following:
 
 ### Please use our Bug Report Template
 
-In order to make the process easier, we've included a [sample bug report template](https://github.com/sendgrid/sendgrid-go/.github/ISSUE_TEMPLATE) (borrowed from [Ghost](https://github.com/TryGhost/Ghost/)). The template uses [GitHub flavored markdown](https://help.github.com/articles/github-flavored-markdown/) for formatting.
+In order to make the process easier, we've included a [sample bug report template](ISSUE_TEMPLATE.md).
 
 <a name="improvements-to-the-codebase"></a>
 ## Improvements to the Codebase
@@ -74,9 +61,9 @@ git clone https://github.com/sendgrid/sendgrid-go.git
 cd sendgrid-go
 ```
 
-## Environment Variables
+### Environment Variables
 
-First, get your free SendGrid account [here](https://sendgrid.com/free?source=sendgrid-go).
+First, get your free Twilio SendGrid account [here](https://sendgrid.com/free?source=sendgrid-go).
 
 Next, update your environment with your [SENDGRID_API_KEY](https://app.sendgrid.com/settings/api_keys).
 
@@ -89,7 +76,7 @@ source ./sendgrid.env
 ##### Execute: #####
 
 * Check out the documentation for [Web API v3 endpoints](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html).
-* Review the corresponding [example](https://github.com/sendgrid/sendgrid-go/blob/master/examples).
+* Review the corresponding [example](examples).
 * Update the file
 
 ```bash
@@ -110,17 +97,11 @@ The main function that does the heavy lifting (and external entry point) is `API
 <a name="testing"></a>
 ## Testing
 
-All PRs require passing tests before the PR will be reviewed.
+All PRs require passing tests before the PR will be reviewed. All test files are in [`sendgrid_test.go`](sendgrid_test.go). For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](sendgrid_test.go) file with unit tests as you modify the code.
 
-All test files are in [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go).
+The integration tests require a Twilio SendGrid mock API in order to execute. We've simplified setting this up using Docker to run the tests. You will just need [Docker Desktop](https://docs.docker.com/get-docker/) and `make`.
 
-For the purposes of contributing to this repo, please update the [`sendgrid_test.go`](https://github.com/sendgrid/sendgrid-go/tree/master/sendgrid_test.go) file with unit tests as you modify the code.
-
-To run the tests:
-
-```bash
-go test -v ./...
-```
+Once these are available, simply execute the Docker test target to run all tests: `make test-docker`. This command can also be used to open an interactive shell into the container where this library is installed. To start a *bash* shell for example, use this command: `command=bash make test-docker`.
 
 <a name="style-guidelines-and-naming-conventions"></a>
 ## Style Guidelines & Naming Conventions
@@ -177,7 +158,7 @@ Please run your code through:
 5. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
-   git pull [--rebase] upstream master
+   git pull [--rebase] upstream main
    ```
 
 6. Push your topic branch up to your fork:
@@ -187,6 +168,9 @@ Please run your code through:
    ```
 
 7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
-    with a clear title and description against the `master` branch. All tests must be passing before we will review the PR.
+    with a clear title and description against the `main` branch. All tests must be passing before we will review the PR.
 
-If you have any additional questions, please feel free to [email](mailto:dx@sendgrid.com) us or create an issue in this repo.
+<a name="code-reviews"></a>
+## Code Reviews
+
+If you can, please look at open PRs and review them. Give feedback and help us merge these PRs much faster! If you don't know how, Github has some [great information on how to review a Pull Request](https://help.github.com/articles/about-pull-request-reviews/).
