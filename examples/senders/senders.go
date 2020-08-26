@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 // CreateaSenderIdentity : Create a Sender Identity
 // POST /senders
 func CreateaSenderIdentity() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
 	request.Method = "POST"
@@ -44,7 +45,7 @@ func CreateaSenderIdentity() {
 // GetallSenderIdentities : Get all Sender Identities
 // GET /senders
 func GetallSenderIdentities() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders", host)
 	request.Method = "GET"
@@ -61,7 +62,7 @@ func GetallSenderIdentities() {
 // UpdateaSenderIdentity : Update a Sender Identity
 // PATCH /senders/{sender_id}
 func UpdateaSenderIdentity() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 	request.Method = "PATCH"
@@ -95,7 +96,7 @@ func UpdateaSenderIdentity() {
 // ViewaSenderIdentity : View a Sender Identity
 // GET /senders/{sender_id}
 func ViewaSenderIdentity() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 	request.Method = "GET"
@@ -112,7 +113,7 @@ func ViewaSenderIdentity() {
 // DeleteaSenderIdentity : Delete a Sender Identity
 // DELETE /senders/{sender_id}
 func DeleteaSenderIdentity() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}", host)
 	request.Method = "DELETE"
@@ -129,7 +130,7 @@ func DeleteaSenderIdentity() {
 // ResendSenderIdentityVerification : Resend Sender Identity Verification
 // POST /senders/{sender_id}/resend_verification
 func ResendSenderIdentityVerification() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
 	request.Method = "POST"

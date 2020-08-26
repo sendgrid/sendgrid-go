@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
 // Retrieveemailstatisticsbymailboxprovider : Retrieve email statistics by mailbox provider.
 // GET /mailbox_providers/stats
 func Retrieveemailstatisticsbymailboxprovider() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/mailbox_providers/stats", host)
 	request.Method = "GET"

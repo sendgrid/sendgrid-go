@@ -1,34 +1,28 @@
 language: go
-go:
-- '1.6'
-- '1.7'
-- '1.8'
-- '1.9'
-- 'tip'
-before_script:
-- go get -u github.com/alecthomas/gometalinter
-- gometalinter --install
-- $HOME/gopath/src/github.com/sendgrid/sendgrid-go/prism.sh
 
-before_install:
-  - go get -t -v ./...
+env:
+  - version=1.7
+  - version=1.8
+  - version=1.9
+  - version=1.10
+  - version=1.11
+  - version=1.12
+  - version=1.13
+  - version=1.14
+  - version=1.15
+  - version=latest
 
 script:
-  - ./go.test.sh
-  - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck --exclude=S1024 # TODO: remove exclude when we stop support Go 1.7 and lower
-  - gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=megacheck helpers/...
-  - go test -cover -v -race ./...
+  - make test-docker
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 notifications:
-  hipchat:
+  slack:
+    if: branch = main
+    on_pull_requests: false
+    on_success: never
+    on_failure: change
     rooms:
-      secure: ebEe+SoHExe1JALPXIutdtWNUYRR1ic9rB9oda+9oYsr+BNnPy50eqKjzAskcULbdmZqhgmHSoTgegiE5IOGZpAi6sumBA422K860x3VoS2cqm2sBSb1o85uoSiVJQ+AMS6lEZH/w7V3wAq+ukCK0Xs3rlxEsz9Byb6I/woU8lE=
-    template:
-    - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository}
-      Build %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
-      <a href="https://github.com/sendgrid/%{repository}/commits/%{commit}">View on GitHub</a>'
-    format: html
-    notify: true
+      - secure: GZFYycVurLTjSl+YLt1bJM5N0Gw1JJGD7/eye8HmdFbdPQD+cadUWAquM4DV84In+rvRqgYaMtLO62POj9PynzQm1Xvmk1jAoQVLQq+UUsS0hKpnRsxhv1Yp6k5Avi8RVxfeAq0inEopbwtIdbrcwNQYFFsyAnj3hTKSMOgz7Ks=
