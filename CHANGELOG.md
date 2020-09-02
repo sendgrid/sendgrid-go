@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-09-02] Version 3.6.3
+--------------------------
+**Library - Docs**
+- [PR #287](https://github.com/sendgrid/sendgrid-go/pull/287): Correct *.md files using Grammarly. Thanks to [@vkartik97](https://github.com/vkartik97)!
+
+
 [2020-08-19] Version 3.6.2
 --------------------------
 **Library - Chore**
