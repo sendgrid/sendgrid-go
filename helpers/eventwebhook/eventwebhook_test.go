@@ -1,6 +1,7 @@
 package eventwebhook
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -10,18 +11,29 @@ import (
 )
 
 const (
-	timestamp      = "1588788367"
-	testPublicKey  = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEDr2LjtURuePQzplybdC+u4CwrqDqBaWjcMMsTbhdbcwHBcepxo7yAQGhHPTnlvFYPAZFceEu/1FwCM/QmGUhA=="
-	testPrivateKey = "MHcCAQEEIEQmZgBEh9DcU9zMl34czK3xov4AYvm9P3r7rNB2dNXtoAoGCCqGSM49AwEHoUQDQgAEEDr2LjtURuePQzplybdC+u4CwrqDqBaWjcMMsTbhdbcwHBcepxo7yAQGhHPTnlvFYPAZFceEu/1FwCM/QmGUhA=="
-	signature      = "MEUCIQCtIHJeH93Y+qpYeWrySphQgpNGNr/U+UyUlBkU6n7RAwIgJTz2C+8a8xonZGi6BpSzoQsbVRamr2nlxFDWYNH2j/0="
+	publicKey = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE83T4O/n84iotIvIW4mdBgQ/7dAfSmpqIM8kF9mN1flpVKS3GRqe62gw+2fNNRaINXvVpiglSI8eNEc6wEA3F+g=="
+	signature = "MEUCIGHQVtGj+Y3LkG9fLcxf3qfI10QysgDWmMOVmxG0u6ZUAiEAyBiXDWzM+uOe5W0JuG+luQAbPIqHh89M15TluLtEZtM="
+	timestamp = "1600112502"
 )
 
 func generateTestPayload() []byte {
-	payload, _ := json.Marshal(map[string]interface{}{
-		"event":      "test_event",
-		"category":   "example_payload",
-		"message_id": "message_id",
+	buffer := &bytes.Buffer{}
+	encoder := json.NewEncoder(buffer)
+	encoder.SetEscapeHTML(false)
+	_ = encoder.Encode([]map[string]interface{}{
+		{
+			"email":         "hello@world.com",
+			"event":         "dropped",
+			"reason":        "Bounced Address",
+			"sg_event_id":   "ZHJvcC0xMDk5NDkxOS1MUnpYbF9OSFN0T0doUTRrb2ZTbV9BLTA",
+			"sg_message_id": "LRzXl_NHStOGhQ4kofSm_A.filterdrecv-p3mdw1-756b745b58-kmzbl-18-5F5FC76C-9.0",
+			"smtp-id":       "<LRzXl_NHStOGhQ4kofSm_A@ismtpd0039p1iad1.sendgrid.net>",
+			"timestamp":     1600112492,
+		},
 	})
+	payload := buffer.Bytes()
+	payload = payload[:len(payload)-1] // Drop the trailing newline the encoder adds.
+	payload = append(payload, []byte("\r\n")...) // Append the expected trailing carriage return and newline!
 	return payload
 }
 
@@ -59,43 +71,43 @@ func TestSignedWebhookGetRequestBody(t *testing.T) {
 }
 
 func TestConvertPublicKeyBase64ToECDSA(t *testing.T) {
-	publicKey, err := ConvertPublicKeyBase64ToECDSA(testPublicKey)
+	ecdsaKey, err := ConvertPublicKeyBase64ToECDSA(publicKey)
 	require.NoError(t, err)
-	assert.NotNil(t, publicKey, "publicKey shouldn't be nil")
+	assert.NotNil(t, ecdsaKey, "publicKey shouldn't be nil")
 
-	publicKey, err = ConvertPublicKeyBase64ToECDSA(testPublicKey + "corrupting the public key")
+	ecdsaKey, err = ConvertPublicKeyBase64ToECDSA(publicKey + "corrupting the public key")
 	require.Error(t, err)
-	assert.Nil(t, publicKey, "publicKey should be nil")
+	assert.Nil(t, ecdsaKey, "publicKey should be nil")
 }
 
 func TestVerifySignature(t *testing.T) {
-	publicKey, err := ConvertPublicKeyBase64ToECDSA(testPublicKey)
+	ecdsaKey, err := ConvertPublicKeyBase64ToECDSA(publicKey)
 	require.NoError(t, err)
 
 	payload := generateTestPayload()
 
 	// verifications
-	verified, err := VerifySignature(publicKey, payload, signature, timestamp)
+	verified, err := VerifySignature(ecdsaKey, payload, signature, timestamp)
 	require.NoError(t, err)
 	assert.True(t, verified)
 
 	// not valid payload
-	verified, err = VerifySignature(publicKey, []byte("this is not valid payload for the given signature"), signature, timestamp)
+	verified, err = VerifySignature(ecdsaKey, []byte("this is not valid payload for the given signature"), signature, timestamp)
 	require.NoError(t, err)
 	assert.False(t, verified)
 
 	// not valid signature
-	verified, err = VerifySignature(publicKey, payload, signature+"causing failure", timestamp)
+	verified, err = VerifySignature(ecdsaKey, payload, signature+"causing failure", timestamp)
 	require.Error(t, err)
 	assert.False(t, verified)
 
 	// not valid timestamp
-	verified, err = VerifySignature(publicKey, payload, signature, "invalid timestamp")
+	verified, err = VerifySignature(ecdsaKey, payload, signature, "invalid timestamp")
 	require.NoError(t, err)
 	assert.False(t, verified)
 
 	// empty timestamp
-	verified, err = VerifySignature(publicKey, payload, signature, "")
+	verified, err = VerifySignature(ecdsaKey, payload, signature, "")
 	require.NoError(t, err)
 	assert.False(t, verified)
 }
