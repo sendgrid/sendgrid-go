@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
-///////////////////////////////////////////////////
-// Create a domain whitelabel.
+// Createadomainauthentication : Create a domain authentication.
 // POST /whitelabel/domains
-
 func Createadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -38,10 +37,8 @@ func Createadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// List all domain whitelabels.
+// Listalldomainauthentications : List all domain authentications.
 // GET /whitelabel/domains
-
 func Listalldomainwhitelabels() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -64,10 +61,8 @@ func Listalldomainwhitelabels() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Get the default domain whitelabel.
+// Getthedefaultdomainauthentication : Get the default domain authentication.
 // GET /whitelabel/domains/default
-
 func Getthedefaultdomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -83,10 +78,8 @@ func Getthedefaultdomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// List the domain whitelabel associated with the given user.
+// Listthedomainauthenticationassociatedwiththegivenuser : List the domain authentication associated with the given user.
 // GET /whitelabel/domains/subuser
-
 func Listthedomainwhitelabelassociatedwiththegivenuser() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -102,10 +95,8 @@ func Listthedomainwhitelabelassociatedwiththegivenuser() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Disassociate a domain whitelabel from a given user.
+// Disassociateadomainauthenticationfromagivenuser : Disassociate a domain authentication from a given user.
 // DELETE /whitelabel/domains/subuser
-
 func Disassociateadomainwhitelabelfromagivenuser() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -121,10 +112,8 @@ func Disassociateadomainwhitelabelfromagivenuser() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update a domain whitelabel.
+// Updateadomainauthentication : Update a domain authentication.
 // PATCH /whitelabel/domains/{domain_id}
-
 func Updateadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -144,10 +133,8 @@ func Updateadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a domain whitelabel.
+// Retrieveadomainauthentication : Retrieve a domain authentication.
 // GET /whitelabel/domains/{domain_id}
-
 func Retrieveadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -163,10 +150,8 @@ func Retrieveadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete a domain whitelabel.
+// Deleteadomainauthentication : Delete a domain authentication.
 // DELETE /whitelabel/domains/{domain_id}
-
 func Deleteadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -182,10 +167,8 @@ func Deleteadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Associate a domain whitelabel with a given user.
+// Associateadomainauthenticationwithagivenuser : Associate a domain authentication with a given user.
 // POST /whitelabel/domains/{domain_id}/subuser
-
 func Associateadomainwhitelabelwithagivenuser() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -204,10 +187,8 @@ func Associateadomainwhitelabelwithagivenuser() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Add an IP to a domain whitelabel.
+// AddanIPtoadomainauthentication : Add an IP to a domain authentication.
 // POST /whitelabel/domains/{id}/ips
-
 func AddanIPtoadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -226,10 +207,8 @@ func AddanIPtoadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Remove an IP from a domain whitelabel.
+// RemoveanIPfromadomainauthentication : Remove an IP from a domain authentication.
 // DELETE /whitelabel/domains/{id}/ips/{ip}
-
 func RemoveanIPfromadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -245,10 +224,8 @@ func RemoveanIPfromadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Validate a domain whitelabel.
+// Validateadomainauthentication : Validate a domain authentication.
 // POST /whitelabel/domains/{id}/validate
-
 func Validateadomainwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -264,10 +241,8 @@ func Validateadomainwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Create an IP whitelabel
+// CreateanreverseDNS : Create reverse DNS
 // POST /whitelabel/ips
-
 func CreateanIPwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -288,10 +263,8 @@ func CreateanIPwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve all IP whitelabels
+// RetrieveallreverseDNSrecords : Retrieve all reverse DNS records
 // GET /whitelabel/ips
-
 func RetrieveallIPwhitelabels() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -312,10 +285,8 @@ func RetrieveallIPwhitelabels() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve an IP whitelabel
+// RetrieveareverseDNSrecord : Retrieve a reverse DNS record
 // GET /whitelabel/ips/{id}
-
 func RetrieveanIPwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -331,10 +302,8 @@ func RetrieveanIPwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete an IP whitelabel
+// DeleteareverseDNSrecord : Delete a reverse DNS record
 // DELETE /whitelabel/ips/{id}
-
 func DeleteanIPwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -350,10 +319,8 @@ func DeleteanIPwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Validate an IP whitelabel
+// ValidateareverseDNSrecord : Validate a reverse DNS record
 // POST /whitelabel/ips/{id}/validate
-
 func ValidateanIPwhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -369,10 +336,8 @@ func ValidateanIPwhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Create a Link Whitelabel
+// Createalinkbranding : Create a branded link
 // POST /whitelabel/links
-
 func CreateaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -397,10 +362,8 @@ func CreateaLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve all link whitelabels
+// Retrievealllinkbrands : Retrieve all link brands
 // GET /whitelabel/links
-
 func Retrievealllinkwhitelabels() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -419,10 +382,8 @@ func Retrievealllinkwhitelabels() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a Default Link Whitelabel
+// RetrieveaDefaultLinkBranding : Retrieve a Default Link Branding
 // GET /whitelabel/links/default
-
 func RetrieveaDefaultLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -441,10 +402,8 @@ func RetrieveaDefaultLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve Associated Link Whitelabel
+// RetrieveAssociatedLinkBranding : Retrieve Associated Link Branding
 // GET /whitelabel/links/subuser
-
 func RetrieveAssociatedLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -463,10 +422,8 @@ func RetrieveAssociatedLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Disassociate a Link Whitelabel
+// DisassociateaLinkBranding : Disassociate a Link Branding
 // DELETE /whitelabel/links/subuser
-
 func DisassociateaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -485,10 +442,8 @@ func DisassociateaLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update a Link Whitelabel
+// UpdateaLinkBranding : Update a Link Branding
 // PATCH /whitelabel/links/{id}
-
 func UpdateaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -507,10 +462,8 @@ func UpdateaLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a Link Whitelabel
+// RetrieveaLinkBranding : Retrieve a Link Branding
 // GET /whitelabel/links/{id}
-
 func RetrieveaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -526,10 +479,8 @@ func RetrieveaLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete a Link Whitelabel
+// DeleteaLinkBranding : Delete a Link Branding
 // DELETE /whitelabel/links/{id}
-
 func DeleteaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -545,10 +496,8 @@ func DeleteaLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Validate a Link Whitelabel
+// ValidateaLinkBranding : Validate a Link Branding
 // POST /whitelabel/links/{id}/validate
-
 func ValidateaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -564,10 +513,8 @@ func ValidateaLinkWhitelabel() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Associate a Link Whitelabel
+// AssociateaLinkBranding : Associate a Link Branding
 // POST /whitelabel/links/{link_id}/subuser
-
 func AssociateaLinkWhitelabel() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

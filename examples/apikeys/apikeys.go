@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	sendgrid "github.com/sendgrid/sendgrid-go"
 )
 
-///////////////////////////////////////////////////
-// Create API keys
+// CreateAPIkeys : Create API keys
 // POST /api_keys
-
 func CreateAPIkeys() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -34,10 +34,8 @@ func CreateAPIkeys() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve all API Keys belonging to the authenticated user
+// RetrieveallAPIKeysbelongingtotheauthenticateduser : Retrieve all API Keys belonging to the authenticated user
 // GET /api_keys
-
 func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -56,10 +54,8 @@ func RetrieveallAPIKeysbelongingtotheauthenticateduser() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update the name & scopes of an API Key
+// UpdatethenamescopesofanAPIKey : Update the name & scopes of an API Key
 // PUT /api_keys/{api_key_id}
-
 func UpdatethenamescopesofanAPIKey() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -82,10 +78,8 @@ func UpdatethenamescopesofanAPIKey() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update API keys
+// UpdateAPIkeys : Update API keys
 // PATCH /api_keys/{api_key_id}
-
 func UpdateAPIkeys() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -104,10 +98,8 @@ func UpdateAPIkeys() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve an existing API Key
+// RetrieveanexistingAPIKey : Retrieve an existing API Key
 // GET /api_keys/{api_key_id}
-
 func RetrieveanexistingAPIKey() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -123,10 +115,8 @@ func RetrieveanexistingAPIKey() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete API keys
+// DeleteAPIkeys : Delete API keys
 // DELETE /api_keys/{api_key_id}
-
 func DeleteAPIkeys() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	sendgrid "github.com/sendgrid/sendgrid-go"
 )
 
-///////////////////////////////////////////////////
-// Retrieve all recent access attempts
+// Retrieveallrecentaccessattempts : Retrieve all recent access attempts
 // GET /access_settings/activity
-
 func Retrieveallrecentaccessattempts() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -28,10 +28,8 @@ func Retrieveallrecentaccessattempts() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Add one or more IPs to the whitelist
+// AddoneormoreIPstothewhitelist : Add one or more IPs to the whitelist
 // POST /access_settings/whitelist
-
 func AddoneormoreIPstothewhitelist() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -60,10 +58,8 @@ func AddoneormoreIPstothewhitelist() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a list of currently whitelisted IPs
+// RetrievealistofcurrentlywhitelistedIPs : Retrieve a list of currently whitelisted IPs
 // GET /access_settings/whitelist
-
 func RetrievealistofcurrentlywhitelistedIPs() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -79,10 +75,8 @@ func RetrievealistofcurrentlywhitelistedIPs() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Remove one or more IPs from the whitelist
+// RemoveoneormoreIPsfromthewhitelist : Remove one or more IPs from the whitelist
 // DELETE /access_settings/whitelist
-
 func RemoveoneormoreIPsfromthewhitelist() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -105,10 +99,8 @@ func RemoveoneormoreIPsfromthewhitelist() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Retrieve a specific whitelisted IP
+// RetrieveaspecificwhitelistedIP : Retrieve a specific whitelisted IP
 // GET /access_settings/whitelist/{rule_id}
-
 func RetrieveaspecificwhitelistedIP() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -124,10 +116,8 @@ func RetrieveaspecificwhitelistedIP() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Remove a specific IP from the whitelist
+// RemoveaspecificIPfromthewhitelist : Remove a specific IP from the whitelist
 // DELETE /access_settings/whitelist/{rule_id}
-
 func RemoveaspecificIPfromthewhitelist() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

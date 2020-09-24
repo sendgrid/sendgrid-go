@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
-///////////////////////////////////////////////////
-// Retrieve email statistics by country and state/province.
+// Retrieveemailstatisticsbycountryandstateprovince : Retrieve email statistics by country and state/province.
 // GET /geo/stats
-
 func Retrieveemailstatisticsbycountryandstateprovince() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

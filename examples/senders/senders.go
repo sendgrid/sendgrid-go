@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	"github.com/sendgrid/sendgrid-go"
 )
 
-///////////////////////////////////////////////////
-// Create a Sender Identity
+// CreateaSenderIdentity : Create a Sender Identity
 // POST /senders
-
 func CreateaSenderIdentity() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -43,10 +42,8 @@ func CreateaSenderIdentity() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Get all Sender Identities
+// GetallSenderIdentities : Get all Sender Identities
 // GET /senders
-
 func GetallSenderIdentities() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -62,10 +59,8 @@ func GetallSenderIdentities() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Update a Sender Identity
+// UpdateaSenderIdentity : Update a Sender Identity
 // PATCH /senders/{sender_id}
-
 func UpdateaSenderIdentity() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -98,10 +93,8 @@ func UpdateaSenderIdentity() {
 	}
 }
 
-///////////////////////////////////////////////////
-// View a Sender Identity
+// ViewaSenderIdentity : View a Sender Identity
 // GET /senders/{sender_id}
-
 func ViewaSenderIdentity() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -117,10 +110,8 @@ func ViewaSenderIdentity() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Delete a Sender Identity
+// DeleteaSenderIdentity : Delete a Sender Identity
 // DELETE /senders/{sender_id}
-
 func DeleteaSenderIdentity() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -136,10 +127,8 @@ func DeleteaSenderIdentity() {
 	}
 }
 
-///////////////////////////////////////////////////
-// Resend Sender Identity Verification
+// ResendSenderIdentityVerification : Resend Sender Identity Verification
 // POST /senders/{sender_id}/resend_verification
-
 func ResendSenderIdentityVerification() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"

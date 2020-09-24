@@ -36,14 +36,14 @@ host := "https://api.sendgrid.com"
 * [PARTNER SETTINGS](#partner-settings)
 * [SCOPES](#scopes)
 * [SENDERS](#senders)
+* [SENDER AUTHENTICATION](#sender-authentication)
 * [STATS](#stats)
 * [SUBUSERS](#subusers)
 * [SUPPRESSION](#suppression)
 * [TEMPLATES](#templates)
 * [TRACKING SETTINGS](#tracking-settings)
+* [ON-BEHALF OF SUBUSER](#on-behalf-of)
 * [USER](#user)
-* [WHITELABEL](#whitelabel)
-
 
 <a name="access-settings"></a>
 # ACCESS SETTINGS
@@ -360,11 +360,11 @@ if err != nil {
 
 **This endpoint allows you to create a new random API Key for the user.**
 
-A JSON request body containing a "name" property is required. If number of maximum keys is reached, HTTP 403 will be returned.
+A JSON request body containing a "name" property is required. If the number of maximum keys is reached, HTTP 403 will be returned.
 
 There is a limit of 100 API Keys on your account.
 
-The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 See the [API Key Permissions List](https://sendgrid.com/docs/API_Reference/Web_API_v3/API_Keys/api_key_permissions_list.html) for a list of all available scopes.
 
@@ -396,7 +396,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all API Keys that belong to the authenticated user.**
 
-The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 ### GET /api_keys
 
@@ -421,9 +421,9 @@ if err != nil {
 **This endpoint allows you to update the name and scopes of a given API key.**
 
 A JSON request body with a "name" property is required.
-Most provide the list of all the scopes an api key should have.
+Most provide the list of all the scopes an API key should have.
 
-The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 
 ### PUT /api_keys/{api_key_id}
@@ -454,7 +454,7 @@ if err != nil {
 
 A JSON request body with a "name" property is required.
 
-The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 ## URI Parameters
 
@@ -482,7 +482,7 @@ if err != nil {
 
 ## Retrieve an existing API Key
 
-**This endpoint allows you to retrieve a single api key.**
+**This endpoint allows you to retrieve a single API key.**
 
 If the API Key ID does not exist an HTTP 404 will be returned.
 
@@ -505,9 +505,9 @@ if err != nil {
 
 **This endpoint allows you to revoke an existing API Key**
 
-Authentications using this API Key will fail after this request is made, with some small propagation delay.If the API Key ID does not exist an HTTP 404 will be returned.
+Authentications using this API Key will fail after this request is made, with some small propagation delay. If the API Key ID does not exist an HTTP 404 will be returned.
 
-The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 ## URI Parameters
 
@@ -930,7 +930,7 @@ if err != nil {
 
 Our Marketing Campaigns API lets you create, manage, send, and schedule campaigns.
 
-Note: In order to send or schedule the campaign, you will be required to provide a subject, sender ID, content (we suggest both html and plain text), and at least one list or segment ID. This information is not required when you create a campaign.
+Note: In order to send or schedule the campaign, you will be required to provide a subject, sender ID, content (we suggest both HTML and plain text), and at least one list or segment ID. This information is not required when you create a campaign.
 
 For more information:
 
@@ -1402,7 +1402,7 @@ if err != nil {
 
 **This endpoint allows you to create a custom field.**
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### POST /contactdb/custom_fields
 
@@ -1427,7 +1427,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all custom fields.**
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### GET /contactdb/custom_fields
 
@@ -1448,7 +1448,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a custom field by ID.**
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### GET /contactdb/custom_fields/{custom_field_id}
 
@@ -1469,7 +1469,7 @@ if err != nil {
 
 **This endpoint allows you to delete a custom field by ID.**
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### DELETE /contactdb/custom_fields/{custom_field_id}
 
@@ -1739,9 +1739,9 @@ if err != nil {
 
 The body of an API call to this endpoint must include an array of one or more recipient objects.
 
-It is of note that you can add custom field data as parameters on recipient objects. We have provided an example using some of the default custom fields SendGrid provides.
+It is of note that you can add custom field data as parameters on recipient objects. We have provided an example using some of the default custom fields Twilio SendGrid provides.
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### PATCH /contactdb/recipients
 
@@ -1769,7 +1769,7 @@ if err != nil {
 
 **This endpoint allows you to add a Marketing Campaigns recipient.**
 
-It is of note that you can add custom field data as a parameter on this endpoint. We have provided an example using some of the default custom fields SendGrid provides.
+It is of note that you can add custom field data as a parameter on this endpoint. We have provided an example using some of the default custom fields Twilio SendGrid provides.
 
 The Contacts API helps you manage your [Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html) recipients.
 
@@ -1832,11 +1832,11 @@ if err != nil {
 
 ## Delete Recipient
 
-**This endpoint allows you to deletes one or more recipients.**
+**This endpoint allows you to delete one or more recipients.**
 
 The body of an API call to this endpoint must include an array of recipient IDs of the recipients you want to delete.
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### DELETE /contactdb/recipients
 
@@ -1884,7 +1884,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve the total number of Marketing Campaigns recipients.**
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### GET /contactdb/recipients/count
 
@@ -1914,7 +1914,7 @@ your epoch time to a date range encompassing the entire day. For example, an epo
 Mon, 02 Feb 2015 00:06:40 GMT, but internally the system will search from Mon, 02 Feb 2015 00:00:00 GMT through
 Mon, 02 Feb 2015 23:59:59 GMT.
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### GET /contactdb/recipients/search
 
@@ -2003,7 +2003,7 @@ if err != nil {
 
 **This endpoint allows you to list all fields that are reserved and can't be used for custom field names.**
 
-The contactdb is a database of your contacts for [SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
+The contactdb is a database of your contacts for [Twilio SendGrid Marketing Campaigns](https://sendgrid.com/docs/User_Guide/Marketing_Campaigns/index.html).
 
 ### GET /contactdb/reserved_fields
 
@@ -2174,7 +2174,7 @@ if err != nil {
 
 ## Delete a segment
 
-**This endpoint allows you to delete a segment from your recipients database.**
+**This endpoint allows you to delete a segment from your recipient's database.**
 
 You also have the option to delete all the contacts from your Marketing Campaigns recipient database who were in this segment.
 
@@ -2310,7 +2310,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all assigned and unassigned IPs.**
 
-Response includes warm up status, pools, assigned subusers, and whitelabel info. The start_date field corresponds to when warmup started for that IP.
+The response includes warm up status, pools, assigned subusers, and authentication info. The start_date field corresponds to when warmup started for that IP.
 
 A single IP address or a range of IP addresses may be dedicated to an account in order to send email for multiple domains. The reputation of this IP is based on the aggregate performance of all the senders who use it.
 
@@ -2363,9 +2363,9 @@ if err != nil {
 
 **Each user can create up to 10 different IP pools.**
 
-IP Pools allow you to group your dedicated SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
+IP Pools allow you to group your dedicated Twilio SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
 
-IP pools can only be used with whitelabeled IP addresses.
+IP pools can only be used with authenticated IP addresses.
 
 If an IP pool is NOT specified for an email, it will use any IP available, including ones in pools.
 
@@ -2391,9 +2391,9 @@ if err != nil {
 
 **This endpoint allows you to retrieve all of your IP pools.**
 
-IP Pools allow you to group your dedicated SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
+IP Pools allow you to group your dedicated Twilio SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
 
-IP pools can only be used with whitelabeled IP addresses.
+IP pools can only be used with authenticated IP addresses.
 
 If an IP pool is NOT specified for an email, it will use any IP available, including ones in pools.
 
@@ -2416,9 +2416,9 @@ if err != nil {
 
 **This endpoint allows you to update the name of an IP pool.**
 
-IP Pools allow you to group your dedicated SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
+IP Pools allow you to group your dedicated Twilio SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
 
-IP pools can only be used with whitelabeled IP addresses.
+IP pools can only be used with authenticated IP addresses.
 
 If an IP pool is NOT specified for an email, it will use any IP available, including ones in pools.
 
@@ -2444,9 +2444,9 @@ if err != nil {
 
 **This endpoint allows you to list all of the IP addresses that are in a specific IP pool.**
 
-IP Pools allow you to group your dedicated SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
+IP Pools allow you to group your dedicated Twilio SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
 
-IP pools can only be used with whitelabeled IP addresses.
+IP pools can only be used with authenticated IP addresses.
 
 If an IP pool is NOT specified for an email, it will use any IP available, including ones in pools.
 
@@ -2469,9 +2469,9 @@ if err != nil {
 
 **This endpoint allows you to delete an IP pool.**
 
-IP Pools allow you to group your dedicated SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
+IP Pools allow you to group your dedicated Twilio SendGrid IP addresses together. For example, you could create separate pools for your transactional and marketing email. When sending marketing emails, specify that you want to use the marketing IP pool. This allows you to maintain separate reputations for your different email traffic.
 
-IP pools can only be used with whitelabeled IP addresses.
+IP pools can only be used with authenticated IP addresses.
 
 If an IP pool is NOT specified for an email, it will use any IP available, including ones in pools.
 
@@ -2543,7 +2543,7 @@ if err != nil {
 
 **This endpoint allows you to enter an IP address into warmup mode.**
 
-SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how SendGrid limits your email traffic for IPs in warmup.
+Twilio SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how Twilio SendGrid limits your email traffic for IPs in warmup.
 
 For more general information about warming up IPs, please see our [Classroom](https://sendgrid.com/docs/Classroom/Deliver/Delivery_Introduction/warming_up_ips.html).
 
@@ -2569,7 +2569,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all of your IP addresses that are currently warming up.**
 
-SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how SendGrid limits your email traffic for IPs in warmup.
+Twilio SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how Twilio SendGrid limits your email traffic for IPs in warmup.
 
 For more general information about warming up IPs, please see our [Classroom](https://sendgrid.com/docs/Classroom/Deliver/Delivery_Introduction/warming_up_ips.html).
 
@@ -2592,7 +2592,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve the warmup status for a specific IP address.**
 
-SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how SendGrid limits your email traffic for IPs in warmup.
+Twilio SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how Twilio SendGrid limits your email traffic for IPs in warmup.
 
 For more general information about warming up IPs, please see our [Classroom](https://sendgrid.com/docs/Classroom/Deliver/Delivery_Introduction/warming_up_ips.html).
 
@@ -2615,7 +2615,7 @@ if err != nil {
 
 **This endpoint allows you to remove an IP address from warmup mode.**
 
-SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how SendGrid limits your email traffic for IPs in warmup.
+Twilio SendGrid can automatically warm up dedicated IP addresses by limiting the amount of mail that can be sent through them per hour, with the limit determined by how long the IP address has been in warmup. See the [warmup schedule](https://sendgrid.com/docs/API_Reference/Web_API_v3/IP_Management/ip_warmup_schedule.html) for more details on how Twilio SendGrid limits your email traffic for IPs in warmup.
 
 For more general information about warming up IPs, please see our [Classroom](https://sendgrid.com/docs/Classroom/Deliver/Delivery_Introduction/warming_up_ips.html).
 
@@ -2664,7 +2664,7 @@ if err != nil {
 
 **This endpoint allows you to generate a new batch ID. This batch ID can be associated with scheduled sends via the mail/send endpoint.**
 
-If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at anytime up to 10 minutes before the schedule date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
+If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at any time up to 10 minutes before the scheduled date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
 
 More Information:
 
@@ -2689,7 +2689,7 @@ if err != nil {
 
 **This endpoint allows you to validate a batch ID.**
 
-If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at anytime up to 10 minutes before the schedule date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
+If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at any time up to 10 minutes before the scheduled date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
 
 More Information:
 
@@ -2712,7 +2712,7 @@ if err != nil {
 
 ## v3 Mail Send
 
-This endpoint allows you to send email over SendGrids v3 Web API, the most recent version of our API. If you are looking for documentation about the v2 Mail Send endpoint, please see our [v2 API Reference](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+This endpoint allows you to send an email over Twilio SendGrid's v3 Web API, the most recent version of our API. If you are looking for documentation about the v2 Mail Send endpoint, please see our [v2 API Reference](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 * Top level parameters are referred to as "global".
 * Individual fields within the personalizations array will override any other global, or message level, parameters that are defined outside of personalizations.
@@ -2722,7 +2722,7 @@ For an overview of the v3 Mail Send endpoint, please visit our [v3 API Reference
 For more detailed information about how to use the v3 Mail Send endpoint, please visit our [Classroom](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/index.html).
 
 ### POST /mail/send
-This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/mail/README.md).
+This endpoint has a helper, check it out [here](helpers/mail/README.md).
 
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/mail/send", host)
@@ -2778,8 +2778,8 @@ request.Body = []byte(` {
     },
     "footer": {
       "enable": true,
-      "html": "<p>Thanks</br>The SendGrid Team</p>",
-      "text": "Thanks,/n The SendGrid Team"
+      "html": "<p>Thanks</br>The Twilio SendGrid Team</p>",
+      "text": "Thanks,/n The Twilio SendGrid Team"
     },
     "sandbox_mode": {
       "enable": false
@@ -2882,7 +2882,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all mail settings.**
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings
 
@@ -2909,7 +2909,7 @@ if err != nil {
 
 The address whitelist setting whitelists a specified email address or domain for which mail should never be suppressed. For example, you own the domain example.com, and one or more of your recipients use email@example.com addresses, by placing example.com in the address whitelist setting, all bounces, blocks, and unsubscribes logged for that domain will be ignored and sent as if under normal sending conditions.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/address_whitelist
 
@@ -2939,7 +2939,7 @@ if err != nil {
 
 The address whitelist setting whitelists a specified email address or domain for which mail should never be suppressed. For example, you own the domain example.com, and one or more of your recipients use email@example.com addresses, by placing example.com in the address whitelist setting, all bounces, blocks, and unsubscribes logged for that domain will be ignored and sent as if under normal sending conditions.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/address_whitelist
 
@@ -2960,9 +2960,9 @@ if err != nil {
 
 **This endpoint allows you to update your current BCC mail settings.**
 
-When the BCC mail setting is enabled, SendGrid will automatically send a blind carbon copy (BCC) to an address for every email sent without adding that address to the header. Please note that only one email address may be entered in this field, if you wish to distribute BCCs to multiple addresses you will need to create a distribution group or use forwarding rules.
+When the BCC mail setting is enabled, Twilio SendGrid will automatically send a blind carbon copy (BCC) to an address for every email sent without adding that address to the header. Please note that only one email address may be entered in this field, if you wish to distribute BCCs to multiple addresses you will need to create a distribution group or use forwarding rules.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/bcc
 
@@ -2987,9 +2987,9 @@ if err != nil {
 
 **This endpoint allows you to retrieve your current BCC mail settings.**
 
-When the BCC mail setting is enabled, SendGrid will automatically send a blind carbon copy (BCC) to an address for every email sent without adding that address to the header. Please note that only one email address may be entered in this field, if you wish to distribute BCCs to multiple addresses you will need to create a distribution group or use forwarding rules.
+When the BCC mail setting is enabled, Twilio SendGrid will automatically send a blind carbon copy (BCC) to an address for every email sent without adding that address to the header. Please note that only one email address may be entered in this field, if you wish to distribute BCCs to multiple addresses you will need to create a distribution group or use forwarding rules.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/bcc
 
@@ -3010,9 +3010,9 @@ if err != nil {
 
 **This endpoint allows you to update your current bounce purge settings.**
 
-This setting allows you to set a schedule for SendGrid to automatically delete contacts from your soft and hard bounce suppression lists.
+This setting allows you to set a schedule for Twilio SendGrid to automatically delete contacts from your soft and hard bounce suppression lists.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/bounce_purge
 
@@ -3038,9 +3038,9 @@ if err != nil {
 
 **This endpoint allows you to retrieve your current bounce purge settings.**
 
-This setting allows you to set a schedule for SendGrid to automatically delete contacts from your soft and hard bounce suppression lists.
+This setting allows you to set a schedule for Twilio SendGrid to automatically delete contacts from your soft and hard bounce suppression lists.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/bounce_purge
 
@@ -3063,7 +3063,7 @@ if err != nil {
 
 The footer setting will insert a custom footer at the bottom of the text and HTML bodies. Use the embedded HTML editor and plain text entry fields to create the content of the footers to be inserted into your emails.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/footer
 
@@ -3091,7 +3091,7 @@ if err != nil {
 
 The footer setting will insert a custom footer at the bottom of the text and HTML bodies. Use the embedded HTML editor and plain text entry fields to create the content of the footers to be inserted into your emails.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/footer
 
@@ -3114,7 +3114,7 @@ if err != nil {
 
 Activating this setting allows you to specify an email address to which bounce reports are forwarded.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/forward_bounce
 
@@ -3141,7 +3141,7 @@ if err != nil {
 
 Activating this setting allows you to specify an email address to which bounce reports are forwarded.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/forward_bounce
 
@@ -3164,7 +3164,7 @@ if err != nil {
 
 Enabling the forward spam setting allows you to specify an email address to which spam reports will be forwarded.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/forward_spam
 
@@ -3191,7 +3191,7 @@ if err != nil {
 
 Enabling the forward spam setting allows you to specify an email address to which spam reports will be forwarded.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/forward_spam
 
@@ -3214,7 +3214,7 @@ if err != nil {
 
 The plain content setting will automatically convert any plain text emails that you send to HTML before sending.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/plain_content
 
@@ -3240,7 +3240,7 @@ if err != nil {
 
 The plain content setting will automatically convert any plain text emails that you send to HTML before sending.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/plain_content
 
@@ -3263,7 +3263,7 @@ if err != nil {
 
 The spam checker filter notifies you when emails are detected that exceed a predefined spam threshold.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/spam_check
 
@@ -3291,7 +3291,7 @@ if err != nil {
 
 The spam checker filter notifies you when emails are detected that exceed a predefined spam threshold.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/spam_check
 
@@ -3316,7 +3316,7 @@ This setting refers to our original email templates. We currently support more f
 
 The legacy email template setting wraps an HTML template around your email content. This can be useful for sending out marketing email and/or other HTML formatted messages.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### PATCH /mail_settings/template
 
@@ -3345,7 +3345,7 @@ This setting refers to our original email templates. We currently support more f
 
 The legacy email template setting wraps an HTML template around your email content. This can be useful for sending out marketing email and/or other HTML formatted messages.
 
-Mail settings allow you to tell SendGrid specific things to do to every email that you send to your recipients over SendGrids [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
+Mail settings allow you to tell Twilio SendGrid specific things to do to every email that you send to your recipients over Twilio SendGrid's [Web API](https://sendgrid.com/docs/API_Reference/Web_API/mail.html) or [SMTP Relay](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html).
 
 ### GET /mail_settings/template
 
@@ -3403,7 +3403,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all partner settings that you can enable.**
 
-Our partner settings allow you to integrate your SendGrid account with our partners to increase your SendGrid experience and functionality. For more information about our partners, and how you can begin integrating with them, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/partners.html).
+Our partner settings allow you to integrate your Twilio SendGrid account with our partners to increase your Twilio SendGrid experience and functionality. For more information about our partners, and how you can begin integrating with them, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/partners.html).
 
 ### GET /partner_settings
 
@@ -3428,9 +3428,9 @@ if err != nil {
 
 **This endpoint allows you to update or change your New Relic partner settings.**
 
-Our partner settings allow you to integrate your SendGrid account with our partners to increase your SendGrid experience and functionality. For more information about our partners, and how you can begin integrating with them, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/partners.html).
+Our partner settings allow you to integrate your Twilio SendGrid account with our partners to increase your Twilio SendGrid experience and functionality. For more information about our partners, and how you can begin integrating with them, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/partners.html).
 
-By integrating with New Relic, you can send your SendGrid email statistics to your New Relic Dashboard. If you enable this setting, your stats will be sent to New Relic every 5 minutes. You will need your New Relic License Key to enable this setting. For more information, please see our [Classroom](https://sendgrid.com/docs/Classroom/Track/Collecting_Data/new_relic.html).
+By integrating with New Relic, you can send your Twilio SendGrid email statistics to your New Relic Dashboard. If you enable this setting, your stats will be sent to New Relic every 5 minutes. You will need your New Relic License Key to enable this setting. For more information, please see our [Classroom](https://sendgrid.com/docs/Classroom/Track/Collecting_Data/new_relic.html).
 
 ### PATCH /partner_settings/new_relic
 
@@ -3456,9 +3456,9 @@ if err != nil {
 
 **This endpoint allows you to retrieve your current New Relic partner settings.**
 
-Our partner settings allow you to integrate your SendGrid account with our partners to increase your SendGrid experience and functionality. For more information about our partners, and how you can begin integrating with them, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/partners.html).
+Our partner settings allow you to integrate your Twilio SendGrid account with our partners to increase your Twilio SendGrid experience and functionality. For more information about our partners, and how you can begin integrating with them, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/partners.html).
 
-By integrating with New Relic, you can send your SendGrid email statistics to your New Relic Dashboard. If you enable this setting, your stats will be sent to New Relic every 5 minutes. You will need your New Relic License Key to enable this setting. For more information, please see our [Classroom](https://sendgrid.com/docs/Classroom/Track/Collecting_Data/new_relic.html).
+By integrating with New Relic, you can send your Twilio SendGrid email statistics to your New Relic Dashboard. If you enable this setting, your stats will be sent to New Relic every 5 minutes. You will need your New Relic License Key to enable this setting. For more information, please see our [Classroom](https://sendgrid.com/docs/Classroom/Track/Collecting_Data/new_relic.html).
 
 ### GET /partner_settings/new_relic
 
@@ -3482,7 +3482,7 @@ if err != nil {
 
 **This endpoint returns a list of all scopes that this user has access to.**
 
-API Keys can be used to authenticate the use of [SendGrids v3 Web API](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html), or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html). API Keys may be assigned certain permissions, or scopes, that limit which API endpoints they are able to access. For a more detailed explanation of how you can use API Key permissions, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/api_keys.html#-API-Key-Permissions) or [Classroom](https://sendgrid.com/docs/Classroom/Basics/API/api_key_permissions.html).
+API Keys can be used to authenticate the use of [Twilio SendGrid's v3 Web API](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html), or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html). API Keys may be assigned certain permissions, or scopes, that limit which API endpoints they are able to access. For a more detailed explanation of how you can use API Key permissions, please visit our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/api_keys.html#-API-Key-Permissions) or [Classroom](https://sendgrid.com/docs/Classroom/Basics/API/api_key_permissions.html).
 
 ### GET /scopes
 
@@ -3508,7 +3508,7 @@ if err != nil {
 
 *You may create up to 100 unique sender identities.*
 
-Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### POST /senders
 
@@ -3546,7 +3546,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all sender identities that have been created for your account.**
 
-Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### GET /senders
 
@@ -3567,7 +3567,7 @@ if err != nil {
 
 **This endpoint allows you to update a sender identity.**
 
-Updates to `from.email` require re-verification. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Updates to `from.email` require re-verification. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 Partial updates are allowed, but fields that are marked as "required" in the POST (create) endpoint must not be nil if that field is included in the PATCH request.
 
@@ -3607,7 +3607,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific sender identity.**
 
-Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### GET /senders/{sender_id}
 
@@ -3628,7 +3628,7 @@ if err != nil {
 
 **This endpoint allows you to delete one of your sender identities.**
 
-Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### DELETE /senders/{sender_id}
 
@@ -3649,13 +3649,774 @@ if err != nil {
 
 **This endpoint allows you to resend a sender identity verification email.**
 
-Sender Identities are required to be verified before use. If your domain has been whitelabeled it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### POST /senders/{sender_id}/resend_verification
 
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/senders/{sender_id}/resend_verification", host)
 request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+<a name="sender-authentication"></a>
+# SENDER AUTHENTICATION
+
+## Create an authenticated domain.
+
+**This endpoint allows you to create a domain authentication for one of your domains.**
+
+If you are creating a domain authentication that you would like a subuser to use, you have two options:
+1. Use the "username" parameter. This allows you to create am authenticated subuser. This means the subuser is able to see and modify the created authentication.
+2. Use the Association workflow (see Associate Domain section). This allows you to assign a domain authentication created by the parent to a subuser. This means the subuser will default to the assigned domain authentication, but will not be able to see or modify that authentication. However, if the subuser creates their own domain authentication it will overwrite the assigned domain authentication.
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+### POST /whitelabel/domains
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "automatic_security": false,
+  "custom_spf": true,
+  "default": true,
+  "domain": "example.com",
+  "ips": [
+    "192.168.1.1",
+    "192.168.1.2"
+  ],
+  "subdomain": "news",
+  "username": "john@example.com"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## List all domain authentications.
+
+**This endpoint allows you to retrieve a list of all domain authentications you have created.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+
+### GET /whitelabel/domains
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
+queryParams["domain"] = "test_string"
+queryParams["exclude_subusers"] = "true"
+queryParams["limit"] = "1"
+queryParams["offset"] = "1"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Get the default domain authentication.
+
+**This endpoint allows you to retrieve the default authentication for a domain.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type   | Description  |
+|---|---|---|
+| domain | string  |The domain to find a default domain whitelabel for. |
+
+### GET /whitelabel/domains/default
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## List the domain authentication associated with the given user.
+
+**This endpoint allows you to retrieve all of the domain authentications that have been assigned to a specific subuser.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+Domain authentications can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's authenticated domains. To associate a domain authentication with a subuser, the parent account must first create the domain authentication and validate it. The parent may then associate the domain authentication via the subuser management tools.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type  | Description  |
+|---|---|---|
+| username | string  | Username of the subuser to find associated whitelabels for. |
+
+### GET /whitelabel/domains/subuser
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Disassociate a domain authentication from a given user.
+
+**This endpoint allows you to disassociate a specific domain authentication from a subuser.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+Domain authentications can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's authenticated domains. To associate a domain authentication with a subuser, the parent account must first create the domain authentication and validate it. The parent may then associate the domain authentication via the subuser management tools.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type  | Required?  | Description  |
+|---|---|---|---|
+| username | string  | required  | Username for the subuser to find associated whitelabels for. |
+
+### DELETE /whitelabel/domains/subuser
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Update a domain authentication.
+
+**This endpoint allows you to update the settings for a domain authentication.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+### PATCH /whitelabel/domains/{domain_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
+request.Method = "PATCH"
+request.Body = []byte(` {
+  "custom_spf": true,
+  "default": false
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve a domain authentication.
+
+**This endpoint allows you to retrieve a specific domain authentication.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+
+### GET /whitelabel/domains/{domain_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Delete a domain authentication.
+
+**This endpoint allows you to delete a domain authentication.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+### DELETE /whitelabel/domains/{domain_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Associate a domain authentication with a given user.
+
+**This endpoint allows you to associate a specific domain authentication with a subuser.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+Domain authentications can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's authenticated domains. To associate a domain authentication with a subuser, the parent account must first create the domain authentication and validate it. The parent may then associate the domain authentication via the subuser management tools.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type   | Description  |
+|---|---|---|
+| domain_id | integer   | ID of the domain whitelabel to associate with the subuser. |
+
+### POST /whitelabel/domains/{domain_id}/subuser
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}/subuser", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "username": "jane@example.com"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Add an IP to a domain authentication.
+
+**This endpoint allows you to add an IP address to a domain authentication.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type  |  Description  |
+|---|---|---|
+| id | integer  | ID of the domain to which you are adding an IP |
+
+### POST /whitelabel/domains/{id}/ips
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "ip": "192.168.0.1"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Remove an IP from a domain authenticaiton.
+
+**This endpoint allows you to remove a domain's IP address from that domain's authentication.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type  | Description  |
+|---|---|---|
+| id | integer  | ID of the domain whitelabel to delete the IP from. |
+| ip | string | IP to remove from the domain whitelabel. |
+
+### DELETE /whitelabel/domains/{id}/ips/{ip}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Validate a domain authentication.
+
+**This endpoint allows you to validate a domain authentication. If it fails, it will return an error message describing why the domain could not be validated.**
+
+A domain authentication allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Authenticating a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
+
+For more information on domain authentication, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/)
+
+## URI Parameters
+| URI Parameter   | Type   | Description  |
+|---|---|---|
+| id | integer  |ID of the domain whitelabel to validate. |
+
+### POST /whitelabel/domains/{id}/validate
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", host)
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Create reverse DNS record
+
+**This endpoint allows you to create a reverse DNS record.**
+
+When creating a reverse DNS record, you should use the same subdomain that you used when you created a domain authentication.
+
+Reverse DNS consists of a subdomain and domain that will be used to generate a record for a given IP. Once Twilio SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-reverse-dns/).
+
+### POST /whitelabel/ips
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "domain": "example.com",
+  "ip": "192.168.1.1",
+  "subdomain": "email"
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve all reverse DNS records
+
+**This endpoint allows you to retrieve all of the reverse DNS records that have been created by this account.**
+
+You may include a search key by using the "ip" parameter. This enables you to perform a prefix search for a given IP segment (e.g. "192.").
+
+Reverse DNS consists of a subdomain and domain that will be used to generate a record for a given IP. Once Twilio SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-reverse-dns/).
+
+### GET /whitelabel/ips
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["ip"] = "test_string"
+queryParams["limit"] = "1"
+queryParams["offset"] = "1"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve an reverse DNS record
+
+**This endpoint allows you to retrieve a reverse DNS record.**
+
+Reverse DNS consists of a subdomain and domain that will be used to generate a record for a given IP. Once Twilio SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-reverse-dns/).
+
+### GET /whitelabel/ips/{id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Delete an reverse DNS record
+
+**This endpoint allows you to delete a reverse DNS record.**
+
+Reverse DNS consists of a subdomain and domain that will be used to generate a record for a given IP. Once Twilio SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-reverse-dns/).
+
+### DELETE /whitelabel/ips/{id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Validate a reverse DNS
+
+**This endpoint allows you to validate a reverse DNS record.**
+
+Reverse DNS consists of a subdomain and domain that will be used to generate a record for a given IP. Once Twilio SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-reverse-dns/).
+
+### POST /whitelabel/ips/{id}/validate
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Create a Branded Link
+
+**This endpoint allows you to create a new link branding.**
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### POST /whitelabel/links
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "default": true,
+  "domain": "example.com",
+  "subdomain": "mail"
+}`)
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
+queryParams["offset"] = "1"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve all link brandings
+
+**This endpoint allows you to retrieve all link brandings.**
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### GET /whitelabel/links
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["limit"] = "1"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve a Default Link Branding
+
+**This endpoint allows you to retrieve the default link branding.**
+
+Default link branding is the actual link branding to be used when sending messages. If there are multiple link brandings, the default is determined by the following order:
+<ul>
+  <li>Validated link branding marked as "default"</li>
+  <li>Legacy link brands (migrated from the whitelabel wizard)</li>
+  <li>Default SendGrid link whitelabel (i.e. 100.ct.sendgrid.net)</li>
+</ul>
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### GET /whitelabel/links/default
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/default", host)
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["domain"] = "test_string"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve Associated Link Branding
+
+**This endpoint allows you to retrieve the associated link branding for a subuser.**
+
+Link branding can be associated with subusers from the parent account. This functionality allows
+subusers to send mail using their parent's link brands. To associate a link branding, the parent account
+must first create a branded link and validate it. The parent may then associate that branded link with a subuser via the API or the Subuser Management page in the user interface.
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### GET /whitelabel/links/subuser
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
+request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Disassociate a Link Branding
+
+**This endpoint allows you to disassociate a link branding from a subuser.**
+
+Link branding can be associated with subusers from the parent account. This functionality allows
+subusers to send mail using their parent's link brands. To associate a link branding, the parent account
+must first create a branded link and validate it. The parent may then associate that branded link with a subuser via the API or the Subuser Management page in the user interface.
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### DELETE /whitelabel/links/subuser
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
+request.Method = "DELETE"
+queryParams := make(map[string]string)
+queryParams["username"] = "test_string"
+request.QueryParams = queryParams
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Update a Link Branding
+
+**This endpoint allows you to update a specific link branding. You can use this endpoint to change a branded link's default status.**
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### PATCH /whitelabel/links/{id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
+request.Method = "PATCH"
+request.Body = []byte(` {
+  "default": true
+}`)
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Retrieve a Link Branding
+
+**This endpoint allows you to retrieve a specific link branding.**
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### GET /whitelabel/links/{id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Delete a Link Branding
+
+**This endpoint allows you to delete a link branding.**
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### DELETE /whitelabel/links/{id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
+request.Method = "DELETE"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Validate a Link Branding
+
+**This endpoint allows you to validate a link branding.**
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### POST /whitelabel/links/{id}/validate
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", host)
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Associate a Link Branding
+
+**This endpoint allows you to associate a link branding with a subuser account.**
+
+Link branding can be associated with subusers from the parent account. This functionality allows
+subusers to send mail using their parent's link brands. To associate a link branding, the parent account
+must first create a branded link and validate it. The parent may then associate that branded link with a subuser via the API or the Subuser Management page in the user interface.
+
+Email link branding allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
+
+For more information, please see our [User Guide](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-link-branding/).
+
+### POST /whitelabel/links/{link_id}/subuser
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{link_id}/subuser", host)
+request.Method = "POST"
+request.Body = []byte(` {
+  "username": "jane@example.com"
+}`)
 response, err := sendgrid.API(request)
 if err != nil {
   log.Println(err)
@@ -3944,7 +4705,7 @@ Each subuser should be assigned to an IP address, from which all of this subuser
 More information:
 
 * [How to request more IPs](https://sendgrid.com/docs/Classroom/Basics/Account/adding_an_additional_dedicated_ip_to_your_account.html)
-* [IPs can be whitelabeled](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/ips.html)
+* [Setup Reverse DNS](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-reverse-dns/)
 
 ### PUT /subusers/{subuser_name}/ips
 
@@ -4321,7 +5082,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all invalid email addresses.**
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -4357,7 +5118,7 @@ There are two options for deleting invalid email addresses:
 1) You can delete all invalid email addresses by setting `delete_all` to true in the request body.
 2) You can delete some invalid email addresses by specifying certain addresses in an array in the request body.
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -4389,7 +5150,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific invalid email addresses.**
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -4414,7 +5175,7 @@ if err != nil {
 
 **This endpoint allows you to remove a specific email address from the invalid email address list.**
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -4439,7 +5200,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific spam report.**
 
-[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to SendGrid.
+[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to Twilio SendGrid.
 
 For more information, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Suppressions/spam_reports.html).
 
@@ -4462,7 +5223,7 @@ if err != nil {
 
 **This endpoint allows you to delete a specific spam report.**
 
-[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to SendGrid.
+[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to Twilio SendGrid.
 
 For more information, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Suppressions/spam_reports.html).
 
@@ -4485,7 +5246,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all spam reports.**
 
-[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to SendGrid.
+[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to Twilio SendGrid.
 
 For more information, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Suppressions/spam_reports.html).
 
@@ -4519,7 +5280,7 @@ There are two options for deleting spam reports:
 1) You can delete all spam reports by setting "delete_all" to true in the request body.
 2) You can delete some spam reports by specifying the email addresses in an array in the request body.
 
-[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to SendGrid.
+[Spam reports](https://sendgrid.com/docs/Glossary/spam_reports.html) happen when a recipient indicates that they think your email is [spam](https://sendgrid.com/docs/Glossary/spam.html) and then their email provider reports this to Twilio SendGrid.
 
 For more information, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Suppressions/spam_reports.html).
 
@@ -4547,7 +5308,7 @@ if err != nil {
 
 ## Retrieve all global suppressions
 
-**This endpoint allows you to retrieve a list of all email address that are globally suppressed.**
+**This endpoint allows you to retrieve a list of all email addresses that are globally suppressed.**
 
 A global suppression (or global unsubscribe) is an email address of a recipient who does not want to receive any of your messages. A globally suppressed recipient will be removed from any email you send. For more information, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Suppressions/global_unsubscribes.html).
 
@@ -4601,7 +5362,7 @@ if err != nil {
 }
 ```
 
-## Retrieve all transactional templates.
+## Retrieve all transactional templates (legacy & dynamic).
 
 **This endpoint allows you to retrieve all transactional templates.**
 
@@ -4614,6 +5375,9 @@ Transactional templates are templates created specifically for transactional ema
 ```go
 request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 request.Method = "GET"
+queryParams := make(map[string]string)
+queryParams["generations"] = "legacy,dynamic"
+request.QueryParams = queryParams
 response, err := sendgrid.API(request)
 if err != nil {
   log.Println(err)
@@ -5000,7 +5764,7 @@ if err != nil {
 
 **This endpoint allows you to update your current settings for open tracking.**
 
-Open Tracking adds an invisible image at the end of the email which can track email opens. If the email recipient has images enabled on their email client, a request to SendGrids server for the invisible image is executed and an open event is logged. These events are logged in the Statistics portal, Email Activity interface, and are reported by the Event Webhook.
+Open Tracking adds an invisible image at the end of the email which can track email opens. If the email recipient has images enabled on their email client, a request to Twilio SendGrid's server for the invisible image is executed and an open event is logged. These events are logged in the Statistics portal, Email Activity interface, and are reported by the Event Webhook.
 
 You can track a variety of the actions your recipients may take when interacting with your emails including opening your emails, clicking on links in your emails, and subscribing to (or unsubscribing from) your emails.
 
@@ -5028,7 +5792,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve your current settings for open tracking.**
 
-Open Tracking adds an invisible image at the end of the email which can track email opens. If the email recipient has images enabled on their email client, a request to SendGrids server for the invisible image is executed and an open event is logged. These events are logged in the Statistics portal, Email Activity interface, and are reported by the Event Webhook.
+Open Tracking adds an invisible image at the end of the email which can track email opens. If the email recipient has images enabled on their email client, a request to Twilio SendGrid's server for the invisible image is executed and an open event is logged. These events are logged in the Statistics portal, Email Activity interface, and are reported by the Event Webhook.
 
 You can track a variety of the actions your recipients may take when interacting with your emails including opening your emails, clicking on links in your emails, and subscribing to (or unsubscribing from) your emails.
 
@@ -5107,6 +5871,26 @@ if err != nil {
 }
 ```
 
+<a name="on-behalf-of"></a>
+# On-Behalf of Subuser
+
+The on-behalf-of header allows you to make calls for a particular subuser through the parent account; this can be useful for automating bulk updates or administering a subuser without changing authentication in your code.
+## With Mail Helper Class
+
+```go
+
+client := sendgrid.NewSendClientSubuser(os.Getenv("SENDGRID_API_KEY"), "SUBUSER_USERNAME")
+
+```
+
+## Without Mail Helper Class
+
+```go
+
+request := sendgrid.GetRequestSubuser(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com", "SUBUSER_USERNAME")
+
+```
+
 <a name="user"></a>
 # USER
 
@@ -5116,11 +5900,11 @@ if err != nil {
 
 Your user's account information includes the user's account type and reputation.
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### GET /user/account
 
@@ -5162,11 +5946,11 @@ if err != nil {
 
 **This endpoint allows you to update the email address currently on file for your account.**
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### PUT /user/email
 
@@ -5190,11 +5974,11 @@ if err != nil {
 
 **This endpoint allows you to retrieve the email address currently on file for your account.**
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### GET /user/email
 
@@ -5215,11 +5999,11 @@ if err != nil {
 
 **This endpoint allows you to update your password.**
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### PUT /user/password
 
@@ -5244,11 +6028,11 @@ if err != nil {
 
 **This endpoint allows you to update your current profile details.**
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 It should be noted that any one or more of the parameters can be updated via the PATCH /user/profile endpoint. The only requirement is that you include at least one when you PATCH.
 
@@ -5274,11 +6058,11 @@ if err != nil {
 
 ## Get a user's profile
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### GET /user/profile
 
@@ -5302,7 +6086,7 @@ if err != nil {
 If the maximum number of cancellations/pauses are added, HTTP 400 will
 be returned.
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### POST /user/scheduled_sends
 
@@ -5327,7 +6111,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all cancel/paused scheduled send information.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### GET /user/scheduled_sends
 
@@ -5348,7 +6132,7 @@ if err != nil {
 
 **This endpoint allows you to update the status of a scheduled send for the given `batch_id`.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### PATCH /user/scheduled_sends/{batch_id}
 
@@ -5372,7 +6156,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve the cancel/paused scheduled send information for a specific `batch_id`.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### GET /user/scheduled_sends/{batch_id}
 
@@ -5393,7 +6177,7 @@ if err != nil {
 
 **This endpoint allows you to delete the cancellation/pause of a scheduled send.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### DELETE /user/scheduled_sends/{batch_id}
 
@@ -5464,11 +6248,11 @@ if err != nil {
 
 **This endpoint allows you to update the username for your account.**
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### PUT /user/username
 
@@ -5492,11 +6276,11 @@ if err != nil {
 
 **This endpoint allows you to retrieve your current account username.**
 
-Keeping your user profile up to date is important. This will help SendGrid to verify who you are as well as contact you should we need to.
+Keeping your user profile up to date is important. This will help Twilio SendGrid to verify who you are as well as contact you should we need to.
 
 For more information about your user profile:
 
-* [SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
+* [Twilio SendGrid Account Settings](https://sendgrid.com/docs/User_Guide/Settings/account.html)
 
 ### GET /user/username
 
@@ -5519,7 +6303,7 @@ if err != nil {
 
 If an event type is marked as `true`, then the event webhook will include information about that event.
 
-SendGrids Event Webhook will notify a URL of your choice via HTTP POST with information about events that occur as SendGrid processes your email.
+Twilio SendGrid's Event Webhook will notify a URL of your choice via HTTP POST with information about events that occur as Twilio SendGrid processes your email.
 
 Common uses of this data are to remove unsubscribes, react to spam reports, determine unengaged recipients, identify bounced email addresses, or create advanced analytics of your email program.
 
@@ -5559,7 +6343,7 @@ if err != nil {
 
 If an event type is marked as `true`, then the event webhook will include information about that event.
 
-SendGrids Event Webhook will notify a URL of your choice via HTTP POST with information about events that occur as SendGrid processes your email.
+Twilio SendGrid's Event Webhook will notify a URL of your choice via HTTP POST with information about events that occur as Twilio SendGrid processes your email.
 
 Common uses of this data are to remove unsubscribes, react to spam reports, determine unengaged recipients, identify bounced email addresses, or create advanced analytics of your email program.
 
@@ -5582,7 +6366,7 @@ if err != nil {
 
 **This endpoint allows you to test your event webhook by sending a fake event notification post to the provided URL.**
 
-SendGrids Event Webhook will notify a URL of your choice via HTTP POST with information about events that occur as SendGrid processes your email.
+Twilio SendGrid's Event Webhook will notify a URL of your choice via HTTP POST with information about events that occur as Twilio SendGrid processes your email.
 
 Common uses of this data are to remove unsubscribes, react to spam reports, determine unengaged recipients, identify bounced email addresses, or create advanced analytics of your email program.
 
@@ -5608,7 +6392,7 @@ if err != nil {
 
 **This endpoint allows you to create a new inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by Twilio SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### POST /user/webhooks/parse/settings
 
@@ -5635,7 +6419,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all of your current inbound parse settings.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by Twilio SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### GET /user/webhooks/parse/settings
 
@@ -5656,7 +6440,7 @@ if err != nil {
 
 **This endpoint allows you to update a specific inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by Twilio SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### PATCH /user/webhooks/parse/settings/{hostname}
 
@@ -5682,7 +6466,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by Twilio SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### GET /user/webhooks/parse/settings/{hostname}
 
@@ -5703,7 +6487,7 @@ if err != nil {
 
 **This endpoint allows you to delete a specific inbound parse setting.**
 
-The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
+The inbound parse webhook allows you to have incoming emails parsed, extracting some or all of the content, and then have that content POSTed by Twilio SendGrid to a URL of your choosing. For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html).
 
 ### DELETE /user/webhooks/parse/settings/{hostname}
 
@@ -5724,9 +6508,9 @@ if err != nil {
 
 **This endpoint allows you to retrieve the statistics for your Parse Webhook usage.**
 
-SendGrid's Inbound Parse Webhook allows you to parse the contents and attachments of incoming emails. The Parse API can then POST the parsed emails to a URL that you specify. The Inbound Parse Webhook cannot parse messages greater than 20MB in size, including all attachments.
+Twilio SendGrid's Inbound Parse Webhook allows you to parse the contents and attachments of incoming emails. The Parse API can then POST the parsed emails to a URL that you specify. The Inbound Parse Webhook cannot parse messages greater than 20MB in size, including all attachments.
 
-There are a number of pre-made integrations for the SendGrid Parse Webhook which make processing events easy. You can find these integrations in the [Library Index](https://sendgrid.com/docs/Integrate/libraries.html#-Webhook-Libraries).
+There are a number of pre-made integrations for the Twilio SendGrid Parse Webhook which make processing events easy. You can find these integrations in the [Library Index](https://sendgrid.com/docs/Integrate/libraries.html#-Webhook-Libraries).
 
 ### GET /user/webhooks/parse/stats
 
@@ -5749,766 +6533,3 @@ if err != nil {
   fmt.Println(response.Headers)
 }
 ```
-
-<a name="whitelabel"></a>
-# WHITELABEL
-
-## Create a domain whitelabel.
-
-**This endpoint allows you to create a whitelabel for one of your domains.**
-
-If you are creating a domain whitelabel that you would like a subuser to use, you have two options:
-1. Use the "username" parameter. This allows you to create a whitelabel on behalf of your subuser. This means the subuser is able to see and modify the created whitelabel.
-2. Use the Association workflow (see Associate Domain section). This allows you to assign a whitelabel created by the parent to a subuser. This means the subuser will default to the assigned whitelabel, but will not be able to see or modify that whitelabel. However, if the subuser creates their own whitelabel it will overwrite the assigned whitelabel.
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-### POST /whitelabel/domains
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
-request.Method = "POST"
-request.Body = []byte(` {
-  "automatic_security": false,
-  "custom_spf": true,
-  "default": true,
-  "domain": "example.com",
-  "ips": [
-    "192.168.1.1",
-    "192.168.1.2"
-  ],
-  "subdomain": "news",
-  "username": "john@example.com"
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## List all domain whitelabels.
-
-**This endpoint allows you to retrieve a list of all domain whitelabels you have created.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-
-### GET /whitelabel/domains
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains", host)
-request.Method = "GET"
-queryParams := make(map[string]string)
-queryParams["username"] = "test_string"
-queryParams["domain"] = "test_string"
-queryParams["exclude_subusers"] = "true"
-queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Get the default domain whitelabel.
-
-**This endpoint allows you to retrieve the default whitelabel for a domain.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type   | Description  |
-|---|---|---|
-| domain | string  |The domain to find a default domain whitelabel for. |
-
-### GET /whitelabel/domains/default
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/default", host)
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## List the domain whitelabel associated with the given user.
-
-**This endpoint allows you to retrieve all of the whitelabels that have been assigned to a specific subuser.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-Domain whitelabels can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's whitelabels. To associate a whitelabel with a subuser, the parent account must first create the whitelabel and validate it. The the parent may then associate the whitelabel via the subuser management tools.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type  | Description  |
-|---|---|---|
-| username | string  | Username of the subuser to find associated whitelabels for. |
-
-### GET /whitelabel/domains/subuser
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Disassociate a domain whitelabel from a given user.
-
-**This endpoint allows you to disassociate a specific whitelabel from a subuser.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-Domain whitelabels can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's whitelabels. To associate a whitelabel with a subuser, the parent account must first create the whitelabel and validate it. The the parent may then associate the whitelabel via the subuser management tools.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type  | Required?  | Description  |
-|---|---|---|---|
-| username | string  | required  | Username for the subuser to find associated whitelabels for. |
-
-### DELETE /whitelabel/domains/subuser
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/subuser", host)
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Update a domain whitelabel.
-
-**This endpoint allows you to update the settings for a domain whitelabel.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-### PATCH /whitelabel/domains/{domain_id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
-request.Method = "PATCH"
-request.Body = []byte(` {
-  "custom_spf": true,
-  "default": false
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve a domain whitelabel.
-
-**This endpoint allows you to retrieve a specific domain whitelabel.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-
-### GET /whitelabel/domains/{domain_id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Delete a domain whitelabel.
-
-**This endpoint allows you to delete a domain whitelabel.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-### DELETE /whitelabel/domains/{domain_id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}", host)
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Associate a domain whitelabel with a given user.
-
-**This endpoint allows you to associate a specific domain whitelabel with a subuser.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-Domain whitelabels can be associated with (i.e. assigned to) subusers from a parent account. This functionality allows subusers to send mail using their parent's whitelabels. To associate a whitelabel with a subuser, the parent account must first create the whitelabel and validate it. The the parent may then associate the whitelabel via the subuser management tools.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type   | Description  |
-|---|---|---|
-| domain_id | integer   | ID of the domain whitelabel to associate with the subuser. |
-
-### POST /whitelabel/domains/{domain_id}/subuser
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{domain_id}/subuser", host)
-request.Method = "POST"
-request.Body = []byte(` {
-  "username": "jane@example.com"
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Add an IP to a domain whitelabel.
-
-**This endpoint allows you to add an IP address to a domain whitelabel.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type  |  Description  |
-|---|---|---|
-| id | integer  | ID of the domain to which you are adding an IP |
-
-### POST /whitelabel/domains/{id}/ips
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips", host)
-request.Method = "POST"
-request.Body = []byte(` {
-  "ip": "192.168.0.1"
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Remove an IP from a domain whitelabel.
-
-**This endpoint allows you to remove a domain's IP address from that domain's whitelabel.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type  | Description  |
-|---|---|---|
-| id | integer  | ID of the domain whitelabel to delete the IP from. |
-| ip | string | IP to remove from the domain whitelabel. |
-
-### DELETE /whitelabel/domains/{id}/ips/{ip}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/ips/{ip}", host)
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Validate a domain whitelabel.
-
-**This endpoint allows you to validate a domain whitelabel. If it fails, it will return an error message describing why the whitelabel could not be validated.**
-
-A domain whitelabel allows you to remove the via or sent on behalf of message that your recipients see when they read your emails. Whitelabeling a domain allows you to replace sendgrid.net with your personal sending domain. You will be required to create a subdomain so that SendGrid can generate the DNS records which you must give to your host provider. If you choose to use Automated Security, SendGrid will provide you with 3 CNAME records. If you turn Automated Security off, you will be given 2 TXT records and 1 MX record.
-
-For more information on whitelabeling, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Settings/Whitelabel/index.html)
-
-## URI Parameters
-| URI Parameter   | Type   | Description  |
-|---|---|---|
-| id | integer  |ID of the domain whitelabel to validate. |
-
-### POST /whitelabel/domains/{id}/validate
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/domains/{id}/validate", host)
-request.Method = "POST"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Create an IP whitelabel
-
-**This endpoint allows you to create an IP whitelabel.**
-
-When creating an IP whitelable, you should use the same subdomain that you used when you created a domain whitelabel.
-
-A IP whitelabel consists of a subdomain and domain that will be used to generate a reverse DNS record for a given IP. Once SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/ips.html).
-
-### POST /whitelabel/ips
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
-request.Method = "POST"
-request.Body = []byte(` {
-  "domain": "example.com",
-  "ip": "192.168.1.1",
-  "subdomain": "email"
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve all IP whitelabels
-
-**This endpoint allows you to retrieve all of the IP whitelabels that have been created by this account.**
-
-You may include a search key by using the "ip" parameter. This enables you to perform a prefix search for a given IP segment (e.g. "192.").
-
-A IP whitelabel consists of a subdomain and domain that will be used to generate a reverse DNS record for a given IP. Once SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/ips.html).
-
-### GET /whitelabel/ips
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips", host)
-request.Method = "GET"
-queryParams := make(map[string]string)
-queryParams["ip"] = "test_string"
-queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve an IP whitelabel
-
-**This endpoint allows you to retrieve an IP whitelabel.**
-
-A IP whitelabel consists of a subdomain and domain that will be used to generate a reverse DNS record for a given IP. Once SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/ips.html).
-
-### GET /whitelabel/ips/{id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Delete an IP whitelabel
-
-**This endpoint allows you to delete an IP whitelabel.**
-
-A IP whitelabel consists of a subdomain and domain that will be used to generate a reverse DNS record for a given IP. Once SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/ips.html).
-
-### DELETE /whitelabel/ips/{id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}", host)
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Validate an IP whitelabel
-
-**This endpoint allows you to validate an IP whitelabel.**
-
-A IP whitelabel consists of a subdomain and domain that will be used to generate a reverse DNS record for a given IP. Once SendGrid has verified that the appropriate A record for the IP has been created, the appropriate reverse DNS record for the IP is generated.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/ips.html).
-
-### POST /whitelabel/ips/{id}/validate
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/ips/{id}/validate", host)
-request.Method = "POST"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Create a Link Whitelabel
-
-**This endpoint allows you to create a new link whitelabel.**
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### POST /whitelabel/links
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
-request.Method = "POST"
-request.Body = []byte(` {
-  "default": true,
-  "domain": "example.com",
-  "subdomain": "mail"
-}`)
-queryParams := make(map[string]string)
-queryParams["limit"] = "1"
-queryParams["offset"] = "1"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve all link whitelabels
-
-**This endpoint allows you to retrieve all link whitelabels.**
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### GET /whitelabel/links
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links", host)
-request.Method = "GET"
-queryParams := make(map[string]string)
-queryParams["limit"] = "1"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve a Default Link Whitelabel
-
-**This endpoint allows you to retrieve the default link whitelabel.**
-
-Default link whitelabel is the actual link whitelabel to be used when sending messages. If there are multiple link whitelabels, the default is determined by the following order:
-<ul>
-  <li>Validated link whitelabels marked as "default"</li>
-  <li>Legacy link whitelabels (migrated from the whitelabel wizard)</li>
-  <li>Default SendGrid link whitelabel (i.e. 100.ct.sendgrid.net)</li>
-</ul>
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### GET /whitelabel/links/default
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/default", host)
-request.Method = "GET"
-queryParams := make(map[string]string)
-queryParams["domain"] = "test_string"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve Associated Link Whitelabel
-
-**This endpoint allows you to retrieve the associated link whitelabel for a subuser.**
-
-Link whitelables can be associated with subusers from the parent account. This functionality allows
-subusers to send mail using their parent's link whitelabels. To associate a link whitelabel, the parent account
-must first create a whitelabel and validate it. The parent may then associate that whitelabel with a subuser via the API or the Subuser Management page in the user interface.
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### GET /whitelabel/links/subuser
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
-request.Method = "GET"
-queryParams := make(map[string]string)
-queryParams["username"] = "test_string"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Disassociate a Link Whitelabel
-
-**This endpoint allows you to disassociate a link whitelabel from a subuser.**
-
-Link whitelables can be associated with subusers from the parent account. This functionality allows
-subusers to send mail using their parent's link whitelabels. To associate a link whitelabel, the parent account
-must first create a whitelabel and validate it. The parent may then associate that whitelabel with a subuser via the API or the Subuser Management page in the user interface.
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### DELETE /whitelabel/links/subuser
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/subuser", host)
-request.Method = "DELETE"
-queryParams := make(map[string]string)
-queryParams["username"] = "test_string"
-request.QueryParams = queryParams
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Update a Link Whitelabel
-
-**This endpoint allows you to update a specific link whitelabel. You can use this endpoint to change a link whitelabel's default status.**
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### PATCH /whitelabel/links/{id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
-request.Method = "PATCH"
-request.Body = []byte(` {
-  "default": true
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Retrieve a Link Whitelabel
-
-**This endpoint allows you to retrieve a specific link whitelabel.**
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### GET /whitelabel/links/{id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
-request.Method = "GET"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Delete a Link Whitelabel
-
-**This endpoint allows you to delete a link whitelabel.**
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### DELETE /whitelabel/links/{id}
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}", host)
-request.Method = "DELETE"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Validate a Link Whitelabel
-
-**This endpoint allows you to validate a link whitelabel.**
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### POST /whitelabel/links/{id}/validate
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{id}/validate", host)
-request.Method = "POST"
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-## Associate a Link Whitelabel
-
-**This endpoint allows you to associate a link whitelabel with a subuser account.**
-
-Link whitelables can be associated with subusers from the parent account. This functionality allows
-subusers to send mail using their parent's link whitelabels. To associate a link whitelabel, the parent account
-must first create a whitelabel and validate it. The parent may then associate that whitelabel with a subuser via the API or the Subuser Management page in the user interface.
-
-Email link whitelabels allow all of the click-tracked links you send in your emails to include the URL of your domain instead of sendgrid.net.
-
-For more information, please see our [User Guide](https://sendgrid.com/docs/API_Reference/Web_API_v3/Whitelabel/links.html).
-
-### POST /whitelabel/links/{link_id}/subuser
-
-```go
-request := sendgrid.GetRequest(apiKey, "/v3/whitelabel/links/{link_id}/subuser", host)
-request.Method = "POST"
-request.Body = []byte(` {
-  "username": "jane@example.com"
-}`)
-response, err := sendgrid.API(request)
-if err != nil {
-  log.Println(err)
-} else {
-  fmt.Println(response.StatusCode)
-  fmt.Println(response.Body)
-  fmt.Println(response.Headers)
-}
-```
-
-
