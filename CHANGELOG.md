@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-09-28] Version 3.6.4
+--------------------------
+**Library - Fix**
+- [PR #408](https://github.com/sendgrid/sendgrid-go/pull/408): don't wrap names in double-quotes. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+
 [2020-09-02] Version 3.6.3
 --------------------------
 **Library - Docs**
