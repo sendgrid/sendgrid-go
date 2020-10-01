@@ -613,9 +613,14 @@ func NewEmail(name string, address string) *Email {
 
 // NewSingleEmail ...
 func NewSingleEmail(from *Email, subject string, to *Email, plainTextContent string, htmlContent string) *SGMailV3 {
-	plainText := NewContent("text/plain", plainTextContent)
-	html := NewContent("text/html", htmlContent)
-	return NewV3MailInit(from, subject, to, plainText, html)
+	var contents []*Content
+	if plainTextContent != "" {
+		contents = append(contents, NewContent("text/plain", plainTextContent))
+	}
+	if htmlContent != "" {
+		contents = append(contents, NewContent("text/html", htmlContent))
+	}
+	return NewV3MailInit(from, subject, to, contents...)
 }
 
 // NewContent ...
