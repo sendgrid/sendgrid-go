@@ -360,7 +360,7 @@ if err != nil {
 
 **This endpoint allows you to create a new random API Key for the user.**
 
-A JSON request body containing a "name" property is required. If number of maximum keys is reached, HTTP 403 will be returned.
+A JSON request body containing a "name" property is required. If the number of maximum keys is reached, HTTP 403 will be returned.
 
 There is a limit of 100 API Keys on your account.
 
@@ -421,7 +421,7 @@ if err != nil {
 **This endpoint allows you to update the name and scopes of a given API key.**
 
 A JSON request body with a "name" property is required.
-Most provide the list of all the scopes an api key should have.
+Most provide the list of all the scopes an API key should have.
 
 The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
@@ -482,7 +482,7 @@ if err != nil {
 
 ## Retrieve an existing API Key
 
-**This endpoint allows you to retrieve a single api key.**
+**This endpoint allows you to retrieve a single API key.**
 
 If the API Key ID does not exist an HTTP 404 will be returned.
 
@@ -505,7 +505,7 @@ if err != nil {
 
 **This endpoint allows you to revoke an existing API Key**
 
-Authentications using this API Key will fail after this request is made, with some small propagation delay.If the API Key ID does not exist an HTTP 404 will be returned.
+Authentications using this API Key will fail after this request is made, with some small propagation delay. If the API Key ID does not exist an HTTP 404 will be returned.
 
 The API Keys feature allows customers to be able to generate an API Key credential which can be used for authentication with the Twilio SendGrid v3 Web API or the [Mail API Endpoint](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
@@ -930,7 +930,7 @@ if err != nil {
 
 Our Marketing Campaigns API lets you create, manage, send, and schedule campaigns.
 
-Note: In order to send or schedule the campaign, you will be required to provide a subject, sender ID, content (we suggest both html and plain text), and at least one list or segment ID. This information is not required when you create a campaign.
+Note: In order to send or schedule the campaign, you will be required to provide a subject, sender ID, content (we suggest both HTML and plain text), and at least one list or segment ID. This information is not required when you create a campaign.
 
 For more information:
 
@@ -1832,7 +1832,7 @@ if err != nil {
 
 ## Delete Recipient
 
-**This endpoint allows you to deletes one or more recipients.**
+**This endpoint allows you to delete one or more recipients.**
 
 The body of an API call to this endpoint must include an array of recipient IDs of the recipients you want to delete.
 
@@ -2174,7 +2174,7 @@ if err != nil {
 
 ## Delete a segment
 
-**This endpoint allows you to delete a segment from your recipients database.**
+**This endpoint allows you to delete a segment from your recipient's database.**
 
 You also have the option to delete all the contacts from your Marketing Campaigns recipient database who were in this segment.
 
@@ -2310,7 +2310,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all assigned and unassigned IPs.**
 
-Response includes warm up status, pools, assigned subusers, and authentication info. The start_date field corresponds to when warmup started for that IP.
+The response includes warm up status, pools, assigned subusers, and authentication info. The start_date field corresponds to when warmup started for that IP.
 
 A single IP address or a range of IP addresses may be dedicated to an account in order to send email for multiple domains. The reputation of this IP is based on the aggregate performance of all the senders who use it.
 
@@ -2664,7 +2664,7 @@ if err != nil {
 
 **This endpoint allows you to generate a new batch ID. This batch ID can be associated with scheduled sends via the mail/send endpoint.**
 
-If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at anytime up to 10 minutes before the schedule date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
+If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at any time up to 10 minutes before the scheduled date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
 
 More Information:
 
@@ -2689,7 +2689,7 @@ if err != nil {
 
 **This endpoint allows you to validate a batch ID.**
 
-If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at anytime up to 10 minutes before the schedule date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
+If you set the SMTPAPI header `batch_id`, it allows you to then associate multiple scheduled mail/send requests together with the same ID. Then at any time up to 10 minutes before the scheduled date, you can cancel all of the mail/send requests that have this batch ID by calling the Cancel Scheduled Send endpoint.
 
 More Information:
 
@@ -2712,7 +2712,7 @@ if err != nil {
 
 ## v3 Mail Send
 
-This endpoint allows you to send email over Twilio SendGrid's v3 Web API, the most recent version of our API. If you are looking for documentation about the v2 Mail Send endpoint, please see our [v2 API Reference](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
+This endpoint allows you to send an email over Twilio SendGrid's v3 Web API, the most recent version of our API. If you are looking for documentation about the v2 Mail Send endpoint, please see our [v2 API Reference](https://sendgrid.com/docs/API_Reference/Web_API/mail.html).
 
 * Top level parameters are referred to as "global".
 * Individual fields within the personalizations array will override any other global, or message level, parameters that are defined outside of personalizations.
@@ -3508,7 +3508,7 @@ if err != nil {
 
 *You may create up to 100 unique sender identities.*
 
-Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### POST /senders
 
@@ -3546,7 +3546,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all sender identities that have been created for your account.**
 
-Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### GET /senders
 
@@ -3567,7 +3567,7 @@ if err != nil {
 
 **This endpoint allows you to update a sender identity.**
 
-Updates to `from.email` require re-verification. If your domain has been authenticated, it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Updates to `from.email` require re-verification. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 Partial updates are allowed, but fields that are marked as "required" in the POST (create) endpoint must not be nil if that field is included in the PATCH request.
 
@@ -3607,7 +3607,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific sender identity.**
 
-Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### GET /senders/{sender_id}
 
@@ -3628,7 +3628,7 @@ if err != nil {
 
 **This endpoint allows you to delete one of your sender identities.**
 
-Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### DELETE /senders/{sender_id}
 
@@ -3649,7 +3649,7 @@ if err != nil {
 
 **This endpoint allows you to resend a sender identity verification email.**
 
-Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise an email will be sent to the `from.email`.
+Sender Identities are required to be verified before use. If your domain has been authenticated, it will auto verify on creation. Otherwise, an email will be sent to the `from.email`.
 
 ### POST /senders/{sender_id}/resend_verification
 
@@ -5082,7 +5082,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a list of all invalid email addresses.**
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -5118,7 +5118,7 @@ There are two options for deleting invalid email addresses:
 1) You can delete all invalid email addresses by setting `delete_all` to true in the request body.
 2) You can delete some invalid email addresses by specifying certain addresses in an array in the request body.
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -5150,7 +5150,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve a specific invalid email addresses.**
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -5175,7 +5175,7 @@ if err != nil {
 
 **This endpoint allows you to remove a specific email address from the invalid email address list.**
 
-An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipients mail server.
+An invalid email occurs when you attempt to send email to an address that is formatted in a manner that does not meet internet email format standards or the email does not exist at the recipient's mail server.
 
 Examples include addresses without the @ sign or addresses that include certain special characters and/or spaces. This response can come from our own server or the recipient mail server.
 
@@ -5308,7 +5308,7 @@ if err != nil {
 
 ## Retrieve all global suppressions
 
-**This endpoint allows you to retrieve a list of all email address that are globally suppressed.**
+**This endpoint allows you to retrieve a list of all email addresses that are globally suppressed.**
 
 A global suppression (or global unsubscribe) is an email address of a recipient who does not want to receive any of your messages. A globally suppressed recipient will be removed from any email you send. For more information, please see our [User Guide](https://sendgrid.com/docs/User_Guide/Suppressions/global_unsubscribes.html).
 
@@ -6086,7 +6086,7 @@ if err != nil {
 If the maximum number of cancellations/pauses are added, HTTP 400 will
 be returned.
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### POST /user/scheduled_sends
 
@@ -6111,7 +6111,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve all cancel/paused scheduled send information.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### GET /user/scheduled_sends
 
@@ -6132,7 +6132,7 @@ if err != nil {
 
 **This endpoint allows you to update the status of a scheduled send for the given `batch_id`.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### PATCH /user/scheduled_sends/{batch_id}
 
@@ -6156,7 +6156,7 @@ if err != nil {
 
 **This endpoint allows you to retrieve the cancel/paused scheduled send information for a specific `batch_id`.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### GET /user/scheduled_sends/{batch_id}
 
@@ -6177,7 +6177,7 @@ if err != nil {
 
 **This endpoint allows you to delete the cancellation/pause of a scheduled send.**
 
-The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header.Scheduled sends cancelled less than 10 minutes before the scheduled time are not guaranteed to be cancelled.
+The Cancel Scheduled Sends feature allows the customer to cancel a scheduled send based on a Batch ID included in the SMTPAPI header. Scheduled sends canceled less than 10 minutes before the scheduled time are not guaranteed to be canceled.
 
 ### DELETE /user/scheduled_sends/{batch_id}
 

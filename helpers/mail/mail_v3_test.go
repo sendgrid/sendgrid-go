@@ -71,74 +71,28 @@ func TestV3AddAttachment(t *testing.T) {
 	assert.Equal(t, numOfAttachments, len(m.Attachments), fmt.Sprintf("Mail should have %d attachments, got %d attachments", numOfAttachments, len(m.Attachments)))
 }
 
-func TestEscapeName(t *testing.T) {
-	testcases := []struct {
-		title string
-		name  string
-		want  string
-	}{
-		{"contains double quote", `Johnny"Bravo`, `"Johnny\"Bravo"`},
-		{"contains backslash", `Johnny\Bravo`, `"Johnny\\Bravo"`},
-		{"contains open parens", `Johnny (Bravo`, `"Johnny (Bravo"`},
-		{"contains close parens", `Johnny Bravo)`, `"Johnny Bravo)"`},
-		{"contains open angle bracket", `Johnny <Bravo`, `"Johnny <Bravo"`},
-		{"contains open angle bracket", `Johnny Bravo>`, `"Johnny Bravo>"`},
-		{"contains open square bracket", `Johnny [Bravo`, `"Johnny [Bravo"`},
-		{"contains open square bracket", `Johnny Bravo]`, `"Johnny Bravo]"`},
-		{"contains colon", `Johnny:Bravo`, `"Johnny:Bravo"`},
-		{"contains semi-colon", `Johnny;Bravo`, `"Johnny;Bravo"`},
-		{"contains at sign", `Johnny@Bravo`, `"Johnny@Bravo"`},
-		{"contains comma", `Johnny,Bravo`, `"Johnny,Bravo"`},
-		{"contains period", `Johnny.Bravo`, `"Johnny.Bravo"`},
-	}
-	for _, tc := range testcases {
-		got := EscapeName(tc.name)
-		assert.Equal(t, tc.want, got, fmt.Sprintf("name should be %s, got %s", tc.want, got))
-	}
-}
-
 func TestV3SetFrom(t *testing.T) {
 	m := NewV3Mail()
 
-	testcases := []struct {
-		title string
-		name  string
-		want  string
-	}{
-		{"unquoted", `Test User`, `Test User`},
-		{"quoted", `"Test User"`, `"Test User"`},
-	}
-
 	address := "test@example.com"
-	for _, tc := range testcases {
-		e := NewEmail(tc.name, address)
-		m.SetFrom(e)
+	name := "Test User"
+	e := NewEmail(name, address)
+	m.SetFrom(e)
 
-		assert.Equal(t, tc.want, m.From.Name, fmt.Sprintf("name should be %s, got %s", tc.want, e.Name))
-		assert.Equal(t, address, m.From.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
-	}
+	assert.Equal(t, name, m.From.Name, fmt.Sprintf("name should be %s, got %s", name, e.Name))
+	assert.Equal(t, address, m.From.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
 }
 
 func TestV3SetReplyTo(t *testing.T) {
 	m := NewV3Mail()
 
-	testcases := []struct {
-		title string
-		name  string
-		want  string
-	}{
-		{"unquoted", `Test User`, `Test User`},
-		{"quoted", `"Test User"`, `"Test User"`},
-	}
-
 	address := "test@example.com"
-	for _, tc := range testcases {
-		e := NewEmail(tc.name, address)
-		m.SetReplyTo(e)
+	name := "Test User"
+	e := NewEmail(name, address)
+	m.SetReplyTo(e)
 
-		assert.Equal(t, tc.want, m.ReplyTo.Name, fmt.Sprintf("name should be %s, got %s", tc.want, e.Name))
-		assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
-	}
+	assert.Equal(t, name, m.ReplyTo.Name, fmt.Sprintf("name should be %s, got %s", name, e.Name))
+	assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
 }
 
 func TestV3SetTemplateID(t *testing.T) {
@@ -694,22 +648,13 @@ func TestV3NewSetting(t *testing.T) {
 }
 
 func TestV3NewEmail(t *testing.T) {
-	testcases := []struct {
-		title string
-		name  string
-		want  string
-	}{
-		{"unquoted", `Test User`, `Test User`},
-		{"quoted", `"Test User"`, `"Test User"`},
-	}
-
+	name := "Johnny"
 	address := "Johnny@rocket.io"
-	for _, tc := range testcases {
-		e := NewEmail(tc.name, address)
 
-		assert.Equal(t, tc.want, e.Name, fmt.Sprintf("Name should be %s, got %s", tc.want, e.Name))
-		assert.Equal(t, address, e.Address, fmt.Sprintf("Address should be %s, got %s", address, e.Address))
-	}
+	e := NewEmail(name, address)
+
+	assert.Equal(t, name, e.Name, fmt.Sprintf("Name should be %s, got %s", name, e.Name))
+	assert.Equal(t, address, e.Address, fmt.Sprintf("Address should be %s, got %s", address, e.Address))
 }
 
 func TestV3NewSingleEmail(t *testing.T) {

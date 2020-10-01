@@ -1,5 +1,5 @@
 # Transactional Templates
-For this example, we assume you have created a [dynamic transactional template](https://sendgrid.com/docs/User_Guide/Transactional_Templates/how_to_send_an_email_with_transactional_templates.html). Following is the dynamic template data we used for testing.
+For this example, we assume you have created a [dynamic transactional template](https://sendgrid.com/docs/ui/sending-email/how-to-send-an-email-with-dynamic-transactional-templates/) in the UI or via the API. Following is the dynamic template data we used for testing.
 
 Template ID (replace with your own):
 
