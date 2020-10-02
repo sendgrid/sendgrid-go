@@ -18,7 +18,7 @@ func main() {
   m := mail.NewV3Mail()
 
   from := mail.NewEmail("Example Sender 1", "defaultSender@example.com")
-  content := mail.NewContent("text/html", "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>")
+  content := mail.NewContent("text/html", "<p>Personalizations are awesome!</p>")
 
   m.SetFrom(from)
   m.AddContent(content)
@@ -30,29 +30,17 @@ func main() {
   // populate `personalization1` with data 
   //this email will be sent from Example Sender 1
   p1_to := mail.NewEmail("Example User 1", "test1@example.com")
-  p1_cc1 := mail.NewEmail("Example User 2", "test2@example.com")
-  p1_cc2 := mail.NewEmail("Example User 3", "test3@example.com")
-  p1_cc3 := mail.NewEmail("Example User 4", "test4@example.com")
   
   personalization1.AddTos(p1_to)
-  personalization1.AddCCs(p1_cc1, p1_cc2, p1_cc3)
-  personalization1.SetSubstitution("%fname%", "recipient")
-  personalization1.SetSubstitution("%CustomerID%", "CUSTOMER ID GOES HERE")
   personalization1.Subject = "Having fun learning about personalizations?"
 
   // populate `personalization2` with data 
   //this email will be sent from Example Sender 2
   p2_from :=mail.NewEmail("Example Sender 2", "sender2@example.com")
   p2_to := mail.NewEmail("Example User 1", "test1@example.com")
-  p2_cc1 := mail.NewEmail("Example User 2", "test2@example.com")
-  p2_cc2 := mail.NewEmail("Example User 3", "test3@example.com")
-  p2_cc3 := mail.NewEmail("Example User 4", "test4@example.com")
   
   personalization2.AddFrom(p2_from)
   personalization2.AddTos(p2_to)
-  personalization2.AddCCs(p2_cc1, p2_cc2, p2_cc3)
-  personalization2.SetSubstitution("%fname%", "recipient2")
-  personalization2.SetSubstitution("%CustomerID%", "55")
   personalization2.Subject = "Personalizations are fun!"
   
   // add `personalization1` and `personalization2` to `m`

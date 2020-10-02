@@ -19,37 +19,15 @@ func main() {
       "to": [{
           "email": "recipient1@example.com"
       }],
-      "cc": [{
-          "email": "recipient2@example.com"
-      }, {
-          "email": "recipient3@example.com"
-      }, {
-          "email": "recipient4@example.com"
-      }],
-      "substitutions": {
-          "%fname%": "recipient",
-          "%CustomerID%": "CUSTOMER ID GOES HERE"
-      },
       "subject": "YOUR SUBJECT LINE GOES HERE"
   }, {
       "to": [{
-          "email": "recipient5@example.com"
+          "email": "recipient2@example.com"
       }],
       "from": {
-         "email": "sender2@example.com"
+          "email": "sender2@example.com"
       },
-      "cc": [{
-          "email": "recipient6@example.com"
-      }, {
-          "email": "recipient7@example.com"
-      }, {
-          "email": "recipient8@example.com"
-      }],
-      "substitutions": {
-          "%fname%": "recipient2",
-          "%CustomerID%": 55
-      },
-      "subject": "YOUR SUBJECT LINE GOES HERE"
+      "subject": "YOUR OTHER SUBJECT LINE GOES HERE"
   }],
   "from": {
     "email": "defaultSender@example.com"
@@ -57,7 +35,7 @@ func main() {
   "content": [
       {
           "type": "text/html",
-          "value": "<p> %fname% : %CustomerID% - Personalizations are awesome!</p>"
+          "value": "<p>Personalizations are awesome!</p>"
       }
   ]
   }`)
