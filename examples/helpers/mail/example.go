@@ -54,6 +54,8 @@ func kitchenSink() []byte {
 		mail.NewEmail("Example User", "test6@example.com"),
 	}
 	p.AddBCCs(bccs...)
+	from := mail.NewEmail("Example Sender", "test7@example.com")
+	p.AddFrom(from)
 	p.Subject = "Hello World from the Personalized SendGrid Go Library"
 	p.SetHeader("X-Test", "test")
 	p.SetHeader("X-Mock", "true")

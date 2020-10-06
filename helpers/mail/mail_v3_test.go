@@ -258,6 +258,18 @@ func TestV3PersonalizationAddTos(t *testing.T) {
 	assert.Equal(t, len(tos), len(p.To), fmt.Sprintf("length of To should be %d, got %d", len(tos), len(p.To)))
 }
 
+func TestV3PersonalizationAddFrom(t *testing.T) {
+	address := "test@example.com"
+	name := "Test User"
+	from := NewEmail(name, address)
+
+	p := NewPersonalization()
+	p.AddFrom(from)
+
+	assert.Equal(t, name, p.From.Name, fmt.Sprintf("name should be %s got %s", name, p.From.Name))
+	assert.Equal(t, address, p.From.Address, fmt.Sprintf("address should be %s got %s", address, p.From.Address))
+}
+
 func TestV3PersonalizationAddCCs(t *testing.T) {
 	ccs := []*Email{
 		NewEmail("Example User", "test@example.com"),

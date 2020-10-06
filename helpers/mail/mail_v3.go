@@ -30,6 +30,7 @@ type SGMailV3 struct {
 // Personalization holds mail body struct
 type Personalization struct {
 	To                  []*Email               `json:"to,omitempty"`
+	From                *Email                 `json:"from,omitempty"`
 	CC                  []*Email               `json:"cc,omitempty"`
 	BCC                 []*Email               `json:"bcc,omitempty"`
 	Subject             string                 `json:"subject,omitempty"`
@@ -311,6 +312,11 @@ func NewPersonalization() *Personalization {
 // AddTos ...
 func (p *Personalization) AddTos(to ...*Email) {
 	p.To = append(p.To, to...)
+}
+
+//AddFrom ...
+func (p *Personalization) AddFrom(from *Email) {
+	p.From = from
 }
 
 // AddCCs ...

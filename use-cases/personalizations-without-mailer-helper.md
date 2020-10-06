@@ -6,3 +6,4 @@
 * [Sending the same Email to Multiple Recipients](personalization-without-helper-sending-same-email-to-multiple-recipients.md)
 * [Sending a Single Email to a Single Recipient with Multiple CCs/BCCs](personalization-without-helper-sending-single-email-to-single-recipients-with-multiple-cc-bcc.md)
 * [Sending Two Different Emails to Two Different Groups of Recipients](personalization-without-helper-sending-two-emails-to-two-groups-recipients.md)
+* [Sending Two Different Emails to Two Different Groups of Recipients from two different From email addresses](personalization-without-helper-sending-two-emails-to-two-groups-recipients-from-two-different-from-emails.md)
