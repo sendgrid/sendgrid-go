@@ -32,7 +32,7 @@ func generateTestPayload() []byte {
 		},
 	})
 	payload := buffer.Bytes()
-	payload = payload[:len(payload)-1] // Drop the trailing newline the encoder adds.
+	payload = payload[:len(payload)-1]           // Drop the trailing newline the encoder adds.
 	payload = append(payload, []byte("\r\n")...) // Append the expected trailing carriage return and newline!
 	return payload
 }
