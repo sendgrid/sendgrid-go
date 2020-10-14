@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-10-14] Version 3.7.0
+--------------------------
+**Library - Feature**
+- [PR #410](https://github.com/sendgrid/sendgrid-go/pull/410): allow personalization of From name and email for each recipient. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Library - Fix**
+- [PR #272](https://github.com/sendgrid/sendgrid-go/pull/272): Accept empty html on Email helper NewSingleEmail(). Thanks to [@tjun](https://github.com/tjun)!
+
+
 [2020-09-28] Version 3.6.4
 --------------------------
 **Library - Fix**
