@@ -10,11 +10,16 @@ import (
 	"strings"
 )
 
+type ParsedAttachment struct {
+	Headers		map[string]string
+	Filename	string
+	Content		[]byte
+}
 
 type ParsedEmail struct {
 	Headers     map[string]string
 	Body        map[string]string
-	Attachments map[string][]byte
+	Attachments []ParsedAttachment
 	rawRequest  *http.Request
 }
 
@@ -22,7 +27,7 @@ func Parse(request *http.Request) *ParsedEmail {
 	result := ParsedEmail{
 		Headers:     make(map[string]string),
 		Body:        make(map[string]string),
-		Attachments: make(map[string][]byte),
+		Attachments: []ParsedAttachment{},
 		rawRequest:  request,
 	}
 	result.parse()
@@ -65,7 +70,17 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) {
 			}
 
 		} else if emailPart.FileName() != "" {
-			email.Attachments[emailPart.FileName()] = readBody(emailPart)
+			headers := make(map[string]string)
+			content := readBody(emailPart)
+
+			headers["Content-Type"] = emailPart.Header.Get("Content-Type")
+			attachment := ParsedAttachment{
+				Filename: emailPart.FileName(),
+				Content: content,
+				Headers: headers,
+			}
+
+			email.Attachments = append(email.Attachments, attachment)
 		} else {
 			header := emailPart.Header.Get("Content-Type")
 			email.Body[header] = string(readBody(emailPart))

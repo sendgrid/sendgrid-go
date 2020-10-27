@@ -49,6 +49,14 @@ func TestParse(t *testing.T) {
 	}
 }
 
+func TestAttachments(t *testing.T) {
+	req := createRequest("./sample_data/raw_data_with_attachments.txt")
+	email := Parse(req)
+	contentType := "image/jpeg; name=\"TwilioSendGrid.jpg\""
+
+	assert.Equalf(t, contentType, email.Attachments[0].Headers["Content-Type"],"Expected From: %s, Got: %s", contentType, email.Attachments[0].Headers["Content-Type"])
+}
+
 func ExampleParsedEmail_parseHeaders() {
 	headers := `
 Foo: foo
@@ -57,7 +65,7 @@ Bar: baz
 	email := ParsedEmail{
 		Headers:     make(map[string]string),
 		Body:        make(map[string]string),
-		Attachments: make(map[string][]byte),
+		Attachments: []ParsedAttachment{},
 		rawRequest:  nil,
 	}
 	email.parseHeaders(headers)
@@ -89,7 +97,7 @@ Content-Transfer-Encoding: quoted-printable
 	email := ParsedEmail{
 		Headers:     make(map[string]string),
 		Body:        make(map[string]string),
-		Attachments: make(map[string][]byte),
+		Attachments: []ParsedAttachment{},
 		rawRequest:  nil,
 	}
 	email.parseRawEmail(rawEmail)
