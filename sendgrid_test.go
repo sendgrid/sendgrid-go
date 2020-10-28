@@ -18,8 +18,8 @@ import (
 )
 
 func TestLicenseYear(t *testing.T) {
-	d, err := ioutil.ReadFile("LICENSE.md")
-	assert.Nil(t, err, "Cannot read the LICENSE.md file")
+	d, err := ioutil.ReadFile("LICENSE")
+	assert.Nil(t, err, "Cannot read the LICENSE file")
 	l := fmt.Sprintf("Copyright (C) %v, Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
@@ -35,7 +35,7 @@ func TestRepoFiles(t *testing.T) {
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",
 		"ISSUE_TEMPLATE.md",
-		"LICENSE.md",
+		"LICENSE",
 		"PULL_REQUEST_TEMPLATE.md",
 		"README.md",
 		"TROUBLESHOOTING.md",
