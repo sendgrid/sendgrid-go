@@ -52,9 +52,9 @@ func TestParse(t *testing.T) {
 func TestAttachments(t *testing.T) {
 	req := createRequest("./sample_data/raw_data_with_attachments.txt")
 	email := Parse(req)
-	contentType := "image/jpeg; name=\"TwilioSendGrid.jpg\""
+	contentType := "image/jpeg"
 
-	assert.Equalf(t, contentType, email.Attachments[0].Headers["Content-Type"],"Expected From: %s, Got: %s", contentType, email.Attachments[0].Headers["Content-Type"])
+	assert.Equalf(t, contentType, email.Attachments[0].ContentType,"Expected From: %s, Got: %s", contentType, email.Attachments[0].ContentType)
 }
 
 func ExampleParsedEmail_parseHeaders() {

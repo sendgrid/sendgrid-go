@@ -7,11 +7,13 @@ import (
 	"mime"
 	"mime/multipart"
 	"net/http"
+	"net/textproto"
 	"strings"
 )
 
 type ParsedAttachment struct {
-	Headers		map[string]string
+	Headers		textproto.MIMEHeader
+	ContentType	string
 	Filename	string
 	Content		[]byte
 }
@@ -70,14 +72,13 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) {
 			}
 
 		} else if emailPart.FileName() != "" {
-			headers := make(map[string]string)
 			content := readBody(emailPart)
 
-			headers["Content-Type"] = emailPart.Header.Get("Content-Type")
 			attachment := ParsedAttachment{
 				Filename: emailPart.FileName(),
+				ContentType: strings.Split(emailPart.Header.Get("Content-Type"), ";")[0],
 				Content: content,
-				Headers: headers,
+				Headers: emailPart.Header,
 			}
 
 			email.Attachments = append(email.Attachments, attachment)
