@@ -8,6 +8,7 @@ import (
 
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/sendgrid/sendgrid-go/helpers/mock"
 )
 
 // Version is this client library's current version
@@ -70,6 +71,10 @@ func API(request rest.Request) (*rest.Response, error) {
 
 // MakeRequest attempts a Twilio SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
+	if mock.Get() != nil {
+		return mock.Request()
+	}
+
 	return DefaultClient.Send(request)
 }
 

@@ -2,6 +2,7 @@ package sendgrid
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/sendgrid/sendgrid-go/helpers/mock"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -3741,4 +3743,96 @@ func Test_test_whitelabel_links__link_id__subuser_post(t *testing.T) {
 		t.Log(err)
 	}
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
+}
+
+// send mail function example to used in Mock test
+func sendMailExample() (code int, body string, err error) {
+	m := mail.NewV3Mail()
+
+	m.SetFrom(mail.NewEmail("Invalid From", "invalidmail@invalid.com"))
+	m.AddContent(mail.NewContent("text/html", "<h1>Hello world</h1>This is an example"))
+
+	personalization := mail.NewPersonalization()
+
+	// invalid mail
+	personalization.AddTos(mail.NewEmail("Nahuel", "nlcostamagna"))
+	personalization.Subject = "Example invalid email"
+
+	m.AddPersonalizations(personalization)
+
+	request := GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	request.Body = mail.GetRequestBody(m)
+	response, err := API(request)
+
+	if err != nil {
+		return 0, "", err
+	}
+
+	return response.StatusCode, response.Body, nil
+}
+
+func TestMockStatusCode400(t *testing.T) {
+	mock.Add(&mock.Mock{
+		StatusCode: 400,
+		Body:       `{ "errors":[{ "message":"Example error.", "field":"example field" }] }`,
+	})
+
+	m := mock.Get()
+	code, body, err := sendMailExample()
+
+	assert.EqualValues(t, code, 400)
+	assert.EqualValues(t, m.StatusCode, 400)
+	assert.EqualValues(t, body, `{ "errors":[{ "message":"Example error.", "field":"example field" }] }`)
+	assert.EqualValues(t, m.Body, `{ "errors":[{ "message":"Example error.", "field":"example field" }] }`)
+	assert.Nil(t, err)
+	assert.Nil(t, m.Err)
+}
+
+func TestMockStatusCode202(t *testing.T) {
+	mock.Add(&mock.Mock{
+		StatusCode: 202,
+	})
+
+	m := mock.Get()
+	code, body, err := sendMailExample()
+
+	assert.EqualValues(t, code, 202)
+	assert.EqualValues(t, m.StatusCode, 202)
+	assert.EqualValues(t, body, "")
+	assert.EqualValues(t, m.Body, "")
+	assert.Nil(t, err)
+	assert.Nil(t, m.Err)
+}
+
+func TestMockErr(t *testing.T) {
+	mock.Add(&mock.Mock{
+		Err: errors.New("Has been an error in TestMockErr"),
+	})
+
+	m := mock.Get()
+	code, body, err := sendMailExample()
+
+	assert.EqualValues(t, err.Error(), "Has been an error in TestMockErr")
+	assert.EqualValues(t, m.Err.Error(), "Has been an error in TestMockErr")
+	assert.EqualValues(t, body, "")
+	assert.EqualValues(t, m.Body, "")
+	assert.EqualValues(t, code, 0)
+	assert.EqualValues(t, m.StatusCode, 0)
+}
+
+func TestMockFlush(t *testing.T) {
+	mock.Add(&mock.Mock{
+		StatusCode: 202,
+	})
+	m1 := mock.Get()
+	mock.Flush()
+	m2 := mock.Get()
+
+	code, _, err := sendMailExample()
+
+	assert.EqualValues(t, m1.StatusCode, 202)
+	assert.EqualValues(t, code, 400)
+	assert.Nil(t, m2)
+	assert.Nil(t, err)
 }
