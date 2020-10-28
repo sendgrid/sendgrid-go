@@ -16,7 +16,7 @@ import (
     "log"
     "net/http"
 
-    "github.com/sendgrid/sendgrid-go/helpers/inbound"
+    "github.com/sendgrid/sendgrid-go/v3/helpers/inbound"
 )
 
 func inboundHandler(response http.ResponseWriter, request *http.Request) {

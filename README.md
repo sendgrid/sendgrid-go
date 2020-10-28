@@ -2,7 +2,7 @@
 
 [![BuildStatus](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=main)](https://travis-ci.org/sendgrid/sendgrid-go)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
-[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://godoc.org/github.com/sendgrid/sendgrid-go)
+[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://pkg.go.dev/github.com/sendgrid/sendgrid-go/v3)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/sendgrid-go.svg)](https://github.com/sendgrid/sendgrid-go/graphs/contributors)
@@ -24,23 +24,24 @@ We appreciate your continued support, thank you!
 
 # Table of Contents
 
-* [Installation](#installation)
-* [Quick Start](#quick-start)
-* [Processing Inbound Email](#inbound)
-* [Usage](#usage)
-* [Use Cases](#use-cases)
-* [Announcements](#announcements)
-* [How to Contribute](#contribute)
-* [Troubleshooting](#troubleshooting)
-* [About](#about)
-* [License](#license)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Processing Inbound Email](#inbound)
+- [Usage](#usage)
+- [Use Cases](#use-cases)
+- [Announcements](#announcements)
+- [How to Contribute](#contribute)
+- [Troubleshooting](#troubleshooting)
+- [About](#about)
+- [License](#license)
 
 <a name="installation"></a>
+
 # Installation
 
 ## Prerequisites
 
-- Go version 1.7
+- Go version 1.12
 - The Twilio SendGrid service, starting at the [free level](https://sendgrid.com/free?source=sendgrid-go), to send up to 40,000 emails for the first 30 days, then send 100 emails/day free forever or check out [our pricing](https://sendgrid.com/pricing?source=sendgrid-go).
 
 ## Setup Environment Variables
@@ -55,7 +56,7 @@ source ./sendgrid.env
 
 ## Install Package
 
-`go get github.com/sendgrid/sendgrid-go`
+`go get github.com/sendgrid/sendgrid-go/v3`
 
 ## Dependencies
 
@@ -80,6 +81,7 @@ source ./sendgrid.env
 ```
 
 <a name="quick-start"></a>
+
 # Quick Start
 
 ## Hello Email
@@ -96,8 +98,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/sendgrid/sendgrid-go/v3"
+	"github.com/sendgrid/sendgrid-go/v3/helpers/mail"
 )
 
 func main() {
@@ -130,7 +132,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/v3"
 	"log"
 	"os"
 )
@@ -177,7 +179,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/v3"
 	"log"
 	"os"
 )
@@ -197,13 +199,14 @@ func main() {
 }
 ```
 
-
 <a name="inbound"></a>
+
 # Processing Inbound Email
 
 Please see [our helper](helpers/inbound) for utilizing our Inbound Parse webhook.
 
 <a name="usage"></a>
+
 # Usage
 
 - [Twilio SendGrid Docs](https://sendgrid.com/docs/API_Reference/index.html)
@@ -213,11 +216,13 @@ Please see [our helper](helpers/inbound) for utilizing our Inbound Parse webhook
 - [v3 Web API Mail Send Helper](helpers/mail/README.md)
 
 <a name="use-cases"></a>
+
 # Use Cases
 
 [Examples of common API use cases](use-cases/README.md), such as how to send an email with a transactional template.
 
 <a name="announcements"></a>
+
 # Announcements
 
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
@@ -225,6 +230,7 @@ Please see our announcement regarding [breaking changes](https://github.com/send
 All updates to this library are documented in our [CHANGELOG](CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
 <a name="contribute"></a>
+
 # How to Contribute
 
 We encourage contribution to our libraries (you might even score some nifty swag), please see our [CONTRIBUTING](CONTRIBUTING.md) guide for details.
@@ -237,11 +243,13 @@ Quick links:
 - [Review Pull Requests](CONTRIBUTING.md#code-reviews)
 
 <a name="troubleshooting"></a>
+
 # Troubleshooting
 
 Please see our [troubleshooting guide](TROUBLESHOOTING.md) for common library issues.
 
 <a name="about"></a>
+
 # About
 
 sendgrid-go is maintained and funded by Twilio SendGrid, Inc. The names and logos for sendgrid-go are trademarks of Twilio SendGrid, Inc.
@@ -251,4 +259,5 @@ If you need help installing or using the library, please check the [Twilio SendG
 If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 # License
+
 [The MIT License (MIT)](LICENSE)
