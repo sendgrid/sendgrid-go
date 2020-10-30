@@ -141,6 +141,10 @@ func v3MailSend() {
       "substitutions": {
         "id": "substitutions", 
         "type": "object"
+      },
+      "from": {
+        "email": "bob.doe@example.com",
+        "name": "Bob Doe"
       }, 
       "to": [
         {

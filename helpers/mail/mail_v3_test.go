@@ -1,6 +1,7 @@
 package mail
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"testing"
@@ -255,6 +256,18 @@ func TestV3PersonalizationAddTos(t *testing.T) {
 	p.AddTos(tos...)
 
 	assert.Equal(t, len(tos), len(p.To), fmt.Sprintf("length of To should be %d, got %d", len(tos), len(p.To)))
+}
+
+func TestV3PersonalizationAddFrom(t *testing.T) {
+	address := "test@example.com"
+	name := "Test User"
+	from := NewEmail(name, address)
+
+	p := NewPersonalization()
+	p.AddFrom(from)
+
+	assert.Equal(t, name, p.From.Name, fmt.Sprintf("name should be %s got %s", name, p.From.Name))
+	assert.Equal(t, address, p.From.Address, fmt.Sprintf("address should be %s got %s", address, p.From.Address))
 }
 
 func TestV3PersonalizationAddCCs(t *testing.T) {
@@ -680,10 +693,32 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 
 	message := NewSingleEmail(from, subject, to, plainTextContent, "")
 
-	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
-	assert.NotNil(t, message.From, "From shouldn't be nil")
-	assert.Equal(t, message.Subject, subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
-	assert.NotNil(t, message.Content, "Content shouldn't be nil")
+	m, _ := json.Marshal(message)
+	fmt.Println(string(m))
+
+	if message == nil {
+		t.Errorf("NewV3MailInit() shouldn't return nil")
+	}
+
+	if message.From == nil {
+		t.Errorf("From shouldn't be nil")
+	}
+
+	if message.Subject != subject {
+		t.Errorf("Subject should be %s, got %s", subject, message.Subject)
+	}
+
+	if message.Content == nil {
+		t.Errorf("Content shouldn't be nil")
+	}
+
+	if len(message.Content) != 1 {
+		t.Errorf("Content length should be 1, got %d", len(message.Content))
+	}
+
+	if len(message.Content) == 1 && message.Content[0].Type != "text/plain" {
+		t.Errorf("Content type should be 'text/plain', got %s", message.Content[0].Type)
+	}
 }
 
 func TestV3NewClickTrackingSetting(t *testing.T) {
