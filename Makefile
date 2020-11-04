@@ -5,6 +5,7 @@ install:
 
 test:
 	./go.coverage.sh
+	bash -c 'diff -u <(echo -n) <(gofmt -d -s .)'
 
 test-integ: test
 
