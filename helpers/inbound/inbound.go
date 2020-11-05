@@ -10,7 +10,6 @@ import (
 	"strings"
 )
 
-
 type ParsedEmail struct {
 	Headers     map[string]string
 	Body        map[string]string
