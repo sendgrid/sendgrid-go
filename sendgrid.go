@@ -1,50 +1,57 @@
-// Package sendgrid provides a simple interface to interact with the SendGrid API
 package sendgrid
 
 import (
-	"github.com/sendgrid/rest" // depends on version 2.2.0
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/sendgrid/rest"
 )
 
-// Version is this client library's current version
-const Version = "3.1.0"
-
-type Client struct {
-	rest.Request
+// sendGridOptions for CreateRequest
+type sendGridOptions struct {
+	Key      string
+	Endpoint string
+	Host     string
+	Subuser  string
 }
 
-// GetRequest returns a default request object.
-func GetRequest(key string, endpoint string, host string) rest.Request {
-	if host == "" {
-		host = "https://api.sendgrid.com"
+// GetRequest
+// @return [Request] a default request object
+func GetRequest(key, endpoint, host string) rest.Request {
+	return createSendGridRequest(sendGridOptions{key, endpoint, host, ""})
+}
+
+// GetRequestSubuser like GetRequest but with On-Behalf of Subuser
+// @return [Request] a default request object
+func GetRequestSubuser(key, endpoint, host, subuser string) rest.Request {
+	return createSendGridRequest(sendGridOptions{key, endpoint, host, subuser})
+}
+
+// createSendGridRequest create Request
+// @return [Request] a default request object
+func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
+	options := options{
+		"Bearer " + sgOptions.Key,
+		sgOptions.Endpoint,
+		sgOptions.Host,
+		sgOptions.Subuser,
 	}
-	baseURL := host + endpoint
-	requestHeaders := make(map[string]string)
-	requestHeaders["Authorization"] = "Bearer " + key
-	requestHeaders["User-Agent"] = "sendgrid/" + Version + ";go"
-	requestHeaders["Accept"] = "application/json"
-	request := rest.Request{
-		BaseURL: baseURL,
-		Headers: requestHeaders,
+
+	if options.Host == "" {
+		options.Host = "https://api.sendgrid.com"
 	}
-	return request
+
+	return requestNew(options)
 }
 
-func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
-	cl.Body = mail.GetRequestBody(email)
-	return API(cl.Request)
-}
-
+// NewSendClient constructs a new Twilio SendGrid client given an API key
 func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
 	return &Client{request}
 }
 
-// DefaultClient is used if no custom HTTP client is defined
-var DefaultClient = rest.DefaultClient
-
-// API sets up the request to the SendGrid API, this is main interface.
-func API(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.API(request)
+// GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
+// @return [Client]
+func NewSendClientSubuser(key, subuser string) *Client {
+	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
+	request.Method = "POST"
+	return &Client{request}
 }
