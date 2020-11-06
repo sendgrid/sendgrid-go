@@ -5,3 +5,4 @@ temp.go
 coverage.txt
 sendgrid.env
 .vscode
+prism*
