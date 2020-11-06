@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-11-05] Version 3.7.1
+--------------------------
+**Library - Test**
+- [PR #411](https://github.com/sendgrid/sendgrid-go/pull/411): ensure source files are properly formatted. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Fix**
+- [PR #415](https://github.com/sendgrid/sendgrid-go/pull/415): Rename LICENSE.md to LICENSE. Thanks to [@coolaj86](https://github.com/coolaj86)!
+
+**Library - Docs**
+- [PR #282](https://github.com/sendgrid/sendgrid-go/pull/282): Update examples using inline attachment with ContentID. Thanks to [@anchepiece](https://github.com/anchepiece)!
+
+
 [2020-10-14] Version 3.7.0
 --------------------------
 **Library - Feature**
