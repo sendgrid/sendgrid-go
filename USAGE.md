@@ -28,6 +28,7 @@ host := "https://api.sendgrid.com"
 * [CLIENTS](#clients)
 * [CONTACTDB](#contactdb)
 * [DEVICES](#devices)
+* [EMAIL ACTIVITY](#email-activity)
 * [GEO](#geo)
 * [IPS](#ips)
 * [MAIL](#mail)
@@ -2269,6 +2270,131 @@ if err != nil {
 }
 ```
 
+<a name="email-activity"></a>
+# Email Activity
+
+## Filter all messages
+
+> In order to gain access to the Email Activity Feed API, you must purchase [additional email activity history](https://app.sendgrid.com/settings/billing/addons/email_activity).
+
+Filter all messages to search your Email Activity.
+
+Queries may need to be [URL encoded](https://meyerweb.com/eric/tools/dencoder/). URL encoding depends on how you're using the API - if you are trying it out here, or using one of the Libraries, we handle the encoding for you. If you are using cURL, or your own implementation, you probably need to encode it.
+
+Queries have this format:
+
+`query={query_type}="{query_content}"`
+
+encoded, this would look like this:
+
+`query=type%3D%22query_content%22`
+
+for example:
+
+Filter by a specific email - `query=to_email%3D%22example%40example.com%22`
+
+Filter by subject line - `query=subject%3d%22A%20Great%20Subject%22`
+
+You can filter by other operators besides `=`. We also accept `!=`, `<`, and `>`.
+
+For a tutorial on how to get started, check out [Getting Started with the Email Activity API](https://sendgrid.com/docs/API_Reference/Web_API_v3/Tutorials/getting_started_email_activity_api.html).
+
+For information about building combined queries, see [Building compound Email Activity queries](https://sendgrid.com/docs/API_Reference/Web_API_v3/Tutorials/getting_started_email_activity_api.html#-Creating-compound-queries).
+
+### GET /messages
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/messages", host)
+request.Method = "GET"
+
+filterKey := "to_email"
+filterOperator := url.QueryEscape("=")
+filterValue := "testing@sendgrid.net"
+filterValue = url.QueryEscape(fmt.Sprintf("\"%s\"", filterValue))
+
+queryParams := make(map[string]string)
+queryParams["query"] = fmt.Sprintf("%s%s%s", filterKey, filterOperator, filterValue)
+queryParams["limit"] = "1"
+request.QueryParams = queryParams
+
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Filter messages by message ID
+
+> In order to gain access to the Email Activity Feed API, you must purchase [additional email activity history](https://app.sendgrid.com/settings/billing/addons/email_activity).
+
+Get all of the details about the specified message.
+
+### GET /messages/{msg_id}
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/messages/{msg_id}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Request a CSV
+
+### POST /messages/download
+
+> In order to gain access to the Email Activity Feed API, you must purchase [additional email activity history](https://app.sendgrid.com/settings/billing/addons/email_activity).
+
+This request kicks of a process to generate a CSV file. When the file is generated, the email that is listed as the account owner gets an email that links out to the file that is ready for download. The link expires in 3 days.
+
+The CSV fill contain the last 1 million messages. This endpoint will be rate limited to 1 request every 12 hours.
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/messages/download", host)
+request.Method = "POST"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
+
+## Download CSV
+
+### GET /messages/download/{download_uuid}
+
+> In order to gain access to the Email Activity Feed API, you must purchase [additional email activity history](https://app.sendgrid.com/settings/billing/addons/email_activity).
+
+Download the CSV that you requested with the POST Request a CSV.
+
+When the file is generated, the email that is listed as the account owner gets an email that links out to the file that is ready for download. The link expires in 3 days.
+
+The CSV fill contain the last 1 million messages. This endpoint will be rate limited to 1 request every 12 hours.
+
+```go
+request := sendgrid.GetRequest(apiKey, "/v3/messages/download/{download_uuid}", host)
+request.Method = "GET"
+response, err := sendgrid.API(request)
+if err != nil {
+  log.Println(err)
+} else {
+  fmt.Println(response.StatusCode)
+  fmt.Println(response.Body)
+  fmt.Println(response.Headers)
+}
+```
 <a name="geo"></a>
 # GEO
 
