@@ -15,6 +15,9 @@ func main() {
 	// Send Mail
 	sendMail()
 
+	// start mocks server
+	mock.StartTestServer()
+
 	// add mock value
 	mock.Add(&mock.Mock{
 		StatusCode: 400,
@@ -32,11 +35,23 @@ func main() {
 	mock.Add(&mock.Mock{
 		Err: errors.New("Has been an mock error"),
 	})
+
+	// stop mocks server
+	mock.StopTestServer()
+
+	sendMail() // Send Mail
+
+	// start mocks server
+	mock.StartTestServer()
+
 	sendMail() // Response with mock data
 
 	// clear mock
 	mock.Flush()
 	sendMail() // Send Mail
+
+	// stop mocks server
+	mock.StopTestServer()
 
 }
 
@@ -44,14 +59,14 @@ func sendMail() {
 	m := mail.NewV3Mail()
 	content := mail.NewContent("text/html", "<h1>Hello world</h1>This is an example")
 
-	from := mail.NewEmail("envalidMail", "invalidMail@mail.com")
+	from := mail.NewEmail("Nahuel", "ncostamagna@hotmail.com.ar")
 	m.SetFrom(from)
 
 	m.AddContent(content)
 
 	personalization := mail.NewPersonalization()
 
-	personalization.AddTos(mail.NewEmail("Nahuel", "nlcostamagna"))
+	personalization.AddTos(mail.NewEmail("Nahuel", "nlcostamagna@gmail.com"))
 	personalization.Subject = "Example"
 
 	m.AddPersonalizations(personalization)

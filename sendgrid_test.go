@@ -3773,6 +3773,8 @@ func sendMailExample() (code int, body string, err error) {
 }
 
 func TestMockStatusCode400(t *testing.T) {
+	mock.StartTestServer()
+
 	mock.Add(&mock.Mock{
 		StatusCode: 400,
 		Body:       `{ "errors":[{ "message":"Example error.", "field":"example field" }] }`,
@@ -3787,9 +3789,13 @@ func TestMockStatusCode400(t *testing.T) {
 	assert.EqualValues(t, m.Body, `{ "errors":[{ "message":"Example error.", "field":"example field" }] }`)
 	assert.Nil(t, err)
 	assert.Nil(t, m.Err)
+
+	mock.StopTestServer()
 }
 
 func TestMockStatusCode202(t *testing.T) {
+	mock.StartTestServer()
+
 	mock.Add(&mock.Mock{
 		StatusCode: 202,
 	})
@@ -3803,9 +3809,13 @@ func TestMockStatusCode202(t *testing.T) {
 	assert.EqualValues(t, m.Body, "")
 	assert.Nil(t, err)
 	assert.Nil(t, m.Err)
+
+	mock.StopTestServer()
 }
 
 func TestMockErr(t *testing.T) {
+	mock.StartTestServer()
+
 	mock.Add(&mock.Mock{
 		Err: errors.New("Has been an error in TestMockErr"),
 	})
@@ -3819,9 +3829,13 @@ func TestMockErr(t *testing.T) {
 	assert.EqualValues(t, m.Body, "")
 	assert.EqualValues(t, code, 0)
 	assert.EqualValues(t, m.StatusCode, 0)
+
+	mock.StopTestServer()
 }
 
 func TestMockFlush(t *testing.T) {
+	mock.StartTestServer()
+
 	mock.Add(&mock.Mock{
 		StatusCode: 202,
 	})
@@ -3832,7 +3846,9 @@ func TestMockFlush(t *testing.T) {
 	code, _, err := sendMailExample()
 
 	assert.EqualValues(t, m1.StatusCode, 202)
-	assert.EqualValues(t, code, 400)
+	assert.EqualValues(t, code, 401)
 	assert.Nil(t, m2)
 	assert.Nil(t, err)
+
+	mock.StopTestServer()
 }

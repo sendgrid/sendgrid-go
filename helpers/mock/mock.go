@@ -9,7 +9,10 @@ type Mock struct {
 	Err        error
 }
 
-var mock *Mock
+var (
+	mock     *Mock
+	isMocked bool
+)
 
 // Add - add mock method
 func Add(m *Mock) {
@@ -24,6 +27,21 @@ func Flush() {
 // Get - Get mock method
 func Get() *Mock {
 	return mock
+}
+
+// StartTestServer - start mock server
+func StartTestServer() {
+	isMocked = true
+}
+
+// StopTestServer - start mock server
+func StopTestServer() {
+	isMocked = false
+}
+
+// IsMocked - return true if the mocks server was started
+func IsMocked() bool {
+	return isMocked
 }
 
 // Request - return mock sengrid response and error

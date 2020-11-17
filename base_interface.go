@@ -71,7 +71,8 @@ func API(request rest.Request) (*rest.Response, error) {
 
 // MakeRequest attempts a Twilio SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
-	if mock.Get() != nil {
+
+	if mock.IsMocked() && mock.Get() != nil {
 		return mock.Request()
 	}
 
