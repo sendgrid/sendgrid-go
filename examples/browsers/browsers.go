@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"log"
 	"os"
+
+	sendgrid "github.com/sendgrid/sendgrid-go"
 )
 
 // Retrieveemailstatisticsbybrowser : Retrieve email statistics by browser.
 // GET /browsers/stats
 func Retrieveemailstatisticsbybrowser() {
-	apiKey := os.Getenv("YOUR_SENDGRID_APIKEY")
+	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/browsers/stats", host)
 	request.Method = "GET"
