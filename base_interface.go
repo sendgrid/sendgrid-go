@@ -25,6 +25,16 @@ type options struct {
 	Subuser  string
 }
 
+// SendGrid is a interface of diferents client type
+type SendGrid interface {
+	Send(email *mail.SGMailV3) (*rest.Response, error)
+}
+
+// ClientMock for integration test
+type ClientMock struct {
+	rest.Request
+}
+
 // Client is the Twilio SendGrid Go client
 type Client struct {
 	rest.Request
@@ -57,6 +67,15 @@ func requestNew(options options) rest.Request {
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
 	return MakeRequest(cl.Request)
+}
+
+// Send is a mocked to send mail
+func (clm *ClientMock) Send(email *mail.SGMailV3) (*rest.Response, error) {
+	if mock.IsMocked() && mock.Get() != nil {
+		return mock.Request()
+	}
+
+	return nil, errors.New("The Mock has not been setting")
 }
 
 // DefaultClient is used if no custom HTTP client is defined

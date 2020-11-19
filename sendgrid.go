@@ -42,7 +42,7 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 }
 
 // NewSendClient constructs a new Twilio SendGrid client given an API key
-func NewSendClient(key string) *Client {
+func NewSendClient(key string) SendGrid {
 	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
 	return &Client{request}
@@ -50,8 +50,15 @@ func NewSendClient(key string) *Client {
 
 // GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
 // @return [Client]
-func NewSendClientSubuser(key, subuser string) *Client {
+func NewSendClientSubuser(key, subuser string) SendGrid {
 	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
 	request.Method = "POST"
 	return &Client{request}
+}
+
+// NewSendClientMock constructs a new mock client
+func NewSendClientMock(key string) SendGrid {
+	request := GetRequest(key, "/v3/mail/send", "")
+	request.Method = "POST"
+	return &ClientMock{request}
 }

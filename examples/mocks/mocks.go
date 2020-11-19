@@ -12,8 +12,8 @@ import (
 
 func main() {
 
-	// Send Mail
-	sendMail()
+	sendMail()       // Send Mail
+	simpleSendMail() // Response Error
 
 	// start mocks server
 	mock.StartTestServer()
@@ -23,13 +23,15 @@ func main() {
 		StatusCode: 400,
 		Body:       `{ "errors":[{ "message":"Example error.", "field":"example field" }] }`,
 	})
-	sendMail() // Response with mock data
+	sendMail()       // Response with mock data
+	simpleSendMail() // Response with mock data
 
 	// add mock value
 	mock.Add(&mock.Mock{
 		StatusCode: 200,
 	})
-	sendMail() // Response with mock data
+	sendMail()       // Response with mock data
+	simpleSendMail() // Response with mock data
 
 	// add mock value
 	mock.Add(&mock.Mock{
@@ -39,16 +41,18 @@ func main() {
 	// stop mocks server
 	mock.StopTestServer()
 
-	sendMail() // Send Mail
-
+	sendMail()       // Send Mail
+	simpleSendMail() // Response Error
 	// start mocks server
 	mock.StartTestServer()
 
-	sendMail() // Response with mock data
+	sendMail()       // Response with mock data
+	simpleSendMail() // Response with mock data
 
 	// clear mock
 	mock.Flush()
-	sendMail() // Send Mail
+	sendMail()       // Send Mail
+	simpleSendMail() // Response Error
 
 	// stop mocks server
 	mock.StopTestServer()
@@ -90,4 +94,28 @@ func sendMail() {
 	fmt.Println(response.Headers)
 	fmt.Println("________________________________")
 	fmt.Println()
+}
+
+func simpleSendMail() {
+	from := mail.NewEmail("Example User", "test@example.com")
+	subject := "Sending with Twilio SendGrid is Fun"
+	to := mail.NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClientMock(os.Getenv("SENDGRID_API_KEY"))
+	response, err := client.Send(message)
+	if err != nil {
+		fmt.Println("Simple Sengird Error: ")
+		fmt.Println(err)
+		fmt.Println("________________________________")
+		fmt.Println()
+	} else {
+		fmt.Println("Simple Sengird Response: ")
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+		fmt.Println("________________________________")
+		fmt.Println()
+	}
 }
