@@ -63,14 +63,14 @@ func sendMail() {
 	m := mail.NewV3Mail()
 	content := mail.NewContent("text/html", "<h1>Hello world</h1>This is an example")
 
-	from := mail.NewEmail("Nahuel", "ncostamagna@hotmail.com.ar")
+	from := mail.NewEmail("envalidMail", "invalidMail@mail.com")
 	m.SetFrom(from)
 
 	m.AddContent(content)
 
 	personalization := mail.NewPersonalization()
 
-	personalization.AddTos(mail.NewEmail("Nahuel", "nlcostamagna@gmail.com"))
+	personalization.AddTos(mail.NewEmail("envalidMail", "invalidMail@mail.com"))
 	personalization.Subject = "Example"
 
 	m.AddPersonalizations(personalization)
