@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-11-18] Version 3.7.2
+--------------------------
+**Library - Docs**
+- [PR #281](https://github.com/sendgrid/sendgrid-go/pull/281): Email activity API Documentation. Thanks to [@dhoeric](https://github.com/dhoeric)!
+
+
 [2020-11-05] Version 3.7.1
 --------------------------
 **Library - Test**
