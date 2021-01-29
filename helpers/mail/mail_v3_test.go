@@ -455,6 +455,27 @@ func TestV3MailSettingsSetBypassListManagement(t *testing.T) {
 	assert.True(t, *m.BypassListManagement.Enable, "BypassListManagement should be enabled")
 }
 
+func TestV3MailSettingsSetBypassSpamManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassSpamManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassSpamManagement, "BypassSpamManagement should not be nil")
+	assert.True(t, *m.BypassSpamManagement.Enable, "BypassSpamManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassBounceManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassBounceManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassBounceManagement, "BypassBounceManagement should not be nil")
+	assert.True(t, *m.BypassBounceManagement.Enable, "BypassBounceManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassUnsubscribeManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassUnsubscribeManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassUnsubscribeManagement, "BypassUnsubscribeManagement should not be nil")
+	assert.True(t, *m.BypassUnsubscribeManagement.Enable, "BypassUnsubscribeManagement should be enabled")
+}
+
 func TestV3MailSettingsSetSandboxMode(t *testing.T) {
 	m := NewMailSettings().SetSandboxMode(NewSetting(true))
 
