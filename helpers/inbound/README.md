@@ -24,9 +24,9 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
     
 	fmt.Print(parsedEmail.Headers["From"])
 	
-    for filename, contents := range parsedEmail.Attachments {
+    for _, file := range parsedEmail.Attachments {
         // Do something with an attachment
-        handleAttachment(filename, contents)
+        handleAttachment(file.Filename, file.Content)
     }
     
     for section, body := range parsedEmail.Body {
