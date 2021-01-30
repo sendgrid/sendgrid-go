@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/v3"
 )
 
 // CreateSubuser : Creates a Subuser

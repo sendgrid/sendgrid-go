@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/sendgrid/rest"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/sendgrid/sendgrid-go/v3/helpers/mail"
 	"github.com/stretchr/testify/assert"
 )
 
