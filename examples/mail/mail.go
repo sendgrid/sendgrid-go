@@ -44,7 +44,7 @@ func ValidatebatchID() {
 
 // v3MailSend : v3 Mail Send
 // POST /mail/send
-// This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/mail/README.md).
+// This endpoint has a helper, check it out [here](https://github.com/sendgrid/sendgrid-go/blob/HEAD/helpers/mail/README.md).
 func v3MailSend() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
@@ -141,6 +141,10 @@ func v3MailSend() {
       "substitutions": {
         "id": "substitutions", 
         "type": "object"
+      },
+      "from": {
+        "email": "bob.doe@example.com",
+        "name": "Bob Doe"
       }, 
       "to": [
         {

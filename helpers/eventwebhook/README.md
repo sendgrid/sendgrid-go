@@ -6,14 +6,14 @@
 
 # Quick Start
 
-Run the [example](https://github.com/sendgrid/sendgrid-go/blob/master/examples/eventwebhook/eventwebhook.go) (make sure you have set your environment variable to include your SENDGRID_API_KEY).
+Run the [example](../../examples/eventwebhook/eventwebhook.go) (make sure you have set your environment variable to include your SENDGRID_API_KEY).
 ```bash
 go run examples/eventwebhook/eventwebhook.go
 ```
 
 ## Usage
 
-- See the [example](https://github.com/sendgrid/sendgrid-go/blob/master/examples/eventwebhook/eventwebhook.go) for a complete working example.
+- See the [example](../../examples/eventwebhook/eventwebhook.go) for a complete working example.
 - [Documentation](https://sendgrid.com/docs/for-developers/tracking-events/)
 
 ## Test

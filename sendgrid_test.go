@@ -18,8 +18,8 @@ import (
 )
 
 func TestLicenseYear(t *testing.T) {
-	d, err := ioutil.ReadFile("LICENSE.md")
-	assert.Nil(t, err, "Cannot read the LICENSE.md file")
+	d, err := ioutil.ReadFile("LICENSE")
+	assert.Nil(t, err, "Cannot read the LICENSE file")
 	l := fmt.Sprintf("Copyright (C) %v, Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
 }
@@ -27,7 +27,6 @@ func TestLicenseYear(t *testing.T) {
 func TestRepoFiles(t *testing.T) {
 	fs := []string{
 		"Dockerfile",
-		"docker-compose.yml",
 		".env_sample",
 		".gitignore",
 		".travis.yml",
@@ -36,18 +35,15 @@ func TestRepoFiles(t *testing.T) {
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",
 		"ISSUE_TEMPLATE.md",
-		"LICENSE.md",
+		"LICENSE",
 		"PULL_REQUEST_TEMPLATE.md",
 		"README.md",
 		"TROUBLESHOOTING.md",
 		"USAGE.md",
 	}
 	for _, f := range fs {
-		if _, err := os.Stat(f); os.IsNotExist(err) {
-			assert.True(t, strings.HasPrefix(strings.ToLower(f), "docker"), fmt.Sprintf("Repo file does not exist: %v", f))
-			_, err := os.Stat("docker/" + f)
-			assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo files do not exist: %[1]v or docker/%[1]v", f))
-		}
+		_, err := os.Stat(f)
+		assert.False(t, os.IsNotExist(err), fmt.Sprintf("Repo file does not exist: %[1]v", f))
 	}
 }
 

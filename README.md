@@ -1,20 +1,22 @@
-![Twilio SendGrid Logo](https://github.com/sendgrid/sendgrid-python/raw/master/twilio_sendgrid_logo.png)
+![Twilio SendGrid Logo](twilio_sendgrid_logo.png)
 
-[![BuildStatus](https://travis-ci.org/sendgrid/sendgrid-go.svg?branch=master)](https://travis-ci.org/sendgrid/sendgrid-go)
+[![BuildStatus](https://travis-ci.com/sendgrid/sendgrid-go.svg?branch=main)](https://travis-ci.com/sendgrid/sendgrid-go)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/go)](https://dx.sendgrid.com/newsletter/go)
 [![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://godoc.org/github.com/sendgrid/sendgrid-go)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/sendgrid-go.svg)](https://github.com/sendgrid/sendgrid-go/graphs/contributors)
 [![Open Source Helpers](https://www.codetriage.com/sendgrid/sendgrid-go/badges/users.svg)](https://www.codetriage.com/sendgrid/sendgrid-go)
 
 **NEW:** Subscribe to email [notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
+**The default branch name for this repository has been changed to `main` as of 07/27/2020.**
+
 **This library allows you to quickly and easily use the Twilio SendGrid Web API v3 via Go.**
 
 Version 3.X.X of this library provides full support for all Twilio SendGrid [Web API v3](https://sendgrid.com/docs/API_Reference/Web_API_v3/index.html) endpoints, including the new [v3 /mail/send](https://sendgrid.com/blog/introducing-v3mailsend-sendgrids-new-mail-endpoint).
 
-This library represents the beginning of a new path for Twilio SendGrid. We want this library to be community driven and Twilio SendGrid led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) or simply upvote or comment on existing issues or pull requests.
+This library represents the beginning of a new path for Twilio SendGrid. We want this library to be community driven and Twilio SendGrid led. We need your help to realize this goal. To help make sure we are building the right things in the right order, we ask that you create [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](CONTRIBUTING.md) or simply upvote or comment on existing issues or pull requests.
 
 Please browse the rest of this README for further detail.
 
@@ -28,7 +30,6 @@ We appreciate your continued support, thank you!
 * [Usage](#usage)
 * [Use Cases](#use-cases)
 * [Announcements](#announcements)
-* [Roadmap](#roadmap)
 * [How to Contribute](#contribute)
 * [Troubleshooting](#troubleshooting)
 * [About](#about)
@@ -83,7 +84,7 @@ source ./sendgrid.env
 
 ## Hello Email
 
-The following is the minimum needed code to send an email with the [/mail/send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail) ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L32) is a full example):
+The following is the minimum needed code to send an email with the [/mail/send Helper](helpers/mail) ([here](examples/helpers/mail/example.go#L32) is a full example):
 
 ### With Mail Helper Class
 
@@ -118,11 +119,11 @@ func main() {
 }
 ```
 
-The `NewEmail` constructor creates a [personalization object](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html) for you. [Here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/helpers/mail/example.go#L28) is an example of how to add to it.
+The `NewEmail` constructor creates a [personalization object](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html) for you. [Here](examples/helpers/mail/example.go#L28) is an example of how to add to it.
 
 ### Without Mail Helper Class
 
-The following is the minimum needed code to send an email without the /mail/send Helper ([here](https://github.com/sendgrid/sendgrid-go/blob/master/examples/mail/mail.go#L47) is a full example):
+The following is the minimum needed code to send an email without the /mail/send Helper ([here](examples/mail/mail.go#L47) is a full example):
 
 ```go
 package main
@@ -200,51 +201,45 @@ func main() {
 <a name="inbound"></a>
 # Processing Inbound Email
 
-Please see [our helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/inbound) for utilizing our Inbound Parse webhook.
+Please see [our helper](helpers/inbound) for utilizing our Inbound Parse webhook.
 
 <a name="usage"></a>
 # Usage
 
 - [Twilio SendGrid Docs](https://sendgrid.com/docs/API_Reference/index.html)
-- [Library Usage Docs](https://github.com/sendgrid/sendgrid-go/tree/master/USAGE.md)
-- [Example Code](https://github.com/sendgrid/sendgrid-go/tree/master/examples)
+- [Library Usage Docs](USAGE.md)
+- [Example Code](examples)
 - [How-to: Migration from v2 to v3](https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/how_to_migrate_from_v2_to_v3_mail_send.html)
-- [v3 Web API Mail Send Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail/README.md)
+- [v3 Web API Mail Send Helper](helpers/mail/README.md)
 
 <a name="use-cases"></a>
 # Use Cases
 
-[Examples of common API use cases](https://github.com/sendgrid/sendgrid-go/blob/master/use-cases/README.md), such as how to send an email with a transactional template.
+[Examples of common API use cases](use-cases/README.md), such as how to send an email with a transactional template.
 
 <a name="announcements"></a>
 # Announcements
 
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
 
-All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/sendgrid-go/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
-
-<a name="roadmap"></a>
-# Roadmap
-
-If you are interested in the future direction of this project, please take a look at our open [issues](https://github.com/sendgrid/sendgrid-go/issues) and [pull requests](https://github.com/sendgrid/sendgrid-go/pulls). We would love to hear your feedback.
+All updates to this library are documented in our [CHANGELOG](CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
 
 <a name="contribute"></a>
 # How to Contribute
 
-We encourage contribution to our libraries (you might even score some nifty swag), please see our [CONTRIBUTING](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md) guide for details.
+We encourage contribution to our libraries (you might even score some nifty swag), please see our [CONTRIBUTING](CONTRIBUTING.md) guide for details.
 
 Quick links:
 
-- [Feature Request](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#feature-request)
-- [Bug Reports](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#submit-a-bug-report)
-- [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#cla)
-- [Improvements to the Codebase](https://github.com/sendgrid/sendgrid-go/tree/master/CONTRIBUTING.md#improvements-to-the-codebase)
-- [Review Pull Requests](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md#code-reviews)
+- [Feature Request](CONTRIBUTING.md#feature-request)
+- [Bug Reports](CONTRIBUTING.md#submit-a-bug-report)
+- [Improvements to the Codebase](CONTRIBUTING.md#improvements-to-the-codebase)
+- [Review Pull Requests](CONTRIBUTING.md#code-reviews)
 
 <a name="troubleshooting"></a>
 # Troubleshooting
 
-Please see our [troubleshooting guide](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) for common library issues.
+Please see our [troubleshooting guide](TROUBLESHOOTING.md) for common library issues.
 
 <a name="about"></a>
 # About
@@ -256,4 +251,4 @@ If you need help installing or using the library, please check the [Twilio SendG
 If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 # License
-[The MIT License (MIT)](LICENSE.md)
+[The MIT License (MIT)](LICENSE)
