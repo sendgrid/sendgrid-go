@@ -1,4 +1,4 @@
-**This helper is a stand alone module to help get you started consuming and processing Inbound Parse data.**
+**This helper is a stand-alone module to help get you started consuming and processing Inbound Parse data.**
 
 ## Table of Contents
 
@@ -12,30 +12,33 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net/http"
+	"fmt"
+	"log"
+	"net/http"
 
-    "github.com/sendgrid/sendgrid-go/helpers/inbound"
+	"github.com/sendgrid/sendgrid-go/helpers/inbound"
 )
 
 func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	parsedEmail := Parse(request)
+	parsedEmail, err := Parse(request)
+	if err != nil {
+		log.Fatal(err)
+	}
     
 	fmt.Print(parsedEmail.Headers["From"])
 	
-    for filename, contents := range parsedEmail.Attachments {
-        // Do something with an attachment
-        handleAttachment(filename, contents)
-    }
+	for filename, contents := range parsedEmail.Attachments {
+		// Do something with an attachment
+		handleAttachment(filename, contents)
+	}
     
-    for section, body := range parsedEmail.Body {
-        // Do something with the email body
-        handleEmail(body)
-    }
+	for section, body := range parsedEmail.Body {
+		// Do something with the email body
+		handleEmail(body)
+	}
     
-    // Twilio SendGrid needs a 200 OK response to stop POSTing
-    response.WriteHeader(http.StatusOK)
+	// Twilio SendGrid needs a 200 OK response to stop POSTing
+	response.WriteHeader(http.StatusOK)
 }
 
 func main() {
@@ -51,11 +54,11 @@ func main() {
 
 Tests are located in the `helpers/inbound` folder:
 
-- [inbound_test.go](https://github.com/sendgrid/sendgrid-go/blob/master/helpers/inbound/inbound_test.go)
+- [inbound_test.go](inbound_test.go)
 
-Learn about testing this code [here](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md#testing).
+Learn about testing this code [here](../../CONTRIBUTING.md#testing).
 
 <a name="contributing"></a>
 # Contributing
 
-If you would like to contribute to this project, please see our [contributing guide](https://github.com/sendgrid/sendgrid-go/blob/master/CONTRIBUTING.md). Thanks!
+If you would like to contribute to this project, please see our [contributing guide](../../CONTRIBUTING.md). Thanks!

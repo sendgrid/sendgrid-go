@@ -1,5 +1,5 @@
 # Transactional Templates
-For this example, we assume you have created a [dynamic transactional template](https://sendgrid.com/docs/User_Guide/Transactional_Templates/how_to_send_an_email_with_transactional_templates.html). Following is the dynamic template data we used for testing.
+For this example, we assume you have created a [dynamic transactional template](https://sendgrid.com/docs/ui/sending-email/how-to-send-an-email-with-dynamic-transactional-templates/) in the UI or via the API. Following is the dynamic template data we used for testing.
 
 Template ID (replace with your own):
 
@@ -7,9 +7,9 @@ Template ID (replace with your own):
 d-c6dcf1f72bdd4beeb15a9aa6c72fcd2c
 ```
 
-[Template Body](https://github.com/sendgrid/email-templates/blob/master/dynamic-templates/receipt/receipt.html)
+[Template Body](https://github.com/sendgrid/email-templates/blob/HEAD/dynamic-templates/receipt/receipt.html)
 
-[Template Data](https://github.com/sendgrid/email-templates/blob/master/dynamic-templates/receipt/receipt_data.json)
+[Template Data](https://github.com/sendgrid/email-templates/blob/HEAD/dynamic-templates/receipt/receipt_data.json)
 
 * [With Mail Helper Class](transactional-templates-with-mailer-helper.md)
 * [Without Mail Helper Class](transactional-templates-without-mailer-helper.md)

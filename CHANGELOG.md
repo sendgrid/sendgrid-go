@@ -1,6 +1,63 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2020-11-18] Version 3.7.2
+--------------------------
+**Library - Docs**
+- [PR #281](https://github.com/sendgrid/sendgrid-go/pull/281): Email activity API Documentation. Thanks to [@dhoeric](https://github.com/dhoeric)!
+
+
+[2020-11-05] Version 3.7.1
+--------------------------
+**Library - Test**
+- [PR #411](https://github.com/sendgrid/sendgrid-go/pull/411): ensure source files are properly formatted. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Fix**
+- [PR #415](https://github.com/sendgrid/sendgrid-go/pull/415): Rename LICENSE.md to LICENSE. Thanks to [@coolaj86](https://github.com/coolaj86)!
+
+**Library - Docs**
+- [PR #282](https://github.com/sendgrid/sendgrid-go/pull/282): Update examples using inline attachment with ContentID. Thanks to [@anchepiece](https://github.com/anchepiece)!
+
+
+[2020-10-14] Version 3.7.0
+--------------------------
+**Library - Feature**
+- [PR #410](https://github.com/sendgrid/sendgrid-go/pull/410): allow personalization of From name and email for each recipient. Thanks to [@JenniferMah](https://github.com/JenniferMah)!
+
+**Library - Fix**
+- [PR #272](https://github.com/sendgrid/sendgrid-go/pull/272): Accept empty html on Email helper NewSingleEmail(). Thanks to [@tjun](https://github.com/tjun)!
+
+
+[2020-09-28] Version 3.6.4
+--------------------------
+**Library - Fix**
+- [PR #408](https://github.com/sendgrid/sendgrid-go/pull/408): don't wrap names in double-quotes. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+
+[2020-09-02] Version 3.6.3
+--------------------------
+**Library - Docs**
+- [PR #287](https://github.com/sendgrid/sendgrid-go/pull/287): Correct *.md files using Grammarly. Thanks to [@vkartik97](https://github.com/vkartik97)!
+
+
+[2020-08-19] Version 3.6.2
+--------------------------
+**Library - Chore**
+- [PR #402](https://github.com/sendgrid/sendgrid-go/pull/402): update GitHub branch references to use HEAD. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+
+
+[2020-08-05] Version 3.6.1
+--------------------------
+**Library - Docs**
+- [PR #329](https://github.com/sendgrid/sendgrid-go/pull/329): Remove references to legacy "Whitelabel" Verbiage. Thanks to [@crweiner](https://github.com/crweiner)!
+
+**Library - Fix**
+- [PR #401](https://github.com/sendgrid/sendgrid-go/pull/401): use the last version of testify that works for older go versions. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Chore**
+- [PR #400](https://github.com/sendgrid/sendgrid-go/pull/400): migrate to new default sendgrid-oai branch. Thanks to [@eshanholtz](https://github.com/eshanholtz)!
+
+
 [2020-05-14] Version 3.6.0
 --------------------------
 **Library - Feature**
@@ -135,7 +192,7 @@ All notable changes to this project will be documented in this file.
 ## [3.3.0] - 2016-10-10
 ### Added
 - [Pull #92](https://github.com/sendgrid/sendgrid-go/pull/92): Inbound Parse Webhook support
-- Checkout the [README](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/inbound) for details.
+- Checkout the [README](helpers/inbound) for details.
 
 ## [3.2.3] - 2016-10-10
 ### Added
@@ -150,24 +207,24 @@ All notable changes to this project will be documented in this file.
 ## [3.2.1] - 2016-08-24
 ### Added
 - Table of Contents in the README
-- Added a [USE_CASES.md](https://github.com/sendgrid/sendgrid-go/blob/master/USE_CASES.md) section, with the first use case example for transactional templates
+- Added a [USE_CASES.md](USE_CASES.md) section, with the first use case example for transactional templates
 
 ## [3.2.0] - 2016-08-17
 ### Added
 - Merged pull request: [make contents var args in NewV3MailInit](https://github.com/sendgrid/sendgrid-go/pull/75)
-- The `NewV3MailInit` [Mail Helper](https://github.com/sendgrid/sendgrid-go/tree/master/helpers/mail) constructor can now take in multiple content objects.
+- The `NewV3MailInit` [Mail Helper](helpers/mail) constructor can now take in multiple content objects.
 - Thanks to [Adrien Delorme](https://github.com/azr) for the pull request!
 
 ## [3.1.0] - 2016-07-28
 - Dependency update to v2.2.0 of [sendGrid-rest](https://github.com/sendgrid/rest/releases/tag/v2.2.0)
 - Pull [#9](https://github.com/sendgrid/rest/pull/9): Allow for setting a custom HTTP client
-- [Here](https://github.com/sendgrid/rest/blob/master/rest_test.go#L127) is an example of usage
+- [Here](https://github.com/sendgrid/rest/blob/HEAD/rest_test.go#L127) is an example of usage
 - This enables usage of the [sendgrid-go library](https://github.com/sendgrid/sendgrid-go) on [Google App Engine (GAE)](https://cloud.google.com/appengine/)
 - Special thanks to [Chris Broadfoot](https://github.com/broady) and [Sridhar Venkatakrishnan](https://github.com/sridharv) for providing code and feedback!
 
 ## [3.0.6] - 2016-07-26 ##
 ### Added
-- [Troubleshooting](https://github.com/sendgrid/sendgrid-go/blob/master/TROUBLESHOOTING.md) section
+- [Troubleshooting](TROUBLESHOOTING.md) section
 
 ## [3.0.5] - 2016-07-20
 ### Added

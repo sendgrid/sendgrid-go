@@ -54,6 +54,8 @@ func kitchenSink() []byte {
 		mail.NewEmail("Example User", "test6@example.com"),
 	}
 	p.AddBCCs(bccs...)
+	from := mail.NewEmail("Example Sender", "test7@example.com")
+	p.AddFrom(from)
 	p.Subject = "Hello World from the Personalized SendGrid Go Library"
 	p.SetHeader("X-Test", "test")
 	p.SetHeader("X-Mock", "true")
@@ -101,7 +103,6 @@ func kitchenSink() []byte {
 	a.SetType("application/pdf")
 	a.SetFilename("balance_001.pdf")
 	a.SetDisposition("attachment")
-	a.SetContentID("Balance Sheet")
 	m.AddAttachment(a)
 
 	a2 := mail.NewAttachment()
@@ -109,6 +110,7 @@ func kitchenSink() []byte {
 	a2.SetType("image/png")
 	a2.SetFilename("banner.png")
 	a2.SetDisposition("inline")
+	// Content-ID header is included when the attachment disposition is set to "inline"
 	a2.SetContentID("Banner")
 	m.AddAttachment(a2)
 

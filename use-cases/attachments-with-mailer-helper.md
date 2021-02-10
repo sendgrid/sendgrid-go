@@ -43,7 +43,6 @@ func main() {
   a_txt.SetType("text/plain")
   a_txt.SetFilename("testing.txt")
   a_txt.SetDisposition("attachment")
-  a_txt.SetContentID("Test Document")
   
   // read/attach .pdf file
   a_pdf := mail.NewAttachment()
@@ -56,9 +55,8 @@ func main() {
   a_pdf.SetType("application/pdf")
   a_pdf.SetFilename("testing.pdf")
   a_pdf.SetDisposition("attachment")
-  a_pdf.SetContentID("Test Attachment")
 
-  // read/attach .jpg file
+  // read/attach inline .jpg file
   a_jpg := mail.NewAttachment()
   dat, err = ioutil.ReadFile("testing.jpg")
   if err != nil {
@@ -68,7 +66,7 @@ func main() {
   a_jpg.SetContent(encoded)
   a_jpg.SetType("image/jpeg")
   a_jpg.SetFilename("testing.jpg")
-  a_jpg.SetDisposition("attachment")
+  a_jpg.SetDisposition("inline")
   a_jpg.SetContentID("Test Attachment")
   
   // add `a_txt`, `a_pdf` and `a_jpg` to `m`

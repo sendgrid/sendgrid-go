@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/mail"
-	"strings"
 )
 
 // SGMailV3 contains mail struct
@@ -31,6 +30,7 @@ type SGMailV3 struct {
 // Personalization holds mail body struct
 type Personalization struct {
 	To                  []*Email               `json:"to,omitempty"`
+	From                *Email                 `json:"from,omitempty"`
 	CC                  []*Email               `json:"cc,omitempty"`
 	BCC                 []*Email               `json:"bcc,omitempty"`
 	Subject             string                 `json:"subject,omitempty"`
@@ -72,11 +72,14 @@ type Asm struct {
 
 // MailSettings defines mail and spamCheck settings
 type MailSettings struct {
-	BCC                  *BccSetting       `json:"bcc,omitempty"`
-	BypassListManagement *Setting          `json:"bypass_list_management,omitempty"`
-	Footer               *FooterSetting    `json:"footer,omitempty"`
-	SandboxMode          *Setting          `json:"sandbox_mode,omitempty"`
-	SpamCheckSetting     *SpamCheckSetting `json:"spam_check,omitempty"`
+	BCC                         *BccSetting       `json:"bcc,omitempty"`
+	BypassListManagement        *Setting          `json:"bypass_list_management,omitempty"`
+	BypassSpamManagement        *Setting          `json:"bypass_spam_management,omitempty"`
+	BypassBounceManagement      *Setting          `json:"bypass_bounce_management,omitempty"`
+	BypassUnsubscribeManagement *Setting          `json:"bypass_unsubscribe_management,omitempty"`
+	Footer                      *FooterSetting    `json:"footer,omitempty"`
+	SandboxMode                 *Setting          `json:"sandbox_mode,omitempty"`
+	SpamCheckSetting            *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
 // TrackingSettings holds tracking settings and mail settings
@@ -314,6 +317,11 @@ func (p *Personalization) AddTos(to ...*Email) {
 	p.To = append(p.To, to...)
 }
 
+//AddFrom ...
+func (p *Personalization) AddFrom(from *Email) {
+	p.From = from
+}
+
 // AddCCs ...
 func (p *Personalization) AddCCs(cc ...*Email) {
 	p.CC = append(p.CC, cc...)
@@ -415,6 +423,24 @@ func (m *MailSettings) SetBCC(bcc *BccSetting) *MailSettings {
 // SetBypassListManagement ...
 func (m *MailSettings) SetBypassListManagement(bypassListManagement *Setting) *MailSettings {
 	m.BypassListManagement = bypassListManagement
+	return m
+}
+
+// SetBypassSpamManagement ...
+func (m *MailSettings) SetBypassSpamManagement(bypassSpamManagement *Setting) *MailSettings {
+	m.BypassSpamManagement = bypassSpamManagement
+	return m
+}
+
+// SetBypassBounceManagement ...
+func (m *MailSettings) SetBypassBounceManagement(bypassBounceManagement *Setting) *MailSettings {
+	m.BypassBounceManagement = bypassBounceManagement
+	return m
+}
+
+// SetBypassUnsubscribeManagement ...
+func (m *MailSettings) SetBypassUnsubscribeManagement(bypassUnsubscribeManagement *Setting) *MailSettings {
+	m.BypassUnsubscribeManagement = bypassUnsubscribeManagement
 	return m
 }
 
@@ -604,35 +630,8 @@ func NewSetting(enable bool) *Setting {
 	return &Setting{Enable: &setEnable}
 }
 
-// EscapeName adds quotes around the name to prevent errors from RFC5322 special
-// characters:
-//
-//   ()<>[]:;@\,."
-//
-// To preserve backwards compatibility for people already quoting their name
-// inputs, as well as for inputs which do not strictly require quoting, the
-// name is returned unmodified if those conditions are met. Otherwise, existing
-// intrastring backslashes and double quotes are escaped, and the entire input
-// is surrounded with double quotes.
-func EscapeName(name string) string {
-	if len(name) > 1 && name[0] == '"' && name[len(name)-1] == '"' {
-		return name
-	}
-	if strings.IndexAny(name, "()<>[]:;@\\,.\"") == -1 {
-		return name
-	}
-
-	// This has to come first so we don't triple backslash after the next step
-	name = strings.Replace(name, `\`, `\\`, -1)
-	name = strings.Replace(name, `"`, `\"`, -1)
-	name = `"` + name + `"`
-
-	return name
-}
-
 // NewEmail ...
 func NewEmail(name string, address string) *Email {
-	name = EscapeName(name)
 	return &Email{
 		Name:    name,
 		Address: address,
@@ -641,9 +640,14 @@ func NewEmail(name string, address string) *Email {
 
 // NewSingleEmail ...
 func NewSingleEmail(from *Email, subject string, to *Email, plainTextContent string, htmlContent string) *SGMailV3 {
-	plainText := NewContent("text/plain", plainTextContent)
-	html := NewContent("text/html", htmlContent)
-	return NewV3MailInit(from, subject, to, plainText, html)
+	var contents []*Content
+	if plainTextContent != "" {
+		contents = append(contents, NewContent("text/plain", plainTextContent))
+	}
+	if htmlContent != "" {
+		contents = append(contents, NewContent("text/html", htmlContent))
+	}
+	return NewV3MailInit(from, subject, to, contents...)
 }
 
 // NewSingleEmailPlanText is used to build *SGMailV3 object having only 'plain-text' as email content.
