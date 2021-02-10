@@ -650,8 +650,8 @@ func NewSingleEmail(from *Email, subject string, to *Email, plainTextContent str
 	return NewV3MailInit(from, subject, to, contents...)
 }
 
-// NewSingleEmailPlanText is used to build *SGMailV3 object having only 'plain-text' as email content.
-func NewSingleEmailPlanText(from *Email, subject string, to *Email, plainTextContent string) *SGMailV3 {
+// NewSingleEmailPlainText is used to build *SGMailV3 object having only 'plain-text' as email content.
+func NewSingleEmailPlainText(from *Email, subject string, to *Email, plainTextContent string) *SGMailV3 {
 	plainText := NewContent("text/plain", plainTextContent)
 	return NewV3MailInit(from, subject, to, plainText)
 }

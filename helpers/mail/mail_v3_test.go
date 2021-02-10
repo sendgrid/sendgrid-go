@@ -742,13 +742,13 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	}
 }
 
-func TestV3NewSingleEmailPlanText(t *testing.T) {
+func TestV3NewSingleEmailPlainText(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
 	subject := "Sending with SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 
-	message := NewSingleEmailPlanText(from, subject, to, plainTextContent)
+	message := NewSingleEmailPlainText(from, subject, to, plainTextContent)
 
 	m, _ := json.Marshal(message)
 	fmt.Println(string(m))
