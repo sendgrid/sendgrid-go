@@ -3,7 +3,6 @@ language: go
 env:
   - version=1.14
   - version=1.15
-  - version=latest
 
 script:
   - make test-docker
