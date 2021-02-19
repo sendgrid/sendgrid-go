@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	sendgrid "github.com/sendgrid/sendgrid-go"
 )
 
 // Createatransactionaltemplate : Create a transactional template.
@@ -26,13 +28,16 @@ func Createatransactionaltemplate() {
 	}
 }
 
-// Retrievealltransactionaltemplates : Retrieve all transactional templates.
+// Retrievealltransactionaltemplates : Retrieve all transactional templates (legacy & dynamic).
 // GET /templates
 func Retrievealltransactionaltemplates() {
 	apiKey := os.Getenv("SENDGRID_API_KEY")
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/templates", host)
 	request.Method = "GET"
+	queryParams := make(map[string]string)
+	queryParams["generations"] = "legacy,dynamic"
+	request.QueryParams = queryParams
 	response, err := sendgrid.API(request)
 	if err != nil {
 		log.Println(err)

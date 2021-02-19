@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	sendgrid "github.com/sendgrid/sendgrid-go"
 )
 
 // Retrieveemailstatisticsbybrowser : Retrieve email statistics by browser.

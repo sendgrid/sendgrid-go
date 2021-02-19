@@ -22,7 +22,7 @@ func TestV3NewMail(t *testing.T) {
 
 func TestV3NewMailInit(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Hello World from the SendGrid Go Library"
+	subject := "Hello World from the Twilio SendGrid Go Library"
 	to := NewEmail("Example User", "test@example.com")
 	content := NewContent("text/plain", "some text here")
 	m := NewV3MailInit(from, subject, to, content)
@@ -225,25 +225,25 @@ func TestV3NewPersonalization(t *testing.T) {
 	assert.NotNil(t, p, "NewPersonalization() shouldn't return nil")
 
 	assert.NotNil(t, p.To, "To should't be nil")
-	assert.Equal(t, 0, len(p.To), fmt.Sprintf("Length of %s should be 0", p.To))
+	assert.Equal(t, 0, len(p.To), "Length of p.To should be 0")
 
 	assert.NotNil(t, p.CC, "CC should't be nil")
-	assert.Equal(t, 0, len(p.CC), fmt.Sprintf("Length of %s should be 0", p.CC))
+	assert.Equal(t, 0, len(p.CC), "Length of p.CCs should be 0")
 
 	assert.NotNil(t, p.BCC, "BCC should't be nil")
-	assert.Equal(t, 0, len(p.BCC), fmt.Sprintf("Length of %s should be 0", p.BCC))
+	assert.Equal(t, 0, len(p.BCC), "Length of p.BCC should be 0")
 
 	assert.NotNil(t, p.Headers, "Headers should't be nil")
-	assert.Equal(t, 0, len(p.Headers), fmt.Sprintf("Length of %s should be 0", p.Headers))
+	assert.Equal(t, 0, len(p.Headers), "Length of p.Headers should be 0")
 
 	assert.NotNil(t, p.Substitutions, "Substitutions should't be nil")
-	assert.Equal(t, 0, len(p.Substitutions), fmt.Sprintf("Length of %s should be 0", p.Substitutions))
+	assert.Equal(t, 0, len(p.Substitutions), "Length of p.Substitutions should be 0")
 
 	assert.NotNil(t, p.CustomArgs, "CustomArgs should't be nil")
-	assert.Equal(t, 0, len(p.CustomArgs), fmt.Sprintf("Length of %s should be 0", p.CustomArgs))
+	assert.Equal(t, 0, len(p.CustomArgs), "Length of p.CustomArgs should be 0")
 
 	assert.NotNil(t, p.Categories, "Categories should't be nil")
-	assert.Equal(t, 0, len(p.Categories), fmt.Sprintf("Length of %s should be 0", p.Categories))
+	assert.Equal(t, 0, len(p.Categories), "Length of p.Categories should be 0")
 }
 
 func TestV3PersonalizationAddTos(t *testing.T) {
@@ -256,6 +256,18 @@ func TestV3PersonalizationAddTos(t *testing.T) {
 	p.AddTos(tos...)
 
 	assert.Equal(t, len(tos), len(p.To), fmt.Sprintf("length of To should be %d, got %d", len(tos), len(p.To)))
+}
+
+func TestV3PersonalizationAddFrom(t *testing.T) {
+	address := "test@example.com"
+	name := "Test User"
+	from := NewEmail(name, address)
+
+	p := NewPersonalization()
+	p.AddFrom(from)
+
+	assert.Equal(t, name, p.From.Name, fmt.Sprintf("name should be %s got %s", name, p.From.Name))
+	assert.Equal(t, address, p.From.Address, fmt.Sprintf("address should be %s got %s", address, p.From.Address))
 }
 
 func TestV3PersonalizationAddCCs(t *testing.T) {
@@ -441,6 +453,27 @@ func TestV3MailSettingsSetBypassListManagement(t *testing.T) {
 
 	assert.NotNil(t, m.BypassListManagement, "BypassListManagement should not be nil")
 	assert.True(t, *m.BypassListManagement.Enable, "BypassListManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassSpamManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassSpamManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassSpamManagement, "BypassSpamManagement should not be nil")
+	assert.True(t, *m.BypassSpamManagement.Enable, "BypassSpamManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassBounceManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassBounceManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassBounceManagement, "BypassBounceManagement should not be nil")
+	assert.True(t, *m.BypassBounceManagement.Enable, "BypassBounceManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassUnsubscribeManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassUnsubscribeManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassUnsubscribeManagement, "BypassUnsubscribeManagement should not be nil")
+	assert.True(t, *m.BypassUnsubscribeManagement.Enable, "BypassUnsubscribeManagement should be enabled")
 }
 
 func TestV3MailSettingsSetSandboxMode(t *testing.T) {
@@ -660,15 +693,12 @@ func TestV3NewEmail(t *testing.T) {
 
 func TestV3NewSingleEmail(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 	htmlContent := "<strong>and easy to do anywhere, even with Go</strong>"
 
 	message := NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-
-	m, _ := json.Marshal(message)
-	fmt.Println(string(m))
 
 	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
 	assert.NotNil(t, message.From, "From shouldn't return nil")
@@ -678,7 +708,7 @@ func TestV3NewSingleEmail(t *testing.T) {
 
 func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	from := NewEmail("Example User", "test@example.com")
-	subject := "Sending with SendGrid is Fun"
+	subject := "Sending with Twilio SendGrid is Fun"
 	to := NewEmail("Example User", "test@example.com")
 	plainTextContent := "and easy to do anywhere, even with Go"
 
@@ -687,9 +717,45 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	m, _ := json.Marshal(message)
 	fmt.Println(string(m))
 
+	if message == nil {
+		t.Errorf("NewV3MailInit() shouldn't return nil")
+	}
+
+	if message.From == nil {
+		t.Errorf("From shouldn't be nil")
+	}
+
+	if message.Subject != subject {
+		t.Errorf("Subject should be %s, got %s", subject, message.Subject)
+	}
+
+	if message.Content == nil {
+		t.Errorf("Content shouldn't be nil")
+	}
+
+	if len(message.Content) != 1 {
+		t.Errorf("Content length should be 1, got %d", len(message.Content))
+	}
+
+	if len(message.Content) == 1 && message.Content[0].Type != "text/plain" {
+		t.Errorf("Content type should be 'text/plain', got %s", message.Content[0].Type)
+	}
+}
+
+func TestV3NewSingleEmailPlainText(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Sending with SendGrid is Fun"
+	to := NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+
+	message := NewSingleEmailPlainText(from, subject, to, plainTextContent)
+
+	m, _ := json.Marshal(message)
+	fmt.Println(string(m))
+
 	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
-	assert.NotNil(t, message.From, "From shouldn't be nil")
-	assert.Equal(t, message.Subject, subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
+	assert.NotNil(t, message.From, "From shouldn't return nil")
+	assert.Equal(t, subject, message.Subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
 	assert.NotNil(t, message.Content, "Content shouldn't be nil")
 }
 

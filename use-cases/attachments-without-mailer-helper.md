@@ -38,21 +38,19 @@ func main() {
      "attachments": [
         {
           "content": "SGVsbG8gV29ybGQh", 
-          "content_id": "testing_1", 
           "disposition": "attachment", 
           "filename": "testing.txt", 
           "type": "txt"
         },
         {
           "content": "BASE64 encoded content block here", 
+          "disposition": "inline", 
           "content_id": "testing_2", 
-          "disposition": "attachment", 
           "filename": "testing.jpg", 
           "type": "jpg"
         },
         {
-          "content": "BASE64 encoded content block here", 
-          "content_id": "testing_3", 
+          "content": "BASE64 encoded content block here",
           "disposition": "attachment", 
           "filename": "testing.pdf", 
           "type": "pdf"
