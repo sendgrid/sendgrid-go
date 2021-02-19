@@ -72,11 +72,14 @@ type Asm struct {
 
 // MailSettings defines mail and spamCheck settings
 type MailSettings struct {
-	BCC                  *BccSetting       `json:"bcc,omitempty"`
-	BypassListManagement *Setting          `json:"bypass_list_management,omitempty"`
-	Footer               *FooterSetting    `json:"footer,omitempty"`
-	SandboxMode          *Setting          `json:"sandbox_mode,omitempty"`
-	SpamCheckSetting     *SpamCheckSetting `json:"spam_check,omitempty"`
+	BCC                         *BccSetting       `json:"bcc,omitempty"`
+	BypassListManagement        *Setting          `json:"bypass_list_management,omitempty"`
+	BypassSpamManagement        *Setting          `json:"bypass_spam_management,omitempty"`
+	BypassBounceManagement      *Setting          `json:"bypass_bounce_management,omitempty"`
+	BypassUnsubscribeManagement *Setting          `json:"bypass_unsubscribe_management,omitempty"`
+	Footer                      *FooterSetting    `json:"footer,omitempty"`
+	SandboxMode                 *Setting          `json:"sandbox_mode,omitempty"`
+	SpamCheckSetting            *SpamCheckSetting `json:"spam_check,omitempty"`
 }
 
 // TrackingSettings holds tracking settings and mail settings
@@ -423,6 +426,24 @@ func (m *MailSettings) SetBypassListManagement(bypassListManagement *Setting) *M
 	return m
 }
 
+// SetBypassSpamManagement ...
+func (m *MailSettings) SetBypassSpamManagement(bypassSpamManagement *Setting) *MailSettings {
+	m.BypassSpamManagement = bypassSpamManagement
+	return m
+}
+
+// SetBypassBounceManagement ...
+func (m *MailSettings) SetBypassBounceManagement(bypassBounceManagement *Setting) *MailSettings {
+	m.BypassBounceManagement = bypassBounceManagement
+	return m
+}
+
+// SetBypassUnsubscribeManagement ...
+func (m *MailSettings) SetBypassUnsubscribeManagement(bypassUnsubscribeManagement *Setting) *MailSettings {
+	m.BypassUnsubscribeManagement = bypassUnsubscribeManagement
+	return m
+}
+
 // SetFooter ...
 func (m *MailSettings) SetFooter(footerSetting *FooterSetting) *MailSettings {
 	m.Footer = footerSetting
@@ -627,6 +648,12 @@ func NewSingleEmail(from *Email, subject string, to *Email, plainTextContent str
 		contents = append(contents, NewContent("text/html", htmlContent))
 	}
 	return NewV3MailInit(from, subject, to, contents...)
+}
+
+// NewSingleEmailPlainText is used to build *SGMailV3 object having only 'plain-text' as email content.
+func NewSingleEmailPlainText(from *Email, subject string, to *Email, plainTextContent string) *SGMailV3 {
+	plainText := NewContent("text/plain", plainTextContent)
+	return NewV3MailInit(from, subject, to, plainText)
 }
 
 // NewContent ...
