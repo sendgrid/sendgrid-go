@@ -220,8 +220,6 @@ Please see [our helper](helpers/inbound) for utilizing our Inbound Parse webhook
 <a name="announcements"></a>
 # Announcements
 
-Our Developer Experience team is conducting planned maintenance from 03/09/2021 until 03/11/2021. Our next release is scheduled for 03/15/2021.
-
 Please see our announcement regarding [breaking changes](https://github.com/sendgrid/sendgrid-go/issues/81). Your support is appreciated!
 
 All updates to this library are documented in our [CHANGELOG](CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-go/releases). You may also subscribe to email [release notifications](https://dx.sendgrid.com/newsletter/go) for releases and breaking changes.
