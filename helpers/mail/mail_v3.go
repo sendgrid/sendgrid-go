@@ -13,9 +13,9 @@ const (
 	// The domain part (after the "@") must not exceed 255 characters
 	maxEmailDomainLength = 255
 	// The "local part" (before the "@") must not exceed 64 characters
-	maxEmailNameLength = 64
+	maxEmailLocalLength = 64
 	// Max email length must not exceed 320 characters.
-	maxEmailLength = maxEmailDomainLength + maxEmailNameLength + 1
+	maxEmailLength = maxEmailDomainLength + maxEmailLocalLength + 1
 )
 
 // SGMailV3 contains mail struct
@@ -743,9 +743,9 @@ func ParseEmail(emailInfo string) (*Email, error) {
 	}
 
 	parts := strings.Split(e.Address, "@")
-	name, domain := parts[0], parts[1]
+	local, domain := parts[0], parts[1]
 
-	if len(domain) > maxEmailDomainLength || len(name) > maxEmailNameLength {
+	if len(domain) > maxEmailDomainLength || len(local) > maxEmailLocalLength {
 		return nil, errors.New("invalid email length")
 	}
 
