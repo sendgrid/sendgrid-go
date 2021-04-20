@@ -2,7 +2,7 @@ package mail
 
 import (
 	"encoding/json"
-	"errors"
+	"fmt"
 	"log"
 	"net/mail"
 	"strings"
@@ -739,14 +739,18 @@ func ParseEmail(emailInfo string) (*Email, error) {
 	}
 
 	if len(e.Address) > maxEmailLength {
-		return nil, errors.New("invalid email length")
+		return nil, fmt.Errorf("invalid email length. Total length should not exceed %d characters.", maxEmailLength)
 	}
 
 	parts := strings.Split(e.Address, "@")
 	local, domain := parts[0], parts[1]
 
-	if len(domain) > maxEmailDomainLength || len(local) > maxEmailLocalLength {
-		return nil, errors.New("invalid email length")
+	if len(domain) > maxEmailDomainLength {
+		return nil, fmt.Errorf("invalid email length. Domain length should not exceed %d characters", maxEmailDomainLength)
+	}
+
+	if len(local) > maxEmailLocalLength {
+		return nil, fmt.Errorf("invalid email length. Local part length should not exceed %d characters", maxEmailLocalLength)
 	}
 
 	return NewEmail(e.Name, e.Address), nil
