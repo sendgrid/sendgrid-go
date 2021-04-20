@@ -746,11 +746,11 @@ func ParseEmail(emailInfo string) (*Email, error) {
 	local, domain := parts[0], parts[1]
 
 	if len(domain) > maxEmailDomainLength {
-		return nil, fmt.Errorf("invalid email length. Domain length should not exceed %d characters", maxEmailDomainLength)
+		return nil, fmt.Errorf("invalid email length. Domain length should not exceed %d characters.", maxEmailDomainLength)
 	}
 
 	if len(local) > maxEmailLocalLength {
-		return nil, fmt.Errorf("invalid email length. Local part length should not exceed %d characters", maxEmailLocalLength)
+		return nil, fmt.Errorf("invalid email length. Local part length should not exceed %d characters.", maxEmailLocalLength)
 	}
 
 	return NewEmail(e.Name, e.Address), nil
