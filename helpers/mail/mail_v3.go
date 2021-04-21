@@ -2,8 +2,20 @@ package mail
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/mail"
+	"strings"
+)
+
+const (
+	// RFC 3696 ( https://tools.ietf.org/html/rfc3696#section-3 )
+	// The domain part (after the "@") must not exceed 255 characters
+	maxEmailDomainLength = 255
+	// The "local part" (before the "@") must not exceed 64 characters
+	maxEmailLocalLength = 64
+	// Max email length must not exceed 320 characters.
+	maxEmailLength = maxEmailDomainLength + maxEmailLocalLength + 1
 )
 
 // SGMailV3 contains mail struct
@@ -725,5 +737,21 @@ func ParseEmail(emailInfo string) (*Email, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if len(e.Address) > maxEmailLength {
+		return nil, fmt.Errorf("Invalid email length. Total length should not exceed %d characters.", maxEmailLength)
+	}
+
+	parts := strings.Split(e.Address, "@")
+	local, domain := parts[0], parts[1]
+
+	if len(domain) > maxEmailDomainLength {
+		return nil, fmt.Errorf("Invalid email length. Domain length should not exceed %d characters.", maxEmailDomainLength)
+	}
+
+	if len(local) > maxEmailLocalLength {
+		return nil, fmt.Errorf("Invalid email length. Local part length should not exceed %d characters.", maxEmailLocalLength)
+	}
+
 	return NewEmail(e.Name, e.Address), nil
 }
