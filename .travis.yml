@@ -1,15 +1,11 @@
 language: go
-
 env:
-  - version=1.14
-  - version=1.15
-
+- version=1.14
+- version=1.15
 script:
-  - make test-docker
-
+- make test-docker
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
+- bash <(curl -s https://codecov.io/bash)
 notifications:
   slack:
     if: branch = main
@@ -17,4 +13,4 @@ notifications:
     on_success: never
     on_failure: change
     rooms:
-      - secure: GZFYycVurLTjSl+YLt1bJM5N0Gw1JJGD7/eye8HmdFbdPQD+cadUWAquM4DV84In+rvRqgYaMtLO62POj9PynzQm1Xvmk1jAoQVLQq+UUsS0hKpnRsxhv1Yp6k5Avi8RVxfeAq0inEopbwtIdbrcwNQYFFsyAnj3hTKSMOgz7Ks=
+      secure: S+JtddI8zUtA79WKUG8mMHQQ7KQdIt+KDdl2XiUj4+h8Z6Qq0h8MXzKtGVleUF4G1O+QscbgJn3HoZbfNLJa+2H/ow4A+qWPEi1Sm9o41e+1AsMHZNOcEScZ+Ky4zPPdj96H7FHYr76nrrgzYLuBuVVxCTt/erx6imt1rO7QUHA=
