@@ -18,6 +18,14 @@ func TestV3NewMail(t *testing.T) {
 	assert.NotNil(t, m.Personalizations, "Personalizations shouldn't be nil")
 	assert.NotNil(t, m.Attachments, "Attachments shouldn't be nil")
 	assert.NotNil(t, m.Content, "Content shouldn't be nil")
+	assert.NotNil(t, m.Sections, "Sections shouldn't be nil")
+	assert.NotNil(t, m.Headers, "Headers shouldn't be nil")
+	assert.NotNil(t, m.Categories, "Categories shouldn't be nil")
+	assert.NotNil(t, m.CustomArgs, "CustomArgs shouldn't be nil")
+	assert.NotNil(t, m.Asm, "Asm shouldn't be nil")
+	assert.NotNil(t, m.MailSettings, "MailSettings shouldn't be nil")
+	assert.NotNil(t, m.TrackingSettings, "TrackingSettings shouldn't be nil")
+	assert.NotNil(t, m.ReplyTo, "ReplyTo shouldn't be nil")
 }
 
 func TestV3NewMailInit(t *testing.T) {

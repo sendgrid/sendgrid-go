@@ -175,9 +175,18 @@ type Setting struct {
 // NewV3Mail ...
 func NewV3Mail() *SGMailV3 {
 	return &SGMailV3{
+		From:             &Email{},
 		Personalizations: make([]*Personalization, 0),
 		Content:          make([]*Content, 0),
 		Attachments:      make([]*Attachment, 0),
+		Sections:         make(map[string]string),
+		Headers:          make(map[string]string),
+		Categories:       make([]string, 0),
+		CustomArgs:       make(map[string]string),
+		Asm:              &Asm{},
+		MailSettings:     &MailSettings{},
+		TrackingSettings: &TrackingSettings{},
+		ReplyTo:          &Email{},
 	}
 }
 
