@@ -1,6 +1,7 @@
 package sendgrid
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"strconv"
@@ -54,8 +55,13 @@ func requestNew(options options) rest.Request {
 
 // Send sends an email through Twilio SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
+	return cl.SendWithContext(context.Background(), email)
+}
+
+// SendWithContext sends an email through Twilio SendGrid with context.Context.
+func (cl *Client) SendWithContext(ctx context.Context, email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
-	return MakeRequest(cl.Request)
+	return MakeRequestWithContext(ctx, cl.Request)
 }
 
 // DefaultClient is used if no custom HTTP client is defined
@@ -70,18 +76,34 @@ func API(request rest.Request) (*rest.Response, error) {
 
 // MakeRequest attempts a Twilio SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
-	return DefaultClient.Send(request)
+	return MakeRequestWithContext(context.Background(), request)
+}
+
+// MakeRequestWithContext attempts a Twilio SendGrid request synchronously with context.Context.
+func MakeRequestWithContext(ctx context.Context, request rest.Request) (*rest.Response, error) {
+	return DefaultClient.SendWithContext(ctx, request)
 }
 
 // MakeRequestRetry a synchronous request, but retry in the event of a rate
 // limited response.
 func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
+	return MakeRequestRetryWithContext(context.Background(), request)
+}
+
+// MakeRequestRetryWithContext a synchronous request with context.Context, but retry in the event of a rate
+// limited response.
+func MakeRequestRetryWithContext(ctx context.Context, request rest.Request) (*rest.Response, error) {
 	retry := 0
 	var response *rest.Response
 	var err error
 
 	for {
-		response, err = MakeRequest(request)
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		default:
+		}
+		response, err = MakeRequestWithContext(ctx, request)
 		if err != nil {
 			return nil, err
 		}
@@ -113,11 +135,19 @@ func MakeRequestRetry(request rest.Request) (*rest.Response, error) {
 // and errors. This function will retry in the case of a
 // rate limit.
 func MakeRequestAsync(request rest.Request) (chan *rest.Response, chan error) {
+	return MakeRequestAsyncWithContext(context.Background(), request)
+}
+
+// MakeRequestAsyncWithContext attempts a request asynchronously in a new go
+// routine with context.Context. This function returns two channels: responses
+// and errors. This function will retry in the case of a
+// rate limit.
+func MakeRequestAsyncWithContext(ctx context.Context, request rest.Request) (chan *rest.Response, chan error) {
 	r := make(chan *rest.Response)
 	e := make(chan error)
 
 	go func() {
-		response, err := MakeRequestRetry(request)
+		response, err := MakeRequestRetryWithContext(ctx, request)
 		if err != nil {
 			e <- err
 		}

@@ -1,6 +1,7 @@
 package sendgrid
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -143,6 +144,31 @@ func TestRequestRetry_rateLimit_noHeader(t *testing.T) {
 	_, err := MakeRequestRetry(request)
 	assert.NotNil(t, err, "An error did not trigger")
 	assert.True(t, strings.Contains(err.Error(), "rate limit retry exceeded"), "We did not receive the rate limit error")
+	DefaultClient = rest.DefaultClient
+}
+
+func TestRequestRetryWithContext_cancel(t *testing.T) {
+	fakeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer fakeServer.Close()
+	apiKey := "SENDGRID_APIKEY"
+	host := fakeServer.URL
+	request := GetRequest(apiKey, "/v3/test_endpoint", host)
+	request.Method = "GET"
+	var custom rest.Client
+	custom.HTTPClient = &http.Client{Timeout: time.Millisecond * 10}
+	DefaultClient = &custom
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		cancel()
+	}()
+	_, err := MakeRequestRetryWithContext(ctx, request)
+
+	assert.NotNil(t, err, "An error did not trigger")
+	assert.Equal(t, context.Canceled, err)
 	DefaultClient = rest.DefaultClient
 }
 
