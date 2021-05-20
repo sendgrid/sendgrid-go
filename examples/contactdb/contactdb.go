@@ -270,10 +270,6 @@ func DeleteaSingleRecipientfromaSingleList() {
 	host := "https://api.sendgrid.com"
 	request := sendgrid.GetRequest(apiKey, "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}", host)
 	request.Method = "DELETE"
-	queryParams := make(map[string]string)
-	queryParams["recipient_id"] = "1"
-	queryParams["list_id"] = "1"
-	request.QueryParams = queryParams
 	response, err := sendgrid.API(request)
 	if err != nil {
 		log.Println(err)
