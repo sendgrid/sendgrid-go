@@ -3,6 +3,7 @@ env:
 - version=1.14
 - version=1.15
 script:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - make test-docker
 after_success:
 - bash <(curl -s https://codecov.io/bash)
