@@ -1,7 +1,7 @@
 language: go
 env:
-- version=1.14
 - version=1.15
+- version=1.16
 script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - make test-docker
