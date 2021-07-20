@@ -1,6 +1,8 @@
 package sendgrid
 
 import (
+	"strings"
+
 	"github.com/sendgrid/rest"
 )
 
@@ -21,6 +23,10 @@ func GetRequest(key, endpoint, host string) rest.Request {
 // GetRequestSubuser like GetRequest but with On-Behalf of Subuser
 // @return [Request] a default request object
 func GetRequestSubuser(key, endpoint, host, subuser string) rest.Request {
+	if strings.Contains(endpoint, "v3/mail/send") {
+		// TODO: Breaking change: Return an error instead of panicking
+		panic("cannot use on-behalf-of for v3/mail/send")
+	}
 	return createSendGridRequest(sendGridOptions{key, endpoint, host, subuser})
 }
 
@@ -44,14 +50,6 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 // NewSendClient constructs a new Twilio SendGrid client given an API key
 func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
-	request.Method = "POST"
-	return &Client{request}
-}
-
-// GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
-// @return [Client]
-func NewSendClientSubuser(key, subuser string) *Client {
-	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
 	request.Method = "POST"
 	return &Client{request}
 }

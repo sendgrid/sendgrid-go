@@ -6,3 +6,4 @@ coverage.txt
 sendgrid.env
 .vscode
 prism*
+**/.idea/**/*
