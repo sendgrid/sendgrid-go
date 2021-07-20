@@ -6004,7 +6004,7 @@ The `on-behalf-of` header allows you to make calls for a particular subuser thro
 useful for automating bulk updates or administering a subuser without changing authentication in your code.
 
 ## Note
-The v3/mail/send endpoint does not support the `on-behalf-of`. ([Source](
+The v3/mail/send endpoint does not support the `on-behalf-of` header. ([Source](
     https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of-subuser
 ))
 
