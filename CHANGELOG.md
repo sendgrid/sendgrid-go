@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2021-05-05] Version 3.10.0
+---------------------------
+**Library - Feature**
+- [PR #433](https://github.com/sendgrid/sendgrid-go/pull/433): support context.Context. Thanks to [@johejo](https://github.com/johejo)!
+
+
 [2021-04-21] Version 3.9.0
 --------------------------
 **Library - Feature**
