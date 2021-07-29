@@ -814,3 +814,25 @@ func TestParseInvalidEmail(t *testing.T) {
 		t.Error("Expected an error to be thrown from ParseEmail")
 	}
 }
+
+func TestParseInvalidEmailLength(t *testing.T) {
+	_, err := ParseEmail("example example <example@example.com>")
+	if err != nil {
+		t.Error("ParseEmail should have been parsed successfully")
+	}
+
+	_, err = ParseEmail("example example <exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee@example.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+
+	_, err = ParseEmail("example example <example@exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+
+	_, err = ParseEmail("example example <exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee@exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+}
