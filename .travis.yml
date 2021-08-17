@@ -1,23 +1,14 @@
 language: go
-
 env:
-  - version=1.7
-  - version=1.8
-  - version=1.9
-  - version=1.10
-  - version=1.11
-  - version=1.12
-  - version=1.13
-  - version=1.14
-  - version=1.15
-  - version=latest
-
+- version=1.14
+- version=1.15
 script:
-  - make test-docker
-
+- if [[ "$TRAVIS_BRANCH" == "main"  ||  "$TRAVIS_BRANCH" == "travis" ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin;
+  fi
+- make test-docker
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
+- bash <(curl -s https://codecov.io/bash)
 notifications:
   slack:
     if: branch = main
@@ -25,4 +16,4 @@ notifications:
     on_success: never
     on_failure: change
     rooms:
-      - secure: GZFYycVurLTjSl+YLt1bJM5N0Gw1JJGD7/eye8HmdFbdPQD+cadUWAquM4DV84In+rvRqgYaMtLO62POj9PynzQm1Xvmk1jAoQVLQq+UUsS0hKpnRsxhv1Yp6k5Avi8RVxfeAq0inEopbwtIdbrcwNQYFFsyAnj3hTKSMOgz7Ks=
+      secure: fq8yXU8xLhSB0NG2K1Y/dcA4z2V3rJAVRz8t83pGj5nxhjMz8xUgtElLxOaO+tLcE2of2U+cbisVeCbHn9VDDmNXuYFHeuxpxKF46N+X80e/4adKpLYGZHjuOyBTTpuDabCl5wDp1tuFX8IdIdj0wVTVRFpQnqfNf4NVDDtqwik=

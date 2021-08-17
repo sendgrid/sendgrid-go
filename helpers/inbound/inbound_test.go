@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"testing"
 
@@ -27,13 +28,27 @@ func TestParse(t *testing.T) {
 	// Build a table of tests to run with each one having a name, the sample data file to post,
 	// and the expected HTTP response from the handler
 	tests := []struct {
-		name             string
-		file             string
-		expectedResponse int
+		name          string
+		file          string
+		expectedError error
 	}{
-		{"NoAttachment", "./sample_data/raw_data.txt", http.StatusOK},
-		{"Attachment", "./sample_data/raw_data_with_attachments.txt", http.StatusOK},
-		{"DefaultData", "./sample_data/default_data.txt", http.StatusOK},
+		{
+			name: "NoAttachment",
+			file: "./sample_data/raw_data.txt",
+		},
+		{
+			name: "Attachment",
+			file: "./sample_data/raw_data_with_attachments.txt",
+		},
+		{
+			name: "DefaultData",
+			file: "./sample_data/default_data.txt",
+		},
+		{
+			name:          "BadData",
+			file:          "./sample_data/bad_data.txt",
+			expectedError: fmt.Errorf("multipart: NextPart: EOF"),
+		},
 	}
 
 	for _, test := range tests {
@@ -42,9 +57,15 @@ func TestParse(t *testing.T) {
 			req := createRequest(test.file)
 
 			// Invoke callback handler
-			email := Parse(req)
-			from := "Example User <test@example.com>"
-			assert.Equalf(subTest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
+			email, err := Parse(req)
+			if test.expectedError != nil {
+				assert.Error(subTest, err, "expected an error to occur")
+			} else {
+				assert.NoError(subTest, err, "did NOT expect an error to occur")
+
+				from := "Example User <test@example.com>"
+				assert.Equalf(subTest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
+			}
 		})
 	}
 }
@@ -100,7 +121,11 @@ Content-Transfer-Encoding: quoted-printable
 		Attachments: []ParsedAttachment{},
 		rawRequest:  nil,
 	}
-	email.parseRawEmail(rawEmail)
+
+	if err := email.parseRawEmail(rawEmail); err != nil {
+		log.Fatal(err)
+	}
+
 	for key, value := range email.Headers {
 		fmt.Println(key, value)
 	}

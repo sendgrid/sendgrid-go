@@ -455,6 +455,27 @@ func TestV3MailSettingsSetBypassListManagement(t *testing.T) {
 	assert.True(t, *m.BypassListManagement.Enable, "BypassListManagement should be enabled")
 }
 
+func TestV3MailSettingsSetBypassSpamManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassSpamManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassSpamManagement, "BypassSpamManagement should not be nil")
+	assert.True(t, *m.BypassSpamManagement.Enable, "BypassSpamManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassBounceManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassBounceManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassBounceManagement, "BypassBounceManagement should not be nil")
+	assert.True(t, *m.BypassBounceManagement.Enable, "BypassBounceManagement should be enabled")
+}
+
+func TestV3MailSettingsSetBypassUnsubscribeManagement(t *testing.T) {
+	m := NewMailSettings().SetBypassUnsubscribeManagement(NewSetting(true))
+
+	assert.NotNil(t, m.BypassUnsubscribeManagement, "BypassUnsubscribeManagement should not be nil")
+	assert.True(t, *m.BypassUnsubscribeManagement.Enable, "BypassUnsubscribeManagement should be enabled")
+}
+
 func TestV3MailSettingsSetSandboxMode(t *testing.T) {
 	m := NewMailSettings().SetSandboxMode(NewSetting(true))
 
@@ -721,6 +742,23 @@ func TestV3NewSingleEmailWithEmptyHTMLContent(t *testing.T) {
 	}
 }
 
+func TestV3NewSingleEmailPlainText(t *testing.T) {
+	from := NewEmail("Example User", "test@example.com")
+	subject := "Sending with SendGrid is Fun"
+	to := NewEmail("Example User", "test@example.com")
+	plainTextContent := "and easy to do anywhere, even with Go"
+
+	message := NewSingleEmailPlainText(from, subject, to, plainTextContent)
+
+	m, _ := json.Marshal(message)
+	fmt.Println(string(m))
+
+	assert.NotNil(t, message, "NewV3MailInit() shouldn't return nil")
+	assert.NotNil(t, message.From, "From shouldn't return nil")
+	assert.Equal(t, subject, message.Subject, fmt.Sprintf("Subject should be %s, got %s", subject, message.Subject))
+	assert.NotNil(t, message.Content, "Content shouldn't be nil")
+}
+
 func TestV3NewClickTrackingSetting(t *testing.T) {
 	c := NewClickTrackingSetting()
 	c.SetEnable(true)
@@ -772,6 +810,28 @@ func TestParseEmail(t *testing.T) {
 
 func TestParseInvalidEmail(t *testing.T) {
 	_, err := ParseEmail("example example <example/example.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+}
+
+func TestParseInvalidEmailLength(t *testing.T) {
+	_, err := ParseEmail("example example <example@example.com>")
+	if err != nil {
+		t.Error("ParseEmail should have been parsed successfully")
+	}
+
+	_, err = ParseEmail("example example <exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee@example.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+
+	_, err = ParseEmail("example example <example@exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.com>")
+	if err == nil {
+		t.Error("Expected an error to be thrown from ParseEmail")
+	}
+
+	_, err = ParseEmail("example example <exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee@exampleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.com>")
 	if err == nil {
 		t.Error("Expected an error to be thrown from ParseEmail")
 	}

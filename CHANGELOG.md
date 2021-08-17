@@ -1,6 +1,47 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2021-05-05] Version 3.10.0
+---------------------------
+**Library - Feature**
+- [PR #433](https://github.com/sendgrid/sendgrid-go/pull/433): support context.Context. Thanks to [@johejo](https://github.com/johejo)!
+
+
+[2021-04-21] Version 3.9.0
+--------------------------
+**Library - Feature**
+- [PR #430](https://github.com/sendgrid/sendgrid-go/pull/430): add Email Length validation. Thanks to [@itsksaurabh](https://github.com/itsksaurabh)!
+
+
+[2021-02-10] Version 3.8.0
+--------------------------
+**Library - Fix**
+- [PR #426](https://github.com/sendgrid/sendgrid-go/pull/426): typo in method name. Thanks to [@thinkingserious](https://github.com/thinkingserious)!
+- [PR #355](https://github.com/sendgrid/sendgrid-go/pull/355): content value issue by implementing NewSingleEmailPlanText. Thanks to [@prakashpandey](https://github.com/prakashpandey)!
+- [PR #398](https://github.com/sendgrid/sendgrid-go/pull/398): Add error handling for upstream on inbound parse. Thanks to [@thavanle](https://github.com/thavanle)!
+
+**Library - Feature**
+- [PR #425](https://github.com/sendgrid/sendgrid-go/pull/425): Add support for more bypass settings. Thanks to [@yousifh](https://github.com/yousifh)!
+
+
+[2020-11-18] Version 3.7.2
+--------------------------
+**Library - Docs**
+- [PR #281](https://github.com/sendgrid/sendgrid-go/pull/281): Email activity API Documentation. Thanks to [@dhoeric](https://github.com/dhoeric)!
+
+
+[2020-11-05] Version 3.7.1
+--------------------------
+**Library - Test**
+- [PR #411](https://github.com/sendgrid/sendgrid-go/pull/411): ensure source files are properly formatted. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+
+**Library - Fix**
+- [PR #415](https://github.com/sendgrid/sendgrid-go/pull/415): Rename LICENSE.md to LICENSE. Thanks to [@coolaj86](https://github.com/coolaj86)!
+
+**Library - Docs**
+- [PR #282](https://github.com/sendgrid/sendgrid-go/pull/282): Update examples using inline attachment with ContentID. Thanks to [@anchepiece](https://github.com/anchepiece)!
+
+
 [2020-10-14] Version 3.7.0
 --------------------------
 **Library - Feature**
