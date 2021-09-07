@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/v3"
 )
 
 func main() {

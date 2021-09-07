@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/sendgrid/rest"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/sendgrid/sendgrid-go/v3/helpers/mail"
 )
 
 // Version is this client library's current version
