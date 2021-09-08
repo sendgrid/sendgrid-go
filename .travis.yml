@@ -2,6 +2,7 @@ language: go
 env:
 - version=1.14
 - version=1.15
+- version=1.16
 script:
 - if [[ "$TRAVIS_BRANCH" == "main"  ||  "$TRAVIS_BRANCH" == "travis" ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin;

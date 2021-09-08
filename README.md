@@ -39,7 +39,7 @@ We appreciate your continued support, thank you!
 
 ## Prerequisites
 
-- Go version 1.7
+- Go version 1.14
 - The Twilio SendGrid service, starting at the [free level](https://sendgrid.com/free?source=sendgrid-go), to send up to 40,000 emails for the first 30 days, then send 100 emails/day free forever or check out [our pricing](https://sendgrid.com/pricing?source=sendgrid-go).
 
 ## Setup Environment Variables
