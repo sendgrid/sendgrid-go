@@ -1,8 +1,6 @@
 package sendgrid
 
 import (
-	"strings"
-
 	"github.com/sendgrid/rest"
 )
 
@@ -23,10 +21,6 @@ func GetRequest(key, endpoint, host string) rest.Request {
 // GetRequestSubuser like GetRequest but with On-Behalf of Subuser
 // @return [Request] a default request object
 func GetRequestSubuser(key, endpoint, host, subuser string) rest.Request {
-	if strings.Contains(endpoint, "v3/mail/send") {
-		// TODO: Breaking change: Return an error instead of panicking
-		panic("cannot use on-behalf-of for v3/mail/send")
-	}
 	return createSendGridRequest(sendGridOptions{key, endpoint, host, subuser})
 }
 

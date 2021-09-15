@@ -16,7 +16,6 @@ import (
 	"github.com/sendgrid/rest"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestLicenseYear(t *testing.T) {
@@ -83,23 +82,6 @@ func TestGetRequestSubuser(t *testing.T) {
 	}
 
 	ShouldHaveHeaders(&request, t)
-}
-
-func TestGetRequestSubUser_ShouldRejectMailSend(t *testing.T) {
-	// https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of-subuser
-	// > The on-behalf-of header does not work with the mail.send API.
-
-	assertPanicked := func() {
-		rec := recover()
-		err, ok := rec.(string)
-		require.True(t, ok, "Recover should have returned error")
-		assert.NotEqual(t, "", err, "Should have panicked for /v3/mail/send")
-	}
-	defer assertPanicked()
-
-	_ = GetRequestSubuser(
-		"any API key", "/v3/mail/send", "https://example.com", "subuserUsername",
-	)
 }
 
 func getRequest(endpoint string) rest.Request {
