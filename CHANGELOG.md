@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2021-09-22] Version 3.10.1
+---------------------------
+**Library - Chore**
+- [PR #438](https://github.com/sendgrid/sendgrid-go/pull/438): add support for 1.16. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+
 [2021-05-05] Version 3.10.0
 ---------------------------
 **Library - Feature**
