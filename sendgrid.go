@@ -47,11 +47,3 @@ func NewSendClient(key string) *Client {
 	request.Method = "POST"
 	return &Client{request}
 }
-
-// GetRequestSubuser like NewSendClient but with On-Behalf of Subuser
-// @return [Client]
-func NewSendClientSubuser(key, subuser string) *Client {
-	request := GetRequestSubuser(key, "/v3/mail/send", "", subuser)
-	request.Method = "POST"
-	return &Client{request}
-}

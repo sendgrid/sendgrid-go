@@ -6000,20 +6000,20 @@ if err != nil {
 <a name="on-behalf-of"></a>
 # On-Behalf of Subuser
 
-The on-behalf-of header allows you to make calls for a particular subuser through the parent account; this can be useful for automating bulk updates or administering a subuser without changing authentication in your code.
-## With Mail Helper Class
+The `on-behalf-of` header allows you to make calls for a particular subuser through the parent account. This can be 
+useful for automating bulk updates or administering a subuser without changing authentication in your code.
+
+## Note
+The v3/mail/send endpoint does not support the `on-behalf-of` header. ([Source](
+    https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of-subuser
+))
 
 ```go
 
-client := sendgrid.NewSendClientSubuser(os.Getenv("SENDGRID_API_KEY"), "SUBUSER_USERNAME")
-
-```
-
-## Without Mail Helper Class
-
-```go
-
-request := sendgrid.GetRequestSubuser(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "https://api.sendgrid.com", "SUBUSER_USERNAME")
+request := sendgrid.GetRequestSubuser(
+	os.Getenv("SENDGRID_API_KEY"), "/v3/tracking_settings/subscription", 
+	"https://api.sendgrid.com", "SUBUSER_USERNAME",
+)
 
 ```
 

@@ -84,11 +84,6 @@ func TestGetRequestSubuser(t *testing.T) {
 	ShouldHaveHeaders(&request, t)
 }
 
-func TestNewSendClientSubuser(t *testing.T) {
-	client := NewSendClientSubuser("API_KEY", "subuserUsername")
-	ShouldHaveHeaders(&client.Request, t)
-}
-
 func getRequest(endpoint string) rest.Request {
 	return GetRequest("SENDGRID_APIKEY", endpoint, "")
 }
