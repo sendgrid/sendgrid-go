@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2021-10-06] Version 3.10.2
+---------------------------
+**Library - Chore**
+- [PR #436](https://github.com/sendgrid/sendgrid-go/pull/436): Remove mail.send helpers with on-behalf-of header. Thanks to [@bjohnson-va](https://github.com/bjohnson-va)!
+
+
 [2021-09-22] Version 3.10.1
 ---------------------------
 **Library - Chore**
