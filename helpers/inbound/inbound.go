@@ -14,7 +14,7 @@ import (
 // ParsedEmail defines a multipart parsed email
 // Body and Attachments are only populated if the Raw option is checked on the SendGrid inbound configuration and are named for backwards compatability
 type ParsedEmail struct {
-	// Header values are capitalized, such as From and To
+	// Header values are raw and not pre-processed by SendGrid. They may change depending on the email client. Use carefully
 	Headers map[string]string
 	// Please see https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook to see the available fields in the email headers
 	// all fields listed there are available within the headers map except for text which lives in the TextBody field
