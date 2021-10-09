@@ -22,6 +22,12 @@ type ParsedEmail struct {
 	// Primary email body parsed with \n. A common approach is to Split by the \n to bring every line of the email into a string array
 	TextBody string
 
+	// Envelope expresses the exact email address that the email was addressed to and the exact email address it was from, without extra characters
+	Envelope struct {
+		From string   `json:"from"`
+		To   []string `json:"to"`
+	}
+
 	// attachemnts have been fully parsed to include the filename, size, content type and actual file for uploading or processing
 	ParsedAttachments map[string]*EmailAttachment
 
@@ -87,6 +93,13 @@ func (email *ParsedEmail) parse() error {
 
 	email.rawValues = email.rawRequest.MultipartForm.Value
 
+	// unmarshal the envelope
+	if len(email.rawValues["envelope"]) > 0 {
+		if err := json.Unmarshal([]byte(email.rawValues["envelope"][0]), &email.Envelope); err != nil {
+			return err
+		}
+	}
+
 	// parse included headers
 	if len(email.rawValues["headers"]) > 0 {
 		email.parseHeaders(email.rawValues["headers"][0])
@@ -94,7 +107,7 @@ func (email *ParsedEmail) parse() error {
 
 	// apply the rest of the SendGrid fields to the headers map
 	for k, v := range email.rawValues {
-		if k == "text" || k == "email" {
+		if k == "text" || k == "email" || k == "headers" || k == "envelope" {
 			continue
 		}
 
