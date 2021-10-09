@@ -8,6 +8,10 @@
 * [Contributing](#contributing)
 
 # Fields
+
+### parsedEmail.Envelope
+  To and From represent the exact email addresses that the email was sent to and the exact email address of the sender. There are no special characters and these fields are safe to use without further parsing as email addresses 
+
 ### parsedEmail.ParsedValues 
   Please see [Send Grid Docs](https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook) to see what fields are available and preparsed by SendGrid. Use these fields over the Headers as they are parsed by SendGrid and gauranteed to be consistent
 
@@ -40,7 +44,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 		log.Fatal(err)
 	}
     
-	fmt.Print(parsedEmail.Headers["From"])
+	fmt.Print(parsedEmail.Envelope.From)
 	
 	for filename, contents := range parsedEmail.ParsedAttachments {
 		// Do something with an attachment
