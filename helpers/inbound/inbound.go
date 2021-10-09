@@ -43,8 +43,12 @@ func Parse(request *http.Request) (*ParsedEmail, error) {
 	result := ParsedEmail{
 		Headers:           make(map[string]string),
 		ParsedAttachments: make(map[string]*EmailAttachment),
-		rawRequest:        request,
-		withAttachments:   false,
+
+		Body:        make(map[string]string),
+		Attachments: make(map[string][]byte),
+
+		rawRequest:      request,
+		withAttachments: false,
 	}
 
 	err := result.parse()
@@ -56,8 +60,11 @@ func ParseWithAttachments(request *http.Request) (*ParsedEmail, error) {
 	result := ParsedEmail{
 		Headers:           make(map[string]string),
 		ParsedAttachments: make(map[string]*EmailAttachment),
-		rawRequest:        request,
-		withAttachments:   true,
+
+		Body:            make(map[string]string),
+		Attachments:     make(map[string][]byte),
+		rawRequest:      request,
+		withAttachments: true,
 	}
 
 	err := result.parse()
@@ -179,6 +186,7 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 			if err != nil {
 				return err
 			}
+
 			email.Body[header] = string(b)
 		}
 	}
