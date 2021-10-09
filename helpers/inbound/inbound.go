@@ -2,6 +2,7 @@ package inbound
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"mime"
@@ -25,6 +26,7 @@ type ParsedEmail struct {
 	Body        map[string]string
 
 	rawRequest      *http.Request
+	rawValues       map[string][]string
 	withAttachments bool
 }
 
@@ -68,15 +70,15 @@ func (email *ParsedEmail) parse() error {
 		return err
 	}
 
-	values := email.rawRequest.MultipartForm.Value
+	email.rawValues = email.rawRequest.MultipartForm.Value
 
 	// parse included headers
-	if len(values["headers"]) > 0 {
-		email.parseHeaders(values["headers"][0])
+	if len(email.rawValues["headers"]) > 0 {
+		email.parseHeaders(email.rawValues["headers"][0])
 	}
 
 	// apply the rest of the SendGrid fields to the headers map
-	for k, v := range values {
+	for k, v := range email.rawValues {
 		if k == "text" || k == "email" {
 			continue
 		}
@@ -87,13 +89,13 @@ func (email *ParsedEmail) parse() error {
 	}
 
 	// apply the plain text body
-	if len(values["text"]) > 0 {
-		email.TextBody = values["text"][0]
+	if len(email.rawValues["text"]) > 0 {
+		email.TextBody = email.rawValues["text"][0]
 	}
 
 	// only included if the raw box is checked
-	if len(values["email"]) > 0 {
-		email.parseRawEmail(values["email"][0])
+	if len(email.rawValues["email"]) > 0 {
+		email.parseRawEmail(email.rawValues["email"][0])
 	}
 
 	// if the client chose not to parse attachments, return as is
@@ -101,7 +103,7 @@ func (email *ParsedEmail) parse() error {
 		return nil
 	}
 
-	return email.parseAttachments(values)
+	return email.parseAttachments(email.rawValues)
 }
 
 func (email *ParsedEmail) parseAttachments(values map[string][]string) error {
@@ -200,4 +202,25 @@ func (email *ParsedEmail) parseHeaders(headers string) {
 		splitHeader := strings.SplitN(header, ": ", 2)
 		email.Headers[splitHeader[0]] = splitHeader[1]
 	}
+}
+
+// Validate validates the DKIM and SPF scores to ensure that the email client and address was not spoofed
+func (email *ParsedEmail) Validate() error {
+	if len(email.rawValues["dkim"]) == 0 || len(email.rawValues["SPF"]) == 0 {
+		return fmt.Errorf("missing DKIM and SPF score")
+	}
+
+	for _, val := range email.rawValues["dkim"] {
+		if !strings.Contains(val, "pass") {
+			return fmt.Errorf("DKIM validation failed")
+		}
+	}
+
+	for _, val := range email.rawValues["SPF"] {
+		if !strings.Contains(val, "pass") {
+			return fmt.Errorf("SPF validation failed")
+		}
+	}
+
+	return nil
 }
