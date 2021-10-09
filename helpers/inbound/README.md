@@ -52,8 +52,7 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 	}
    
 
-  emailLines := strings.Split(parsedEmail.TextBody, "\n")
-	for section, body := range emailLines {
+	for section, body := range strings.Split(parsedEmail.TextBody, "\n") {
 		// Do something with the email lines
 	}
 
