@@ -50,7 +50,8 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
 		// Do something with an attachment
 		handleAttachment(filename, contents)
 	}
-    
+   
+
   emailLines := strings.Split(parsedEmail.TextBody, "\n")
 	for section, body := range emailLines {
 		// Do something with the email lines
