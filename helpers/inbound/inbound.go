@@ -14,16 +14,21 @@ import (
 // ParsedEmail defines a multipart parsed email
 // Body and Attachments are only populated if the Raw option is checked on the SendGrid inbound configuration and are named for backwards compatability
 type ParsedEmail struct {
+	// Header values are capitalized, such as From and To
+	Headers map[string]string
 	// Please see https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook to see the available fields in the email headers
 	// all fields listed there are available within the headers map except for text which lives in the TextBody field
-	Headers map[string]string
+	ParsedValues map[string]string
 	// Primary email body parsed with \n. A common approach is to Split by the \n to bring every line of the email into a string array
-	TextBody          string
+	TextBody string
+
+	// attachemnts have been fully parsed to include the filename, size, content type and actual file for uploading or processing
 	ParsedAttachments map[string]*EmailAttachment
 
 	// Raw only
 	Attachments map[string][]byte
-	Body        map[string]string
+	// accessed with text/html and text/plain. text/plain is always parsed to the TextBody field
+	Body map[string]string
 
 	rawRequest      *http.Request
 	rawValues       map[string][]string
@@ -38,10 +43,12 @@ type EmailAttachment struct {
 	ContentType string         `json:"type"`
 }
 
-// Parse parses an email using Go's multipart parser and populates the headers, body
+// Parse parses an email using Go's multipart parser and populates the headers, and body
+// This method skips processing the attachment file and is therefore more performant
 func Parse(request *http.Request) (*ParsedEmail, error) {
 	result := ParsedEmail{
 		Headers:           make(map[string]string),
+		ParsedValues:      make(map[string]string),
 		ParsedAttachments: make(map[string]*EmailAttachment),
 
 		Body:        make(map[string]string),
@@ -60,6 +67,7 @@ func ParseWithAttachments(request *http.Request) (*ParsedEmail, error) {
 	result := ParsedEmail{
 		Headers:           make(map[string]string),
 		ParsedAttachments: make(map[string]*EmailAttachment),
+		ParsedValues:      make(map[string]string),
 
 		Body:            make(map[string]string),
 		Attachments:     make(map[string][]byte),
@@ -91,7 +99,7 @@ func (email *ParsedEmail) parse() error {
 		}
 
 		if len(v) > 0 {
-			email.Headers[k] = v[0]
+			email.ParsedValues[k] = v[0]
 		}
 	}
 
