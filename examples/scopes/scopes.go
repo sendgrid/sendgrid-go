@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go/v3"
+	"github.com/sendgrid/sendgrid-go/v4"
 )
 
 // Retrievealistofscopesforwhichthisuserhasaccess : Retrieve a list of scopes for which this user has access.

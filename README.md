@@ -1,7 +1,7 @@
 ![Twilio SendGrid Logo](twilio_sendgrid_logo.png)
 
 [![BuildStatus](https://travis-ci.com/sendgrid/sendgrid-go.svg?branch=main)](https://travis-ci.com/sendgrid/sendgrid-go)
-[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://pkg.go.dev/github.com/sendgrid/sendgrid-go/v3)
+[![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://pkg.go.dev/github.com/sendgrid/sendgrid-go/v4)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/sendgrid-go.svg)](https://github.com/sendgrid/sendgrid-go/graphs/contributors)
@@ -95,8 +95,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go/v3"
-	"github.com/sendgrid/sendgrid-go/v3/helpers/mail"
+	"github.com/sendgrid/sendgrid-go/v4"
+	"github.com/sendgrid/sendgrid-go/v4/helpers/mail"
 )
 
 func main() {
@@ -129,7 +129,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go/v3"
+	"github.com/sendgrid/sendgrid-go/v4"
 	"log"
 	"os"
 )
@@ -176,7 +176,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go/v3"
+	"github.com/sendgrid/sendgrid-go/v4"
 	"log"
 	"os"
 )

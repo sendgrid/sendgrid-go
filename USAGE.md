@@ -7,7 +7,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/sendgrid-go/v3"
+	"github.com/sendgrid/sendgrid-go/v4"
 	"log"
 	"os"
 )

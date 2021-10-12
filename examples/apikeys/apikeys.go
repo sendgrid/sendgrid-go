@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	sendgrid "github.com/sendgrid/sendgrid-go/v3"
+	sendgrid "github.com/sendgrid/sendgrid-go/v4"
 )
 
 // CreateAPIkeys : Create API keys
