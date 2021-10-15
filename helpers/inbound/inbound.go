@@ -229,6 +229,11 @@ func (email *ParsedEmail) parseHeaders(headers string) {
 	splitHeaders := strings.Split(strings.TrimSpace(headers), "\n")
 	for _, header := range splitHeaders {
 		splitHeader := strings.SplitN(header, ": ", 2)
+		// keeps outlook emails from causing a panic
+		if len(splitHeader) != 2 {
+			continue
+		}
+
 		email.Headers[splitHeader[0]] = splitHeader[1]
 	}
 }
