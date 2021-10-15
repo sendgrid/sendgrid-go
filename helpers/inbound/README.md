@@ -22,7 +22,7 @@
   are populated *only* when the raw option is checked in the SendGrid Dashboard. However unless you need the raw HTML body, it is not necessary. The fields are named as they are for backward compatability 
 
 ### parsedEmail.Headers
-  these may change depending on the email client and are not pre-parsed by SendGrid, use carefully
+  this field is deprecated. Use the SendGrid processed fields in ParsedValues instead. While it maintains its presence to avoid breaking changes, it provides raw, unprocessed headers and not all email clients are compatible. For example. these fields will be empty if the email cient is Outlook.com 
 
 
 # Example Usage
