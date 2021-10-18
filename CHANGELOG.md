@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2021-10-18] Version 3.10.3
+---------------------------
+**Library - Docs**
+- [PR #440](https://github.com/sendgrid/sendgrid-go/pull/440): update signed webhook usage documentation. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+
 [2021-10-06] Version 3.10.2
 ---------------------------
 **Library - Chore**
