@@ -13,7 +13,7 @@ import (
 
 // Version is this client library's current version
 const (
-	Version        = "3.10.2"
+	Version        = "3.10.3"
 	rateLimitRetry = 5
 	rateLimitSleep = 1100
 )
