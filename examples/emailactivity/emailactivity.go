@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/v4"
 )
 
 // GetMessages : Filter all messages
