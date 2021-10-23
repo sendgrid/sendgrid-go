@@ -2,9 +2,28 @@
 
 ## Table of Contents
 
+* [Fields](#fields)
 * [Example Usage](#example-usage)
 * [Testing the Source Code](#testing)
 * [Contributing](#contributing)
+
+# Fields
+
+### parsedEmail.Envelope
+  parsedEmail.Envelope.To and parsedEmail.Envelope.From represent the exact email addresses that the email was sent to and the exact email address of the sender. There are no special characters and these fields are safe to use without further parsing as email addresses 
+
+### parsedEmail.ParsedValues 
+  Please see [Send Grid Docs](https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook) to see what fields are available and preparsed by SendGrid. Use these fields over the Headers as they are parsed by SendGrid and gauranteed to be consistent
+
+### parsedEmail.TextBody
+  this field will satisfy  most cases. SendGrid pre-parses the body into a plain text string separated with \n 
+
+### parsedEmail.Body and parsedEmail.Attachments
+  are populated *only* when the raw option is checked in the SendGrid Dashboard. However unless you need the raw HTML body, it is not necessary. The fields are named as they are for backward compatability 
+
+### parsedEmail.Headers
+  this field is deprecated. Use the SendGrid processed fields in ParsedValues instead. While it maintains its presence to avoid breaking changes, it provides raw, unprocessed headers and not all email clients are compatible. For example. these fields will be empty if the email cient is Outlook.com 
+
 
 # Example Usage
 
@@ -20,25 +39,38 @@ import (
 )
 
 func inboundHandler(response http.ResponseWriter, request *http.Request) {
-	parsedEmail, err := Parse(request)
+	parsedEmail, err := ParseWithAttachments(request)
 	if err != nil {
 		log.Fatal(err)
 	}
     
-	fmt.Print(parsedEmail.Headers["From"])
+	fmt.Print(parsedEmail.Envelope.From)
 	
-	for filename, contents := range parsedEmail.Attachments {
+	for filename, contents := range parsedEmail.ParsedAttachments {
 		// Do something with an attachment
 		handleAttachment(filename, contents)
 	}
-    
-	for section, body := range parsedEmail.Body {
-		// Do something with the email body
-		handleEmail(body)
+   
+
+	for section, body := range strings.Split(parsedEmail.TextBody, "\n") {
+		// Do something with the email lines
 	}
+
     
 	// Twilio SendGrid needs a 200 OK response to stop POSTing
 	response.WriteHeader(http.StatusOK)
+}
+
+// example of uploading an attachment to s3 using the Go sdk-2
+func handleAttachment(parsedEmail *ParsedEmail) {
+	for _, contents := range parsedEmail.ParsedAttachments {
+			if _, err := sgh.Client.Upload(ctx, &s3.PutObjectInput{
+				Bucket:               &bucket,
+				Key:                  &uploadPath,
+				Body:                 contents.File,
+				ContentType:          aws.String(contents.ContentType),
+      }
+  }
 }
 
 func main() {
