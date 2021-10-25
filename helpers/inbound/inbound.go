@@ -38,7 +38,9 @@ func (email *ParsedEmail) parse() error {
 		email.parseHeaders(headers[0])
 	}
 	if len(emails) > 0 {
-		email.parseRawEmail(emails[0])
+		if err = email.parseRawEmail(emails[0]); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -50,6 +52,10 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 	raw, err := parseMultipart(strings.NewReader(sections[1]), email.Headers["Content-Type"])
 	if err != nil {
 		return err
+	}
+	if raw == nil {
+		email.Body[email.Headers["Content-Type"]] = sections[1]
+		return nil
 	}
 
 	for {

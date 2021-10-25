@@ -49,6 +49,10 @@ func TestParse(t *testing.T) {
 			file:          "./sample_data/bad_data.txt",
 			expectedError: fmt.Errorf("multipart: NextPart: EOF"),
 		},
+		{
+			name: "PlainTextBody",
+			file: "./sample_data/raw_data_plaintext.txt",
+		},
 	}
 
 	for _, test := range tests {

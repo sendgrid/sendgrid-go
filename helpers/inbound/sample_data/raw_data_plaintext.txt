@@ -1,0 +1,89 @@
+--xYzZY
+Content-Disposition: form-data; name="dkim"
+
+{@google.com : pass}
+--xYzZY
+Content-Disposition: form-data; name="subject"
+
+(#123456789) Gmail Forwarding Confirmation - Receive Mail from test_test@gmail.com
+--xYzZY
+Content-Disposition: form-data; name="email"
+
+Received: by mx0115p1las1.sendgrid.net with SMTP id gz96d9e0eu Fri, 22 Oct 2021 13:50:11 +0000 (UTC)
+Received: from mail-yb1-f175.google.com (unknown [209.85.219.175]) by mx0115p1las1.sendgrid.net (Postfix) with ESMTPS id D714B7816B1 for <test_test_test123@gmail.com>; Fri, 22 Oct 2021 13:50:10 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id v7so7251859ybq.0 for <test_test_test123@gmail.com>; Fri, 22 Oct 2021 06:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112; h=mime-version:date:message-id:subject:from:to; bh=a4gWuJyg4MQMB7LcdScpktFe4+ge8aJrd8YjSoJbmko=; b=eH3Ol8uYpzfEpyddzTJTgmfGLMKjZ9U9haoEZri1/tEmlSa2ZRr4QeQ7RG0/NJMFyT cLgAGTOFrecfQ2wtUNkO8pWtYPtx/6ghTJPJFlaRgqfK+lUSZJud+5w/NXzU0F0kCMvu IbumCMwuBAAmHMw1Twn1KApG1Szz1ciXxsZMuf+mo+AgfyADjarMp/wKndHkY9zYm8OC 0uIynSM+0kB1FRgqDuumejsAxJRjuC8k+TAI4mRg+OP/QjpES+aQVZsS/p5Ip0mqpKjB dPwF3vPqd42GPr++m5dsEC62ht421wCTiq4wWxNL8jVHqYzzK4ETJBAGQ+BicI6V5Qw9 EsUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; s=20210112; h=x-gm-message-state:mime-version:date:message-id:subject:from:to; bh=a4gWuJyg4MQMB7LcdScpktFe4+ge8aJrd8YjSoJbmko=; b=63wFCviUJlCYAoy/aWB+on/sc1Uk48MxyI9ZepbFckjPKzimOZMaDuf5Osu1llQIcK x7rW/xbeDKJMwlvR/vXj0C6HjF6E0GOMsVTz+Fg2SXNr6sjGb2qRWbZWiCZDyM59gTH1 rS7SiBZMKmoNPG7cBai3n7Jcc5ljvYJfq6DkvBl+sGIStyVfWbyzo0qOYhYP/0HEMd1A 4cMVvHSWHNHqZAL5v9uJOkyrhByvuncQaH+cBra6CQaEZdha1O+R8nOlVuS+0Ou8V14N mwiiBGO0mKdrvXJo6bQolbXMR9ZIv/85CEQohcKpgLYWFtZryMjR7TIcr7N4IvetU/7M PMlw==
+X-Gm-Message-State: AOAM530N6ulLqNJw8hA6zcsjcuV+Ig2TFWJewiVhQhZZVtz+3eDPvsnV ycMGGTCQIBK6A/C/oec1e5Z5huIww0ZHT5RrzLy4eVYvNrSIDCl5FEo=
+X-Google-Smtp-Source: ABdhPJxCqLN2VqbyGjBZBbW+dNmyBXt/kfbbeFmrcsu4vbKdzgpQ5+XofVaRWw+JXn2uExoS3aPPyUdplcS++T04Sz1THOcAEMwdsg==
+MIME-Version: 1.0
+X-Received: by 2002:a25:3308:: with SMTP id z8mr13854274ybz.384.1634910610170; Fri, 22 Oct 2021 06:50:10 -0700 (PDT)
+X-Google-Address-Confirmation: EdI3E5CvbRVmj9mbOZ6uqSZ70I8
+Date: Fri, 22 Oct 2021 16:50:10 +0300
+Message-ID: <CAF5GBptN93asLzEJvFTz_MLY0ftvfbVnaNNFdYdPcpX7qtnSgQ@mail.gmail.com>
+Subject: (#123456789) Gmail Forwarding Confirmation - Receive Mail from test_test@gmail.com
+From: Gmail Team <forwarding-noreply@google.com>
+To: test_test_test123@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+
+test_test@gmail.com has requested to automatically forward mail to your email
+address test_test_test123@gmail.com.
+Confirmation code: 123456789
+
+To allow test_test@gmail.com to automatically forward mail to your address,
+please click the link below to confirm the request:
+
+https://mail-settings.google.com/mail/blah_blah
+
+If you click the link and it appears to be broken, please copy and paste it
+into a new browser window. If you aren't able to access the link, you
+can send the confirmation code
+123456789 to test_test@gmail.com.
+
+Thanks for using Gmail!
+
+Sincerely,
+
+The Gmail Team
+
+If you do not approve of this request, no further action is required.
+test_test@gmail.com cannot automatically forward messages to your email address
+unless you confirm the request by clicking the link above. If you accidentally
+clicked the link, but you do not want to allow test_test@gmail.com to
+automatically forward messages to your address, click this link to cancel this
+verification:
+https://mail-settings.google.com/mail/blah_blah
+
+To learn more about why you might have received this message, please
+visit: http://support.google.com/mail/bin/answer.py?answer=184973.
+
+Please do not respond to this message. If you'd like to contact the
+Google.com Team, please log in to your account and click 'Help' at
+the top of any page. Then, click 'Contact Us' along the bottom of the
+Help Center.
+
+--xYzZY
+Content-Disposition: form-data; name="to"
+
+test_test_test123@gmail.com
+--xYzZY
+Content-Disposition: form-data; name="from"
+
+Gmail Team <forwarding-noreply@google.com>
+--xYzZY
+Content-Disposition: form-data; name="sender_ip"
+
+209.85.219.175
+--xYzZY
+Content-Disposition: form-data; name="envelope"
+
+{"to":["test_test_test123@gmail.com"],"from":"forwarding-noreply@google.com"}
+--xYzZY
+Content-Disposition: form-data; name="charsets"
+
+{"to":"UTF-8","subject":"UTF-8","from":"UTF-8"}
+--xYzZY
+Content-Disposition: form-data; name="SPF"
+
+pass
+--xYzZY--
