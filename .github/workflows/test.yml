@@ -26,6 +26,8 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
+      - name: Set GOPATH
+        run: echo "GOPATH=$HOME" >> $GITHUB_ENV
       - name: Set GODEBUG
         run: echo "GODEBUG="x509ignoreCN=0"" >> $GITHUB_ENV
       - name: Set GO111MODULE
