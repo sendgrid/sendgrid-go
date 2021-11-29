@@ -31,8 +31,6 @@ jobs:
       - name: Set GO111MODULE
         run: echo "GO111MODULE=off" >> $GITHUB_ENV
 
-      - run: go mod init rest && go mod tidy
-
       - name: Build sendgrid-go
         run: make install
 
