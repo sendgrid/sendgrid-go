@@ -26,7 +26,11 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - run: echo $GODEBUG && echo $GO111MODULE
+      - name: Set GODEBUG
+        run: echo "GODEBUG='x509ignoreCN=0'" >> $GITHUB_ENV
+      - name: Set GO111MODULE
+        run: echo "GO111MODULE='off'" >> $GITHUB_ENV
+
       - run: go mod init rest && go mod tidy
 
       - name: Build sendgrid-go
