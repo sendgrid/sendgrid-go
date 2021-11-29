@@ -26,6 +26,7 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
+      - run: echo $GODEBUG && echo $GO111MODULE
       - run: go mod init rest && go mod tidy
 
       - name: Build sendgrid-go
