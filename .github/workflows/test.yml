@@ -30,8 +30,6 @@ jobs:
         run: echo "GOPATH=$HOME" >> $GITHUB_ENV
       - name: Set GOBIN
         run: echo "GOBIN=$GOPATH/bin" >> $GITHUB_ENV
-      - name: Set GODEBUG
-        run: echo "GODEBUG=x509ignoreCN=0" >> $GITHUB_ENV
       - name: Set GO111MODULE
         run: echo "GO111MODULE=off" >> $GITHUB_ENV
 
