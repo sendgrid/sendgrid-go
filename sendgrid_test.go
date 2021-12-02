@@ -2735,7 +2735,7 @@ func Test_test_suppression_invalid_emails__email__delete(t *testing.T) {
 }
 
 func Test_test_suppression_spam_report__email__get(t *testing.T) {
-	request := getRequest("/v3/suppression/spam_report/{email}")
+	request := getRequest("/v3/suppression/spam_reports/{email}")
 	request.Method = "GET"
 	request.Headers["X-Mock"] = "200"
 	response, err := MakeRequest(request)
@@ -2746,7 +2746,7 @@ func Test_test_suppression_spam_report__email__get(t *testing.T) {
 }
 
 func Test_test_suppression_spam_report__email__delete(t *testing.T) {
-	request := getRequest("/v3/suppression/spam_report/{email}")
+	request := getRequest("/v3/suppression/spam_reports/{email}")
 	request.Method = "DELETE"
 	request.Headers["X-Mock"] = "204"
 	response, err := MakeRequest(request)
