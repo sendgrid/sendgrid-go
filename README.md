@@ -37,6 +37,9 @@ We appreciate your continued support, thank you!
 <a name="installation"></a>
 # Installation
 
+## Supported Versions
+- Go version 1.14, 1.15 or 1.16
+
 ## Prerequisites
 
 - Go version 1.14, 1.15 or 1.16
