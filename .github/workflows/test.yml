@@ -26,12 +26,11 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - name: Set GOPATH
-        run: echo "GOPATH=$HOME" >> $GITHUB_ENV
-      - name: Set GOBIN
-        run: echo "GOBIN=$GOPATH/bin" >> $GITHUB_ENV
-      - name: Set GO111MODULE
-        run: echo "GO111MODULE=off" >> $GITHUB_ENV
+      - name: Set Go env vars
+        run: |
+          echo "GOPATH=$HOME" >> $GITHUB_ENV
+          echo "GOBIN=$HOME/bin" >> $GITHUB_ENV
+          echo "GO111MODULE=off" >> $GITHUB_ENV
 
       - name: Build sendgrid-go
         run: make install
