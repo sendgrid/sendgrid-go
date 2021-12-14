@@ -1,7 +1,6 @@
 ARG version=latest
 FROM golang:$version
 
-ENV GODEBUG 'x509ignoreCN=0'
 ENV GO111MODULE 'off'
 
 COPY prism/prism/nginx/cert.crt /usr/local/share/ca-certificates/cert.crt
