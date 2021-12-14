@@ -32,9 +32,6 @@ jobs:
           echo "GOBIN=$HOME/bin" >> $GITHUB_ENV
           echo "GO111MODULE=off" >> $GITHUB_ENV
 
-      - name: Build sendgrid-go
-        run: make install
-
       - name: Run Tests
         run: make test-docker
 
