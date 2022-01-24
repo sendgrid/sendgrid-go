@@ -153,6 +153,11 @@ func TestValidate(t *testing.T) {
 			expectedError: fmt.Errorf("SPF validation failed"),
 		},
 		{
+			name:          "FailedSpfandDkim",
+			values:        map[string][]string{"dkim": {"pass", "pass", "fail"}, "SPF": {"pass", "fail", "pass"}},
+			expectedError: fmt.Errorf("DKIM validation failed"),
+		},
+		{
 			name:   "success",
 			values: map[string][]string{"dkim": {"pass", "pass", "pass"}, "SPF": {"pass", "pass", "pass"}},
 		},

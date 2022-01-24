@@ -28,7 +28,7 @@ type ParsedEmail struct {
 		To   []string `json:"to"`
 	}
 
-	// attachemnts have been fully parsed to include the filename, size, content type and actual file for uploading or processing
+	// Attachments have been fully parsed to include the filename, size, content type and actual file for uploading or processing
 	ParsedAttachments map[string]*EmailAttachment
 
 	// Raw only
@@ -49,10 +49,8 @@ type EmailAttachment struct {
 	ContentType string         `json:"type"`
 }
 
-// Parse parses an email using Go's multipart parser and populates the headers, and body
-// This method skips processing the attachment file and is therefore more performant
-func Parse(request *http.Request) (*ParsedEmail, error) {
-	result := ParsedEmail{
+func newParsedEmail(request *http.Request) ParsedEmail {
+	return ParsedEmail{
 		Headers:           make(map[string]string),
 		ParsedValues:      make(map[string]string),
 		ParsedAttachments: make(map[string]*EmailAttachment),
@@ -63,6 +61,12 @@ func Parse(request *http.Request) (*ParsedEmail, error) {
 		rawRequest:      request,
 		withAttachments: false,
 	}
+}
+
+// Parse parses an email using Go's multipart parser and populates the headers, and body
+// This method skips processing the attachment file and is therefore more performant
+func Parse(request *http.Request) (*ParsedEmail, error) {
+	result := newParsedEmail(request)
 
 	err := result.parse()
 	return &result, err
@@ -70,16 +74,8 @@ func Parse(request *http.Request) (*ParsedEmail, error) {
 
 // ParseWithAttachments parses an email using Go's multipart parser and populates the headers, body and processes attachments
 func ParseWithAttachments(request *http.Request) (*ParsedEmail, error) {
-	result := ParsedEmail{
-		Headers:           make(map[string]string),
-		ParsedAttachments: make(map[string]*EmailAttachment),
-		ParsedValues:      make(map[string]string),
-
-		Body:            make(map[string]string),
-		Attachments:     make(map[string][]byte),
-		rawRequest:      request,
-		withAttachments: true,
-	}
+	result := newParsedEmail(request)
+	result.withAttachments = true
 
 	err := result.parse()
 	return &result, err
