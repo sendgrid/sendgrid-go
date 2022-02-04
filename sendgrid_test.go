@@ -30,8 +30,7 @@ func TestRepoFiles(t *testing.T) {
 		"Dockerfile",
 		".env_sample",
 		".gitignore",
-		".github/workflows/test.yml",
-		// ".codeclimate.yml", // TODO: uncomment this file
+		".github/workflows/test-and-deploy.yml",
 		"CHANGELOG.md",
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",

@@ -1,6 +1,6 @@
 ![Twilio SendGrid Logo](twilio_sendgrid_logo.png)
 
-[![BuildStatus](https://github.com/sendgrid/sendgrid-go/actions/workflows/test.yml/badge.svg)](https://github.com/sendgrid/sendgrid-go/actions/workflows/test.yml)
+[![Test and Deploy](https://github.com/sendgrid/sendgrid-go/actions/workflows/test-and-deploy.yml/badge.svg)](https://github.com/sendgrid/sendgrid-go/actions/workflows/test-and-deploy.yml)
 [![GoDoc](https://godoc.org/github.com/sendgrid/sendgrid-go?status.svg)](https://godoc.org/github.com/sendgrid/sendgrid-go)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
