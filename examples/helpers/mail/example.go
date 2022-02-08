@@ -147,8 +147,16 @@ func kitchenSink() []byte {
 	mailSettings.SetBCC(bccSettings)
 	sandBoxMode := mail.NewSetting(true)
 	mailSettings.SetSandboxMode(sandBoxMode)
+	// Note: Bypass Spam, Bounce, and Unsubscribe management cannot
+	// be combined with Bypass List Management
+	bypassBounceManagement := mail.NewSetting(true)
+	mailSettings.SetBypassBounceManagement(bypassBounceManagement)
 	bypassListManagement := mail.NewSetting(true)
 	mailSettings.SetBypassListManagement(bypassListManagement)
+	bypassSpamManagement := mail.NewSetting(true)
+	mailSettings.SetBypassSpamManagement(bypassSpamManagement)
+	bypassUnsubscribeManagement := mail.NewSetting(true)
+	mailSettings.SetBypassUnsubscribeManagement(bypassUnsubscribeManagement)
 	footerSetting := mail.NewFooterSetting()
 	footerSetting.SetText("Footer Text")
 	footerSetting.SetEnable(true)
