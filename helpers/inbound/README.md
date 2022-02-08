@@ -27,10 +27,10 @@ func inboundHandler(response http.ResponseWriter, request *http.Request) {
     
 	fmt.Print(parsedEmail.Headers["From"])
 	
-	for filename, contents := range parsedEmail.Attachments {
-		// Do something with an attachment
-		handleAttachment(filename, contents)
-	}
+  for _, file := range parsedEmail.Attachments {
+      // Do something with an attachment
+      handleAttachment(file.Filename, file.Content)
+  }
     
 	for section, body := range parsedEmail.Body {
 		// Do something with the email body
