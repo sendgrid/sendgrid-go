@@ -51,7 +51,7 @@ We welcome direct contributions to the sendgrid-go code base. Thank you!
 
 ##### Prerequisites #####
 
-- Go 1.6
+- Go version 1.14, 1.15 or 1.16
 - [rest](https://github.com/sendgrid/rest)
 
 ##### Initial setup: #####
