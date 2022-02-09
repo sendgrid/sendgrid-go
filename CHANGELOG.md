@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2022-02-09] Version 3.11.0
+---------------------------
+**Library - Feature**
+- [PR #443](https://github.com/sendgrid/sendgrid-go/pull/443): Refactor Inbound package to provide access to SendGrid's pre-processing. Thanks to [@qhenkart](https://github.com/qhenkart)!
+
+**Library - Docs**
+- [PR #454](https://github.com/sendgrid/sendgrid-go/pull/454): add docs for bypass mail options. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+**Library - Chore**
+- [PR #453](https://github.com/sendgrid/sendgrid-go/pull/453): upgrade supported language versions. Thanks to [@childish-sambino](https://github.com/childish-sambino)!
+- [PR #452](https://github.com/sendgrid/sendgrid-go/pull/452): merge test and gh release workflows. Thanks to [@shwetha-manvinkurke](https://github.com/shwetha-manvinkurke)!
+
+
 [2022-01-12] Version 3.10.5
 ---------------------------
 **Library - Chore**
