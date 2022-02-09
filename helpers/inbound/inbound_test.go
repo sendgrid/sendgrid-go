@@ -60,12 +60,13 @@ func TestParse(t *testing.T) {
 			email, err := Parse(req)
 			if test.expectedError != nil {
 				assert.Error(subTest, err, "expected an error to occur")
-			} else {
-				assert.NoError(subTest, err, "did NOT expect an error to occur")
-
-				from := "Example User <test@example.com>"
-				assert.Equalf(subTest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
+				return
 			}
+
+			assert.NoError(subTest, err, "did NOT expect an error to occur")
+
+			from := "Example User <test@example.com>"
+			assert.Equalf(subTest, email.Headers["From"], from, "Expected From: %s, Got: %s", from, email.Headers["From"])
 		})
 	}
 }
@@ -128,4 +129,52 @@ Content-Transfer-Encoding: quoted-printable
 	// Subject Test Email
 	// Content-Type multipart/mixed; boundary=TwiLIo
 	// Hello Twilio SendGrid!
+}
+
+func TestValidate(t *testing.T) {
+	tests := []struct {
+		name          string
+		values        map[string][]string
+		expectedError error
+	}{
+		{
+			name:          "MissingHeaders",
+			values:        map[string][]string{},
+			expectedError: fmt.Errorf("missing DKIM and SPF score"),
+		},
+		{
+			name:          "FailedDkim",
+			values:        map[string][]string{"dkim": {"pass", "fail", "pass"}, "SPF": {"pass"}},
+			expectedError: fmt.Errorf("DKIM validation failed"),
+		},
+		{
+			name:          "FailedSpf",
+			values:        map[string][]string{"dkim": {"pass", "pass", "pass"}, "SPF": {"pass", "fail", "pass"}},
+			expectedError: fmt.Errorf("SPF validation failed"),
+		},
+		{
+			name:          "FailedSpfandDkim",
+			values:        map[string][]string{"dkim": {"pass", "pass", "fail"}, "SPF": {"pass", "fail", "pass"}},
+			expectedError: fmt.Errorf("DKIM validation failed"),
+		},
+		{
+			name:   "success",
+			values: map[string][]string{"dkim": {"pass", "pass", "pass"}, "SPF": {"pass", "pass", "pass"}},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(subTest *testing.T) {
+			//Load POST body
+			email := ParsedEmail{rawValues: test.values}
+			err := email.Validate()
+
+			if test.expectedError != nil {
+				assert.EqualError(subTest, test.expectedError, err.Error())
+				return
+			}
+
+			assert.NoError(subTest, err, "did NOT expect an error to occur")
+		})
+	}
 }
