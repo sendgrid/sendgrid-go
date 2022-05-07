@@ -34,7 +34,6 @@ func TestRepoFiles(t *testing.T) {
 		"CHANGELOG.md",
 		"CODE_OF_CONDUCT.md",
 		"CONTRIBUTING.md",
-		"ISSUE_TEMPLATE.md",
 		"LICENSE",
 		"PULL_REQUEST_TEMPLATE.md",
 		"README.md",
