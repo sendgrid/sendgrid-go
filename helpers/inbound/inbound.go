@@ -180,7 +180,7 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 		if email.Headers["Content-Transfer-Encoding"] == "quoted-printable" {
 			decoded, err := ioutil.ReadAll(quotedprintable.NewReader(strings.NewReader(wholeEmail)))
 			if err != nil {
-				return fmt.Errorf("failed to decode quoted-printable: %w", err)
+				return err
 			}
 			wholeEmail = string(decoded)
 		}
