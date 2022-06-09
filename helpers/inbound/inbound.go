@@ -194,6 +194,9 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 		if err == io.EOF {
 			return nil
 		}
+		if err != nil {
+			return err
+		}
 		rawEmailBody, err := parseMultipart(emailPart, emailPart.Header.Get("Content-Type"))
 		if err != nil {
 			return err
@@ -203,6 +206,9 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 				emailBodyPart, err := rawEmailBody.NextPart()
 				if err == io.EOF {
 					break
+				}
+				if err != nil {
+					return err
 				}
 				header := emailBodyPart.Header.Get("Content-Type")
 				b, err := ioutil.ReadAll(emailPart)
