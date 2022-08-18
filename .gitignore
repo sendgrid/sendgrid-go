@@ -7,3 +7,4 @@ sendgrid.env
 .vscode
 prism*
 **/.idea/**/*
+profile.out
