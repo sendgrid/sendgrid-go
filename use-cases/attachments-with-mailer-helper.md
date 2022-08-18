@@ -34,7 +34,7 @@ func main() {
   
   // read/attach .txt file
   a_txt := mail.NewAttachment()
-  dat, err := ioutil.ReadFile("testing.txt")
+  dat, err := io.ReadFile("testing.txt")
   if err != nil {
     fmt.Println(err)
   }
@@ -46,7 +46,7 @@ func main() {
   
   // read/attach .pdf file
   a_pdf := mail.NewAttachment()
-  dat, err = ioutil.ReadFile("testing.pdf")
+  dat, err = io.ReadFile("testing.pdf")
   if err != nil {
     fmt.Println(err)
   }
@@ -58,7 +58,7 @@ func main() {
 
   // read/attach inline .jpg file
   a_jpg := mail.NewAttachment()
-  dat, err = ioutil.ReadFile("testing.jpg")
+  dat, err = io.ReadFile("testing.jpg")
   if err != nil {
     fmt.Println(err)
   }

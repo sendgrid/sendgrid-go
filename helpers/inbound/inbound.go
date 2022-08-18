@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime"
 	"mime/multipart"
 	"net/http"
@@ -184,7 +183,7 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 					break
 				}
 				header := emailBodyPart.Header.Get("Content-Type")
-				b, err := ioutil.ReadAll(emailPart)
+				b, err := io.ReadAll(emailPart)
 				if err != nil {
 					return err
 				}
@@ -192,14 +191,14 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 			}
 
 		} else if emailPart.FileName() != "" {
-			b, err := ioutil.ReadAll(emailPart)
+			b, err := io.ReadAll(emailPart)
 			if err != nil {
 				return err
 			}
 			email.Attachments[emailPart.FileName()] = b
 		} else {
 			header := emailPart.Header.Get("Content-Type")
-			b, err := ioutil.ReadAll(emailPart)
+			b, err := io.ReadAll(emailPart)
 			if err != nil {
 				return err
 			}

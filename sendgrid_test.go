@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -19,7 +18,7 @@ import (
 )
 
 func TestLicenseYear(t *testing.T) {
-	d, err := ioutil.ReadFile("LICENSE")
+	d, err := os.ReadFile("LICENSE")
 	assert.Nil(t, err, "Cannot read the LICENSE file")
 	l := fmt.Sprintf("Copyright (C) %v, Twilio SendGrid, Inc.", time.Now().Year())
 	assert.True(t, strings.Contains(string(d), l), fmt.Sprintf("License date range is not correct, it should be: %v", l))
