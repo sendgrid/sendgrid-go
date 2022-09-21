@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2022-09-21] Version 3.12.0
+---------------------------
+**Library - Feature**
+- [PR #464](https://github.com/sendgrid/sendgrid-go/pull/464): go 1.19 compatibility. Thanks to [@AlaricWhitney](https://github.com/AlaricWhitney)!
+
+**Library - Test**
+- [PR #462](https://github.com/sendgrid/sendgrid-go/pull/462): Adding misc as PR type. Thanks to [@rakatyal](https://github.com/rakatyal)!
+
+**Library - Docs**
+- [PR #459](https://github.com/sendgrid/sendgrid-go/pull/459): Modify README.md in alignment with SendGrid Support. Thanks to [@garethpaul](https://github.com/garethpaul)!
+
+
 [2022-03-09] Version 3.11.1
 ---------------------------
 **Library - Chore**
