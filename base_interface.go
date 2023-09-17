@@ -1,6 +1,8 @@
 package sendgrid
 
 import (
+	"bytes"
+	"compress/gzip"
 	"context"
 	"errors"
 	"net/http"
@@ -13,7 +15,7 @@ import (
 
 // Version is this client library's current version
 const (
-	Version        = "3.12.0"
+	Version        = "3.13.0"
 	rateLimitRetry = 5
 	rateLimitSleep = 1100
 )
@@ -61,6 +63,24 @@ func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
 // SendWithContext sends an email through Twilio SendGrid with context.Context.
 func (cl *Client) SendWithContext(ctx context.Context, email *mail.SGMailV3) (*rest.Response, error) {
 	cl.Body = mail.GetRequestBody(email)
+	// when Content-Encoding header is set to "gzip"
+	// mail body is compressed using gzip according to
+	// https://docs.sendgrid.com/api-reference/mail-send/mail-send#mail-body-compression
+	if cl.Headers["Content-Encoding"] == "gzip" {
+		var gzipped bytes.Buffer
+		gz := gzip.NewWriter(&gzipped)
+		if _, err := gz.Write(cl.Body); err != nil {
+			return nil, err
+		}
+		if err := gz.Flush(); err != nil {
+			return nil, err
+		}
+		if err := gz.Close(); err != nil {
+			return nil, err
+		}
+
+		cl.Body = gzipped.Bytes()
+	}
 	return MakeRequestWithContext(ctx, cl.Request)
 }
 
