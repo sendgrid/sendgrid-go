@@ -5,6 +5,8 @@ import (
 	"compress/gzip"
 	"context"
 	"errors"
+	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -20,11 +22,17 @@ const (
 	rateLimitSleep = 1100
 )
 
+var allowedRegionsHostMap = map[string]string{
+	"eu":     "https://api.eu.sendgrid.com",
+	"global": "https://api.sendgrid.com",
+}
+
 type options struct {
 	Auth     string
 	Endpoint string
 	Host     string
 	Subuser  string
+	Region   string
 }
 
 // Client is the Twilio SendGrid Go client
@@ -49,10 +57,36 @@ func requestNew(options options) rest.Request {
 		requestHeaders["On-Behalf-Of"] = options.Subuser
 	}
 
+	host, err := setDataResidency(options)
+	if err == nil {
+		options.Host = host
+	} else {
+		fmt.Println(err)
+		log.Println(err)
+	}
+
 	return rest.Request{
 		BaseURL: options.baseURL(),
 		Headers: requestHeaders,
 	}
+}
+
+func setDataResidency(options options) (string, error) {
+	currentHost := options.Host
+	defaultHost := allowedRegionsHostMap["global"]
+	if currentHost != defaultHost { // for testing, the hostname can be different
+		return currentHost, nil
+	}
+	region := options.Region
+	if region != "" {
+		regionalHost, isPresent := allowedRegionsHostMap[region]
+		if isPresent {
+			return regionalHost, nil
+		} else {
+			return defaultHost, errors.New("error: region can only be \"eu\" or \"global\"")
+		}
+	}
+	return defaultHost, nil
 }
 
 // Send sends an email through Twilio SendGrid
