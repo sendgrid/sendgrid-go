@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/sendgrid/rest"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	"log"
 	"os"
+
+	"github.com/sendgrid/rest"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 
 	"github.com/sendgrid/sendgrid-go"
 )
@@ -15,29 +16,37 @@ var SAMPLE_EMAIL = "test@example.com"
 // SetDataResidency : Set region for sendgrid.
 func SetDataResidencyGlobal() {
 	message := buildHelloEmail()
-	request := buildSendgridObj("global")
-	request.Body = mail.GetRequestBody(message)
-	response, err := sendgrid.API(request)
+	request, err := buildSendgridObj("global")
 	if err != nil {
 		log.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		request.Body = mail.GetRequestBody(message)
+		response, err := sendgrid.API(request)
+		if err != nil {
+			log.Println(err)
+		} else {
+			fmt.Println(response.StatusCode)
+			fmt.Println(response.Body)
+			fmt.Println(response.Headers)
+		}
 	}
 }
 
 func SetDataResidencyEu() {
 	message := buildHelloEmail()
-	request := buildSendgridObj("eu")
-	request.Body = mail.GetRequestBody(message)
-	response, err := sendgrid.API(request)
+	request, err := buildSendgridObj("eu")
 	if err != nil {
 		log.Println(err)
 	} else {
-		fmt.Println(response.StatusCode)
-		fmt.Println(response.Body)
-		fmt.Println(response.Headers)
+		request.Body = mail.GetRequestBody(message)
+		response, err := sendgrid.API(request)
+		if err != nil {
+			log.Println(err)
+		} else {
+			fmt.Println(response.StatusCode)
+			fmt.Println(response.Body)
+			fmt.Println(response.Headers)
+		}
 	}
 }
 
@@ -76,10 +85,14 @@ func buildHelloEmail() *mail.SGMailV3 {
 	return message
 }
 
-func buildSendgridObj(region string) rest.Request {
-	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "", region)
+func buildSendgridObj(region string) (rest.Request, error) {
+	request := sendgrid.GetRequest(os.Getenv("SENDGRID_API_KEY"), "/v3/mail/send", "")
 	request.Method = "POST"
-	return request
+	request, err := sendgrid.SetDataResidency(request, region)
+	if err != nil {
+		return request, err
+	}
+	return request, nil
 }
 
 func main() {

@@ -10,27 +10,18 @@ type sendGridOptions struct {
 	Endpoint string
 	Host     string
 	Subuser  string
-	Region   string
 }
 
 // GetRequest
 // @return [Request] a default request object
-func GetRequest(key, endpoint, host string, regionOptional ...string) rest.Request {
-	region := ""
-	if len(regionOptional) > 0 {
-		region = regionOptional[0]
-	}
-	return createSendGridRequest(sendGridOptions{key, endpoint, host, "", region})
+func GetRequest(key, endpoint, host string) rest.Request {
+	return createSendGridRequest(sendGridOptions{key, endpoint, host, ""})
 }
 
 // GetRequestSubuser like GetRequest but with On-Behalf of Subuser
 // @return [Request] a default request object
-func GetRequestSubuser(key, endpoint, host, subuser string, regionOptional ...string) rest.Request {
-	region := ""
-	if len(regionOptional) > 0 {
-		region = regionOptional[0]
-	}
-	return createSendGridRequest(sendGridOptions{key, endpoint, host, subuser, region})
+func GetRequestSubuser(key, endpoint, host, subuser string) rest.Request {
+	return createSendGridRequest(sendGridOptions{key, endpoint, host, subuser})
 }
 
 // createSendGridRequest create Request
@@ -41,7 +32,6 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 		sgOptions.Endpoint,
 		sgOptions.Host,
 		sgOptions.Subuser,
-		sgOptions.Region,
 	}
 
 	if options.Host == "" {
@@ -52,12 +42,8 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 }
 
 // NewSendClient constructs a new Twilio SendGrid client given an API key
-func NewSendClient(key string, regionOptional ...string) *Client {
-	region := ""
-	if len(regionOptional) > 0 {
-		region = regionOptional[0]
-	}
-	request := GetRequest(key, "/v3/mail/send", "", region)
+func NewSendClient(key string) *Client {
+	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
 	return &Client{request}
 }
