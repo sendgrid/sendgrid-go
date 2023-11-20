@@ -72,6 +72,14 @@ func extractEndpoint(link string) (string, error) {
 }
 
 // SetHost changes the baseURL of the request with the host passed
+/*
+ * This allows support for global and eu regions only. This set will likely expand in the future.
+ * Global should be the default
+ * Global region means the message should be sent through:
+ * HTTP: api.sendgrid.com
+ * EU region means the message should be sent through:
+ * HTTP: api.eu.sendgrid.com
+ */
 // @return [Request] the modified request object
 func SetHost(request rest.Request, host string) (rest.Request, error) {
 	endpoint, err := extractEndpoint(request.BaseURL)
