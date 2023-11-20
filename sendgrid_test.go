@@ -81,28 +81,28 @@ func TestGetRequestSubuser(t *testing.T) {
 	ShouldHaveHeaders(&request, t)
 }
 
-func Test_test_set_residency_eu(t *testing.T) {
+func TestSetDataResidencyEU(t *testing.T) {
 	request := GetRequest("API_KEY", "", "")
 	request, err := SetDataResidency(request, "eu")
 	assert.Nil(t, err)
 	assert.Equal(t, "https://api.eu.sendgrid.com", request.BaseURL, "Host not correct as per the region")
 }
 
-func Test_test_set_residency_global(t *testing.T) {
+func TestSetDataResidencyGlobal(t *testing.T) {
 	request := GetRequest("API_KEY", "", "https://api.sendgrid.com")
 	request, err := SetDataResidency(request, "global")
 	assert.Nil(t, err)
 	assert.Equal(t, "https://api.sendgrid.com", request.BaseURL, "Host not correct as per the region")
 }
 
-func Test_test_set_residency_override_host(t *testing.T) {
+func TestSetDataResidencyOverrideHost(t *testing.T) {
 	request := GetRequest("API_KEY", "", "https://test.api.com")
 	request, err := SetDataResidency(request, "eu")
 	assert.Nil(t, err)
 	assert.Equal(t, "https://api.eu.sendgrid.com", request.BaseURL, "Host not correct as per the region")
 }
 
-func Test_test_set_residency_override_data_residency(t *testing.T) {
+func TestSetDataResidencyOverrideDataResidency(t *testing.T) {
 	request := GetRequest("API_KEY", "", "")
 	request, err := SetDataResidency(request, "eu")
 	assert.Nil(t, err)
@@ -111,19 +111,19 @@ func Test_test_set_residency_override_data_residency(t *testing.T) {
 	assert.Equal(t, "https://test.api.com", request.BaseURL, "Host not correct as per the region")
 }
 
-func Test_test_set_residency_incorrect_region(t *testing.T) {
+func TestSetDataResidencyIncorrectRegion(t *testing.T) {
 	request := GetRequest("API_KEY", "", "")
 	_, err := SetDataResidency(request, "foo")
 	assert.NotNil(t, err, "error: region can only be \"eu\" or \"global\"")
 }
 
-func Test_test_set_residency_null_region(t *testing.T) {
+func TestSetDataResidencyNullRegion(t *testing.T) {
 	request := GetRequest("API_KEY", "", "")
 	_, err := SetDataResidency(request, "")
 	assert.NotNil(t, err, "error: region can only be \"eu\" or \"global\"")
 }
 
-func Test_test_set_residency_default_region(t *testing.T) {
+func TestSetDataResidencyDefaultRegion(t *testing.T) {
 	request := GetRequest("API_KEY", "", "")
 	assert.Equal(t, "https://api.sendgrid.com", request.BaseURL, "Host not correct as per the region")
 }
