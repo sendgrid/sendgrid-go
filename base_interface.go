@@ -61,7 +61,8 @@ func requestNew(options options) rest.Request {
 	}
 }
 
-func ExtractEndpoint(link string) (string, error) {
+// extractEndpoint extracts the endpoint from a baseURL
+func extractEndpoint(link string) (string, error) {
 	parsedURL, err := url.Parse(link)
 	if err != nil {
 		return "", err
@@ -70,8 +71,10 @@ func ExtractEndpoint(link string) (string, error) {
 	return parsedURL.Path, nil
 }
 
+// SetHost changes the baseURL of the request with the host passed
+// @return [Request] the modified request object
 func SetHost(request rest.Request, host string) (rest.Request, error) {
-	endpoint, err := ExtractEndpoint(request.BaseURL)
+	endpoint, err := extractEndpoint(request.BaseURL)
 	if err != nil {
 		return request, err
 	}
@@ -80,17 +83,18 @@ func SetHost(request rest.Request, host string) (rest.Request, error) {
 	return request, nil
 }
 
+// SetDataResidency modifies the host as per the region
+// @return [Request] the modified request object
 func SetDataResidency(request rest.Request, region string) (rest.Request, error) {
-	regionalHost, isPresent := allowedRegionsHostMap[region]
-	if isPresent {
-		request, err := SetHost(request, regionalHost)
-		if err != nil {
-			return request, err
-		}
-		return request, nil
+	regionalHost, present := allowedRegionsHostMap[region]
+	if !present {
+		return request, errors.New("error: region can only be \"eu\" or \"global\"")
 	}
-
-	return request, errors.New("error: region can only be \"eu\" or \"global\"")
+	request, err := SetHost(request, regionalHost)
+	if err != nil {
+		return request, err
+	}
+	return request, nil
 }
 
 // Send sends an email through Twilio SendGrid
