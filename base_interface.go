@@ -6,7 +6,6 @@ import (
 	"context"
 	"errors"
 	"net/http"
-	"net/url"
 	"strconv"
 	"time"
 
@@ -20,11 +19,6 @@ const (
 	rateLimitRetry = 5
 	rateLimitSleep = 1100
 )
-
-var allowedRegionsHostMap = map[string]string{
-	"eu":     "https://api.eu.sendgrid.com",
-	"global": "https://api.sendgrid.com",
-}
 
 type options struct {
 	Auth     string
@@ -59,50 +53,6 @@ func requestNew(options options) rest.Request {
 		BaseURL: options.baseURL(),
 		Headers: requestHeaders,
 	}
-}
-
-// extractEndpoint extracts the endpoint from a baseURL
-func extractEndpoint(link string) (string, error) {
-	parsedURL, err := url.Parse(link)
-	if err != nil {
-		return "", err
-	}
-
-	return parsedURL.Path, nil
-}
-
-// SetHost changes the baseURL of the request with the host passed
-/*
- * This allows support for global and eu regions only. This set will likely expand in the future.
- * Global should be the default
- * Global region means the message should be sent through:
- * HTTP: api.sendgrid.com
- * EU region means the message should be sent through:
- * HTTP: api.eu.sendgrid.com
- */
-// @return [Request] the modified request object
-func SetHost(request rest.Request, host string) (rest.Request, error) {
-	endpoint, err := extractEndpoint(request.BaseURL)
-	if err != nil {
-		return request, err
-	}
-
-	request.BaseURL = host + endpoint
-	return request, nil
-}
-
-// SetDataResidency modifies the host as per the region
-// @return [Request] the modified request object
-func SetDataResidency(request rest.Request, region string) (rest.Request, error) {
-	regionalHost, present := allowedRegionsHostMap[region]
-	if !present {
-		return request, errors.New("error: region can only be \"eu\" or \"global\"")
-	}
-	request, err := SetHost(request, regionalHost)
-	if err != nil {
-		return request, err
-	}
-	return request, nil
 }
 
 // Send sends an email through Twilio SendGrid
