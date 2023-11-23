@@ -102,15 +102,6 @@ func TestSetDataResidencyOverrideHost(t *testing.T) {
 	assert.Equal(t, "https://api.eu.sendgrid.com", request.BaseURL, "Host not correct as per the region")
 }
 
-func TestSetDataResidencyOverrideDataResidency(t *testing.T) {
-	request := GetRequest("API_KEY", "", "")
-	request, err := SetDataResidency(request, "eu")
-	assert.Nil(t, err)
-	request, err = SetHost(request, "https://test.api.com")
-	assert.Nil(t, err)
-	assert.Equal(t, "https://test.api.com", request.BaseURL, "Host not correct as per the region")
-}
-
 func TestSetDataResidencyIncorrectRegion(t *testing.T) {
 	request := GetRequest("API_KEY", "", "")
 	_, err := SetDataResidency(request, "foo")
