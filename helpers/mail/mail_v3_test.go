@@ -380,6 +380,18 @@ func TestV3PersonalizationSetSendAt(t *testing.T) {
 	assert.Equal(t, sendAt, p.SendAt, fmt.Sprintf("sendat should be %d, got %d", sendAt, p.SendAt))
 }
 
+func TestV3PersonalizationSetSendEachAt(t *testing.T) {
+	sendAts := []int{
+		time.Now().Second(),
+		time.Now().AddDate(0, 0, 1).Second(),
+	}
+
+	p := NewPersonalization()
+	p.SetSendEachAt(sendAts)
+
+	assert.Equal(t, len(sendAts), len(p.SendEachAt), fmt.Sprintf("length of SendEachAt should be %d, got %d", len(sendAts), len(p.SendEachAt)))
+}
+
 func TestV3NewAttachment(t *testing.T) {
 	assert.NotNil(t, NewAttachment(), "NewAttachment() shouldn't return nil")
 }
