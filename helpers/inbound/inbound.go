@@ -6,6 +6,7 @@ import (
 	"io"
 	"mime"
 	"mime/multipart"
+	"mime/quotedprintable"
 	"net/http"
 	"strings"
 )
@@ -167,10 +168,33 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 		return err
 	}
 
+	// if Content-Type is not multipart just set the whole email
+	if raw == nil {
+		if len(sections) < 2 {
+			return nil
+		}
+
+		wholeEmail := sections[1]
+		// decode if needed
+		if email.Headers["Content-Transfer-Encoding"] == "quoted-printable" {
+			decoded, err := ioutil.ReadAll(quotedprintable.NewReader(strings.NewReader(wholeEmail)))
+			if err != nil {
+				return err
+			}
+			wholeEmail = string(decoded)
+		}
+
+		email.Body[email.Headers["Content-Type"]] = wholeEmail
+		return nil
+	}
+
 	for {
 		emailPart, err := raw.NextPart()
 		if err == io.EOF {
 			return nil
+		}
+		if err != nil {
+			return err
 		}
 		rawEmailBody, err := parseMultipart(emailPart, emailPart.Header.Get("Content-Type"))
 		if err != nil {
@@ -181,6 +205,9 @@ func (email *ParsedEmail) parseRawEmail(rawEmail string) error {
 				emailBodyPart, err := rawEmailBody.NextPart()
 				if err == io.EOF {
 					break
+				}
+				if err != nil {
+					return err
 				}
 				header := emailBodyPart.Header.Get("Content-Type")
 				b, err := io.ReadAll(emailPart)
