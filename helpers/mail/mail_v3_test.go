@@ -96,6 +96,17 @@ func TestV3SetReplyTo(t *testing.T) {
 	assert.Equal(t, address, m.ReplyTo.Address, fmt.Sprintf("address should be %s, got %s", address, e.Address))
 }
 
+func TestV3SetReplyToList(t *testing.T) {
+	m := NewV3Mail()
+	replyTos := []*Email{
+		NewEmail("Example User", "test@example.com"),
+		NewEmail("Example User", "test@example.com"),
+	}
+	m.SetReplyToList(replyTos)
+
+	assert.Equal(t, len(replyTos), len(m.ReplyToList), fmt.Sprintf("length of To should be %d, got %d", len(replyTos), len(m.ReplyToList)))
+}
+
 func TestV3SetTemplateID(t *testing.T) {
 	m := NewV3Mail()
 
