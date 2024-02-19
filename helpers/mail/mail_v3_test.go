@@ -406,7 +406,7 @@ func TestV3AttachmentSetContentID(t *testing.T) {
 }
 
 func TestV3AttachmentSetDisposition(t *testing.T) {
-	disposition := "inline"
+	disposition := DispositionInline
 	a := NewAttachment().SetDisposition(disposition)
 
 	assert.Equal(t, disposition, a.Disposition, fmt.Sprintf("Disposition should be %s, got %s", disposition, a.Disposition))
