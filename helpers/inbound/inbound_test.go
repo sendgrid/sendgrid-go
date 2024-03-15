@@ -136,13 +136,18 @@ func TestValidate(t *testing.T) {
 		name          string
 		values        map[string][]string
 		expectedError error
+		config        ValidateConfig
 	}{
 		{
-			name:          "MissingHeaders",
+			name:          "MissingSPFHeaders",
 			values:        map[string][]string{},
-			expectedError: fmt.Errorf("missing DKIM and SPF score"),
+			expectedError: fmt.Errorf("missing SPF score"),
 		},
 		{
+			name:          "MissingDKIMHeaders",
+			values:        map[string][]string{"SPF": {"pass"}},
+			expectedError: fmt.Errorf("missing DKIM score"),
+		}, {
 			name:          "FailedDkim",
 			values:        map[string][]string{"dkim": {"pass", "fail", "pass"}, "SPF": {"pass"}},
 			expectedError: fmt.Errorf("DKIM validation failed"),
@@ -161,13 +166,29 @@ func TestValidate(t *testing.T) {
 			name:   "success",
 			values: map[string][]string{"dkim": {"pass", "pass", "pass"}, "SPF": {"pass", "pass", "pass"}},
 		},
+		{
+			name:   "dkimOptionalAndPresent",
+			values: map[string][]string{"dkim": {"pass", "pass", "pass"}, "SPF": {"pass", "pass", "pass"}},
+			config: NewValidateConfig().WithDKIMOptional(),
+		},
+		{
+			name:          "dkimOptionalWithFailure",
+			values:        map[string][]string{"dkim": {"fail", "pass", "pass"}, "SPF": {"pass", "pass", "pass"}},
+			config:        NewValidateConfig().WithDKIMOptional(),
+			expectedError: fmt.Errorf("DKIM validation failed"),
+		},
+		{
+			name:   "dkimOptionalAndAbsent",
+			values: map[string][]string{"SPF": {"pass", "pass", "pass"}},
+			config: NewValidateConfig().WithDKIMOptional(),
+		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(subTest *testing.T) {
 			//Load POST body
 			email := ParsedEmail{rawValues: test.values}
-			err := email.Validate()
+			err := email.Validate(test.config)
 
 			if test.expectedError != nil {
 				assert.EqualError(subTest, test.expectedError, err.Error())

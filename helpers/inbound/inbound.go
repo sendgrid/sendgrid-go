@@ -233,10 +233,37 @@ func (email *ParsedEmail) parseHeaders(headers string) {
 	}
 }
 
+// ValidateConfig adds configuration options for validating a parsed email. Specifically turning DKIM as optional. DKIM validates emails in transit from tampering. However many valid email clients
+// do not have it configured
+// SPF could potentially be added but it poses a more significant security risk
+type ValidateConfig struct {
+	dkimOptional bool
+}
+
+// NewValidateConfig returns a configuration struct for validating the parsed email. Specifically turning DKIM as optional. DKIM validates emails in transit from tampering. However many valid email clients
+// do not have it configured
+func NewValidateConfig() ValidateConfig {
+	return ValidateConfig{}
+}
+
+// WithDKIMOptional validates DKIM values only if they exist. This allows the inbound client to support more email clients that might not support this configuration
+func (vc ValidateConfig) WithDKIMOptional() ValidateConfig {
+	vc.dkimOptional = true
+	return vc
+}
+
 // Validate validates the DKIM and SPF scores to ensure that the email client and address was not spoofed
-func (email *ParsedEmail) Validate() error {
-	if len(email.rawValues["dkim"]) == 0 || len(email.rawValues["SPF"]) == 0 {
-		return fmt.Errorf("missing DKIM and SPF score")
+func (email *ParsedEmail) Validate(config ...ValidateConfig) error {
+	var dkimOptional bool
+	if len(config) > 0 {
+		dkimOptional = config[0].dkimOptional
+	}
+	if len(email.rawValues["SPF"]) == 0 {
+		return fmt.Errorf("missing SPF score")
+	}
+
+	if !dkimOptional && len(email.rawValues["dkim"]) == 0 {
+		return fmt.Errorf("missing DKIM score")
 	}
 
 	for _, val := range email.rawValues["dkim"] {
