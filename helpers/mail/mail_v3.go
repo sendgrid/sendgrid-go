@@ -37,6 +37,7 @@ type SGMailV3 struct {
 	MailSettings     *MailSettings      `json:"mail_settings,omitempty"`
 	TrackingSettings *TrackingSettings  `json:"tracking_settings,omitempty"`
 	ReplyTo          *Email             `json:"reply_to,omitempty"`
+	ReplyToList      []*Email           `json:"reply_to_list,omitempty"`
 }
 
 // Personalization holds mail body struct
@@ -229,6 +230,12 @@ func (s *SGMailV3) SetFrom(e *Email) *SGMailV3 {
 // SetReplyTo ...
 func (s *SGMailV3) SetReplyTo(e *Email) *SGMailV3 {
 	s.ReplyTo = e
+	return s
+}
+
+// SetReplyToList ...
+func (s *SGMailV3) SetReplyToList(e []*Email) *SGMailV3 {
+	s.ReplyToList = e
 	return s
 }
 
