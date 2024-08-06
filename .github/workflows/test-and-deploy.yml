@@ -39,7 +39,7 @@ jobs:
       - name: Set Go env vars
         run: |
           echo "GOPATH=/go" >> $GITHUB_ENV
-          echo "GOBIN=/go/bin" >> $GITHUB_ENV
+          echo "GOBIN=/bin" >> $GITHUB_ENV
           echo "GO111MODULE=off" >> $GITHUB_ENV
           
       - name: Install Docker Compose
