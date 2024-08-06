@@ -35,6 +35,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
+      # Set up Docker Compose
+      - name: Set up Docker Compose
+        uses: docker/compose-action@v2
+        with:
+          version: '2.15.0' # Use the latest version or specify the required version
 
       - name: Set Go env vars
         run: |
