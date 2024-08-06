@@ -1,4 +1,4 @@
-ARG version=latest
+ARG version=1.21.11
 FROM golang:$version
 
 ENV GO111MODULE 'off'
