@@ -1,5 +1,4 @@
-ARG version=1.20.10
-FROM golang:1.20.10
+FROM golang:1.21.11
 
 ENV GO111MODULE 'off'
 
