@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2024-08-26] Version 3.16.0
+---------------------------
+**Library - Chore**
+- [PR #479](https://github.com/sendgrid/sendgrid-go/pull/479): updates for manual release. Thanks to [@sbansla](https://github.com/sbansla)!
+- [PR #477](https://github.com/sendgrid/sendgrid-go/pull/477): fixed failed test cases due to go upgrade. Thanks to [@sbansla](https://github.com/sbansla)!
+
+**Library - Feature**
+- [PR #471](https://github.com/sendgrid/sendgrid-go/pull/471): add mail_v3 functionality for reply_to_list. Thanks to [@lopezator](https://github.com/lopezator)!
+
+
 [2024-08-08] Version 3.15.0
 ---------------------------
 **Library - Feature**
