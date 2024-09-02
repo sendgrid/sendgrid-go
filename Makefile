@@ -1,4 +1,4 @@
-.PHONY: test install test-integ test-docker
+.PHONY: test install test-integ test-docker goimports
 
 install:
 	go get -t -v ./...
@@ -13,3 +13,8 @@ version ?= latest
 test-docker:
 	curl -s https://raw.githubusercontent.com/sendgrid/sendgrid-oai/HEAD/prism/prism.sh -o prism.sh
 	version=$(version) bash ./prism.sh
+
+goimports:
+	go install golang.org/x/tools/cmd/goimports@latest
+	goimports -w .
+	go mod tidy

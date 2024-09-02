@@ -3,8 +3,30 @@ package sendgrid
 import (
 	"errors"
 	"github.com/sendgrid/rest"
+	"github.com/sendgrid/sendgrid-go/client"
+	Alert "github.com/sendgrid/sendgrid-go/rest/api/v3/alerts"
+	Student "github.com/sendgrid/sendgrid-go/rest/api/v3/student"
 	"net/url"
+	"os"
 )
+
+type RestClient struct {
+	*client.RequestHandler
+	Student *Student.ApiService
+	Alert   *Alert.ApiService
+}
+
+// Meta holds relevant pagination resources.
+type Meta struct {
+	FirstPageURL    *string `json:"first_page_url"`
+	Key             *string `json:"key"`
+	LastPageURL     *string `json:"last_page_url,omitempty"`
+	NextPageURL     *string `json:"next_page_url"`
+	Page            *int    `json:"page"`
+	PageSize        *int    `json:"page_size"`
+	PreviousPageURL *string `json:"previous_page_url"`
+	URL             *string `json:"url"`
+}
 
 // sendGridOptions for CreateRequest
 type sendGridOptions struct {
@@ -47,6 +69,42 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 	}
 
 	return requestNew(options)
+}
+
+type ClientParams struct {
+	ApiKey string
+	Client client.BaseClient
+}
+
+// NewRestClientWithParams provides an initialized Twilio RestClient with params.
+func NewRestClientWithParams(params ClientParams) *RestClient {
+	requestHandler := client.NewRequestHandler(params.Client)
+
+	if params.Client == nil {
+		apiKey := params.ApiKey
+		if apiKey == "" {
+			apiKey = os.Getenv("SENDGRID_API_KEY")
+		}
+
+		defaultClient := &client.Client{
+			Credentials: client.NewCredentials(apiKey),
+		}
+
+		requestHandler = client.NewRequestHandler(defaultClient)
+	}
+
+	c := &RestClient{
+		RequestHandler: requestHandler,
+	}
+
+	c.Student = Student.NewApiService(c.RequestHandler)
+	c.Alert = Alert.NewApiService(c.RequestHandler)
+	return c
+}
+
+// NewRestClient provides an initialized Twilio RestClient.
+func NewRestClient() *RestClient {
+	return NewRestClientWithParams(ClientParams{})
 }
 
 // NewSendClient constructs a new Twilio SendGrid client given an API key
