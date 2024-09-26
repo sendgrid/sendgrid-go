@@ -2,12 +2,14 @@ package sendgrid
 
 import (
 	"errors"
-	"github.com/sendgrid/rest"
-	"github.com/sendgrid/sendgrid-go/client"
-	Alert "github.com/sendgrid/sendgrid-go/rest/api/v3/alerts"
-	Student "github.com/sendgrid/sendgrid-go/rest/api/v3/student"
 	"net/url"
 	"os"
+	"time"
+
+	"github.com/sendgrid/rest"
+	"github.com/sendgrid/sendgrid-go/client"
+	Alert "github.com/sendgrid/sendgrid-go/rest/alerts"
+	Student "github.com/sendgrid/sendgrid-go/rest/student"
 )
 
 type RestClient struct {
