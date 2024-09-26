@@ -42,6 +42,12 @@ var allowedRegionsHostMap = map[string]string{
 	"global": "https://api.sendgrid.com",
 }
 
+// map for allowed regions, global and eu currently
+var allowedRegions = map[string]bool{
+	"eu":     true,
+	"global": true,
+}
+
 // GetRequest
 // @return [Request] a default request object
 func GetRequest(key, endpoint, host string) rest.Request {
@@ -122,6 +128,28 @@ func extractEndpoint(link string) (string, error) {
 	}
 
 	return parsedURL.Path, nil
+}
+
+// SetTimeout sets the Timeout for Twilio HTTP requests.
+func (c *RestClient) SetTimeout(timeout time.Duration) {
+	c.RequestHandler.Client.SetTimeout(timeout)
+}
+
+// SetEdge sets the Edge for the Twilio request.
+// Not supported in sendgrid currently
+func (c *RestClient) SetEdge(edge string) {
+	c.RequestHandler.Edge = edge
+}
+
+// SetRegion sets the Region for the Twilio request. Defaults to "us1" if an edge is provided.
+func (c *RestClient) SetRegion(region string) {
+	// check if region in "eu" or "global"
+
+	//isAllowed, presentInMap := allowedRegions[region]
+	//if !presentInMap || !isAllowed {
+	//	return errors.New("error: region can only be \"eu\" or \"global\"")
+	//}
+	c.RequestHandler.Region = region
 }
 
 // SetDataResidency modifies the host as per the region
