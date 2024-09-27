@@ -94,10 +94,10 @@ func (c *RequestHandler) Patch(path string, bodyData url.Values, headers map[str
 	return c.sendRequest(http.MethodPatch, path, bodyData, headers, body...)
 }
 
-func (c *RequestHandler) Get(path string, queryData url.Values, headers map[string]interface{}) (*http.Response, error) {
-	return c.sendRequest(http.MethodGet, path, queryData, headers)
+func (c *RequestHandler) Get(path string, queryData url.Values, headers map[string]interface{}, body ...byte) (*http.Response, error) {
+	return c.sendRequest(http.MethodGet, path, queryData, headers, body...)
 }
 
-func (c *RequestHandler) Delete(path string, nothing url.Values, headers map[string]interface{}) (*http.Response, error) {
-	return c.sendRequest(http.MethodDelete, path, nil, headers)
+func (c *RequestHandler) Delete(path string, nothing url.Values, headers map[string]interface{}, body ...byte) (*http.Response, error) {
+	return c.sendRequest(http.MethodDelete, path, nil, headers, body...)
 }
