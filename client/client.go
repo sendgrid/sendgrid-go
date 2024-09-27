@@ -1,4 +1,4 @@
-// Package client provides internal utilities for the twilio-go client library.
+// Package client provides internal utilities for the sendgrid-go client library.
 package client
 
 import (
@@ -164,7 +164,7 @@ func (c *Client) SendRequest(method string, rawURL string, data url.Values,
 
 	setBearerToken(req, c.bearerAuth())
 
-	// E.g. "User-Agent": "twilio-go/1.0.0 (darwin amd64) go/go1.17.8"
+	// E.g. "User-Agent": "sendgrid-go/1.0.0 (darwin amd64) go/go1.17.8"
 	userAgent := fmt.Sprintf("sendgrid-go/%s (%s %s) go/%s", LibraryVersion, runtime.GOOS, runtime.GOARCH, goVersion)
 
 	if len(c.UserAgentExtensions) > 0 {
