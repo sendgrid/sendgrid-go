@@ -17,49 +17,47 @@ import (
 	"time"
 
 	"github.com/sendgrid/rest"
-	"github.com/sendgrid/sendgrid-go/client"
-	AccountProvisioningV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/account_provisioning"
-	AlertsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/alerts"
-	ApiKeysV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/api_keys"
-	DomainAuthenticationV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/domain_authentication"
-	EmailActivityV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/email_activity"
-	EmailValidationV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/email_validation"
-	EnforcedTlsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/enforced_tls"
-	IntegrationsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/integrations"
-	IpAccessManagementV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/ip_access_management"
-	IpAddressManagementV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/ip_address_management"
-	IpWarmupV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/ip_warmup"
-	IpsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/ips"
-	LinkBrandingV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/link_branding"
-	LmcCampaignsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/lmc_campaigns"
-	LmcContactdbV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/lmc_contactdb"
-	LmcSendersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/lmc_senders"
-	MailV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mail"
-	MailSettingsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mail_settings"
-	McCustomFieldsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_custom_fields"
-	McDesignsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_designs"
-	McListsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_lists"
-	McSegmentsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_segments"
-	McSegments2V3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_segments_2"
-	McSendersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_senders"
-	McSinglesendsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_singlesends"
-	McStatsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_stats"
-	McTestV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_test"
-	PartnerV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/partner"
-	RecipientsDataErasureV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/recipients_data_erasure"
-	ReverseDnsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/reverse_dns"
-	ScheduledSendsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/scheduled_sends"
-	ScopesV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/scopes"
-	SeqV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/seq"
-	SsoV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/sso"
-	StatsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/stats"
-	SubusersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/subusers"
-	TeammatesV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/teammates"
-	TemplatesV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/templates"
-	TrackingSettingsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/tracking_settings"
-	UserV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/user"
-	VerifiedSendersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/verified_senders"
-	WebhooksV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/webhooks"
+	"github.com/sendgrid/sendgrid-go/v4/client"
+	AccountProvisioningV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/account_provisioning"
+	AlertsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/alerts"
+	ApiKeysV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/api_keys"
+	DomainAuthenticationV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/domain_authentication"
+	EmailActivityV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/email_activity"
+	EmailValidationV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/email_validation"
+	EnforcedTlsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/enforced_tls"
+	IntegrationsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/integrations"
+	IpAccessManagementV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ip_access_management"
+	IpAddressManagementV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ip_address_management"
+	IpWarmupV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ip_warmup"
+	IpsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ips"
+	LinkBrandingV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/link_branding"
+	LmcCampaignsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/lmc_campaigns"
+	LmcContactdbV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/lmc_contactdb"
+	LmcSendersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/lmc_senders"
+	MailV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mail"
+	MailSettingsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mail_settings"
+	McCustomFieldsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_custom_fields"
+	McDesignsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_designs"
+	McListsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_lists"
+	McSegments2V3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_segments_2"
+	McSendersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_senders"
+	McSinglesendsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_singlesends"
+	McStatsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_stats"
+	McTestV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mc_test"
+	PartnerV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/partner"
+	RecipientsDataErasureV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/recipients_data_erasure"
+	ReverseDnsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/reverse_dns"
+	ScheduledSendsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/scheduled_sends"
+	ScopesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/scopes"
+	SeqV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/seq"
+	SsoV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/sso"
+	StatsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/stats"
+	SubusersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/subusers"
+	TemplatesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/templates"
+	TrackingSettingsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/tracking_settings"
+	UserV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/user"
+	VerifiedSendersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/verified_senders"
+	WebhooksV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/webhooks"
 )
 
 // RestClient provides access to Sendgrid services.
@@ -86,7 +84,6 @@ type RestClient struct {
 	McCustomFieldsV3        *McCustomFieldsV3.ApiService
 	McDesignsV3             *McDesignsV3.ApiService
 	McListsV3               *McListsV3.ApiService
-	McSegmentsV3            *McSegmentsV3.ApiService
 	McSegments2V3           *McSegments2V3.ApiService
 	McSendersV3             *McSendersV3.ApiService
 	McSinglesendsV3         *McSinglesendsV3.ApiService
@@ -101,7 +98,6 @@ type RestClient struct {
 	SsoV3                   *SsoV3.ApiService
 	StatsV3                 *StatsV3.ApiService
 	SubusersV3              *SubusersV3.ApiService
-	TeammatesV3             *TeammatesV3.ApiService
 	TemplatesV3             *TemplatesV3.ApiService
 	TrackingSettingsV3      *TrackingSettingsV3.ApiService
 	UserV3                  *UserV3.ApiService
@@ -217,7 +213,6 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.McCustomFieldsV3 = McCustomFieldsV3.NewApiService(c.RequestHandler)
 	c.McDesignsV3 = McDesignsV3.NewApiService(c.RequestHandler)
 	c.McListsV3 = McListsV3.NewApiService(c.RequestHandler)
-	c.McSegmentsV3 = McSegmentsV3.NewApiService(c.RequestHandler)
 	c.McSegments2V3 = McSegments2V3.NewApiService(c.RequestHandler)
 	c.McSendersV3 = McSendersV3.NewApiService(c.RequestHandler)
 	c.McSinglesendsV3 = McSinglesendsV3.NewApiService(c.RequestHandler)
@@ -232,7 +227,6 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.SsoV3 = SsoV3.NewApiService(c.RequestHandler)
 	c.StatsV3 = StatsV3.NewApiService(c.RequestHandler)
 	c.SubusersV3 = SubusersV3.NewApiService(c.RequestHandler)
-	c.TeammatesV3 = TeammatesV3.NewApiService(c.RequestHandler)
 	c.TemplatesV3 = TemplatesV3.NewApiService(c.RequestHandler)
 	c.TrackingSettingsV3 = TrackingSettingsV3.NewApiService(c.RequestHandler)
 	c.UserV3 = UserV3.NewApiService(c.RequestHandler)
