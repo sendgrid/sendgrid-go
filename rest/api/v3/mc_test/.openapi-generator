@@ -1,0 +1,12 @@
+.openapi-generator
+.openapi-generator-ignore
+README.md
+api_send_test_marketing_email.go
+api_service.go
+docs/ErrorResponse.md
+docs/ErrorResponseErrorsInner.md
+docs/SendTestMarketingEmail.md
+docs/SendTestMarketingEmailRequest.md
+model_error_response.go
+model_error_response_errors_inner.go
+model_send_test_marketing_email_request.go

@@ -1,0 +1,12 @@
+.openapi-generator
+.openapi-generator-ignore
+README.md
+api_erase_recipient_email_data.go
+api_service.go
+docs/EraseRecipientEmailData.md
+docs/RecipientsDataErasureEraseRecipientsRequest.md
+docs/RecipientsDataErasureErrorV1.md
+docs/RecipientsDataErasureJobId.md
+model_recipients_data_erasure_erase_recipients_request.go
+model_recipients_data_erasure_error_v1.go
+model_recipients_data_erasure_job_id.go
