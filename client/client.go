@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sendgrid/sendgrid-go/client/form"
+	"github.com/sendgrid/sendgrid-go/v4/client/form"
 )
 
 var alphanumericRegex *regexp.Regexp
