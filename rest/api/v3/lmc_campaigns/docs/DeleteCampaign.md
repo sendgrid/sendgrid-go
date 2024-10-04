@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteCampaign
 
-> DeleteCampaign(ctx, CampaignIdoptional)
+> interface{} DeleteCampaign(ctx, CampaignIdoptional)
 
 Delete a Campaign
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
- (empty response body)
+**interface{}**
 
 ### Authorization
 

@@ -10,11 +10,11 @@ Method | HTTP request | Description
 
 ## AddRecipientsToContactDbList
 
-> AddRecipientsToContactDbList(ctx, ListIdoptional)
+> interface{} AddRecipientsToContactDbList(ctx, ListIdoptional)
 
 Add Multiple Recipients to a List
 
-**This endpoint allows you to add multiple recipients to a list.**  Adds existing recipients to a list, passing in the recipient IDs to add. Recipient IDs should be passed exactly as they are returned from recipient endpoints.
+**This endpoint allows you to add multiple recipients to a list.**  Adds existing recipients to a list, passing in the recipient IDs to add. Recipient IDs (base64-encoded email addresses) should be passed exactly as they are returned from recipient endpoints.
 
 ### Path Parameters
 
@@ -32,11 +32,11 @@ Other parameters are passed through a pointer to a AddRecipientsToContactDbListP
 Name | Type | Description
 ------------- | ------------- | -------------
 **Onbehalfof** | **string** | The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id <account-id>`). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: <subuser-username>`). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.
-**RequestBody** | **[]int32** | 
+**RequestBody** | **[]string** | 
 
 ### Return type
 
- (empty response body)
+**interface{}**
 
 ### Authorization
 

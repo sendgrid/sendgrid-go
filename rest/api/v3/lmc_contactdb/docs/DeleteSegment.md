@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteSegment
 
-> DeleteSegment(ctx, SegmentIdoptional)
+> interface{} DeleteSegment(ctx, SegmentIdoptional)
 
 Delete a segment
 
@@ -37,7 +37,7 @@ Name | Type | Description
 
 ### Return type
 
- (empty response body)
+**interface{}**
 
 ### Authorization
 

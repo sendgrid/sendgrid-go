@@ -16,6 +16,7 @@ package openapi
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -27,7 +28,7 @@ type AddRecipientsToContactDbListParam struct {
 	// The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id <account-id>`). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: <subuser-username>`). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.
 	Onbehalfof *string `json:"on-behalf-of,omitempty"`
 	//
-	RequestBody *[]int32 `json:"request_body,omitempty"`
+	RequestBody *[]string `json:"request_body,omitempty"`
 }
 
 func (params *AddRecipientsToContactDbListParam) SetListId(ListId int32) *AddRecipientsToContactDbListParam {
@@ -38,12 +39,12 @@ func (params *AddRecipientsToContactDbListParam) SetOnbehalfof(Onbehalfof string
 	params.Onbehalfof = &Onbehalfof
 	return params
 }
-func (params *AddRecipientsToContactDbListParam) SetRequestBody(RequestBody []int32) *AddRecipientsToContactDbListParam {
+func (params *AddRecipientsToContactDbListParam) SetRequestBody(RequestBody []string) *AddRecipientsToContactDbListParam {
 	params.RequestBody = &RequestBody
 	return params
 }
 
-// **This endpoint allows you to add multiple recipients to a list.**  Adds existing recipients to a list, passing in the recipient IDs to add. Recipient IDs should be passed exactly as they are returned from recipient endpoints.
+// **This endpoint allows you to add multiple recipients to a list.**  Adds existing recipients to a list, passing in the recipient IDs to add. Recipient IDs (base64-encoded email addresses) should be passed exactly as they are returned from recipient endpoints.
 func (c *ApiService) AddRecipientsToContactDbList(params *AddRecipientsToContactDbListParam) (interface{}, error) {
 	path := "/v3/contactdb/lists/{ListId}/recipients"
 	if params != nil && params.ListId != nil {
@@ -97,5 +98,5 @@ func (c *ApiService) AddRecipientsToContactDbList(params *AddRecipientsToContact
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

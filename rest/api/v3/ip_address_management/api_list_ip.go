@@ -16,6 +16,7 @@ package openapi
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -179,5 +180,5 @@ func (c *ApiService) ListIp(params *ListIpParam) (interface{}, error) {
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

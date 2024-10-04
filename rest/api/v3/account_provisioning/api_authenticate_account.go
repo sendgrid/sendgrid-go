@@ -14,6 +14,7 @@
 package openapi
 
 import (
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -47,5 +48,5 @@ func (c *ApiService) AuthenticateAccount(params *AuthenticateAccountParam) (inte
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

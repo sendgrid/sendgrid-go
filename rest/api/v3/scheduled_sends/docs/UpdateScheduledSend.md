@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## UpdateScheduledSend
 
-> UpdateScheduledSend(ctx, BatchIdoptional)
+> interface{} UpdateScheduledSend(ctx, BatchIdoptional)
 
 Update a scheduled send
 
@@ -36,7 +36,7 @@ Name | Type | Description
 
 ### Return type
 
- (empty response body)
+**interface{}**
 
 ### Authorization
 

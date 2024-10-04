@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteRecipientFromContactDbList
 
-> DeleteRecipientFromContactDbList(ctx, ListIdRecipientIdoptional)
+> interface{} DeleteRecipientFromContactDbList(ctx, ListIdRecipientIdoptional)
 
 Delete a Single Recipient from a Single List
 
@@ -37,7 +37,7 @@ Name | Type | Description
 
 ### Return type
 
- (empty response body)
+**interface{}**
 
 ### Authorization
 

@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -65,5 +66,5 @@ func (c *ApiService) ListEngagementQualityScore(params *ListEngagementQualitySco
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

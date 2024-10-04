@@ -36,17 +36,20 @@ import (
 	LmcSendersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/lmc_senders"
 	MailV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mail"
 	MailSettingsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mail_settings"
+	McCustomFieldsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_custom_fields"
 	McDesignsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_designs"
 	McListsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_lists"
 	McSegmentsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_segments"
 	McSegments2V3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_segments_2"
 	McSendersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_senders"
 	McSinglesendsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_singlesends"
+	McStatsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_stats"
 	McTestV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mc_test"
 	PartnerV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/partner"
 	RecipientsDataErasureV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/recipients_data_erasure"
 	ReverseDnsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/reverse_dns"
 	ScheduledSendsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/scheduled_sends"
+	ScopesV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/scopes"
 	SeqV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/seq"
 	SsoV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/sso"
 	StatsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/stats"
@@ -54,6 +57,8 @@ import (
 	TeammatesV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/teammates"
 	TemplatesV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/templates"
 	TrackingSettingsV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/tracking_settings"
+	UserV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/user"
+	VerifiedSendersV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/verified_senders"
 	WebhooksV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/webhooks"
 )
 
@@ -78,17 +83,20 @@ type RestClient struct {
 	LmcSendersV3            *LmcSendersV3.ApiService
 	MailV3                  *MailV3.ApiService
 	MailSettingsV3          *MailSettingsV3.ApiService
+	McCustomFieldsV3        *McCustomFieldsV3.ApiService
 	McDesignsV3             *McDesignsV3.ApiService
 	McListsV3               *McListsV3.ApiService
 	McSegmentsV3            *McSegmentsV3.ApiService
 	McSegments2V3           *McSegments2V3.ApiService
 	McSendersV3             *McSendersV3.ApiService
 	McSinglesendsV3         *McSinglesendsV3.ApiService
+	McStatsV3               *McStatsV3.ApiService
 	McTestV3                *McTestV3.ApiService
 	PartnerV3               *PartnerV3.ApiService
 	RecipientsDataErasureV3 *RecipientsDataErasureV3.ApiService
 	ReverseDnsV3            *ReverseDnsV3.ApiService
 	ScheduledSendsV3        *ScheduledSendsV3.ApiService
+	ScopesV3                *ScopesV3.ApiService
 	SeqV3                   *SeqV3.ApiService
 	SsoV3                   *SsoV3.ApiService
 	StatsV3                 *StatsV3.ApiService
@@ -96,6 +104,8 @@ type RestClient struct {
 	TeammatesV3             *TeammatesV3.ApiService
 	TemplatesV3             *TemplatesV3.ApiService
 	TrackingSettingsV3      *TrackingSettingsV3.ApiService
+	UserV3                  *UserV3.ApiService
+	VerifiedSendersV3       *VerifiedSendersV3.ApiService
 	WebhooksV3              *WebhooksV3.ApiService
 }
 
@@ -204,17 +214,20 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.LmcSendersV3 = LmcSendersV3.NewApiService(c.RequestHandler)
 	c.MailV3 = MailV3.NewApiService(c.RequestHandler)
 	c.MailSettingsV3 = MailSettingsV3.NewApiService(c.RequestHandler)
+	c.McCustomFieldsV3 = McCustomFieldsV3.NewApiService(c.RequestHandler)
 	c.McDesignsV3 = McDesignsV3.NewApiService(c.RequestHandler)
 	c.McListsV3 = McListsV3.NewApiService(c.RequestHandler)
 	c.McSegmentsV3 = McSegmentsV3.NewApiService(c.RequestHandler)
 	c.McSegments2V3 = McSegments2V3.NewApiService(c.RequestHandler)
 	c.McSendersV3 = McSendersV3.NewApiService(c.RequestHandler)
 	c.McSinglesendsV3 = McSinglesendsV3.NewApiService(c.RequestHandler)
+	c.McStatsV3 = McStatsV3.NewApiService(c.RequestHandler)
 	c.McTestV3 = McTestV3.NewApiService(c.RequestHandler)
 	c.PartnerV3 = PartnerV3.NewApiService(c.RequestHandler)
 	c.RecipientsDataErasureV3 = RecipientsDataErasureV3.NewApiService(c.RequestHandler)
 	c.ReverseDnsV3 = ReverseDnsV3.NewApiService(c.RequestHandler)
 	c.ScheduledSendsV3 = ScheduledSendsV3.NewApiService(c.RequestHandler)
+	c.ScopesV3 = ScopesV3.NewApiService(c.RequestHandler)
 	c.SeqV3 = SeqV3.NewApiService(c.RequestHandler)
 	c.SsoV3 = SsoV3.NewApiService(c.RequestHandler)
 	c.StatsV3 = StatsV3.NewApiService(c.RequestHandler)
@@ -222,6 +235,8 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.TeammatesV3 = TeammatesV3.NewApiService(c.RequestHandler)
 	c.TemplatesV3 = TemplatesV3.NewApiService(c.RequestHandler)
 	c.TrackingSettingsV3 = TrackingSettingsV3.NewApiService(c.RequestHandler)
+	c.UserV3 = UserV3.NewApiService(c.RequestHandler)
+	c.VerifiedSendersV3 = VerifiedSendersV3.NewApiService(c.RequestHandler)
 	c.WebhooksV3 = WebhooksV3.NewApiService(c.RequestHandler)
 
 	return c

@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -95,5 +96,5 @@ func (c *ApiService) UpdateIp(params *UpdateIpParam) (interface{}, error) {
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

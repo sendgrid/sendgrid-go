@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -63,5 +64,5 @@ func (c *ApiService) UpdateAccountState(params *UpdateAccountStateParam) (interf
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

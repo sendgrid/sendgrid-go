@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## AddRecipientToContactDbList
 
-> AddRecipientToContactDbList(ctx, ListIdRecipientIdoptional)
+> interface{} AddRecipientToContactDbList(ctx, ListIdRecipientIdoptional)
 
 Add a Single Recipient to a List
 
@@ -36,7 +36,7 @@ Name | Type | Description
 
 ### Return type
 
- (empty response body)
+**interface{}**
 
 ### Authorization
 
