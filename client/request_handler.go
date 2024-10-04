@@ -1,4 +1,4 @@
-// Package client provides internal utilities for the twilio-go client library.
+// Package client provides internal utilities for the sendgrid-go client library.
 package client
 
 import (
@@ -54,10 +54,10 @@ func (c *RequestHandler) BuildUrl(rawURL string) (string, error) {
 	}
 
 	if len(pieces) == 4 {
-		// product.region.twilio.com
+		// api.region.sendgrid.com
 		region = pieces[1]
 	} else if len(pieces) == 5 {
-		// product.edge.region.twilio.com
+		// api.edge.region.sendgrid.com - currently not supported in sendgrid
 		edge = pieces[1]
 		region = pieces[2]
 	}
