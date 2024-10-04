@@ -3,17 +3,14 @@ package client
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
 	"runtime"
-	"strconv"
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/sendgrid/sendgrid-go/client/form"
 )
 
@@ -91,23 +88,7 @@ func (c *Client) doWithErr(req *http.Request) (*http.Response, error) {
 	}
 
 	res, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	// Note that 3XX response codes are allowed for fetches
-	if res.StatusCode < 200 || res.StatusCode >= 400 {
-		err = &SendgridRestError{}
-		decodeErrs := json.NewDecoder(res.Body)
-		decodeErr := decodeErrs.Decode(err)
-		if decodeErr != nil {
-			err = errors.Wrap(decodeErr, "error decoding the response for an HTTP error code: "+strconv.Itoa(res.StatusCode))
-			return nil, err
-		}
-
-		return nil, err
-	}
-	return res, nil
+	return res, err
 }
 
 func setBearerToken(req *http.Request, token string) {
