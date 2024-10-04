@@ -14,7 +14,7 @@
 package openapi
 
 import (
-	sendgrid "github.com/sendgrid/sendgrid-go/client"
+	sendgrid "github.com/sendgrid/sendgrid-go/v4/client"
 )
 
 type ApiService struct {
