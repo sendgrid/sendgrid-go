@@ -16,3 +16,7 @@ require (
 	golang.org/x/tools v0.24.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+retract (
+    v4.0.0-rc.1 // contains known bug
+)

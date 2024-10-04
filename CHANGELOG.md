@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2024-10-04] Version 4.0.0-rc.2
+---------------------------
+Retract v4.0.0-rc.1 due to a known bug
+
 [2024-10-04] Version 4.0.0-rc.1
 ---------------------------
 Release Candidate Preparation
