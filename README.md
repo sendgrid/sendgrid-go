@@ -96,8 +96,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
-	MailV3 "github.com/sendgrid/sendgrid-go/rest/api/v3/mail"
+	"github.com/sendgrid/sendgrid-go/v4"
+	MailV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/mail"
 	"net/http"
 	"os"
 )
