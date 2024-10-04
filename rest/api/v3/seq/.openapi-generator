@@ -1,5 +1,4 @@
 .openapi-generator
-.openapi-generator-ignore
 README.md
 api_list_engagement_quality_score.go
 api_list_subuser_engagement_quality_score.go

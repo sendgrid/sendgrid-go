@@ -1,4 +1,5 @@
 .openapi-generator
+.openapi-generator-ignore
 README.md
 api_delete_pending_teammate.go
 api_delete_teammate.go

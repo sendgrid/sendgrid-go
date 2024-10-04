@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -64,5 +65,5 @@ func (c *ApiService) ListContactCount(params *ListContactCountParam) (interface{
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

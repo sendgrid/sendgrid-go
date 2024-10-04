@@ -14,6 +14,7 @@
 package openapi
 
 import (
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -47,5 +48,5 @@ func (c *ApiService) DeleteAccount(params *DeleteAccountParam) (interface{}, err
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
 )
 
@@ -61,5 +62,5 @@ func (c *ApiService) TestEventWebhook(params *TestEventWebhookParam) (interface{
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

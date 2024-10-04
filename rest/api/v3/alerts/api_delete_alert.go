@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -57,5 +58,5 @@ func (c *ApiService) DeleteAlert(params *DeleteAlertParam) (interface{}, error) 
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

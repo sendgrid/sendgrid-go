@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -73,5 +74,5 @@ func (c *ApiService) DeleteIpFromIpPool(params *DeleteIpFromIpPoolParam) (interf
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

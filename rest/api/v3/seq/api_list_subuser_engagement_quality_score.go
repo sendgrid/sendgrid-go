@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -74,5 +75,5 @@ func (c *ApiService) ListSubuserEngagementQualityScore(params *ListSubuserEngage
 	}
 
 	defer resp.Body.Close()
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

@@ -16,6 +16,7 @@ package openapi
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"strings"
@@ -90,5 +91,5 @@ func (c *ApiService) GetContactDbList(params *GetContactDbListParam) (interface{
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }

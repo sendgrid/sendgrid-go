@@ -15,6 +15,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
 )
 
@@ -93,5 +94,5 @@ func (c *ApiService) UpdateEnforcedTlsSetting(params *UpdateEnforcedTlsSettingPa
 
 		return ps, err
 	}
-	return nil, nil
+	return http.Response{Status: resp.Status, StatusCode: resp.StatusCode, Body: resp.Body}, nil
 }
