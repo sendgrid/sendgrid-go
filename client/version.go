@@ -2,4 +2,4 @@
 package client
 
 // LibraryVersion specifies the current version of sendgrid-go.
-const LibraryVersion = "1.22.3"
+const LibraryVersion = "4.0.0-rc.3"
