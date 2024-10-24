@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2024-10-24] Version 4.0.0-rc.3
+-------------------------------
+**Account provisioning**
+- Add Account Provisioning API
+
+**Domain authentication**
+- Add Domain Authentication API
+
+
 [2024-10-04] Version 4.0.0-rc.2
 ---------------------------
 Retract v4.0.0-rc.1 due to a known bug
