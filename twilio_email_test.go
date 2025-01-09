@@ -13,8 +13,8 @@ import (
 
 func TestNewTwilioEmailSendClient(t *testing.T) {
 	mailClient := NewTwilioEmailSendClient("username", "password")
-	assert.Equal(t, "https://email.twilio.com/v3/mail/send", mailClient.BaseURL)
-	assert.Equal(t, "Basic dXNlcm5hbWU6cGFzc3dvcmQ=", mailClient.Headers["Authorization"])
+	assert.Equal(t, "https://email.twilio.com/v3/mail/send", mailClient.request.BaseURL)
+	assert.Equal(t, "Basic dXNlcm5hbWU6cGFzc3dvcmQ=", mailClient.request.Headers["Authorization"])
 }
 
 func TestGetTwilioEmailRequest(t *testing.T) {

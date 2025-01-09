@@ -18,7 +18,7 @@ type TwilioEmailOptions struct {
 func NewTwilioEmailSendClient(username, password string) *Client {
 	request := GetTwilioEmailRequest(TwilioEmailOptions{Username: username, Password: password, Endpoint: "/v3/mail/send"})
 	request.Method = "POST"
-	return &Client{request}
+	return &Client{request: request}
 }
 
 // GetTwilioEmailRequest create Request

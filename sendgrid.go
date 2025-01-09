@@ -2,8 +2,9 @@ package sendgrid
 
 import (
 	"errors"
-	"github.com/sendgrid/rest"
 	"net/url"
+
+	"github.com/sendgrid/rest"
 )
 
 // sendGridOptions for CreateRequest
@@ -53,7 +54,7 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 func NewSendClient(key string) *Client {
 	request := GetRequest(key, "/v3/mail/send", "")
 	request.Method = "POST"
-	return &Client{request}
+	return &Client{request: request}
 }
 
 // extractEndpoint extracts the endpoint from a baseURL
