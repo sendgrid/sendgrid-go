@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2025-01-28] Version 4.0.0-rc.4
+-------------------------------
+**Mc list**
+- Fix status code
+
+
 [2024-10-24] Version 4.0.0-rc.3
 -------------------------------
 **Account provisioning**
