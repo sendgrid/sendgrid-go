@@ -52,9 +52,7 @@ func createSendGridRequest(sgOptions sendGridOptions) rest.Request {
 
 // NewSendClient constructs a new Twilio SendGrid client given an API key
 func NewSendClient(key string) *Client {
-	request := GetRequest(key, "/v3/mail/send", "")
-	request.Method = "POST"
-	return &Client{request: request}
+	return &Client{apiKey: key}
 }
 
 // extractEndpoint extracts the endpoint from a baseURL

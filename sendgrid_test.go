@@ -1659,7 +1659,7 @@ func Test_test_client_send_unique_concurrent_requests(t *testing.T) {
 
 			from := &mail.Email{
 				Name:    fmt.Sprintf("#%d Sender", i),
-				Address: "paul.doe@example.com",
+				Address: "sam.smith@example.com",
 			}
 			to := &mail.Email{
 				Name:    fmt.Sprintf("Recipient #%d", i),
@@ -1684,9 +1684,7 @@ func Test_test_client_send_unique_concurrent_requests(t *testing.T) {
 
 			originalRequestBody := mail.GetRequestBody(email)
 
-			response, err := client.Send(email)
-
-			sentRequestBody := client.request.Body
+			response, sentRequestBody, err := client.sendGetSentReqBodyHeaders(email, map[string]string{"X-Mock": "202"})
 
 			if err != nil {
 				errors <- fmt.Errorf("goroutine %d: send error: %v", i, err)
@@ -1726,7 +1724,7 @@ func Test_test_client_send_unique_concurrent_requests(t *testing.T) {
 func Test_test_send_client_with_mail_body_compression_enabled(t *testing.T) {
 	apiKey := "SENDGRID_API_KEY"
 	client := NewSendClient(apiKey)
-	client.request.Headers["Content-Encoding"] = "gzip"
+	headers := map[string]string{"Content-Encoding": "gzip", "X-Mock": "202"}
 
 	emailBytes := []byte(` {
 		"asm": {
@@ -1863,8 +1861,7 @@ func Test_test_send_client_with_mail_body_compression_enabled(t *testing.T) {
 	email := &mail.SGMailV3{}
 	err := json.Unmarshal(emailBytes, email)
 	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
-	client.request.Headers["X-Mock"] = "202"
-	response, err := client.Send(email)
+	response, err := client.SendWithHeaders(email, headers)
 	if err != nil {
 		t.Log(err)
 	}
@@ -2012,8 +2009,8 @@ func Test_test_send_client(t *testing.T) {
 	email := &mail.SGMailV3{}
 	err := json.Unmarshal(emailBytes, email)
 	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
-	client.request.Headers["X-Mock"] = "202"
-	response, err := client.Send(email)
+	headers := map[string]string{"X-Mock": "202"}
+	response, err := client.SendWithHeaders(email, headers)
 	if err != nil {
 		t.Log(err)
 	}
