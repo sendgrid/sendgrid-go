@@ -1687,7 +1687,6 @@ func Test_test_client_send_is_thread_safe(t *testing.T) {
 func Test_test_send_client_with_mail_body_compression_enabled(t *testing.T) {
 	apiKey := "SENDGRID_API_KEY"
 	client := NewSendClient(apiKey)
-	client.Headers["Content-Encoding"] = "gzip"
 
 	emailBytes := []byte(` {
 		"asm": {
@@ -1824,8 +1823,10 @@ func Test_test_send_client_with_mail_body_compression_enabled(t *testing.T) {
 	email := &mail.SGMailV3{}
 	err := json.Unmarshal(emailBytes, email)
 	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
-	client.Request.Headers["X-Mock"] = "202"
-	response, err := client.Send(email)
+
+	headers := map[string]string{"Content-Encoding": "gzip", "X-Mock": "202"}
+
+	response, err := client.SendWithHeaders(email, headers)
 	if err != nil {
 		t.Log(err)
 	}
@@ -1973,8 +1974,7 @@ func Test_test_send_client(t *testing.T) {
 	email := &mail.SGMailV3{}
 	err := json.Unmarshal(emailBytes, email)
 	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
-	client.Request.Headers["X-Mock"] = "202"
-	response, err := client.Send(email)
+	response, err := client.SendWithHeaders(email, map[string]string{"X-Mock": "202"})
 	if err != nil {
 		t.Log(err)
 	}

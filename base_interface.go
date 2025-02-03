@@ -29,7 +29,8 @@ type options struct {
 
 // Client is the Twilio SendGrid Go client
 type Client struct {
-	rest.Request
+	apiKey       string
+	emailOptions TwilioEmailOptions
 }
 
 func (o *options) baseURL() string {
@@ -57,19 +58,41 @@ func requestNew(options options) rest.Request {
 
 // Send sends an email through Twilio SendGrid
 func (cl *Client) Send(email *mail.SGMailV3) (*rest.Response, error) {
-	return cl.SendWithContext(context.Background(), email)
+	return cl.SendWithContext(context.Background(), email, nil)
 }
 
-// SendWithContext sends an email through Twilio SendGrid with context.Context.
-func (cl *Client) SendWithContext(ctx context.Context, email *mail.SGMailV3) (*rest.Response, error) {
-	cl.Body = mail.GetRequestBody(email)
+// SendWithHeaders sends an email through Twilio SendGrid with additional headers
+func (cl *Client) SendWithHeaders(email *mail.SGMailV3, headers map[string]string) (*rest.Response, error) {
+	return cl.SendWithContext(context.Background(), email, headers)
+}
+
+// SendWithContext sends an email through Twilio SendGrid with context.Context
+func (cl *Client) SendWithContext(ctx context.Context, email *mail.SGMailV3, headers map[string]string) (*rest.Response, error) {
+	var request rest.Request
+
+	if cl.apiKey != "" {
+		request = GetRequest(cl.apiKey, "/v3/mail/send", "")
+	} else if cl.emailOptions != (TwilioEmailOptions{}) {
+		request = GetTwilioEmailRequest(cl.emailOptions)
+	} else {
+		return nil, errors.New("no API key or email options provided")
+	}
+
+	request.Method = "POST"
+
+	// Add any custom headers provided by the caller.
+	for k, v := range headers {
+		request.Headers[k] = v
+	}
+
+	request.Body = mail.GetRequestBody(email)
 	// when Content-Encoding header is set to "gzip"
 	// mail body is compressed using gzip according to
 	// https://docs.sendgrid.com/api-reference/mail-send/mail-send#mail-body-compression
-	if cl.Headers["Content-Encoding"] == "gzip" {
+	if request.Headers["Content-Encoding"] == "gzip" {
 		var gzipped bytes.Buffer
 		gz := gzip.NewWriter(&gzipped)
-		if _, err := gz.Write(cl.Body); err != nil {
+		if _, err := gz.Write(request.Body); err != nil {
 			return nil, err
 		}
 		if err := gz.Flush(); err != nil {
@@ -79,9 +102,9 @@ func (cl *Client) SendWithContext(ctx context.Context, email *mail.SGMailV3) (*r
 			return nil, err
 		}
 
-		cl.Body = gzipped.Bytes()
+		request.Body = gzipped.Bytes()
 	}
-	return MakeRequestWithContext(ctx, cl.Request)
+	return MakeRequestWithContext(ctx, request)
 }
 
 // DefaultClient is used if no custom HTTP client is defined
