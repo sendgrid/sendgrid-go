@@ -15,6 +15,6 @@ package openapi
 
 // GetContactByIdentifiersRequest
 type GetContactByIdentifiersRequest struct {
-	// One or more more identifier values to search for in your Marketing Campaigns contacts.
+	// One or more more identifier values of the given identifier type to search for in your Marketing Campaigns contacts.
 	Identifiers []string `json:"identifiers"`
 }

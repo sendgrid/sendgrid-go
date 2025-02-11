@@ -13,7 +13,7 @@
 
 package openapi
 
-// GetContactByIdentifiers200Response An object containing one or more of the identifiers matching the searched identifiers in your contacts.
+// GetContactByIdentifiers200Response An object containing the contacts that match the searched identifier values.
 type GetContactByIdentifiers200Response struct {
 	Result *interface{} `json:"result,omitempty"`
 }

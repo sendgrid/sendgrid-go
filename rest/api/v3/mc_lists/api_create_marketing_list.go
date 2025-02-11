@@ -53,7 +53,7 @@ func (c *ApiService) CreateMarketingList(params *CreateMarketingListParam) (inte
 	}
 
 	defer resp.Body.Close()
-	if resp.StatusCode == 200 {
+	if resp.StatusCode == 201 {
 		ps := &List{}
 		if err := json.NewDecoder(resp.Body).Decode(ps); err != nil {
 			return nil, err

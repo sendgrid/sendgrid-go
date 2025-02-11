@@ -16,6 +16,5 @@ package openapi
 // AccountProvisioningPagination struct for AccountProvisioningPagination
 type AccountProvisioningPagination struct {
 	// The last item returned
-	Last    *string      `json:"last,omitempty"`
-	Example *interface{} `json:"example,omitempty"`
+	Last *string `json:"last,omitempty"`
 }
