@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DisassociateAuthenticatedDomainFromUser
 
-> map[string]interface{} DisassociateAuthenticatedDomainFromUser(ctx, optional)
+> DisassociateAuthenticatedDomainFromUser(ctx, optional)
 
 Disassociate an authenticated domain from a given user.
 
@@ -31,7 +31,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 
@@ -40,7 +40,7 @@ Name | Type | Description
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

@@ -62,14 +62,6 @@ func (c *ApiService) DeleteAllowedIps(params *DeleteAllowedIpsParam) (interface{
 	}
 
 	defer resp.Body.Close()
-	if resp.StatusCode == 204 {
-		ps := &map[string]interface{}{}
-		if err := json.NewDecoder(resp.Body).Decode(ps); err != nil {
-			return nil, err
-		}
-
-		return ps, err
-	}
 	if resp.StatusCode == 401 {
 		ps := &ErrorResponse{}
 		if err := json.NewDecoder(resp.Body).Decode(ps); err != nil {

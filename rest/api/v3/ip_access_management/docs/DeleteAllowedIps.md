@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteAllowedIps
 
-> map[string]interface{} DeleteAllowedIps(ctx, optional)
+> DeleteAllowedIps(ctx, optional)
 
 Remove one or more IPs from the allow list
 
@@ -32,7 +32,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

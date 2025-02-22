@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## UpdateSubuser
 
-> map[string]interface{} UpdateSubuser(ctx, SubuserNameoptional)
+> UpdateSubuser(ctx, SubuserNameoptional)
 
 Enable/disable a subuser
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

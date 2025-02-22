@@ -29,8 +29,6 @@ type DeleteRecipientFromContactDbListParam struct {
 	RecipientId *string `json:"recipient_id"`
 	// The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id <account-id>`). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: <subuser-username>`). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.
 	Onbehalfof *string `json:"on-behalf-of,omitempty"`
-	//
-	Body *interface{} `json:"body,omitempty"`
 }
 
 func (params *DeleteRecipientFromContactDbListParam) SetListId(ListId int32) *DeleteRecipientFromContactDbListParam {
@@ -43,10 +41,6 @@ func (params *DeleteRecipientFromContactDbListParam) SetRecipientId(RecipientId 
 }
 func (params *DeleteRecipientFromContactDbListParam) SetOnbehalfof(Onbehalfof string) *DeleteRecipientFromContactDbListParam {
 	params.Onbehalfof = &Onbehalfof
-	return params
-}
-func (params *DeleteRecipientFromContactDbListParam) SetBody(Body interface{}) *DeleteRecipientFromContactDbListParam {
-	params.Body = &Body
 	return params
 }
 
@@ -62,22 +56,13 @@ func (c *ApiService) DeleteRecipientFromContactDbList(params *DeleteRecipientFro
 
 	data := url.Values{}
 	headers := map[string]interface{}{
-		"Content-Type": "application/json",
-	}
-
-	body := []byte{}
-	if params != nil && params.Body != nil {
-		b, err := json.Marshal(*params.Body)
-		if err != nil {
-			return nil, err
-		}
-		body = b
+		"Content-Type": "application/x-www-form-urlencoded",
 	}
 
 	if params != nil && params.Onbehalfof != nil {
 		headers["on-behalf-of"] = *params.Onbehalfof
 	}
-	resp, err := c.requestHandler.Delete(c.baseURL+path, data, headers, body...)
+	resp, err := c.requestHandler.Delete(c.baseURL+path, data, headers)
 	if err != nil {
 		return nil, err
 	}

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteSubuser
 
-> map[string]interface{} DeleteSubuser(ctx, SubuserName)
+> DeleteSubuser(ctx, SubuserName)
 
 Delete a subuser
 
@@ -34,7 +34,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

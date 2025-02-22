@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteReverseDns
 
-> map[string]interface{} DeleteReverseDns(ctx, Idoptional)
+> DeleteReverseDns(ctx, Idoptional)
 
 Delete a reverse DNS record
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 
@@ -44,7 +44,7 @@ Name | Type | Description
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

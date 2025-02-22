@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteRecipient
 
-> map[string]interface{} DeleteRecipient(ctx, RecipientIdoptional)
+> DeleteRecipient(ctx, RecipientIdoptional)
 
 Delete a Recipient
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

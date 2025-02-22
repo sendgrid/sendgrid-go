@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteDesign
 
-> map[string]interface{} DeleteDesign(ctx, Id)
+> DeleteDesign(ctx, Id)
 
 Delete Design
 
@@ -34,7 +34,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

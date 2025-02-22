@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteIpFromIpPool
 
-> map[string]interface{} DeleteIpFromIpPool(ctx, PoolNameIp)
+> DeleteIpFromIpPool(ctx, PoolNameIp)
 
 Remove an IP address from a pool
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

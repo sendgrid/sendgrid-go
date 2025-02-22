@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DisassociateSubuserFromDomain
 
-> map[string]interface{} DisassociateSubuserFromDomain(ctx, DomainIdoptional)
+> DisassociateSubuserFromDomain(ctx, DomainIdoptional)
 
 Disassociate an authenticated domain from a given user for users with up to five associated domains.
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 
@@ -44,7 +44,7 @@ Name | Type | Description
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

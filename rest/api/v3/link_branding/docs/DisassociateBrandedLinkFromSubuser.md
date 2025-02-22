@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DisassociateBrandedLinkFromSubuser
 
-> map[string]interface{} DisassociateBrandedLinkFromSubuser(ctx, Username)
+> DisassociateBrandedLinkFromSubuser(ctx, Username)
 
 Disassociate a branded link from a subuser
 
@@ -30,7 +30,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 
@@ -39,7 +39,7 @@ Name | Type | Description
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

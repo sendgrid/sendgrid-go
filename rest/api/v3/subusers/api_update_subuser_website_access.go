@@ -64,13 +64,5 @@ func (c *ApiService) UpdateSubuserWebsiteAccess(params *UpdateSubuserWebsiteAcce
 	}
 
 	defer resp.Body.Close()
-	if resp.StatusCode == 204 {
-		ps := &map[string]interface{}{}
-		if err := json.NewDecoder(resp.Body).Decode(ps); err != nil {
-			return nil, err
-		}
-
-		return ps, err
-	}
 	return http.Response{StatusCode: resp.StatusCode, Body: resp.Body, Header: resp.Header}, nil
 }

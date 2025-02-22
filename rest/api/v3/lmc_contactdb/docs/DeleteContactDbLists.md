@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteContactDbLists
 
-> interface{} DeleteContactDbLists(ctx, optional)
+> DeleteContactDbLists(ctx, optional)
 
 Delete Multiple lists
 
@@ -32,7 +32,7 @@ Name | Type | Description
 
 ### Return type
 
-**interface{}**
+ (empty response body)
 
 ### Authorization
 

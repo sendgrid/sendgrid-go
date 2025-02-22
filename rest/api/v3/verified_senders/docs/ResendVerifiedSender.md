@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ResendVerifiedSender
 
-> map[string]interface{} ResendVerifiedSender(ctx, Id)
+> ResendVerifiedSender(ctx, Id)
 
 Resend Verified Sender Request
 
@@ -34,7 +34,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

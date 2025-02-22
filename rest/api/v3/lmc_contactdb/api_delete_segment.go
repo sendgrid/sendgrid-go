@@ -29,8 +29,6 @@ type DeleteSegmentParam struct {
 	DeleteContacts *bool `json:"delete_contacts,omitempty"`
 	// The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id <account-id>`). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: <subuser-username>`). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.
 	Onbehalfof *string `json:"on-behalf-of,omitempty"`
-	//
-	Body *interface{} `json:"body,omitempty"`
 }
 
 func (params *DeleteSegmentParam) SetSegmentId(SegmentId int32) *DeleteSegmentParam {
@@ -45,10 +43,6 @@ func (params *DeleteSegmentParam) SetOnbehalfof(Onbehalfof string) *DeleteSegmen
 	params.Onbehalfof = &Onbehalfof
 	return params
 }
-func (params *DeleteSegmentParam) SetBody(Body interface{}) *DeleteSegmentParam {
-	params.Body = &Body
-	return params
-}
 
 // **This endpoint allows you to delete a segment from your recipients database.**  You also have the option to delete all the contacts from your Marketing Campaigns recipient database who were in this segment.
 func (c *ApiService) DeleteSegment(params *DeleteSegmentParam) (interface{}, error) {
@@ -59,25 +53,17 @@ func (c *ApiService) DeleteSegment(params *DeleteSegmentParam) (interface{}, err
 
 	data := url.Values{}
 	headers := map[string]interface{}{
-		"Content-Type": "application/json",
+		"Content-Type": "application/x-www-form-urlencoded",
 	}
 
 	if params != nil && params.DeleteContacts != nil {
 		data.Set("delete_contacts", fmt.Sprint(*params.DeleteContacts))
 	}
-	body := []byte{}
-	if params != nil && params.Body != nil {
-		b, err := json.Marshal(*params.Body)
-		if err != nil {
-			return nil, err
-		}
-		body = b
-	}
 
 	if params != nil && params.Onbehalfof != nil {
 		headers["on-behalf-of"] = *params.Onbehalfof
 	}
-	resp, err := c.requestHandler.Delete(c.baseURL+path, data, headers, body...)
+	resp, err := c.requestHandler.Delete(c.baseURL+path, data, headers)
 	if err != nil {
 		return nil, err
 	}

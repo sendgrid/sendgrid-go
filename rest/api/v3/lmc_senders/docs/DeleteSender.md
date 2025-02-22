@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteSender
 
-> map[string]interface{} DeleteSender(ctx, SenderIdoptional)
+> DeleteSender(ctx, SenderIdoptional)
 
 Delete a Sender Identity
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

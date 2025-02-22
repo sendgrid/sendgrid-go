@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## UpdateSubuserWebsiteAccess
 
-> map[string]interface{} UpdateSubuserWebsiteAccess(ctx, SubuserNameoptional)
+> UpdateSubuserWebsiteAccess(ctx, SubuserNameoptional)
 
 Enable/Disable website access for a Subuser
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 
@@ -44,7 +44,7 @@ Name | Type | Description
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

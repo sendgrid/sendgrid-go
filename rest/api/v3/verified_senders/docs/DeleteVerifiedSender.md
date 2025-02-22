@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteVerifiedSender
 
-> map[string]interface{} DeleteVerifiedSender(ctx, Id)
+> DeleteVerifiedSender(ctx, Id)
 
 Delete Verified Sender
 
@@ -34,7 +34,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

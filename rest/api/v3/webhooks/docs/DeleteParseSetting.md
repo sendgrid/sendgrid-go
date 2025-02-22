@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## DeleteParseSetting
 
-> map[string]interface{} DeleteParseSetting(ctx, Hostnameoptional)
+> DeleteParseSetting(ctx, Hostnameoptional)
 
 Delete a parse setting
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

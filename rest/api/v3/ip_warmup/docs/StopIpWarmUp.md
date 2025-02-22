@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## StopIpWarmUp
 
-> map[string]interface{} StopIpWarmUp(ctx, IpAddress)
+> StopIpWarmUp(ctx, IpAddress)
 
 Stop warming up an IP address
 
@@ -34,7 +34,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

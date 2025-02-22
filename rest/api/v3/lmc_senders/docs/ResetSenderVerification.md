@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ResetSenderVerification
 
-> map[string]interface{} ResetSenderVerification(ctx, SenderIdoptional)
+> ResetSenderVerification(ctx, SenderIdoptional)
 
 Resend Sender Identity Verification
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**map[string]interface{}**
+ (empty response body)
 
 ### Authorization
 

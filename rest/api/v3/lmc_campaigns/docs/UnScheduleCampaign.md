@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## UnScheduleCampaign
 
-> interface{} UnScheduleCampaign(ctx, CampaignIdoptional)
+> UnScheduleCampaign(ctx, CampaignIdoptional)
 
 Unschedule a Scheduled Campaign
 
@@ -35,7 +35,7 @@ Name | Type | Description
 
 ### Return type
 
-**interface{}**
+ (empty response body)
 
 ### Authorization
 
