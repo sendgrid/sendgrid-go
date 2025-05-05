@@ -55,9 +55,8 @@ import (
 	SsoV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/sso"
 	StatsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/stats"
 	SubusersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/subusers"
-	SuppressionsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/suppressions"
+	TeammatesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/teammates"
 	TemplatesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/templates"
-	TrackingSettingsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/tracking_settings"
 	UserV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/user"
 	VerifiedSendersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/verified_senders"
 	WebhooksV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/webhooks"
@@ -103,9 +102,8 @@ type RestClient struct {
 	SsoV3                   *SsoV3.ApiService
 	StatsV3                 *StatsV3.ApiService
 	SubusersV3              *SubusersV3.ApiService
-	SuppressionsV3          *SuppressionsV3.ApiService
+	TeammatesV3             *TeammatesV3.ApiService
 	TemplatesV3             *TemplatesV3.ApiService
-	TrackingSettingsV3      *TrackingSettingsV3.ApiService
 	UserV3                  *UserV3.ApiService
 	VerifiedSendersV3       *VerifiedSendersV3.ApiService
 	WebhooksV3              *WebhooksV3.ApiService
@@ -235,9 +233,8 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.SsoV3 = SsoV3.NewApiService(c.RequestHandler)
 	c.StatsV3 = StatsV3.NewApiService(c.RequestHandler)
 	c.SubusersV3 = SubusersV3.NewApiService(c.RequestHandler)
-	c.SuppressionsV3 = SuppressionsV3.NewApiService(c.RequestHandler)
+	c.TeammatesV3 = TeammatesV3.NewApiService(c.RequestHandler)
 	c.TemplatesV3 = TemplatesV3.NewApiService(c.RequestHandler)
-	c.TrackingSettingsV3 = TrackingSettingsV3.NewApiService(c.RequestHandler)
 	c.UserV3 = UserV3.NewApiService(c.RequestHandler)
 	c.VerifiedSendersV3 = VerifiedSendersV3.NewApiService(c.RequestHandler)
 	c.WebhooksV3 = WebhooksV3.NewApiService(c.RequestHandler)

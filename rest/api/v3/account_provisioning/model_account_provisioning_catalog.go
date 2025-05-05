@@ -15,5 +15,5 @@ package openapi
 
 // AccountProvisioningCatalog struct for AccountProvisioningCatalog
 type AccountProvisioningCatalog struct {
-	Catalog *[]CatalogEntry `json:"catalog,omitempty"`
+	Catalog []CatalogEntry `json:"catalog"`
 }

@@ -74,7 +74,7 @@ func (c *ApiService) SendTestCampaign(params *SendTestCampaignParam) (interface{
 	}
 
 	defer resp.Body.Close()
-	if resp.StatusCode == 204 {
+	if resp.StatusCode == 201 {
 		ps := &SendATestCampaignRequest{}
 		if err := json.NewDecoder(resp.Body).Decode(ps); err != nil {
 			return nil, err
