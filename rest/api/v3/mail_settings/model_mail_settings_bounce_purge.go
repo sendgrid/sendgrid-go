@@ -15,7 +15,7 @@ package openapi
 
 // MailSettingsBouncePurge struct for MailSettingsBouncePurge
 type MailSettingsBouncePurge struct {
-	// Indicates if the bounce purge mail setting is enabled.
+	// Indicates if the Bounce Purge mail setting is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 	// The number of days after which SendGrid will purge all contacts from your soft bounces suppression lists.
 	SoftBounces *int32 `json:"soft_bounces,omitempty"`

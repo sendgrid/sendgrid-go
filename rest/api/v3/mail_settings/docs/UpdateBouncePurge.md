@@ -4,7 +4,7 @@ All URIs are relative to *https://api.sendgrid.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UpdateBouncePurge**](UpdateBouncePurge.md#UpdateBouncePurge) | **Patch** /v3/mail_settings/bounce_purge | Update bounce purge mail settings
+[**UpdateBouncePurge**](UpdateBouncePurge.md#UpdateBouncePurge) | **Patch** /v3/mail_settings/bounce_purge | Update Bounce Purge Mail Settings
 
 
 
@@ -12,9 +12,9 @@ Method | HTTP request | Description
 
 > MailSettingsBouncePurge UpdateBouncePurge(ctx, optional)
 
-Update bounce purge mail settings
+Update Bounce Purge Mail Settings
 
-**This endpoint allows you to update your current bounce and purge settings.**  The Bounce Perge setting allows you to set a schedule that Twilio SendGrid will use to automatically delete contacts from your soft and hard bounce suppression lists. The schedule is set in full days by assigning the number of days, an integer, to the `soft_bounces` and/or `hard_bounces` fields.  A hard bounce occurs when an email message has been returned to the sender because the recipient's address is invalid. A hard bounce might occur because the domain name doesn't exist or because the recipient is unknown.  A soft bounce occurs when an email message reaches the recipient's mail server but is bounced back undelivered before it actually reaches the recipient. A soft bounce might occur because the recipient's inbox is full.  You can also manage this setting in the [Mail Settings section of the Twilio SendGrid App](https://app.sendgrid.com/settings/mail_settings). You can manage your bounces manually using the [Bounces API](https://docs.sendgrid.com/api-reference/bounces-api) or the [Bounces menu in the Twilio SendGrid App](https://app.sendgrid.com/suppressions/bounces).
+**This endpoint allows you to update your current Bounce Purge mail settings.**  The Bounce Purge mail metting allows you to configure the maximum age of contacts in your hard and soft bounce suppressions lists. All contacts older than their respective configured age are deleted.  A hard bounce occurs when an email message has been returned to the sender because the recipient's address is invalid. A hard bounce might occur because the domain name doesn't exist or because the recipient is unknown.  A soft bounce occurs when an email message reaches the recipient's mail server but is bounced back undelivered before it actually reaches the recipient. A soft bounce might occur because the recipient's inbox is full.  You can also manage this setting in the [Mail Settings section of the Twilio SendGrid App](https://app.sendgrid.com/settings/mail_settings). You can manage your bounces manually using the [Bounces API](https://docs.sendgrid.com/api-reference/bounces-api) or the [Bounces menu in the Twilio SendGrid App](https://app.sendgrid.com/suppressions/bounces).
 
 ### Path Parameters
 

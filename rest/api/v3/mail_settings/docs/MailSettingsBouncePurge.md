@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **bool** | Indicates if the bounce purge mail setting is enabled. |[optional] 
+**Enabled** | **bool** | Indicates if the Bounce Purge mail setting is enabled. |[optional] 
 **SoftBounces** | **int32** | The number of days after which SendGrid will purge all contacts from your soft bounces suppression lists. |[optional] 
 **HardBounces** | **int32** | The number of days after which SendGrid will purge all contacts from your hard bounces suppression lists. |[optional] 
 

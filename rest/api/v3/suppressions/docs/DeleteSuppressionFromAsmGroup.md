@@ -1,0 +1,53 @@
+# DeleteSuppressionFromAsmGroup
+
+All URIs are relative to *https://api.sendgrid.com*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**DeleteSuppressionFromAsmGroup**](DeleteSuppressionFromAsmGroup.md#DeleteSuppressionFromAsmGroup) | **Delete** /v3/asm/groups/{GroupId}/suppressions/{Email} | Delete a suppression from a suppression group
+
+
+
+## DeleteSuppressionFromAsmGroup
+
+> DeleteSuppressionFromAsmGroup(ctx, GroupIdEmailoptional)
+
+Delete a suppression from a suppression group
+
+**This endpoint allows you to remove a suppressed email address from the given suppression group.**  Removing an address will remove the suppression, meaning email will once again be sent to the previously suppressed addresses. This should be avoided unless a recipient indicates they wish to receive email from you again. You can use our [bypass filters](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) to deliver messages to otherwise suppressed addresses when exceptions are required.
+
+### Path Parameters
+
+
+Name | Type | Description
+------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**GroupId** | **string** | The id of the suppression group that you are removing an email address from.
+**Email** | **string** | The email address that you want to remove from the suppression group.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a DeleteSuppressionFromAsmGroupParams struct
+
+
+Name | Type | Description
+------------- | ------------- | -------------
+**Onbehalfof** | **string** | The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id <account-id>`). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: <subuser-username>`). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
