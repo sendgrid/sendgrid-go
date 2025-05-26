@@ -41,6 +41,7 @@ This library supports the following Go implementations:
 * Go 1.17
 * Go 1.18
 * Go 1.19
+* Go 1.20
 
 ## Prerequisites
 
