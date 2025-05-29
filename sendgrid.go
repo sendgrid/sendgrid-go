@@ -21,13 +21,11 @@ import (
 	AccountProvisioningV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/account_provisioning"
 	AlertsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/alerts"
 	ApiKeysV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/api_keys"
-	DomainAuthenticationV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/domain_authentication"
 	EmailActivityV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/email_activity"
 	EmailValidationV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/email_validation"
 	EnforcedTlsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/enforced_tls"
 	IntegrationsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/integrations"
 	IpAccessManagementV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ip_access_management"
-	IpAddressManagementV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ip_address_management"
 	IpWarmupV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ip_warmup"
 	IpsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/ips"
 	LinkBrandingV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/link_branding"
@@ -53,7 +51,8 @@ import (
 	ScopesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/scopes"
 	SeqV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/seq"
 	SsoV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/sso"
-	SuppressionsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/suppressions"
+	StatsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/stats"
+	SubusersV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/subusers"
 	TeammatesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/teammates"
 	TemplatesV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/templates"
 	TrackingSettingsV3 "github.com/sendgrid/sendgrid-go/v4/rest/api/v3/tracking_settings"
@@ -68,13 +67,11 @@ type RestClient struct {
 	AccountProvisioningV3   *AccountProvisioningV3.ApiService
 	AlertsV3                *AlertsV3.ApiService
 	ApiKeysV3               *ApiKeysV3.ApiService
-	DomainAuthenticationV3  *DomainAuthenticationV3.ApiService
 	EmailActivityV3         *EmailActivityV3.ApiService
 	EmailValidationV3       *EmailValidationV3.ApiService
 	EnforcedTlsV3           *EnforcedTlsV3.ApiService
 	IntegrationsV3          *IntegrationsV3.ApiService
 	IpAccessManagementV3    *IpAccessManagementV3.ApiService
-	IpAddressManagementV3   *IpAddressManagementV3.ApiService
 	IpWarmupV3              *IpWarmupV3.ApiService
 	IpsV3                   *IpsV3.ApiService
 	LinkBrandingV3          *LinkBrandingV3.ApiService
@@ -100,7 +97,8 @@ type RestClient struct {
 	ScopesV3                *ScopesV3.ApiService
 	SeqV3                   *SeqV3.ApiService
 	SsoV3                   *SsoV3.ApiService
-	SuppressionsV3          *SuppressionsV3.ApiService
+	StatsV3                 *StatsV3.ApiService
+	SubusersV3              *SubusersV3.ApiService
 	TeammatesV3             *TeammatesV3.ApiService
 	TemplatesV3             *TemplatesV3.ApiService
 	TrackingSettingsV3      *TrackingSettingsV3.ApiService
@@ -199,13 +197,11 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.AccountProvisioningV3 = AccountProvisioningV3.NewApiService(c.RequestHandler)
 	c.AlertsV3 = AlertsV3.NewApiService(c.RequestHandler)
 	c.ApiKeysV3 = ApiKeysV3.NewApiService(c.RequestHandler)
-	c.DomainAuthenticationV3 = DomainAuthenticationV3.NewApiService(c.RequestHandler)
 	c.EmailActivityV3 = EmailActivityV3.NewApiService(c.RequestHandler)
 	c.EmailValidationV3 = EmailValidationV3.NewApiService(c.RequestHandler)
 	c.EnforcedTlsV3 = EnforcedTlsV3.NewApiService(c.RequestHandler)
 	c.IntegrationsV3 = IntegrationsV3.NewApiService(c.RequestHandler)
 	c.IpAccessManagementV3 = IpAccessManagementV3.NewApiService(c.RequestHandler)
-	c.IpAddressManagementV3 = IpAddressManagementV3.NewApiService(c.RequestHandler)
 	c.IpWarmupV3 = IpWarmupV3.NewApiService(c.RequestHandler)
 	c.IpsV3 = IpsV3.NewApiService(c.RequestHandler)
 	c.LinkBrandingV3 = LinkBrandingV3.NewApiService(c.RequestHandler)
@@ -231,7 +227,8 @@ func NewRestClientWithParams(params ClientParams) *RestClient {
 	c.ScopesV3 = ScopesV3.NewApiService(c.RequestHandler)
 	c.SeqV3 = SeqV3.NewApiService(c.RequestHandler)
 	c.SsoV3 = SsoV3.NewApiService(c.RequestHandler)
-	c.SuppressionsV3 = SuppressionsV3.NewApiService(c.RequestHandler)
+	c.StatsV3 = StatsV3.NewApiService(c.RequestHandler)
+	c.SubusersV3 = SubusersV3.NewApiService(c.RequestHandler)
 	c.TeammatesV3 = TeammatesV3.NewApiService(c.RequestHandler)
 	c.TemplatesV3 = TemplatesV3.NewApiService(c.RequestHandler)
 	c.TrackingSettingsV3 = TrackingSettingsV3.NewApiService(c.RequestHandler)
