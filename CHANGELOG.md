@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[2025-05-29] Version 3.16.1
+---------------------------
+**Library - Chore**
+- [PR #496](https://github.com/sendgrid/sendgrid-go/pull/496): update licence year. Thanks to [@tiwarishubham635](https://github.com/tiwarishubham635)!
+
+
 [2024-08-26] Version 3.16.0
 ---------------------------
 **Library - Chore**
