@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -1640,10 +1641,52 @@ func Test_test_mail_batch__batch_id__get(t *testing.T) {
 	assert.Equal(t, 200, response.StatusCode, "Wrong status code returned")
 }
 
+func Test_test_client_send_is_thread_safe(t *testing.T) {
+	apiKey := "SENDGIRD_APIKEY"
+	const numRequests = 5
+	var wg sync.WaitGroup
+	client := NewSendClient(apiKey)
+
+	// Launch multiple goroutines to send concurrent requests
+	for i := 0; i < numRequests; i++ {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			from := &mail.Email{
+				Name:    "Name",
+				Address: "sam.smith@example.com",
+			}
+
+			to := &mail.Email{
+				Name:    "Recipient",
+				Address: "jane.doe@example.com",
+			}
+
+			email := &mail.SGMailV3{
+				From: from,
+				Personalizations: []*mail.Personalization{
+					{
+						To:      []*mail.Email{to},
+						Subject: "Subject",
+					},
+				},
+				Content: []*mail.Content{
+					{
+						Type:  "text/plain",
+						Value: "Value",
+					},
+				},
+			}
+
+			client.Send(email)
+		}(i)
+	}
+	wg.Wait()
+}
+
 func Test_test_send_client_with_mail_body_compression_enabled(t *testing.T) {
 	apiKey := "SENDGRID_API_KEY"
 	client := NewSendClient(apiKey)
-	client.Headers["Content-Encoding"] = "gzip"
 
 	emailBytes := []byte(` {
 		"asm": {
@@ -1780,8 +1823,10 @@ func Test_test_send_client_with_mail_body_compression_enabled(t *testing.T) {
 	email := &mail.SGMailV3{}
 	err := json.Unmarshal(emailBytes, email)
 	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
-	client.Request.Headers["X-Mock"] = "202"
-	response, err := client.Send(email)
+
+	headers := map[string]string{"Content-Encoding": "gzip", "X-Mock": "202"}
+
+	response, err := client.SendWithHeaders(email, headers)
 	if err != nil {
 		t.Log(err)
 	}
@@ -1929,8 +1974,7 @@ func Test_test_send_client(t *testing.T) {
 	email := &mail.SGMailV3{}
 	err := json.Unmarshal(emailBytes, email)
 	assert.Nil(t, err, fmt.Sprintf("Unmarshal error: %v", err))
-	client.Request.Headers["X-Mock"] = "202"
-	response, err := client.Send(email)
+	response, err := client.SendWithHeaders(email, map[string]string{"X-Mock": "202"})
 	if err != nil {
 		t.Log(err)
 	}
