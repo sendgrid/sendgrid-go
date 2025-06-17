@@ -8,7 +8,6 @@ import (
   "log"
   "os"
   "encoding/base64"
-  "io/ioutil"
   "github.com/sendgrid/sendgrid-go"
   "github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -34,7 +33,7 @@ func main() {
   
   // read/attach .txt file
   a_txt := mail.NewAttachment()
-  dat, err := io.ReadFile("testing.txt")
+  dat, err := os.ReadFile("testing.txt")
   if err != nil {
     fmt.Println(err)
   }
@@ -46,7 +45,7 @@ func main() {
   
   // read/attach .pdf file
   a_pdf := mail.NewAttachment()
-  dat, err = io.ReadFile("testing.pdf")
+  dat, err = os.ReadFile("testing.pdf")
   if err != nil {
     fmt.Println(err)
   }
@@ -58,7 +57,7 @@ func main() {
 
   // read/attach inline .jpg file
   a_jpg := mail.NewAttachment()
-  dat, err = io.ReadFile("testing.jpg")
+  dat, err = os.ReadFile("testing.jpg")
   if err != nil {
     fmt.Println(err)
   }
