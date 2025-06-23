@@ -53,6 +53,7 @@ type Personalization struct {
 	DynamicTemplateData map[string]interface{} `json:"dynamic_template_data,omitempty"`
 	Categories          []string               `json:"categories,omitempty"`
 	SendAt              int                    `json:"send_at,omitempty"`
+	SendEachAt          []int                  `json:"send_each_at,omitempty"`
 }
 
 // Email holds email name and address info
@@ -374,6 +375,11 @@ func (p *Personalization) SetDynamicTemplateData(key string, value interface{}) 
 // SetSendAt ...
 func (p *Personalization) SetSendAt(sendAt int) {
 	p.SendAt = sendAt
+}
+
+// SetSendEachAt ...
+func (p *Personalization) SetSendEachAt(sendEachAt []int) {
+	p.SendEachAt = sendEachAt
 }
 
 // NewAttachment ...
