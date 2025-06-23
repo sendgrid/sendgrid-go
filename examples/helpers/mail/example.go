@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
@@ -102,14 +101,14 @@ func kitchenSink() []byte {
 	a.SetContent("TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2NpbmcgZWxpdC4gQ3JhcyBwdW12")
 	a.SetType("application/pdf")
 	a.SetFilename("balance_001.pdf")
-	a.SetDisposition("attachment")
+	a.SetDisposition(mail.DispositionAttachment)
 	m.AddAttachment(a)
 
 	a2 := mail.NewAttachment()
 	a2.SetContent("BwdW")
 	a2.SetType("image/png")
 	a2.SetFilename("banner.png")
-	a2.SetDisposition("inline")
+	a2.SetDisposition(mail.DispositionInline)
 	// Content-ID header is included when the attachment disposition is set to "inline"
 	a2.SetContentID("Banner")
 	m.AddAttachment(a2)

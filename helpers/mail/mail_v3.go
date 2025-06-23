@@ -67,14 +67,21 @@ type Content struct {
 	Value string `json:"value,omitempty"`
 }
 
+type disposition string
+
+const (
+	DispositionInline     disposition = "inline"
+	DispositionAttachment disposition = "attachment"
+)
+
 // Attachment holds attachement information
 type Attachment struct {
-	Content     string `json:"content,omitempty"`
-	Type        string `json:"type,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Filename    string `json:"filename,omitempty"`
-	Disposition string `json:"disposition,omitempty"`
-	ContentID   string `json:"content_id,omitempty"`
+	Content     string      `json:"content,omitempty"`
+	Type        string      `json:"type,omitempty"`
+	Name        string      `json:"name,omitempty"`
+	Filename    string      `json:"filename,omitempty"`
+	Disposition disposition `json:"disposition,omitempty"`
+	ContentID   string      `json:"content_id,omitempty"`
 }
 
 // Asm contains Grpip Id and int array of groups ID
@@ -400,7 +407,7 @@ func (a *Attachment) SetFilename(filename string) *Attachment {
 }
 
 // SetDisposition ...
-func (a *Attachment) SetDisposition(disposition string) *Attachment {
+func (a *Attachment) SetDisposition(disposition disposition) *Attachment {
 	a.Disposition = disposition
 	return a
 }
