@@ -16,7 +16,5 @@ package openapi
 // DownloadCsv200Response struct for DownloadCsv200Response
 type DownloadCsv200Response struct {
 	// A signed link that will allow you to download the CSV file requested by the Request a CSV endpoint.
-	PresignedUrl *string `json:"presigned_url,omitempty"`
-	// Returns the aws signed link to the csv file which mako UI should perform a get on to trigger the csv download for the user
-	Csv string `json:"csv"`
+	PresignedUrl string `json:"presigned_url"`
 }
